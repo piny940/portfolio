@@ -28,11 +28,16 @@ const CircleSpan = styled.span`
 export type PieItemProps = {
   percent: number
   label: string
+  className?: string
 }
 
-export const PieItem: React.FC<PieItemProps> = ({ percent, label }) => {
+export const PieItem: React.FC<PieItemProps> = ({
+  percent,
+  label,
+  className,
+}) => {
   return (
-    <PieDiv className="">
+    <PieDiv className={className}>
       <CircleSpan>{label}</CircleSpan>
     </PieDiv>
   )
