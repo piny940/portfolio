@@ -1,5 +1,6 @@
 @import '../../node_modules/bootstrap/scss/bootstrap.scss';
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&display=swap');
+@import './utils.scss';
 
 html {
   padding: 0;
@@ -74,8 +75,7 @@ $main: rgb(25, 97, 206);
   background-color: white !important;
 }
 
-.title-border-main,
-h1 {
+.title-border-main {
   border-left: 8px solid $main;
   padding: 4px 16px;
   margin-bottom: 16px !important;
