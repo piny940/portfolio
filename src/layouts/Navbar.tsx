@@ -25,7 +25,7 @@ export const Navbar: React.FC = () => {
           href="/"
           className="title fw-bold d-flex align-items-center text-body"
         >
-          <div>Next Template</div>
+          <div>Piny940</div>
         </Link>
         <ThemeToggler theme={theme} toggleTheme={toggleTheme()} />
       </div>
