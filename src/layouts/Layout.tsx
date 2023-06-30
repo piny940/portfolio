@@ -13,12 +13,12 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div data-bs-theme={theme} className="vh-100 bg-body text-body">
       <Head>
-        <title>Next Template</title>
+        <title>Piny940 ポートフォリオ</title>
       </Head>
       <header>
         <Navbar />
       </header>
-      <main className="container mt-3">{children}</main>
+      <main className="">{children}</main>
     </div>
   )
 }

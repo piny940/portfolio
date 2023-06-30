@@ -1,5 +1,6 @@
 @import '../../node_modules/bootstrap/scss/bootstrap.scss';
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&display=swap');
+@import './utils.scss';
 
 html {
   padding: 0;
@@ -24,12 +25,6 @@ body {
 .root {
   min-height: var(--vh100);
 }
-main {
-  max-width: 1320px;
-  width: 90%;
-  margin: auto;
-  margin-top: 1rem;
-}
 
 a {
   color: inherit;
@@ -53,7 +48,7 @@ button {
 }
 
 // メインカラー
-$main: rgb(20, 214, 182);
+$main: rgb(25, 97, 206);
 .text-main {
   color: $main !important;
 }
@@ -74,8 +69,7 @@ $main: rgb(20, 214, 182);
   background-color: white !important;
 }
 
-.title-border-main,
-h1 {
+.title-border-main {
   border-left: 8px solid $main;
   padding: 4px 16px;
   margin-bottom: 16px !important;
