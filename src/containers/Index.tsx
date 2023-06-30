@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 export const Index: React.FC = () => {
   return (
-    <div id="index" className="container">
+    <div id="index">
       <div className="d-flex flex-column align-items-center">
         <div className="top-middle d-flex flex-column align-items-center">
           <Image
