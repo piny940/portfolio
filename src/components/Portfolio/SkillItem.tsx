@@ -1,19 +1,15 @@
+import { SkillType } from '@/resources/types'
 import { PieItem } from '../Common/PieItem'
 
 export type SkillItemProps = {
-  name: string
-  percent: number
+  skill: SkillType
   className?: string
 }
 
-export const SkillItem: React.FC<SkillItemProps> = ({
-  name,
-  percent,
-  className,
-}) => {
+export const SkillItem: React.FC<SkillItemProps> = ({ skill, className }) => {
   return (
     <div className={className}>
-      <PieItem className="mx-auto" label={name} percent={percent} />
+      <PieItem className="mx-auto" label={skill.name} percent={skill.percent} />
     </div>
   )
 }
