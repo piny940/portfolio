@@ -21,16 +21,16 @@ export const Index: React.FC = () => {
       <div className="d-flex flex-column align-items-center bg-body-tertiary p-5">
         <h2 className="text-center">Skills</h2>
         <div className="row row-cols-md-2 w-75 mt-4">
-          <div className="col p-3">
+          <div className="col p-3 my-3">
             <PieItem className="mx-auto" label="Rails" percent={90} />
           </div>
-          <div className="col p-3">
+          <div className="col p-3 my-3">
+            <PieItem className="mx-auto" label="Rails" percent={40} />
+          </div>
+          <div className="col p-3 my-3">
             <PieItem className="mx-auto" label="Rails" percent={90} />
           </div>
-          <div className="col p-3">
-            <PieItem className="mx-auto" label="Rails" percent={90} />
-          </div>
-          <div className="col p-3">
+          <div className="col p-3 my-3">
             <PieItem className="mx-auto" label="Rails" percent={90} />
           </div>
         </div>
