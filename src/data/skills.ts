@@ -14,17 +14,21 @@ export const skillsData: SkillType[] = [
   {
     name: 'Typescript',
     percent: 90,
+    logoSrc: '/images/skills/typescript.svg',
   },
   {
     name: 'Python',
     percent: 70,
+    logoSrc: '/images/skills/python.svg',
   },
   {
     name: 'Vue',
     percent: 40,
+    logoSrc: '/images/skills/vue.svg',
   },
   {
     name: 'django',
     percent: 30,
+    logoSrc: '/images/skills/django.svg',
   },
 ]
