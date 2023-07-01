@@ -9,4 +9,20 @@ export const skillsData: SkillType[] = [
     name: 'React',
     percent: 90,
   },
+  {
+    name: 'Typescript',
+    percent: 90,
+  },
+  {
+    name: 'Python',
+    percent: 70,
+  },
+  {
+    name: 'Vue',
+    percent: 40,
+  },
+  {
+    name: 'django',
+    percent: 30,
+  },
 ]
