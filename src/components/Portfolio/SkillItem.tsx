@@ -10,7 +10,11 @@ export type SkillItemProps = {
 export const SkillItem: React.FC<SkillItemProps> = ({ skill, className }) => {
   return (
     <div className={className}>
-      <PieItem className="mx-auto" percent={skill.percent}>
+      <PieItem
+        innerClassName="bg-body"
+        className="mx-auto"
+        percent={skill.percent}
+      >
         <div className="d-flex flex-column mb-2">
           {skill.logoSrc && (
             <div className="icon text-center">

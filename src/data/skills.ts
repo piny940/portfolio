@@ -28,7 +28,7 @@ export const skillsData: SkillType[] = [
   },
   {
     name: 'django',
-    percent: 30,
+    percent: 10,
     logoSrc: '/images/skills/django.svg',
   },
 ]

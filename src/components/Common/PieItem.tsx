@@ -37,12 +37,14 @@ export type PieItemProps = {
   percent: number
   children: ReactNode
   className?: string
+  innerClassName?: string
 }
 
 export const PieItem: React.FC<PieItemProps> = ({
   percent,
   children,
   className,
+  innerClassName,
 }) => {
   const start = [0, 85, 255]
   const end = [0, 255, 238]
@@ -50,7 +52,7 @@ export const PieItem: React.FC<PieItemProps> = ({
 
   return (
     <PieDiv start={start} end={color} percent={percent} className={className}>
-      <CircleDiv>{children}</CircleDiv>
+      <CircleDiv className={innerClassName}>{children}</CircleDiv>
     </PieDiv>
   )
 }
