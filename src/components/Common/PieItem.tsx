@@ -1,6 +1,7 @@
+import { ReactNode } from 'react'
 import styled from 'styled-components'
 
-const CircleSpan = styled.span`
+const CircleDiv = styled.div`
   width: 160px;
   height: 160px;
   background-color: white;
@@ -9,6 +10,7 @@ const CircleSpan = styled.span`
   top: 20px;
   left: 20px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   font-size: 30px;
@@ -33,13 +35,13 @@ const PieDiv = styled.div<{
 
 export type PieItemProps = {
   percent: number
-  label: string
+  children: ReactNode
   className?: string
 }
 
 export const PieItem: React.FC<PieItemProps> = ({
   percent,
-  label,
+  children,
   className,
 }) => {
   const start = [0, 85, 255]
@@ -48,7 +50,7 @@ export const PieItem: React.FC<PieItemProps> = ({
 
   return (
     <PieDiv start={start} end={color} percent={percent} className={className}>
-      <CircleSpan>{label}</CircleSpan>
+      <CircleDiv>{children}</CircleDiv>
     </PieDiv>
   )
 }

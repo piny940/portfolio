@@ -4,10 +4,12 @@ export const skillsData: SkillType[] = [
   {
     name: 'Rails',
     percent: 90,
+    logoSrc: '/images/skills/rails.svg',
   },
   {
     name: 'React',
     percent: 90,
+    logoSrc: '/images/skills/react.svg',
   },
   {
     name: 'Typescript',
