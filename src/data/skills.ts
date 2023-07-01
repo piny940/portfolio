@@ -1,12 +1,12 @@
 import { SkillType } from '@/resources/types'
 
-export const SkillsData: SkillType[] = [
+export const skillsData: SkillType[] = [
   {
     name: 'Rails',
-    percent: 100,
+    percent: 90,
   },
   {
     name: 'React',
-    percent: 100,
+    percent: 90,
   },
 ]
