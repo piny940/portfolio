@@ -7,28 +7,29 @@ export type SkillItemProps = {
   className?: string
 }
 
-export const SkillItem: React.FC<SkillItemProps> = ({ skill, className }) => {
+export const SkillItem: React.FC<SkillItemProps> = ({
+  skill,
+  className = '',
+}) => {
   return (
-    <div className={className}>
-      <PieItem
-        innerClassName="bg-body"
-        className="mx-auto"
-        percent={skill.percent}
-      >
-        <div className="d-flex flex-column mb-2">
-          {skill.logoSrc && (
-            <div className="icon text-center">
-              <Image
-                alt={`${skill.name}-logo`}
-                src={skill.logoSrc}
-                width={50}
-                height={50}
-              />
-            </div>
-          )}
-          <span className="text-center">{skill.name}</span>
-        </div>
-      </PieItem>
-    </div>
+    <PieItem
+      innerClassName="bg-body"
+      className={'mx-auto ' + className}
+      percent={skill.percent}
+    >
+      <div className="d-flex flex-column mb-2">
+        {skill.logoSrc && (
+          <div className="icon text-center">
+            <Image
+              alt={`${skill.name}-logo`}
+              src={skill.logoSrc}
+              width={50}
+              height={50}
+            />
+          </div>
+        )}
+        <span className="text-center">{skill.name}</span>
+      </div>
+    </PieItem>
   )
 }

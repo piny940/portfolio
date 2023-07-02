@@ -19,11 +19,19 @@ const ProfileDiv = styled.div`
   border-image-slice: 1;
 `
 
-export const Profiles: React.FC = () => {
+export type ProfilesProps = {
+  className?: string
+}
+
+export const Profiles: React.FC<ProfilesProps> = ({ className = '' }) => {
   return (
-    <div className="d-flex flex-column align-items-center position-relative">
+    <div
+      className={
+        'd-flex flex-column align-items-center position-relative ' + className
+      }
+    >
       <BgDiv className="position-absolute w-100 h-100"></BgDiv>
-      <ProfileDiv className="top-middle d-flex flex-column align-items-center position-relative bg-body rounded p-3">
+      <ProfileDiv className="top-middle d-flex flex-column align-items-center position-relative rounded p-3 bg-body">
         <Image
           src="/images/icon.png"
           alt="icon"

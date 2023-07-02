@@ -69,11 +69,16 @@ $main: rgb(25, 97, 206);
   background-color: white !important;
 }
 
-.title-border-main {
-  border-left: 8px solid $main;
-  padding: 4px 16px;
-  margin-bottom: 16px !important;
-  font-weight: 500;
+.title-underline {
+  border-width: 0;
+  border-bottom-width: 3px;
+  border-style: solid;
+  border-image: linear-gradient(
+    to right,
+    rgb(48, 117, 255) 0%,
+    rgb(45, 219, 208) 100%
+  );
+  border-image-slice: 1;
 }
 [data-bs-theme='dark'] {
   --bs-body-color-rgb: 210, 210, 210 !important;

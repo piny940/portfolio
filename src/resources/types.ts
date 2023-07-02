@@ -5,3 +5,9 @@ export type SkillType = {
   percent: number
   logoSrc?: string
 }
+export type WorkType = {
+  title: string
+  description: string
+  link?: string
+  github: string
+}
