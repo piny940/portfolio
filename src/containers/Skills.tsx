@@ -11,7 +11,9 @@ export const Skills: React.FC<SkillsProps> = ({ className = '' }) => {
       <h1 className="text-center title-underline">Skills</h1>
       <div className="row row-cols-md-2 w-75 mt-4">
         {skillsData.map((skill) => (
-          <SkillItem key={skill.name} skill={skill} className="col p-3 my-3" />
+          <div className="col p-3 my-3" key={skill.name}>
+            <SkillItem skill={skill} />
+          </div>
         ))}
       </div>
     </div>
