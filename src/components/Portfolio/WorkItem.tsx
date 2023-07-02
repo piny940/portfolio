@@ -23,8 +23,8 @@ export const WorkItem: React.FC<WorkItemProps> = ({ work, className = '' }) => {
         'p-3 rounded border d-flex flex-column align-items-center ' + className
       }
     >
-      <h3 className="h5 my-1">{work.title}</h3>
-      <p className="mt-2 mb-0 d-flex align-items-center">
+      <h3 className="h5 my-1 title-underline pb-1">{work.title}</h3>
+      <p className="mt-2 mb-1 d-flex align-items-center">
         <Link target="_blank" href={work.github} className="mx-1">
           <Image
             src={
@@ -38,7 +38,7 @@ export const WorkItem: React.FC<WorkItemProps> = ({ work, className = '' }) => {
           />
         </Link>
         {work.link && (
-          <Link href={work.link} target="_blank" className="mx-1">
+          <Link href={work.link} target="_blank" className="mx-1 text-body">
             <MaterialIcon name="share" />
           </Link>
         )}
