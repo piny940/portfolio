@@ -40,14 +40,16 @@ export const Navbar: React.FC = () => {
           className="collapse navbar-collapse ms-2"
           id="navbar-collapse-target"
         >
-          <ul className="navbar-nav d-flex justify-content-between w-100">
+          <ul className="navbar-nav w-100">
             <li className="nav-item">
               <Link className="nav-link" href="/skills">
                 Skills
               </Link>
-            </li>
-            <li className="nav-item d-none d-lg-block">
-              <ThemeToggler theme={theme} toggleTheme={toggleTheme()} />
+            </li>{' '}
+            <li className="nav-item">
+              <Link className="nav-link" href="/works">
+                Works
+              </Link>
             </li>
             <li className="nav-item d-lg-none">
               <a
@@ -69,6 +71,9 @@ export const Navbar: React.FC = () => {
               </a>
             </li>
           </ul>
+          <div className="nav-item d-none d-lg-block">
+            <ThemeToggler theme={theme} toggleTheme={toggleTheme()} />
+          </div>
         </div>
       </div>
     </nav>
