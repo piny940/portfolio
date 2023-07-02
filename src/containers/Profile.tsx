@@ -17,6 +17,7 @@ const ProfileDiv = styled.div`
     rgb(45, 219, 208) 100%
   );
   border-image-slice: 1;
+  max-width: 90%;
 `
 
 export type ProfilesProps = {
