@@ -9,4 +9,5 @@ export type WorkType = {
   title: string
   description: string
   link?: string
+  github: string
 }
