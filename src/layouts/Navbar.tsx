@@ -1,3 +1,4 @@
+import { MaterialIcon } from '@/components/Common/MaterialIcon'
 import { ThemeToggler } from '@/components/Common/ThemeToggler'
 import { useTheme } from '@/context/ThemeProvider'
 import { TestID } from '@/resources/TestID'
@@ -27,7 +28,53 @@ export const Navbar: React.FC = () => {
         >
           <div>Piny940</div>
         </Link>
-        <ThemeToggler theme={theme} toggleTheme={toggleTheme()} />
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbar-collapse-target"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div
+          className="collapse navbar-collapse ms-4"
+          id="navbar-collapse-target"
+        >
+          <ul className="navbar-nav w-100">
+            <li className="nav-item">
+              <Link className="nav-link active" href="/skills">
+                Skills
+              </Link>
+            </li>{' '}
+            <li className="nav-item">
+              <Link className="nav-link active" href="/works">
+                Works
+              </Link>
+            </li>
+            <li className="nav-item d-lg-none">
+              <a
+                type="button"
+                onClick={toggleTheme()}
+                className="nav-link d-flex align-items-center"
+              >
+                {theme === 'light' ? (
+                  <>
+                    <MaterialIcon className="me-1" name="light_mode" />
+                    ライトモード
+                  </>
+                ) : (
+                  <>
+                    <MaterialIcon className="me-1" name="dark_mode" />
+                    ダークモード
+                  </>
+                )}
+              </a>
+            </li>
+          </ul>
+          <div className="nav-item d-none d-lg-block">
+            <ThemeToggler theme={theme} toggleTheme={toggleTheme()} />
+          </div>
+        </div>
       </div>
     </nav>
   )

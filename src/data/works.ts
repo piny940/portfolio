@@ -8,7 +8,7 @@ export const worksData: WorkType[] = [
     github: 'https://github.com/piny940/song-list',
   },
   {
-    title: 'Kokosuki Stamp',
+    title: 'スタンプ作成補助',
     description:
       'Youtubeのコメント欄でタイムスタンプを作成するのを補助する拡張機能',
     link: 'https://chrome.google.com/webstore/detail/kokosuki-stamp/pnbpecefaimbeadmmombelidgkkgfeeg?hl=ja',
