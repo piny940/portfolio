@@ -37,17 +37,17 @@ export const Navbar: React.FC = () => {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div
-          className="collapse navbar-collapse ms-2"
+          className="collapse navbar-collapse ms-4"
           id="navbar-collapse-target"
         >
           <ul className="navbar-nav w-100">
             <li className="nav-item">
-              <Link className="nav-link" href="/skills">
+              <Link className="nav-link active" href="/skills">
                 Skills
               </Link>
             </li>{' '}
             <li className="nav-item">
-              <Link className="nav-link" href="/works">
+              <Link className="nav-link active" href="/works">
                 Works
               </Link>
             </li>
