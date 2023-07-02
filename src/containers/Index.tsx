@@ -5,9 +5,9 @@ import { Works } from './Works'
 export const Index: React.FC = () => {
   return (
     <div id="index">
-      <Profiles />
+      <Profiles className="bg-body" />
       <Skills className="bg-body-tertiary" />
-      <Works />
+      <Works className="bg-body" />
     </div>
   )
 }
