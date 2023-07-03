@@ -47,8 +47,8 @@ export const Navbar: React.FC = () => {
               </Link>
             </li>{' '}
             <li className="nav-item">
-              <Link className="nav-link active" href="/works">
-                Works
+              <Link className="nav-link active" href="/projects">
+                Projects
               </Link>
             </li>
             <li className="nav-item d-lg-none">

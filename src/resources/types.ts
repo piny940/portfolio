@@ -5,7 +5,7 @@ export type SkillType = {
   percent: number
   logoSrc?: string
 }
-export type WorkType = {
+export type ProjectType = {
   title: string
   description: string
   link?: string

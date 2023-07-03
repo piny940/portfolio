@@ -1,6 +1,6 @@
-import { WorkType } from '@/resources/types'
+import { ProjectType } from '@/resources/types'
 
-export const worksData: WorkType[] = [
+export const projectsData: ProjectType[] = [
   {
     title: '歌枠データベース',
     description: 'Vtuberが歌った曲を検索できます',

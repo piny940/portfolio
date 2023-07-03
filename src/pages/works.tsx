@@ -1,9 +1,9 @@
-const Works: React.FC = () => {
+const Projects: React.FC = () => {
   return (
     <div className="">
-      <h1>Works</h1>
+      <h1>Projects</h1>
     </div>
   )
 }
 
-export default Works
+export default Projects
