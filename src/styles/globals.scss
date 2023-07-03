@@ -22,8 +22,9 @@ body {
 .fw-bold {
   font-family: var(--bs-body-font-family);
 }
-.root {
-  min-height: var(--vh100);
+.wrapper {
+  height: var(--vh100);
+  width: 90%;
 }
 
 a {

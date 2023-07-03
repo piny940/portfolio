@@ -1,9 +1,7 @@
+import { Projects as ProjectsContainer } from '@/containers/Projects'
+
 const Projects: React.FC = () => {
-  return (
-    <div className="">
-      <h1>Projects</h1>
-    </div>
-  )
+  return <ProjectsContainer />
 }
 
 export default Projects
