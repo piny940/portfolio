@@ -27,7 +27,9 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
         'p-3 rounded border d-flex flex-column align-items-center ' + className
       }
     >
-      <h3 className="h5 my-1 title-underline pb-1">{project.title}</h3>
+      <Link href={`/projects/${project.title}`}>
+        <h3 className="h5 my-1 title-underline pb-1">{project.title}</h3>
+      </Link>
       <p className="mt-2 mb-1 d-flex align-items-center">
         {project.github && (
           <Link target="_blank" href={project.github} className="mx-1">
