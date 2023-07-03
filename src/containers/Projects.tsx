@@ -5,7 +5,7 @@ export type ProjectsProps = {
   className?: string
 }
 
-export const Projects: React.FC<ProjectsProps> = ({ className = '' }) => {
+export const ProjectsIndex: React.FC<ProjectsProps> = ({ className = '' }) => {
   return (
     <div className={'d-flex flex-column align-items-center py-5 ' + className}>
       <h1 className="text-center title-underline">Projects</h1>
