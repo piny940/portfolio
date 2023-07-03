@@ -1,4 +1,4 @@
-import { Works, WorksProps } from '@/containers/Works'
+import { Works, WorksProps } from '@/containers/Projects'
 import { expect } from '@jest/globals'
 import { render, waitFor } from '@testing-library/react'
 import { Mock } from 'ts-mockery'

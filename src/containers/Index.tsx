@@ -1,6 +1,6 @@
 import { Skills } from './Skills'
 import { Profiles } from './Profile'
-import { Works } from './Works'
+import { Works } from './Projects'
 
 export const Index: React.FC = () => {
   return (

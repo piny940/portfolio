@@ -1,7 +1,7 @@
 import { render, waitFor } from '@testing-library/react'
 import { expect } from '@jest/globals'
 import { Mock } from 'ts-mockery'
-import { WorkItem, WorkItemProps } from '@/components/Portfolio/WorkItem'
+import { WorkItem, WorkItemProps } from '@/components/Portfolio/ProjectItem'
 import { WorkType } from '@/resources/types'
 
 describe('<WorkItem />', () => {

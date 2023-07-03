@@ -1,4 +1,4 @@
-import { WorkItem } from '@/components/Portfolio/WorkItem'
+import { WorkItem } from '@/components/Portfolio/ProjectItem'
 import { worksData } from '@/data/works'
 
 export type WorksProps = {
