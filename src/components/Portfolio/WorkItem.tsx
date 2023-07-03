@@ -26,18 +26,20 @@ export const WorkItem: React.FC<WorkItemProps> = ({ work, className = '' }) => {
     >
       <h3 className="h5 my-1 title-underline pb-1">{work.title}</h3>
       <p className="mt-2 mb-1 d-flex align-items-center">
-        <Link target="_blank" href={work.github} className="mx-1">
-          <Image
-            src={
-              theme === 'light'
-                ? '/images/common/github.png'
-                : '/images/common/github-white.png'
-            }
-            width={31}
-            height={31}
-            alt="github-icon"
-          />
-        </Link>
+        {work.github && (
+          <Link target="_blank" href={work.github} className="mx-1">
+            <Image
+              src={
+                theme === 'light'
+                  ? '/images/common/github.png'
+                  : '/images/common/github-white.png'
+              }
+              width={31}
+              height={31}
+              alt="github-icon"
+            />
+          </Link>
+        )}
         {work.link && (
           <Link href={work.link} target="_blank" className="mx-1 text-body">
             <MaterialIcon name="share" />
