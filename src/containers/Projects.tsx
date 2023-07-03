@@ -1,11 +1,13 @@
 import { ProjectItem } from '@/components/Portfolio/ProjectItem'
 import { projectsData } from '@/data/projects'
 
-export type ProjectsProps = {
+export type ProjectsIndexProps = {
   className?: string
 }
 
-export const ProjectsIndex: React.FC<ProjectsProps> = ({ className = '' }) => {
+export const ProjectsIndex: React.FC<ProjectsIndexProps> = ({
+  className = '',
+}) => {
   return (
     <div className={'d-flex flex-column align-items-center py-5 ' + className}>
       <h1 className="text-center title-underline">Projects</h1>
