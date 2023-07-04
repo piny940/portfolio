@@ -6,6 +6,7 @@ export const projectsData: ProjectType[] = [
     description: 'Vtuberが歌った曲を検索できます',
     link: 'https://song-list.piny940.com',
     github: 'https://github.com/piny940/song-list',
+    imageSrc: '/images/projects/song-list.png',
   },
   {
     title: 'スタンプ作成補助',

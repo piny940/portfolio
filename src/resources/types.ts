@@ -10,4 +10,5 @@ export type ProjectType = {
   description: string
   link?: string
   github?: string
+  imageSrc?: string
 }
