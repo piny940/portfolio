@@ -4,6 +4,8 @@ import { MaterialIcon } from '../Common/MaterialIcon'
 import Link from 'next/link'
 import { useTheme } from '@/context/ThemeProvider'
 import Image from 'next/image'
+import githubWhiteIcon from '../../resources/images/common/github-white.png'
+import githubIcon from '../../resources/images/common/github.png'
 
 const ProjectItemDiv = styled.div`
   min-width: 200px;
@@ -34,11 +36,7 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
         {project.github && (
           <Link target="_blank" href={project.github} className="mx-1">
             <Image
-              src={
-                theme === 'light'
-                  ? '/images/common/github.png'
-                  : '/images/common/github-white.png'
-              }
+              src={theme === 'light' ? githubIcon : githubWhiteIcon}
               width={31}
               height={31}
               alt="github-icon"
