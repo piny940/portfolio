@@ -1,3 +1,5 @@
+import { skill } from './enums'
+
 export type Theme = 'dark' | 'light'
 
 export type SkillType = {
@@ -12,4 +14,5 @@ export type ProjectType = {
   github?: string
   imageSrc?: string
   detailSrc: string
+  skills: skill[]
 }

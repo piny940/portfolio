@@ -40,17 +40,19 @@ export const ProjectShow: React.FC<ProjectShowProps> = ({ title }) => {
           </div>
         </div>
         <div className="col-lg-4">
-          {project?.imageSrc && (
-            <Image
-              src={project.imageSrc}
-              alt="project image"
-              style={{ width: '100%', height: 'auto' }}
-              width={1920}
-              height={1080}
-            />
-          )}
-          <div className="my-2 mx-3">
-            <ul className="list-unstyled d-flex justify-content-center">
+          <div className="mt-2">
+            {project?.imageSrc && (
+              <Image
+                src={project.imageSrc}
+                alt="project image"
+                style={{ width: '100%', height: 'auto' }}
+                width={1920}
+                height={1080}
+              />
+            )}
+          </div>
+          <div className="my-2 mx-3 d-flex flex-column align-items-center">
+            <ul className="list-unstyled d-flex">
               <li className="mx-1">
                 {project.github && (
                   <Link target="_blank" href={project.github} className="mx-1">
@@ -75,6 +77,15 @@ export const ProjectShow: React.FC<ProjectShowProps> = ({ title }) => {
                 )}
               </li>
             </ul>
+            <div className="skills text-muted small">
+              <span className="me-2">使用技術:</span>{' '}
+              {project.skills.map((skill, i) => (
+                <span className="me-2" key={skill}>
+                  {skill}
+                  {i !== project.skills.length - 1 && ','}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </div>
