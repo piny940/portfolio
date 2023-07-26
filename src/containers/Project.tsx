@@ -2,6 +2,7 @@ import { projectsData } from '@/data/projects'
 import Error from 'next/error'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
+import { ReactMarkdown } from 'react-markdown/lib/react-markdown'
 
 export type ProjectShowProps = {
   title: string
@@ -27,7 +28,9 @@ export const ProjectShow: React.FC<ProjectShowProps> = ({ title }) => {
     <div className="wrapper mx-auto mt-3">
       <h1 className="title-underline">{title}</h1>
       <div className="row">
-        <div className="col-lg-6">{detail}</div>
+        <div className="col-lg-6">
+          <ReactMarkdown>{detail}</ReactMarkdown>
+        </div>
         <div className="col-lg-6">
           {project?.imageSrc && (
             <Image
