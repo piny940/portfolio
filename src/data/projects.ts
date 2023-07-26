@@ -7,6 +7,7 @@ export const projectsData: ProjectType[] = [
     link: 'https://song-list.piny940.com',
     github: 'https://github.com/piny940/song-list',
     imageSrc: '/images/projects/song-list.png',
+    detailSrc: '/documents/projects/song-list.md',
   },
   {
     title: 'スタンプ作成補助',
@@ -14,37 +15,44 @@ export const projectsData: ProjectType[] = [
       'Youtubeのコメント欄でタイムスタンプを作成するのを補助する拡張機能',
     link: 'https://chrome.google.com/webstore/detail/kokosuki-stamp/pnbpecefaimbeadmmombelidgkkgfeeg?hl=ja',
     github: 'https://github.com/piny940/kokosuko-stamp',
+    detailSrc: '',
   },
   {
     title: '絵文字召喚bot',
     description: 'slack上で使える絵文字を自動で生成するslackアプリです',
     github: 'https://github.com/piny940/emoji-creater',
+    detailSrc: '',
   },
   {
     title: 'チャットアプリ',
     description:
       'discordのようにグループごとにメンバーやトークルームを作ることができます。',
     github: 'https://github.com/piny940/clubroom',
+    detailSrc: '',
   },
   {
     title: 'ポートフォリオ',
     description: 'Piny940のポートフォリオです',
     github: 'https://github.com/piny940/portfolio',
     link: 'https://piny940.com',
+    detailSrc: '',
   },
   {
     title: 'スタンプラリー',
     description: 'Vtuber凪乃ましろさん休暇中のスタンプラリー',
     github: 'https://github.com/piny940/mashiro-calender',
+    detailSrc: '',
   },
   {
     title: 'オセロアプリ',
     description: '大学の授業でオセロアプリをチーム開発しました。',
     github: 'https://github.com/piny940/python-reverse',
+    detailSrc: '',
   },
   {
     title: 'メカ少女シューティング',
     description: '大学のサークルでシューティングゲームをチームで開発しました。',
     link: 'https://kmc-jp.booth.pm/items/3438923',
+    detailSrc: '',
   },
 ]

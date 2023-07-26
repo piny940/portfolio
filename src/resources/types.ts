@@ -11,4 +11,5 @@ export type ProjectType = {
   link?: string
   github?: string
   imageSrc?: string
+  detailSrc: string
 }
