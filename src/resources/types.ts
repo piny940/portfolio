@@ -9,6 +9,7 @@ export type SkillType = {
 }
 export type ProjectType = {
   title: string
+  id: string
   description: string
   link?: string
   github?: string

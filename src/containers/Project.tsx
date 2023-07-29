@@ -9,17 +9,17 @@ import Link from 'next/link'
 import { MarkdownDisplay } from '@/components/Common/MarkdownDisplay'
 
 export type ProjectShowProps = {
-  title: string
+  id: string
 }
 
-export const ProjectShow: React.FC<ProjectShowProps> = ({ title }) => {
-  const project = projectsData.find((v) => v.title === title)
+export const ProjectShow: React.FC<ProjectShowProps> = ({ id }) => {
+  const project = projectsData.find((v) => v.id === id)
   const { theme } = useTheme()
 
   if (!project) return <Error statusCode={404} />
   return (
     <div className="wrapper mx-auto mt-3">
-      <h1 className="title-underline ps-2">{title}</h1>
+      <h1 className="title-underline ps-2">{project.title}</h1>
       <div className="row">
         <div className="col-lg-8">
           <div className="px-2">

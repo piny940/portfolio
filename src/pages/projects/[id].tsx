@@ -3,8 +3,8 @@ import { useRouter } from 'next/router'
 
 const Project: React.FC = () => {
   const router = useRouter()
-  const title = router.query.title as string
-  return <ProjectShow title={title} />
+  const id = router.query.id as string
+  return <ProjectShow id={id} />
 }
 
 export default Project
