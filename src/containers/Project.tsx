@@ -6,7 +6,7 @@ import githubWhiteIcon from '../resources/images/common/github-white.png'
 import githubIcon from '../resources/images/common/github.png'
 import { MaterialIcon } from '@/components/Common/MaterialIcon'
 import Link from 'next/link'
-import { MarkdownDisplay } from '@/components/Common/Markdown'
+import { MarkdownDisplay } from '@/components/Common/MarkdownDisplay'
 
 export type ProjectShowProps = {
   title: string
