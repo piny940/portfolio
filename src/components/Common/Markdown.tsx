@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown'
 
-export type MarkdownProps = {
+export type MarkdownDisplayProps = {
   src: string
 }
 
-export const Markdown: React.FC<MarkdownProps> = ({ src }) => {
+export const MarkdownDisplay: React.FC<MarkdownDisplayProps> = ({ src }) => {
   const [content, setContent] = useState('')
 
   const loadContent = async () => {
