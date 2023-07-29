@@ -32,10 +32,10 @@ export const ProjectShow: React.FC<ProjectShowProps> = ({ title }) => {
   if (!project) return <Error statusCode={404} />
   return (
     <div className="wrapper mx-auto mt-3">
-      <h1 className="title-underline">{title}</h1>
+      <h1 className="title-underline ps-2">{title}</h1>
       <div className="row">
         <div className="col-lg-8">
-          <div className="px-2">
+          <div className="px-2 markdown">
             <ReactMarkdown>{detail}</ReactMarkdown>
           </div>
         </div>
