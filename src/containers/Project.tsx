@@ -2,12 +2,11 @@ import { useTheme } from '@/context/ThemeProvider'
 import { projectsData } from '@/data/projects'
 import Error from 'next/error'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
-import { ReactMarkdown } from 'react-markdown/lib/react-markdown'
 import githubWhiteIcon from '../resources/images/common/github-white.png'
 import githubIcon from '../resources/images/common/github.png'
 import { MaterialIcon } from '@/components/Common/MaterialIcon'
 import Link from 'next/link'
+import { MarkdownDisplay } from '@/components/Common/Markdown'
 
 export type ProjectShowProps = {
   title: string
@@ -15,19 +14,7 @@ export type ProjectShowProps = {
 
 export const ProjectShow: React.FC<ProjectShowProps> = ({ title }) => {
   const project = projectsData.find((v) => v.title === title)
-  const [detail, setDetail] = useState('')
   const { theme } = useTheme()
-
-  const loadDetail = async () => {
-    if (!project?.detailSrc) return
-
-    const response = await fetch(project.detailSrc)
-    setDetail(await response.text())
-  }
-
-  useEffect(() => {
-    void loadDetail()
-  })
 
   if (!project) return <Error statusCode={404} />
   return (
@@ -35,8 +22,8 @@ export const ProjectShow: React.FC<ProjectShowProps> = ({ title }) => {
       <h1 className="title-underline ps-2">{title}</h1>
       <div className="row">
         <div className="col-lg-8">
-          <div className="px-2 markdown">
-            <ReactMarkdown>{detail}</ReactMarkdown>
+          <div className="px-2">
+            <MarkdownDisplay src={project.detailSrc} />
           </div>
         </div>
         <div className="col-lg-4">
