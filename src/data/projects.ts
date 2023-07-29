@@ -1,15 +1,26 @@
 import { skill } from '@/resources/enums'
-import { ProjectType } from '@/resources/types'
 
-export const projectsData: ProjectType[] = [
+const PROJECT_IMAGE_URL = '/images/projects'
+const GITHUB_URL = 'https://github.com'
+const PROJECT_DETAIL_URL = '/documents/projects'
+
+export interface ProjectType {
+  title: string
+  id: string
+  description: string
+  link: string | null
+  github?: string | null
+  imageSrc?: string | null
+  detailSrc?: string
+  skills: skill[]
+}
+
+const PROJECTS_DATA: ProjectType[] = [
   {
     title: '歌枠データベース',
     id: 'song-list',
     description: 'Vtuberが歌った曲を検索できます',
     link: 'https://song-list.piny940.com',
-    github: 'https://github.com/piny940/song-list',
-    imageSrc: '/images/projects/song-list.png',
-    detailSrc: '/documents/projects/song-list.md',
     skills: [skill.rails, skill.react, skill.next, skill.typescript],
   },
   {
@@ -29,6 +40,7 @@ export const projectsData: ProjectType[] = [
     github: 'https://github.com/piny940/emoji-creater',
     detailSrc: '',
     skills: [],
+    link: null,
   },
   {
     title: 'チャットアプリ',
@@ -38,6 +50,7 @@ export const projectsData: ProjectType[] = [
     github: 'https://github.com/piny940/clubroom',
     detailSrc: '',
     skills: [],
+    link: null,
   },
   {
     title: 'ポートフォリオ',
@@ -55,6 +68,7 @@ export const projectsData: ProjectType[] = [
     github: 'https://github.com/piny940/mashiro-calender',
     detailSrc: '',
     skills: [],
+    link: null,
   },
   {
     title: 'オセロアプリ',
@@ -63,6 +77,7 @@ export const projectsData: ProjectType[] = [
     github: 'https://github.com/piny940/python-reverse',
     detailSrc: '',
     skills: [],
+    link: null,
   },
   {
     title: 'メカ少女シューティング',
@@ -73,3 +88,39 @@ export const projectsData: ProjectType[] = [
     skills: [],
   },
 ]
+
+export class ProjectData {
+  #project: ProjectType
+
+  constructor(id: string) {
+    const project = PROJECTS_DATA.find((project) => project.id === id)
+    if (!project) throw new Error('Project not fond')
+    this.#project = project
+  }
+
+  getTitle = () => this.#project.title
+  getId = () => this.#project.id
+  getDescription = () => this.#project.description
+  getLink = () => this.#project.link
+  getDetailSrc = () =>
+    this.#project.detailSrc === undefined
+      ? `${PROJECT_DETAIL_URL}/${this.#project.id}.md`
+      : this.#project.detailSrc
+
+  getSkills = () => this.#project.skills
+  getGithub = () => {
+    return this.#project.github === undefined
+      ? `${GITHUB_URL}/${this.#project.id}`
+      : this.#project.github
+  }
+
+  getImageSrc = () => {
+    return this.#project.imageSrc === undefined
+      ? `${PROJECT_IMAGE_URL}/${this.#project.id}.png`
+      : this.#project.imageSrc
+  }
+}
+
+export const projectsData = PROJECTS_DATA.map(
+  (project) => new ProjectData(project.id)
+)

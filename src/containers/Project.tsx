@@ -7,30 +7,36 @@ import githubIcon from '../resources/images/common/github.png'
 import { MaterialIcon } from '@/components/Common/MaterialIcon'
 import Link from 'next/link'
 import { MarkdownDisplay } from '@/components/Common/MarkdownDisplay'
+import { useMemo } from 'react'
 
 export type ProjectShowProps = {
   id: string
 }
 
 export const ProjectShow: React.FC<ProjectShowProps> = ({ id }) => {
-  const project = projectsData.find((v) => v.id === id)
+  const project = projectsData.find((v) => v.getId() === id)
   const { theme } = useTheme()
 
+  const githubLink = useMemo(() => project?.getGithub(), [project])
+  const imageSrc = useMemo(() => project?.getImageSrc(), [project])
+  const projectLink = useMemo(() => project?.getLink(), [project])
+
   if (!project) return <Error statusCode={404} />
+
   return (
     <div className="wrapper mx-auto mt-3">
-      <h1 className="title-underline ps-2">{project.title}</h1>
+      <h1 className="title-underline ps-2">{project.getTitle()}</h1>
       <div className="row">
         <div className="col-lg-8">
           <div className="px-2">
-            <MarkdownDisplay src={project.detailSrc} />
+            <MarkdownDisplay src={project.getDetailSrc()} />
           </div>
         </div>
         <div className="col-lg-4">
           <div className="mt-2">
-            {project?.imageSrc && (
+            {imageSrc && (
               <Image
-                src={project.imageSrc}
+                src={imageSrc}
                 alt="project image"
                 style={{ width: '100%', height: 'auto' }}
                 width={1920}
@@ -41,8 +47,8 @@ export const ProjectShow: React.FC<ProjectShowProps> = ({ id }) => {
           <div className="my-2 mx-3 d-flex flex-column align-items-center">
             <ul className="list-unstyled d-flex">
               <li className="mx-1">
-                {project.github && (
-                  <Link target="_blank" href={project.github} className="mx-1">
+                {githubLink && (
+                  <Link target="_blank" href={githubLink} className="mx-1">
                     <Image
                       src={theme === 'light' ? githubIcon : githubWhiteIcon}
                       width={31}
@@ -53,9 +59,9 @@ export const ProjectShow: React.FC<ProjectShowProps> = ({ id }) => {
                 )}
               </li>
               <li className="mx-1">
-                {project.link && (
+                {projectLink && (
                   <Link
-                    href={project.link}
+                    href={projectLink}
                     target="_blank"
                     className="text-body"
                   >
@@ -66,10 +72,10 @@ export const ProjectShow: React.FC<ProjectShowProps> = ({ id }) => {
             </ul>
             <div className="skills text-muted small">
               <span className="me-2">使用技術:</span>{' '}
-              {project.skills.map((skill, i) => (
+              {project.getSkills().map((skill, i) => (
                 <span className="me-2" key={skill}>
                   {skill}
-                  {i !== project.skills.length - 1 && ','}
+                  {i !== project.getSkills().length - 1 && ','}
                 </span>
               ))}
             </div>

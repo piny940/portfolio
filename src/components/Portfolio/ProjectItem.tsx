@@ -1,4 +1,3 @@
-import { ProjectType } from '@/resources/types'
 import styled from 'styled-components'
 import { MaterialIcon } from '../Common/MaterialIcon'
 import Link from 'next/link'
@@ -6,6 +5,8 @@ import { useTheme } from '@/context/ThemeProvider'
 import Image from 'next/image'
 import githubWhiteIcon from '../../resources/images/common/github-white.png'
 import githubIcon from '../../resources/images/common/github.png'
+import { ProjectData } from '@/data/projects'
+import { useMemo } from 'react'
 
 const ProjectItemDiv = styled.div`
   min-width: 200px;
@@ -13,7 +14,7 @@ const ProjectItemDiv = styled.div`
 `
 
 export type ProjectItemProps = {
-  project: ProjectType
+  project: ProjectData
   className?: string
 }
 
@@ -22,6 +23,8 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
   className = '',
 }) => {
   const { theme } = useTheme()
+  const githubLink = useMemo(() => project.getGithub(), [project])
+  const projectLink = useMemo(() => project.getLink(), [project])
 
   return (
     <ProjectItemDiv
@@ -29,12 +32,12 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
         'p-3 rounded border d-flex flex-column align-items-center ' + className
       }
     >
-      <Link href={`/projects/${project.id}`}>
-        <h3 className="h5 my-1 title-underline pb-1">{project.title}</h3>
+      <Link href={`/projects/${project.getId()}`}>
+        <h3 className="h5 my-1 title-underline pb-1">{project.getTitle()}</h3>
       </Link>
       <p className="mt-2 mb-1 d-flex align-items-center">
-        {project.github && (
-          <Link target="_blank" href={project.github} className="mx-1">
+        {githubLink && (
+          <Link target="_blank" href={githubLink} className="mx-1">
             <Image
               src={theme === 'light' ? githubIcon : githubWhiteIcon}
               width={31}
@@ -43,13 +46,13 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
             />
           </Link>
         )}
-        {project.link && (
-          <Link href={project.link} target="_blank" className="mx-1 text-body">
+        {projectLink && (
+          <Link href={projectLink} target="_blank" className="mx-1 text-body">
             <MaterialIcon name="share" />
           </Link>
         )}
       </p>
-      <p className="my-1">{project.description}</p>
+      <p className="my-1">{project.getDescription()}</p>
     </ProjectItemDiv>
   )
 }
