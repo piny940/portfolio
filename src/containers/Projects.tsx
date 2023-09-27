@@ -1,21 +1,27 @@
 import { ProjectItem } from '@/components/Portfolio/ProjectItem'
 import { projectsData } from '@/data/projects'
 
-export type ProjectsProps = {
+export type ProjectsIndexProps = {
   className?: string
 }
 
-export const Projects: React.FC<ProjectsProps> = ({ className = '' }) => {
+export const ProjectsIndex: React.FC<ProjectsIndexProps> = ({
+  className = '',
+}) => {
   return (
-    <div className={'d-flex flex-column align-items-center py-5 ' + className}>
-      <h1 className="text-center title-underline">Projects</h1>
-      <div className="row row-cols-md-2 row-cols-xl-3 w-75 mt-4">
+    <section
+      id="projects"
+      className={'d-flex flex-column align-items-center py-5 ' + className}
+    >
+      <h2 className="h1 text-center title-underline">Projects</h2>
+      <p className="mt-4">それぞれQiita記事へのリンクになっています</p>
+      <div className="row row-cols-md-2 row-cols-xl-3 w-75">
         {projectsData.map((project) => (
-          <div className="col-md p-3 my-3" key={project.title}>
+          <div className="col-md p-3 my-3" key={project.getTitle()}>
             <ProjectItem project={project} />
           </div>
         ))}
       </div>
-    </div>
+    </section>
   )
 }
