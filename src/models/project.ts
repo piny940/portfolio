@@ -1,4 +1,4 @@
-type ProjectData = {
+export interface ProjectData {
   title: string
   id: string
   description: string
@@ -7,10 +7,11 @@ type ProjectData = {
   qiita?: string
   skills: string[]
 }
+export type ProjectsData = ProjectData[]
 
 const GITHUB_URL = 'https://github.com'
 
-class Project {
+export class Project {
   #projectData: ProjectData
 
   constructor(projectData: ProjectData) {
@@ -30,9 +31,12 @@ class Project {
   }
 }
 
-class Projects {
-  #projects: Project[]
-  #loader
+export class Projects {
+  #projects: readonly Project[] = []
 
-  load = () => {}
+  constructor(projectsData: ProjectsData) {
+    this.#projects = projectsData.map((data) => new Project(data))
+  }
+
+  getProjects = () => this.#projects
 }
