@@ -1,7 +1,7 @@
 import { ProfileData } from '@/models/profile'
 import { IYamlLoader } from './_common'
 
-export class ProjectsLoader {
+export class ProfileLoader {
   #PROFILE_DATA_PATH = 'src/data/profile.yml'
   #loader: IYamlLoader
 
