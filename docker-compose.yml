@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  next-app:
+    container_name: portfolio
+    image: portfolio
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        ENV_VARIABLE: ${ENV_VARIABLE}
+        NEXT_PUBLIC_ENV_VARIABLE: ${NEXT_PUBLIC_ENV_VARIABLE}
+    restart: always
+    ports:
+      - 4600:4600
