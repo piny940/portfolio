@@ -9,11 +9,11 @@ export const ProjectsIndex: React.FC<ProjectsIndexProps> = ({
   className = '',
 }) => {
   return (
-    <div
+    <section
       id="projects"
       className={'d-flex flex-column align-items-center py-5 ' + className}
     >
-      <h1 className="text-center title-underline">Projects</h1>
+      <h2 className="h1 text-center title-underline">Projects</h2>
       <p className="mt-4">それぞれQiita記事へのリンクになっています</p>
       <div className="row row-cols-md-2 row-cols-xl-3 w-75">
         {projectsData.map((project) => (
@@ -22,6 +22,6 @@ export const ProjectsIndex: React.FC<ProjectsIndexProps> = ({
           </div>
         ))}
       </div>
-    </div>
+    </section>
   )
 }

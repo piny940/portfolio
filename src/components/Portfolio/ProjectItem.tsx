@@ -44,23 +44,27 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
       ) : (
         renderTitle()
       )}
-      <p className="mt-2 mb-1 d-flex align-items-center">
+      <ul className="list-unstyled mt-2 mb-1 d-flex align-items-center">
         {githubLink && (
-          <Link target="_blank" href={githubLink} className="mx-1">
-            <Image
-              src={theme === 'light' ? githubIcon : githubWhiteIcon}
-              width={31}
-              height={31}
-              alt="github-icon"
-            />
-          </Link>
+          <li>
+            <Link target="_blank" href={githubLink} className="mx-1">
+              <Image
+                src={theme === 'light' ? githubIcon : githubWhiteIcon}
+                width={31}
+                height={31}
+                alt="github-icon"
+              />
+            </Link>
+          </li>
         )}
         {projectLink && (
-          <Link href={projectLink} target="_blank" className="mx-1 text-body">
-            <MaterialIcon name="share" />
-          </Link>
+          <li>
+            <Link href={projectLink} target="_blank" className="mx-1 text-body">
+              <MaterialIcon name="share" />
+            </Link>
+          </li>
         )}
-      </p>
+      </ul>
       <p className="my-1">{project.getDescription()}</p>
     </ProjectItemDiv>
   )
