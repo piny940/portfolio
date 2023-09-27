@@ -7,7 +7,10 @@ export type SkillsProps = {
 
 export const Skills: React.FC<SkillsProps> = ({ className = '' }) => {
   return (
-    <div className={'d-flex flex-column align-items-center p-5 ' + className}>
+    <div
+      id="skills"
+      className={'d-flex flex-column align-items-center p-5 ' + className}
+    >
       <h1 className="text-center title-underline">Skills</h1>
       <div className="row row-cols-md-2 w-75 mt-4">
         {skillsData.map((skill) => (

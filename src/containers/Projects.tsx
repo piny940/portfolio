@@ -9,7 +9,10 @@ export const ProjectsIndex: React.FC<ProjectsIndexProps> = ({
   className = '',
 }) => {
   return (
-    <div className={'d-flex flex-column align-items-center py-5 ' + className}>
+    <div
+      id="projects"
+      className={'d-flex flex-column align-items-center py-5 ' + className}
+    >
       <h1 className="text-center title-underline">Projects</h1>
       <p className="mt-4">それぞれQiita記事へのリンクになっています</p>
       <div className="row row-cols-md-2 row-cols-xl-3 w-75">

@@ -42,12 +42,12 @@ export const Navbar: React.FC = () => {
         >
           <ul className="navbar-nav w-100">
             <li className="nav-item">
-              <Link className="nav-link active" href="/skills">
+              <Link className="nav-link active" href="/#skills">
                 Skills
               </Link>
             </li>{' '}
             <li className="nav-item">
-              <Link className="nav-link active" href="/projects">
+              <Link className="nav-link active" href="/#projects">
                 Projects
               </Link>
             </li>
