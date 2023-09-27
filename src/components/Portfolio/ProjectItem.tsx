@@ -25,6 +25,11 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
   const { theme } = useTheme()
   const githubLink = useMemo(() => project.getGithub(), [project])
   const projectLink = useMemo(() => project.getLink(), [project])
+  const qiita = useMemo(() => project.getQiita(), [project])
+
+  const renderTitle = () => (
+    <h3 className="h5 my-1 title-underline pb-1">{project.getTitle()}</h3>
+  )
 
   return (
     <ProjectItemDiv
@@ -32,9 +37,13 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
         'p-3 rounded border d-flex flex-column align-items-center ' + className
       }
     >
-      <Link href={`/projects/${project.getId()}`}>
-        <h3 className="h5 my-1 title-underline pb-1">{project.getTitle()}</h3>
-      </Link>
+      {qiita ? (
+        <Link href={qiita} target="_blank">
+          {renderTitle()}
+        </Link>
+      ) : (
+        renderTitle()
+      )}
       <p className="mt-2 mb-1 d-flex align-items-center">
         {githubLink && (
           <Link target="_blank" href={githubLink} className="mx-1">

@@ -12,6 +12,7 @@ export interface ProjectType {
   github?: string | null
   imageSrc?: string | null
   detailSrc?: string
+  qiita?: string
   skills: skill[]
 }
 
@@ -86,6 +87,7 @@ const PROJECTS_DATA: ProjectType[] = [
     link: 'https://kmc-jp.booth.pm/items/3438923',
     detailSrc: '',
     skills: [],
+    qiita: 'https://qiita.com/piny940/items/d5519acb423ad22c51a8',
   },
 ]
 
@@ -102,6 +104,7 @@ export class ProjectData {
   getId = () => this.#project.id
   getDescription = () => this.#project.description
   getLink = () => this.#project.link
+  getQiita = () => this.#project.qiita
   getDetailSrc = () =>
     this.#project.detailSrc === undefined
       ? `${PROJECT_DETAIL_URL}/${this.#project.id}.md`
