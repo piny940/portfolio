@@ -5,7 +5,7 @@ export interface ProjectData {
   link?: string
   github?: string
   qiita?: string
-  skills: string[]
+  technologies: string[]
 }
 export type ProjectsData = ProjectData[]
 
@@ -23,7 +23,7 @@ export class Project {
   getDescription = () => this.#data.description
   getLink = () => this.#data.link
   getQiita = () => this.#data.qiita
-  getSkills = () => this.#data.skills
+  getTechnologies = () => this.#data.technologies
   getGithub = () => {
     return this.#data.github === undefined
       ? `${GITHUB_URL}/${this.#data.id}`

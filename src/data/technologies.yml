@@ -1,18 +1,28 @@
+- id: ruby
+  name: Ruby
+  logoSrc: /images/skills/ruby.svg
+  tagColor: red
 - id: rails
   name: Rails
   logoSrc: /images/skills/rails.svg
+  tagColor: red
 - id: react
-  name: React
+  name: React.js
   logoSrc: /images/skills/react.svg
+  tagColor: blue
 - id: typescript
   name: Typescript
   logoSrc: /images/skills/typescript.svg
+  tagColor: blue
 - id: python
   name: Python
   logoSrc: /images/skills/python.svg
+  tagColor: blue
 - id: vue
-  name: Vue
+  name: Vue.js
   logoSrc: /images/skills/vue.svg
+  tagColor: green
 - id: django
-  name: django
+  name: Django
   logoSrc: /images/skills/django.svg
+  tagColor: green
