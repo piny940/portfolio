@@ -66,7 +66,7 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
           </li>
         )}
       </ul>
-      <ul className="list-unstyled mt-1 d-flex flex-wrap">
+      <ul className="list-unstyled mt-1 d-flex justify-content-center flex-wrap">
         {project.getTechnologies().map((tech) => (
           <li key={tech.getId()}>
             <TechnologyTag technology={tech} />
