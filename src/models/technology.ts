@@ -19,3 +19,13 @@ export class Technology {
   getLogoSrc = () => this.#data.logoSrc
   getTagColor = () => this.#data.tagColor
 }
+
+export class Technologies {
+  #technologies: readonly Technology[] = []
+
+  constructor(technologiesData: TechnologiesData) {
+    this.#technologies = technologiesData.map((data) => new Technology(data))
+  }
+
+  getTechnologies = () => this.#technologies
+}
