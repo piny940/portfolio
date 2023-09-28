@@ -65,6 +65,11 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
           </li>
         )}
       </ul>
+      <ul>
+        {project.getTechnologies().map((tech) => (
+          <li key={tech.getId()}>{tech.getName()}</li>
+        ))}
+      </ul>
       <p className="my-1">{project.getDescription()}</p>
     </ProjectItemDiv>
   )
