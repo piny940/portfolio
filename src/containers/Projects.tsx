@@ -1,12 +1,14 @@
 import { ProjectItem } from '@/components/Portfolio/ProjectItem'
-import { projectsData } from '@/data/projects'
+import { Projects } from '@/models/project'
 
 export type ProjectsIndexProps = {
   className?: string
+  projects: Projects
 }
 
 export const ProjectsIndex: React.FC<ProjectsIndexProps> = ({
   className = '',
+  projects,
 }) => {
   return (
     <section
@@ -16,7 +18,7 @@ export const ProjectsIndex: React.FC<ProjectsIndexProps> = ({
       <h2 className="h1 text-center title-underline">Projects</h2>
       <p className="mt-4">それぞれQiita記事へのリンクになっています</p>
       <div className="row row-cols-md-2 row-cols-xl-3 w-75">
-        {projectsData.map((project) => (
+        {projects.getProjects().map((project) => (
           <div className="col-md p-3 my-3" key={project.getTitle()}>
             <ProjectItem project={project} />
           </div>

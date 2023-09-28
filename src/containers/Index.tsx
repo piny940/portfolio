@@ -18,7 +18,7 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
         className="bg-body-tertiary"
         techStacks={controller.getTechStacks()}
       />
-      <ProjectsIndex className="bg-body" />
+      <ProjectsIndex className="bg-body" projects={controller.getProjects()} />
     </div>
   )
 }
