@@ -1,34 +1,36 @@
-import { SkillType } from '@/resources/types'
 import { PieItem } from '../Common/PieItem'
 import Image from 'next/image'
+import { TechStack } from '@/models/tech_stack'
 
 export type SkillItemProps = {
-  skill: SkillType
+  techStack: TechStack
   className?: string
 }
 
 export const SkillItem: React.FC<SkillItemProps> = ({
-  skill,
+  techStack,
   className = '',
 }) => {
+  const tech = techStack.getTechnology()
+
   return (
     <PieItem
       innerClassName="bg-body"
       className={'mx-auto ' + className}
-      percent={skill.percent}
+      percent={techStack.getProficiency()}
     >
       <div className="d-flex flex-column mb-2">
-        {skill.logoSrc && (
+        {tech.getLogoSrc() && (
           <div className="icon text-center">
             <Image
-              alt={`${skill.name}-logo`}
-              src={skill.logoSrc}
+              alt={`${tech.getName()}-logo`}
+              src={tech.getLogoSrc()}
               width={50}
               height={50}
             />
           </div>
         )}
-        <span className="text-center">{skill.name}</span>
+        <span className="text-center">{tech.getName()}</span>
       </div>
     </PieItem>
   )

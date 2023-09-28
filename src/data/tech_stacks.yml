@@ -1,0 +1,12 @@
+- technologyId: rails
+  proficiency: 90
+- technologyId: react
+  proficiency: 90
+- technologyId: typescript
+  proficiency: 90
+- technologyId: python
+  proficiency: 70
+- technologyId: vue
+  proficiency: 40
+- technologyId: django
+  proficiency: 10

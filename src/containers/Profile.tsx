@@ -1,4 +1,4 @@
-import { profileData } from '@/data/profile'
+import { Profile } from '@/models/profile'
 import Image from 'next/image'
 import styled from 'styled-components'
 
@@ -22,9 +22,13 @@ const ProfileDiv = styled.div`
 
 export type ProfilesProps = {
   className?: string
+  profile: Profile
 }
 
-export const Profiles: React.FC<ProfilesProps> = ({ className = '' }) => {
+export const Profiles: React.FC<ProfilesProps> = ({
+  className = '',
+  profile,
+}) => {
   return (
     <div
       className={
@@ -41,7 +45,7 @@ export const Profiles: React.FC<ProfilesProps> = ({ className = '' }) => {
           className="rounded-circle"
         />
         <h1 className="mt-2">Piny940</h1>
-        <p className="mt-3 top-profile">{profileData.frontProfile}</p>
+        <p className="mt-3 top-profile">{profile.getFrontDescription()}</p>
       </ProfileDiv>
     </div>
   )

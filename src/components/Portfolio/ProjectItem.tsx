@@ -5,8 +5,8 @@ import { useTheme } from '@/context/ThemeProvider'
 import Image from 'next/image'
 import githubWhiteIcon from '../../resources/images/common/github-white.png'
 import githubIcon from '../../resources/images/common/github.png'
-import { ProjectData } from '@/data/projects'
 import { useMemo } from 'react'
+import { Project } from '@/models/project'
 
 const ProjectItemDiv = styled.div`
   min-width: 200px;
@@ -14,7 +14,7 @@ const ProjectItemDiv = styled.div`
 `
 
 export type ProjectItemProps = {
-  project: ProjectData
+  project: Project
   className?: string
 }
 
