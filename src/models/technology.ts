@@ -5,6 +5,8 @@ export interface TechnologyData {
   tagColor: string
 }
 
+export type TechnologiesData = TechnologyData[]
+
 export class Technology {
   #data: TechnologyData
 
