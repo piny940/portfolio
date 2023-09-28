@@ -20,7 +20,11 @@ export class Technology {
   getTagColor = () => this.#data.tagColor
 }
 
-export class Technologies {
+export interface ITechnologies {
+  getTechnologies: () => readonly Technology[]
+  findById: (id: string) => Technology
+}
+export class Technologies implements ITechnologies {
   #technologies: readonly Technology[] = []
 
   constructor(technologiesData: TechnologiesData) {
@@ -28,4 +32,9 @@ export class Technologies {
   }
 
   getTechnologies = () => this.#technologies
+  findById = (id: string) => {
+    const tech = this.#technologies.find((t) => t.getId() === id)
+    if (!tech) throw Error(`idが${id}のTechnologyは存在しません`)
+    return tech
+  }
 }
