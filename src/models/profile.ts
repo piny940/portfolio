@@ -8,4 +8,6 @@ export class Profile {
   constructor(data: ProfileData) {
     this.#data = data
   }
+
+  getFrontDescription = () => this.#data.frontDescription
 }

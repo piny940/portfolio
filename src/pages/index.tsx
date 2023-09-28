@@ -16,7 +16,7 @@ export const getStaticProps = async (): Promise<{ props: HomeProps }> => {
 }
 
 const Home: NextPage<HomeProps> = ({ data }) => {
-  return <Index />
+  return <Index data={data} />
 }
 
 export default Home
