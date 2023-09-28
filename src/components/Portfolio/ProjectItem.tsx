@@ -5,9 +5,9 @@ import { useTheme } from '@/context/ThemeProvider'
 import Image from 'next/image'
 import githubWhiteIcon from '../../resources/images/common/github-white.png'
 import githubIcon from '../../resources/images/common/github.png'
+import qiitaIcon from '../../resources/images/common/qiita.png'
 import { useMemo } from 'react'
 import { Project } from '@/models/project'
-import TechnologyTag from './TechnologyTag'
 import FavoriteIcon from './FavoriteIcon'
 
 const ProjectItemDiv = styled.div`
@@ -77,15 +77,24 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
             </Link>
           </li>
         )}
-      </ul>
-      <ul className="list-unstyled mt-1 d-flex justify-content-center flex-wrap">
-        {project.getTechnologies().map((tech) => (
-          <li key={tech.getId()}>
-            <TechnologyTag technology={tech} />
+        {qiita && (
+          <li>
+            <Link href={qiita} target="_blank" className="mx-1">
+              <Image src={qiitaIcon} width={31} height={31} alt="qiita-icon" />
+            </Link>
           </li>
-        ))}
+        )}
       </ul>
-      <p className="my-1">{project.getDescription()}</p>
+      <div className="d-flex flex-column align-items-center mt-1">
+        <h4 className="small text-muted fw-normal p-0 m-0">使用技術</h4>
+        <p className="small text-muted text-center">
+          {project
+            .getTechnologies()
+            .map((tech) => tech.getName())
+            .join(', ')}
+        </p>
+      </div>
+      <p className="">{project.getDescription()}</p>
     </ProjectItemDiv>
   )
 }
