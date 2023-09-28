@@ -37,3 +37,15 @@
   name: Django
   logoSrc: /images/skills/django.svg
   tagColor: '#198754'
+- id: unity
+  name: Unity
+  logoSrc: /images/skills/unity.svg
+  tagColor: '#198754'
+- id: docker
+  name: Docker
+  logoSrc: /images/skills/docker.svg
+  tagColor: '#6f42c1'
+- id: postgres
+  name: PostgreSQL
+  logoSrc: /images/skills/postgres.svg
+  tagColor: '#6f42c1'

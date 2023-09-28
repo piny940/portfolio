@@ -3,13 +3,13 @@
   description: Vtuberが歌った曲を検索できます
   link: 'https://song-list.piny940.com'
   technologies:
-    - ruby
     - rails
     - typescript
     - react
+    - postgres
 - title: スタンプ作成補助
   id: kokosuko-stamp
-  description: Youtubeのコメント欄でタイムスタンプを作成するのを補助する拡張機能
+  description: Youtubeのコメント欄でタイムスタンプを作成するのを補助する拡張機能です
   link: 'https://chrome.google.com/webstore/detail/kokosuki-stamp/pnbpecefaimbeadmmombelidgkkgfeeg?hl=ja'
   github: 'https://github.com/piny940/kokosuko-stamp'
   detailSrc: ''
@@ -21,7 +21,6 @@
   github: 'https://github.com/piny940/emoji-creater'
   detailSrc: ''
   technologies:
-    - ruby
     - rails
   link: null
 - title: チャットアプリ
@@ -30,9 +29,10 @@
   github: 'https://github.com/piny940/clubroom'
   detailSrc: ''
   technologies:
-    - ruby
     - rails
+    - typescript
     - react
+    - postgres
   link: null
 - title: ポートフォリオ
   id: portfolio
@@ -42,6 +42,7 @@
   detailSrc: ''
   technologies:
     - react
+    - docker
 - title: スタンプラリー
   id: mashiro-calender
   description: Vtuber凪乃ましろさん休暇中のスタンプラリー
@@ -64,5 +65,5 @@
   link: 'https://kmc-jp.booth.pm/items/3438923'
   detailSrc: ''
   technologies:
-    - python
+    - unity
   qiita: 'https://qiita.com/piny940/items/d5519acb423ad22c51a8'
