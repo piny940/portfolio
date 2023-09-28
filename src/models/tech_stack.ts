@@ -15,3 +15,13 @@ export class TechStack {
   getTechnologyId = () => this.#data.technologyId
   getProficiency = () => this.#data.proficiency
 }
+
+export class TechStacks {
+  #techStacks: readonly TechStack[] = []
+
+  constructor(techStacksData: TechStacksData) {
+    this.#techStacks = techStacksData.map((data) => new TechStack(data))
+  }
+
+  getTechStacks = () => this.#techStacks
+}
