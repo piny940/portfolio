@@ -8,10 +8,16 @@ import githubIcon from '../../resources/images/common/github.png'
 import { useMemo } from 'react'
 import { Project } from '@/models/project'
 import TechnologyTag from './TechnologyTag'
+import FavoriteIcon from './FavoriteIcon'
 
 const ProjectItemDiv = styled.div`
   min-width: 200px;
   max-width: 100%;
+`
+const FavoriteIconDiv = styled.div`
+  position: absolute;
+  right: -10px;
+  top: -10px;
 `
 
 export type ProjectItemProps = {
@@ -35,9 +41,15 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
   return (
     <ProjectItemDiv
       className={
-        'p-3 rounded border d-flex flex-column align-items-center ' + className
+        'p-3 rounded border d-flex flex-column align-items-center position-relative ' +
+        className
       }
     >
+      {project.getIsFavorite() && (
+        <FavoriteIconDiv>
+          <FavoriteIcon size={42} />
+        </FavoriteIconDiv>
+      )}
       {qiita ? (
         <Link href={qiita} target="_blank">
           {renderTitle()}
