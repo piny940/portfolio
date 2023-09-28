@@ -1,39 +1,19 @@
-import { YamlLoader } from '@/loader/_common'
-import { ProfileLoader } from '@/loader/profile'
-import { ProjectsLoader } from '@/loader/projects'
-import { TechStacksLoader } from '@/loader/tech_stacks'
-import { TechnologiesLoader } from '@/loader/technologies'
-import { ProfileData } from '@/models/profile'
-import { ProjectsData } from '@/models/project'
-import { TechStacksData } from '@/models/tech_stack'
-import { TechnologiesData } from '@/models/technology'
+import { Profile } from '@/models/profile'
+import { Projects } from '@/models/project'
+import { TechStacks } from '@/models/tech_stack'
+import { Technologies } from '@/models/technology'
+import { PortfolioData } from './data_controller'
 
-export interface PortfolioData {
-  profileData: ProfileData
-  projectsData: ProjectsData
-  technologiesData: TechnologiesData
-  techStacksData: TechStacksData
-}
+export class PortfolioController {
+  #profile: Profile
+  #projects: Projects
+  #technologies: Technologies
+  #techStacks: TechStacks
 
-class PortfolioController {
-  #data
-
-  getPortfolioData = () => {
-    return this.#load()
-  }
-
-  #load = (): PortfolioData => {
-    const yamlLoader = new YamlLoader()
-    const projectsData = new ProjectsLoader(yamlLoader).load()
-    const profileData = new ProfileLoader(yamlLoader).load()
-    const technologiesData = new TechnologiesLoader(yamlLoader).load()
-    const techStacksData = new TechStacksLoader(yamlLoader).load()
-
-    return {
-      projectsData,
-      profileData,
-      technologiesData,
-      techStacksData,
-    }
+  constructor(data: PortfolioData) {
+    this.#profile = new Profile(data.profileData)
+    this.#projects = new Projects(data.projectsData)
+    this.#technologies = new Technologies(data.technologiesData)
+    this.#techStacks = new TechStacks(data.techStacksData)
   }
 }
