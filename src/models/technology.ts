@@ -11,4 +11,9 @@ export class Technology {
   constructor(data: TechnologyData) {
     this.#data = data
   }
+
+  getId = () => this.#data.id
+  getName = () => this.#data.name
+  getLogoSrc = () => this.#data.logoSrc
+  getTagColor = () => this.#data.tagColor
 }
