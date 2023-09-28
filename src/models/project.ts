@@ -8,6 +8,7 @@ export interface ProjectData {
   github?: string
   qiita?: string
   technologies: string[]
+  isFavorite: boolean
 }
 export type ProjectsData = ProjectData[]
 
@@ -38,6 +39,8 @@ export class Project {
       ? `${GITHUB_URL}/${this.#data.id}`
       : this.#data.github
   }
+
+  getIsFavorite = () => this.#data.isFavorite
 }
 
 export class Projects {
