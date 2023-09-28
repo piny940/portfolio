@@ -22,7 +22,6 @@
   detailSrc: ''
   technologies:
     - rails
-  link: null
 - title: チャットアプリ
   id: clubroom
   description: discordのようにグループごとにメンバーやトークルームを作ることができます。
@@ -33,7 +32,6 @@
     - typescript
     - react
     - postgres
-  link: null
 - title: ポートフォリオ
   id: portfolio
   description: Piny940のポートフォリオです
@@ -50,7 +48,6 @@
   detailSrc: ''
   technologies:
     - python
-  link: null
 - title: オセロアプリ
   id: python-reverse
   description: 大学の授業でオセロアプリをチーム開発しました。
@@ -58,7 +55,6 @@
   detailSrc: ''
   technologies:
     - python
-  link: null
 - title: メカ少女シューティング
   id: mekashojo
   description: 大学のサークルでシューティングゲームをチームで開発しました。
