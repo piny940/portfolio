@@ -7,6 +7,7 @@ import githubWhiteIcon from '../../resources/images/common/github-white.png'
 import githubIcon from '../../resources/images/common/github.png'
 import { useMemo } from 'react'
 import { Project } from '@/models/project'
+import TechnologyTag from './TechnologyTag'
 
 const ProjectItemDiv = styled.div`
   min-width: 200px;
@@ -65,9 +66,11 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
           </li>
         )}
       </ul>
-      <ul>
+      <ul className="list-unstyled mt-1 d-flex flex-wrap">
         {project.getTechnologies().map((tech) => (
-          <li key={tech.getId()}>{tech.getName()}</li>
+          <li key={tech.getId()}>
+            <TechnologyTag technology={tech} />
+          </li>
         ))}
       </ul>
       <p className="my-1">{project.getDescription()}</p>
