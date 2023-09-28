@@ -12,22 +12,22 @@ export type ProjectsData = ProjectData[]
 const GITHUB_URL = 'https://github.com'
 
 export class Project {
-  #projectData: ProjectData
+  #data: ProjectData
 
-  constructor(projectData: ProjectData) {
-    this.#projectData = projectData
+  constructor(data: ProjectData) {
+    this.#data = data
   }
 
-  getTitle = () => this.#projectData.title
-  getId = () => this.#projectData.id
-  getDescription = () => this.#projectData.description
-  getLink = () => this.#projectData.link
-  getQiita = () => this.#projectData.qiita
-  getSkills = () => this.#projectData.skills
+  getTitle = () => this.#data.title
+  getId = () => this.#data.id
+  getDescription = () => this.#data.description
+  getLink = () => this.#data.link
+  getQiita = () => this.#data.qiita
+  getSkills = () => this.#data.skills
   getGithub = () => {
-    return this.#projectData.github === undefined
-      ? `${GITHUB_URL}/${this.#projectData.id}`
-      : this.#projectData.github
+    return this.#data.github === undefined
+      ? `${GITHUB_URL}/${this.#data.id}`
+      : this.#data.github
   }
 }
 

@@ -8,7 +8,7 @@ export interface TechnologyData {
 export class Technology {
   #data: TechnologyData
 
-  constructor(technologyData: TechnologyData) {
-    this.#data = technologyData
+  constructor(data: TechnologyData) {
+    this.#data = data
   }
 }

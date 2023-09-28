@@ -3,9 +3,9 @@ export interface ProfileData {
 }
 
 export class Profile {
-  #profileData: ProfileData
+  #data: ProfileData
 
-  constructor(profileData: ProfileData) {
-    this.#profileData = profileData
+  constructor(data: ProfileData) {
+    this.#data = data
   }
 }
