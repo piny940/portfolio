@@ -12,8 +12,8 @@ export class PortfolioController {
 
   constructor(data: PortfolioData) {
     this.#profile = new Profile(data.profileData)
-    this.#projects = new Projects(data.projectsData)
     this.#technologies = new Technologies(data.technologiesData)
+    this.#projects = new Projects(data.projectsData, this.#technologies)
     this.#techStacks = new TechStacks(data.techStacksData, this.#technologies)
   }
 

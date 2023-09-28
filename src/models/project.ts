@@ -1,3 +1,5 @@
+import { ITechnologies } from './technology'
+
 export interface ProjectData {
   title: string
   id: string
@@ -5,7 +7,7 @@ export interface ProjectData {
   link?: string
   github?: string
   qiita?: string
-  skills: string[]
+  technologies: string[]
 }
 export type ProjectsData = ProjectData[]
 
@@ -13,9 +15,11 @@ const GITHUB_URL = 'https://github.com'
 
 export class Project {
   #data: ProjectData
+  #technologies: ITechnologies
 
-  constructor(data: ProjectData) {
+  constructor(data: ProjectData, technologies: ITechnologies) {
     this.#data = data
+    this.#technologies = technologies
   }
 
   getTitle = () => this.#data.title
@@ -23,7 +27,12 @@ export class Project {
   getDescription = () => this.#data.description
   getLink = () => this.#data.link
   getQiita = () => this.#data.qiita
-  getSkills = () => this.#data.skills
+  getTechnologies = () => {
+    return this.#data.technologies.map((techId) =>
+      this.#technologies.findById(techId)
+    )
+  }
+
   getGithub = () => {
     return this.#data.github === undefined
       ? `${GITHUB_URL}/${this.#data.id}`
@@ -34,8 +43,8 @@ export class Project {
 export class Projects {
   #projects: readonly Project[] = []
 
-  constructor(projectsData: ProjectsData) {
-    this.#projects = projectsData.map((data) => new Project(data))
+  constructor(projectsData: ProjectsData, technologies: ITechnologies) {
+    this.#projects = projectsData.map((data) => new Project(data, technologies))
   }
 
   getProjects = () => this.#projects
