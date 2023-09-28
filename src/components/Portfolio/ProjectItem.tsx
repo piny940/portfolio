@@ -5,6 +5,7 @@ import { useTheme } from '@/context/ThemeProvider'
 import Image from 'next/image'
 import githubWhiteIcon from '../../resources/images/common/github-white.png'
 import githubIcon from '../../resources/images/common/github.png'
+import qiitaIcon from '../../resources/images/common/qiita.png'
 import { useMemo } from 'react'
 import { Project } from '@/models/project'
 import TechnologyTag from './TechnologyTag'
@@ -74,6 +75,13 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
           <li>
             <Link href={projectLink} target="_blank" className="mx-1 text-body">
               <MaterialIcon name="share" />
+            </Link>
+          </li>
+        )}
+        {qiita && (
+          <li>
+            <Link href={qiita} target="_blank" className="mx-1">
+              <Image src={qiitaIcon} width={31} height={31} alt="qiita-icon" />
             </Link>
           </li>
         )}
