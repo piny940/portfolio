@@ -15,7 +15,7 @@ const FavoriteIcon = ({
     padding: '2px',
   }
   return (
-    <div className="bg-white rounded-circle border" style={style}>
+    <div className="bg-body rounded-circle shadow-sm" style={style}>
       <MaterialIcon color={color} name="star" size={size - 5} />
     </div>
   )

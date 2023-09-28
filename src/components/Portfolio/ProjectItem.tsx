@@ -16,7 +16,7 @@ const ProjectItemDiv = styled.div`
 `
 const FavoriteIconDiv = styled.div`
   position: absolute;
-  right: -10px;
+  left: -10px;
   top: -10px;
 `
 
