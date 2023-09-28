@@ -1,6 +1,7 @@
+import { TechStacksData } from '@/models/tech_stack'
 import { IYamlLoader } from './_common'
 
-class TechStacksLoader {
+export class TechStacksLoader {
   #TECH_STACKS_DATA_PATH = 'src/data/tech_stacks.yml'
   #loader
 
@@ -8,5 +9,7 @@ class TechStacksLoader {
     this.#loader = loader
   }
 
-  load() {}
+  load() {
+    return this.#loader.load<TechStacksData>(this.#TECH_STACKS_DATA_PATH)
+  }
 }

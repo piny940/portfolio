@@ -3,8 +3,10 @@ export interface TechStackData {
   proficiency: number
 }
 
+export type TechStacksData = TechStackData[]
+
 export class TechStack {
-  #data
+  #data: TechStackData
 
   constructor(data: TechStackData) {
     this.#data = data
