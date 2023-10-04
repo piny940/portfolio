@@ -1,4 +1,4 @@
-import { YamlLoader } from '@/loader/_common'
+import { YamlLoader } from '@/loader/common'
 import { ProfileLoader } from '@/loader/profile'
 import { ProjectsLoader } from '@/loader/projects'
 import { TechStacksLoader } from '@/loader/tech_stacks'
