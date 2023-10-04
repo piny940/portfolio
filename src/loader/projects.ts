@@ -24,8 +24,6 @@ export class ProjectsLoader {
       ...project,
       detail: this.fileLoader.load(project.detailSrc),
     }))
-    console.log(projectsBeforeLoad[0].detailSrc)
-    console.log(this.fileLoader.load(projectsBeforeLoad[0].detailSrc))
     return projectsData
   }
 }
