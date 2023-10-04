@@ -1,31 +1,49 @@
 import { useEffect, useState } from 'react'
-import { ReactMarkdown } from 'react-markdown/lib/react-markdown'
+import { unified } from 'unified'
+// markdown をパースする
+import remarkParse from 'remark-parse'
+// Support GFM (tables, autolinks, tasklists, strikethrough)
+import remarkGfm from 'remark-gfm'
+// HTML に変換する
+import remarkRehype from 'remark-rehype'
+// サニタイズ
+import rehypeSanitize from 'rehype-sanitize'
+// HTML にシリアライズ
+import rehypeStringify from 'rehype-stringify'
 
 export type MarkdownDisplayProps = {
-  src: string
+  content: string
 }
 
-export const MarkdownDisplay: React.FC<MarkdownDisplayProps> = ({ src }) => {
-  const [content, setContent] = useState('')
+export const MarkdownDisplay = ({ content }: MarkdownDisplayProps) => {
+  const [html, setHtml] = useState('')
 
-  const loadContent = async () => {
-    const response = await fetch(src)
-    const text = await response.text()
-    setContent(text)
+  const parseMarkdown = async (content: string): Promise<string> => {
+    const file = await unified()
+      .use(remarkParse)
+      .use(remarkGfm)
+      .use(remarkRehype)
+      .use(rehypeSanitize)
+      .use(rehypeStringify)
+      .process(content)
+    return String(file)
   }
 
   useEffect(() => {
-    void loadContent()
-
-    // 開発環境では記事の更新をホットリロード
-    if (process.env.NODE_ENV === 'development') {
-      setInterval(loadContent, 1000)
+    const getContent = async () => {
+      const htmlString = await parseMarkdown(content)
+      setHtml(htmlString)
     }
-  })
+    void getContent()
+  }, [])
 
   return (
-    <div className="markdown">
-      <ReactMarkdown>{content}</ReactMarkdown>
-    </div>
+    <>
+      {html ? (
+        <div dangerouslySetInnerHTML={{ __html: html }} />
+      ) : (
+        <p>Loading...</p>
+      )}
+    </>
   )
 }
