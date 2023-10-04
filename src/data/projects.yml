@@ -8,6 +8,7 @@
     - react
     - postgres
   isFavorite: true
+  detailSrc: ''
 - title: スタンプ作成補助
   id: kokosuko-stamp
   description: Youtubeのコメント欄でタイムスタンプを作成するのを補助する拡張機能です
@@ -65,8 +66,8 @@
   id: mekashojo
   description: 大学のサークルでシューティングゲームをチームで開発しました。
   link: 'https://kmc-jp.booth.pm/items/3438923'
-  detailSrc: ''
   technologies:
     - unity
   qiita: 'https://qiita.com/piny940/items/d5519acb423ad22c51a8'
   isFavorite: true
+  detailSrc: 'src/data/documents/mekashojo.md'

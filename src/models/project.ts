@@ -9,6 +9,8 @@ export interface ProjectData {
   qiita?: string
   technologies: string[]
   isFavorite: boolean
+  detailSrc: string
+  detail: string
 }
 export type ProjectsData = ProjectData[]
 
@@ -41,6 +43,7 @@ export class Project {
   }
 
   getIsFavorite = () => this.#data.isFavorite
+  getDetail = () => this.#data.detail
 }
 
 export class Projects {

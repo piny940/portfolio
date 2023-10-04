@@ -1,4 +1,4 @@
-import { YamlLoader } from '@/loader/_common'
+import { FileLoader, YamlLoader } from '@/loader/common'
 import { ProfileLoader } from '@/loader/profile'
 import { ProjectsLoader } from '@/loader/projects'
 import { TechStacksLoader } from '@/loader/tech_stacks'
@@ -27,8 +27,9 @@ export class DataController {
   }
 
   #load = (): PortfolioData => {
+    const fileLoader = new FileLoader()
     const yamlLoader = new YamlLoader()
-    const projectsData = new ProjectsLoader(yamlLoader).load()
+    const projectsData = new ProjectsLoader(fileLoader, yamlLoader).load()
     const profileData = new ProfileLoader(yamlLoader).load()
     const technologiesData = new TechnologiesLoader(yamlLoader).load()
     const techStacksData = new TechStacksLoader(yamlLoader).load()
