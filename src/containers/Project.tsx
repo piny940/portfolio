@@ -20,8 +20,8 @@ export const ProjectShow: React.FC<ProjectShowProps> = ({ title, data }) => {
 
   return (
     <div className="wrapper mx-auto mt-3">
-      <h1 className="title-underline">{project.getTitle()}</h1>
-      <div className="col-lg-6">
+      <h1 className="title-underline ps-2">{project.getTitle()}</h1>
+      <div className="markdown pb-5">
         <ReactMarkdown>{project.getDetail()}</ReactMarkdown>
       </div>
     </div>
