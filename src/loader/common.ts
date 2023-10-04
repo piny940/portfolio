@@ -7,7 +7,13 @@ export class FileLoader implements IFileLoader {
 }
 
 export class YamlLoader implements IYamlLoader {
+  #fileLoader: FileLoader
+
+  constructor() {
+    this.#fileLoader = new FileLoader()
+  }
+
   load = <T>(filename: string) => {
-    return load(readFileSync(filename, 'utf8')) as T
+    return load(this.#fileLoader.load(filename)) as T
   }
 }
