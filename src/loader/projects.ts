@@ -19,10 +19,13 @@ export class ProjectsLoader {
     return projectsData
   }
 
-  #loadDetails = (projectsData: ProjectsBeforeLoad): ProjectsData => {
-    return projectsData.map((project) => ({
+  #loadDetails = (projectsBeforeLoad: ProjectsBeforeLoad): ProjectsData => {
+    const projectsData = projectsBeforeLoad.map((project) => ({
       ...project,
       detail: this.fileLoader.load(project.detailSrc),
     }))
+    console.log(projectsBeforeLoad[0].detailSrc)
+    console.log(this.fileLoader.load(projectsBeforeLoad[0].detailSrc))
+    return projectsData
   }
 }
