@@ -34,10 +34,6 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
   const projectLink = useMemo(() => project.getLink(), [project])
   const qiita = useMemo(() => project.getQiita(), [project])
 
-  const renderTitle = () => (
-    <h3 className="h5 my-1 title-underline pb-1">{project.getTitle()}</h3>
-  )
-
   return (
     <ProjectItemDiv
       className={
@@ -50,13 +46,9 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
           <FavoriteIcon size={42} />
         </FavoriteIconDiv>
       )}
-      {qiita ? (
-        <Link href={qiita} target="_blank">
-          {renderTitle()}
-        </Link>
-      ) : (
-        renderTitle()
-      )}
+      <Link href={`/projects/${project.getTitle()}`}>
+        <h3 className="h5 my-1 title-underline pb-1">{project.getTitle()}</h3>
+      </Link>
       <ul className="list-unstyled mt-2 mb-1 d-flex align-items-center">
         {githubLink && (
           <li>
