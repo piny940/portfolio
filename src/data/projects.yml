@@ -70,4 +70,4 @@
     - unity
   qiita: 'https://qiita.com/piny940/items/d5519acb423ad22c51a8'
   isFavorite: true
-  detailSrc: 'documents/projects/mekashojo.md'
+  detailSrc: 'src/data/documents/projects/mekashojo.md'
