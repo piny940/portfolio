@@ -43,6 +43,7 @@ export class Project {
   }
 
   getIsFavorite = () => this.#data.isFavorite
+  getDetail = () => this.#data.detail
 }
 
 export class Projects {
