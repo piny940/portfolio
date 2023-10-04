@@ -3,7 +3,13 @@ import { IFileLoader, IYamlLoader } from './_common'
 import { load } from 'js-yaml'
 
 export class FileLoader implements IFileLoader {
-  load = (filename: string) => readFileSync(filename, 'utf8')
+  load = (filename: string) => {
+    try {
+      return readFileSync(filename, 'utf8')
+    } catch {
+      return ''
+    }
+  }
 }
 
 export class YamlLoader implements IYamlLoader {
@@ -13,7 +19,8 @@ export class YamlLoader implements IYamlLoader {
     this.#fileLoader = new FileLoader()
   }
 
-  load = <T>(filename: string) => {
-    return load(this.#fileLoader.load(filename)) as T
+  load = <T = any>(filename: string): T => {
+    const content = this.#fileLoader.load(filename)
+    return load(content) as T
   }
 }
