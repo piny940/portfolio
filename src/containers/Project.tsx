@@ -1,8 +1,8 @@
+import { MarkdownDisplay } from '@/components/Common/MarkdownDisplay'
 import { PortfolioData } from '@/controllers/data_controller'
 import { PortfolioController } from '@/controllers/portfolio_controller'
 import Error from 'next/error'
 import { useMemo } from 'react'
-import ReactMarkdown from 'react-markdown'
 
 export type ProjectShowProps = {
   title: string
@@ -22,7 +22,7 @@ export const ProjectShow: React.FC<ProjectShowProps> = ({ title, data }) => {
     <div className="wrapper mx-auto mt-3">
       <h1 className="title-underline ps-2">{project.getTitle()}</h1>
       <div className="markdown pb-5">
-        <ReactMarkdown>{project.getDetail()}</ReactMarkdown>
+        <MarkdownDisplay content={project.getDetail()} />
       </div>
     </div>
   )
