@@ -22,7 +22,7 @@
 **1. アイテムを使用して武器を強化**
 敵を倒すと一定確率で武器の強化アイテムが手に入ります。  
 武器を強化することで、今まではクリアが難しかったステージがクリアできるようになります。  
-<img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/3330232/82484c96-1195-c1d2-0259-caf736f41772.png" width="100" /> <img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/3330232/3a4abf75-b2a9-cebe-d152-c31a7d33b9ec.png" width="100" /> <img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/3330232/d7fe19b6-f945-ce96-aa4e-9298e87eebe1.png" width="100" /> <img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/3330232/59c2fcf4-383e-7c18-eb57-a24097afcaaa.png" width="100" />
+<img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/3330232/82484c96-1195-c1d2-0259-caf736f41772.png" width="100" class="custom" /> <img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/3330232/3a4abf75-b2a9-cebe-d152-c31a7d33b9ec.png" width="100" class="custom" /> <img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/3330232/d7fe19b6-f945-ce96-aa4e-9298e87eebe1.png" width="100" class="custom" /> <img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/3330232/59c2fcf4-383e-7c18-eb57-a24097afcaaa.png" width="100" class="custom" />
 
 **2. 豊富な敵キャラクター**
 実装されている敵の種類はモブキャラだけで10体以上！それぞれ固有の攻撃方法を持っています。  
@@ -36,17 +36,17 @@
 - スタート画面
 NewGameを押すと新規データで、Continueを押すと前回遊んだ続きからプレイできます。  
 How To Playを押すと遊び方や操作方法が確認できます。  
-<img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/3330232/904d724f-d225-69f3-a1d2-b9d96af31bf2.png" width="300" />
+<img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/3330232/904d724f-d225-69f3-a1d2-b9d96af31bf2.png" width="300" class="custom" />
 
 - メニュー画面
-<img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/3330232/15d36e43-2446-1137-7d06-729202f04d7a.png" width="300" />
+<img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/3330232/15d36e43-2446-1137-7d06-729202f04d7a.png" width="300" class="custom" />
 
 - 装備選択画面
 バトルで使用する武器を選択・強化できます。  
-<img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/3330232/9ce0f337-7ed1-ed1d-4de2-e413b41fe371.png" width="400" />
+<img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/3330232/9ce0f337-7ed1-ed1d-4de2-e413b41fe371.png" width="400" class="custom" />
 
 - ステージ選択画面
-<img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/3330232/cbc8e54a-3496-5f98-91a6-ef214772ca75.png" width=300 />
+<img src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/3330232/cbc8e54a-3496-5f98-91a6-ef214772ca75.png" width=300 class="custom" />
 
 - ゲーム画面
 ![Screenshot 2023_09_26 17_13_28.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/3330232/1f9b4619-bf18-abfe-9c9d-b7d86f03b862.png)
