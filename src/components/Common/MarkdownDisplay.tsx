@@ -1,15 +1,11 @@
 import { useEffect, useState } from 'react'
 import { unified } from 'unified'
-// markdown をパースする
 import remarkParse from 'remark-parse'
-// Support GFM (tables, autolinks, tasklists, strikethrough)
 import remarkGfm from 'remark-gfm'
-// HTML に変換する
 import remarkRehype from 'remark-rehype'
-// サニタイズ
 import rehypeSanitize from 'rehype-sanitize'
-// HTML にシリアライズ
 import rehypeStringify from 'rehype-stringify'
+import rehypeSlug from 'rehype-slug'
 
 export type MarkdownDisplayProps = {
   content: string
@@ -25,6 +21,7 @@ export const MarkdownDisplay = ({ content }: MarkdownDisplayProps) => {
       .use(remarkRehype)
       .use(rehypeSanitize)
       .use(rehypeStringify)
+      .use(rehypeSlug)
       .process(content)
     return String(file)
   }
