@@ -9,22 +9,16 @@ html {
 
 ::-webkit-full-page-media,
 :future,
-:root body {
-  --vh100: 100svh;
-}
 body {
-  --vh100: 100vh;
-  min-height: 100vh;
-  min-height: var(--vh100);
+  min-height: 100dvh;
   max-width: 100%;
   font-family: 'Aria', 'Noto Sans JP', sans-serif;
 }
 .fw-bold {
   font-family: var(--bs-body-font-family);
 }
-.wrapper {
-  height: var(--vh100);
-  width: 90%;
+#root {
+  min-height: 100dvh;
 }
 
 a {
@@ -116,10 +110,14 @@ $main: rgb(25, 97, 206);
     width: 700px;
     display: block;
   }
+  img {
+    max-width: 100%;
+  }
   table {
     @extend .table;
     @extend .table-striped;
     @extend .table-bordered;
     width: auto;
+    overflow-x: scroll;
   }
 }
