@@ -3,7 +3,6 @@ import { unified } from 'unified'
 import remarkParse from 'remark-parse'
 import remarkGfm from 'remark-gfm'
 import remarkRehype from 'remark-rehype'
-import rehypeSanitize from 'rehype-sanitize'
 import rehypeStringify from 'rehype-stringify'
 import rehypeSlug from 'rehype-slug'
 
@@ -16,11 +15,10 @@ export const MarkdownDisplay = ({ content }: MarkdownDisplayProps) => {
 
   const parseMarkdown = async (content: string): Promise<string> => {
     const file = await unified()
-      .use(remarkParse)
+      .use(remarkParse, { allowDangerousHtml: true })
       .use(remarkGfm)
-      .use(remarkRehype)
-      .use(rehypeSanitize)
-      .use(rehypeStringify)
+      .use(remarkRehype, { allowDangerousHtml: true })
+      .use(rehypeStringify, { allowDangerousHtml: true })
       .use(rehypeSlug)
       .process(content)
     return String(file)
