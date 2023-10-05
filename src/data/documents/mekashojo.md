@@ -19,16 +19,16 @@
 ![ゲーム画面](https://i.gyazo.com/62ee8870988c8add88617e252f12e02d.png)
 
 ### 2-2 ゲームの3つの特徴
-**1. アイテムを使用して武器を強化**
+**1. アイテムを使用して武器を強化**  
 敵を倒すと一定確率で武器の強化アイテムが手に入ります。  
 武器を強化することで、今まではクリアが難しかったステージがクリアできるようになります。  
 <img src="https://i.gyazo.com/034b9b9f030fd8c316db1d357dd61c87.png" alt="ボム強化アイテム" width="100" class="custom" /> <img src="https://i.gyazo.com/bf3a1c252c17968cc972f6b7e3c6e6e1.png" alt="レーザー強化アイテム" width="100" class="custom" /> <img src="https://i.gyazo.com/962ad6b45f4b8c3b5aeda854f9d63fc9.png" alt="キャノン強化アイテム" width="100" class="custom" /> <img src="https://i.gyazo.com/a138761b959875c761669f05f7923e8d.png" width="100" class="custom" alt="ミサイル強化アイテム" />
 
-**2. 豊富な敵キャラクター**
+**2. 豊富な敵キャラクター**  
 実装されている敵の種類はモブキャラだけで10体以上！それぞれ固有の攻撃方法を持っています。  
 ![敵が大量にいる画面](https://i.gyazo.com/9813cb0c82b7190a9dfa2d09c0ae800e.png)
 
-**3. 豊富な種類の武器**
+**3. 豊富な種類の武器**  
 メイン武器、サブ武器、必殺技(ボム)の3種類の攻撃方法に加えて、防御(シールド)を使用することができます。  
 メイン武器とサブ武器は複数の武器の中からそれぞれ1つ選ぶことができます。![パーツ選択画面](https://i.gyazo.com/e0ad198b17761fe07ad3f9201572a692.png)
 
@@ -36,21 +36,20 @@
 - スタート画面
 NewGameを押すと新規データで、Continueを押すと前回遊んだ続きからプレイできます。  
 How To Playを押すと遊び方や操作方法が確認できます。  
-<img src="https://i.gyazo.com/2ab8c60197a182b3acc1175f44377606.png" alt="スタート画面" width="300" class="custom" />
+<img src="https://i.gyazo.com/2ab8c60197a182b3acc1175f44377606.png" alt="スタート画面" width="400" class="custom" />
 
 - メニュー画面
-<img src="https://i.gyazo.com/fe4ef5aead20f877909302a5a527f5ee.png" alt="メニュー画面" width="300" class="custom" />
+<img src="https://i.gyazo.com/fe4ef5aead20f877909302a5a527f5ee.png" alt="メニュー画面" width="400" class="custom" />
 
 - 装備選択画面
 バトルで使用する武器を選択・強化できます。  
 <img src="https://i.gyazo.com/e0ad198b17761fe07ad3f9201572a692.png" alt="装備選択画面" width="400" class="custom" />
 
 - ステージ選択画面
-<img src="https://i.gyazo.com/9970d0b5e741efa8433e26f4e4e78882.png" alt="ステージ選択画面" width=300 class="custom" />
+<img src="https://i.gyazo.com/9970d0b5e741efa8433e26f4e4e78882.png" alt="ステージ選択画面" width=400 class="custom" />
 
 - ゲーム画面
-![ゲーム画面](https://i.gyazo.com/62ee8870988c8add88617e252f12e02d.png)
-
+<img src="https://i.gyazo.com/62ee8870988c8add88617e252f12e02d.png" alt="ゲーム画面" width="400" class="custom" />
 
 ### 2-4 ゲームの基本操作
 | 名称 | 操作 |
