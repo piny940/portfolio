@@ -8,7 +8,7 @@
     - react
     - postgres
   isFavorite: true
-  detailSrc: ''
+  detailSrc: 'src/data/documents/song-list.md'
 - title: スタンプ作成補助
   id: kokosuko-stamp
   description: Youtubeのコメント欄でタイムスタンプを作成するのを補助する拡張機能です

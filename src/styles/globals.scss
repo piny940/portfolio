@@ -65,6 +65,8 @@ $main: rgb(25, 97, 206);
 }
 
 .title-underline {
+  margin-left: 20px;
+  margin-right: 20px;
   border-width: 0;
   border-bottom-width: 3px;
   border-style: solid;
@@ -81,8 +83,9 @@ $main: rgb(25, 97, 206);
 }
 
 .markdown {
-  max-width: 800px;
+  max-width: 1000px;
   padding-left: 30px;
+  padding-right: 30px;
   p {
     padding-left: 10px;
   }
@@ -101,7 +104,11 @@ $main: rgb(25, 97, 206);
     margin-top: 30px;
     margin-bottom: 10px;
   }
-  h4,
+  h4 {
+    font-size: 20px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
   h5,
   h6 {
     font-size: 16px;
@@ -111,6 +118,7 @@ $main: rgb(25, 97, 206);
     display: block;
   }
   img {
+    margin: 30px 0;
     max-width: 100%;
   }
   table {
