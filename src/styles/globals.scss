@@ -65,6 +65,8 @@ $main: rgb(25, 97, 206);
 }
 
 .title-underline {
+  margin-left: 20px;
+  margin-right: 20px;
   border-width: 0;
   border-bottom-width: 3px;
   border-style: solid;
@@ -81,7 +83,7 @@ $main: rgb(25, 97, 206);
 }
 
 .markdown {
-  max-width: 800px;
+  max-width: 1000px;
   padding-left: 30px;
   padding-right: 30px;
   p {
