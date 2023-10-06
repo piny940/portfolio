@@ -1,7 +1,7 @@
-import Head from 'next/head'
 import { ReactNode } from 'react'
 import { Navbar } from './Navbar'
 import { useTheme } from '@/context/ThemeProvider'
+import Head from './Head'
 
 interface LayoutProps {
   children: ReactNode
@@ -12,9 +12,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <div data-bs-theme={theme} className="bg-body text-body" id="root">
-      <Head>
-        <title>Piny940 ポートフォリオ</title>
-      </Head>
+      <Head />
       <header>
         <Navbar />
       </header>
