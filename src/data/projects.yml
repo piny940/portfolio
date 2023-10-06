@@ -9,6 +9,7 @@
     - postgres
   isFavorite: true
   detailSrc: 'src/data/documents/song-list.md'
+  qiita: 'https://qiita.com/piny940/items/439441130b8d11480d2e'
 - title: スタンプ作成補助
   id: kokosuko-stamp
   description: Youtubeのコメント欄でタイムスタンプを作成するのを補助する拡張機能です
