@@ -37,7 +37,7 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
   return (
     <ProjectItemDiv
       className={
-        'p-3 rounded border d-flex flex-column align-items-center position-relative ' +
+        'p-3 rounded border d-flex flex-column align-items-center position-relative w-100 h-100 ' +
         className
       }
     >
