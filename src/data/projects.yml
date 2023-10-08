@@ -10,6 +10,7 @@
   isFavorite: true
   detailSrc: 'src/data/documents/song-list.md'
   qiita: 'https://qiita.com/piny940/items/439441130b8d11480d2e'
+  github: 'https://github.com/piny940/song-list'
 - title: スタンプ作成補助
   id: kokosuko-stamp
   description: Youtubeのコメント欄でタイムスタンプを作成するのを補助する拡張機能です
