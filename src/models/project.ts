@@ -14,8 +14,6 @@ export interface ProjectData {
 }
 export type ProjectsData = ProjectData[]
 
-const GITHUB_URL = 'https://github.com'
-
 export class Project {
   #data: ProjectData
   #technologies: ITechnologies
@@ -36,11 +34,7 @@ export class Project {
     )
   }
 
-  getGithub = () => {
-    return this.#data.github === undefined
-      ? `${GITHUB_URL}/${this.#data.id}`
-      : this.#data.github
-  }
+  getGithub = () => this.#data.github
 
   getIsFavorite = () => this.#data.isFavorite
   getDetail = () => this.#data.detail
