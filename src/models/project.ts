@@ -48,4 +48,14 @@ export class Projects {
   }
 
   getProjects = () => this.#projects
+
+  sortedByFavorite = () => {
+    const notFavoriteProjects = this.#projects.filter(
+      (project) => !project.getIsFavorite()
+    )
+    const favoriteProjects = this.#projects.filter((project) =>
+      project.getIsFavorite()
+    )
+    return [...favoriteProjects, ...notFavoriteProjects]
+  }
 }
