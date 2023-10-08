@@ -30,7 +30,7 @@
   id: clubroom
   description: discordのようにグループごとにメンバーやトークルームを作ることができます。
   github: 'https://github.com/piny940/clubroom'
-  detailSrc: ''
+  detailSrc: 'src/data/documents/clubroom.md'
   technologies:
     - rails
     - typescript
