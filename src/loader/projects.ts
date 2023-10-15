@@ -1,11 +1,10 @@
 import { ProjectData, ProjectsData } from '@/models/project'
 import { IFileLoader, IYamlLoader } from './_common'
-import { ROOT_PATH } from '@/resources/constants'
 
 type ProjectsBeforeLoad = Array<Omit<ProjectData, 'detail'>>
 
 export class ProjectsLoader {
-  #PROJECTS_DATA_PATH = ROOT_PATH + 'src/data/projects.yml'
+  #PROJECTS_DATA_PATH = 'src/data/projects.yml'
 
   constructor(
     private readonly fileLoader: IFileLoader,
@@ -23,7 +22,7 @@ export class ProjectsLoader {
   #loadDetails = (projectsBeforeLoad: ProjectsBeforeLoad): ProjectsData => {
     const projectsData = projectsBeforeLoad.map((project) => ({
       ...project,
-      detail: this.fileLoader.load(ROOT_PATH + project.detailSrc),
+      detail: this.fileLoader.load(project.detailSrc),
     }))
     return projectsData
   }
