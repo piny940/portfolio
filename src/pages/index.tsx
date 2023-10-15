@@ -9,6 +9,7 @@ type HomeProps = {
 export const getStaticProps = async (): Promise<{ props: HomeProps }> => {
   const dataController = new DataController()
   const data = dataController.getPortfolioData()
+  console.log('data', data)
 
   return {
     props: { data },
