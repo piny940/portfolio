@@ -43,9 +43,10 @@ FROM base as final
 
 # Use production node environment by default.
 ENV NODE_ENV production
+RUN chown node:node -R /usr/src/app
 
 # Run the application as a non-root user.
-USER root
+USER node
 
 # Copy package.json so that package manager commands can be used.
 COPY package.json .
