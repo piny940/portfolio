@@ -1,6 +1,6 @@
 - title: 歌枠データベース
   id: song-list
-  description: Vtuberが歌った曲を検索できます
+  description: Vtuberが歌った曲を記録・検索できます。自動更新機能によってメンタナンスフリーを実現しました。
   link: 'https://song-list.piny940.com'
   technologies:
     - rails
@@ -19,7 +19,9 @@
   detailSrc: 'src/data/documents/kokosuko-stamp.md'
   technologies:
     - react
+    - typescript
   isFavorite: false
+  qiita: 'https://qiita.com/piny940/items/b51e8adaa49f38451b1f'
 - title: 絵文字召喚bot
   id: emoji-creater
   description: slack上で使える絵文字を自動で生成するslackアプリです
