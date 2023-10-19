@@ -16,7 +16,7 @@
   description: Youtubeのコメント欄でタイムスタンプを作成するのを補助する拡張機能です
   link: 'https://chrome.google.com/webstore/detail/kokosuki-stamp/pnbpecefaimbeadmmombelidgkkgfeeg?hl=ja'
   github: 'https://github.com/piny940/kokosuko-stamp'
-  detailSrc: ''
+  detailSrc: 'src/data/documents/kokosuko-stamp.md'
   technologies:
     - react
   isFavorite: false
