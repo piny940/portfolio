@@ -1,4 +1,4 @@
-import { Skills } from '@/containers/Skills'
+import { SkillItems } from '@/containers/Skills'
 import { expect } from '@jest/globals'
 import { render, waitFor } from '@testing-library/react'
 
@@ -17,7 +17,7 @@ jest.mock('@/data/skills', () => ({
 
 describe('<Skills />', () => {
   it('Skillsが正常に描画される', async () => {
-    const component = render(<Skills />)
+    const component = render(<SkillItems />)
 
     await waitFor(() => {
       expect(component).toBeTruthy()

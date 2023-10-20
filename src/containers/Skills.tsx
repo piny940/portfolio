@@ -1,31 +1,33 @@
+import { PortfolioData } from '@/controllers/data_controller'
+import { memo } from 'react'
+import { PortfolioController } from '@/controllers/portfolio_controller'
 import { SkillItem } from '@/components/Portfolio/SkillItem'
-import { TechStacks } from '@/models/tech_stack'
 
 export type SkillsProps = {
-  className?: string
-  techStacks: TechStacks
+  data: PortfolioData
 }
 
-export const Skills: React.FC<SkillsProps> = ({
-  className = '',
-  techStacks,
-}) => {
+const Skills = ({ data }: SkillsProps): JSX.Element => {
+  const controller = new PortfolioController(data)
+
   return (
-    <section
-      id="skills"
-      className={'d-flex flex-column align-items-center p-5 ' + className}
-    >
-      <h2 className="h1 text-center title-underline">Skills</h2>
-      <ul className="list-unstyled row row-cols-md-2 w-75 mt-4">
-        {techStacks.getTechStacks().map((techStack) => (
-          <li
-            className="col p-3 my-3"
-            key={techStack.getTechnology().getName()}
-          >
-            <SkillItem techStack={techStack} />
-          </li>
-        ))}
+    <div className="container mt-3">
+      <h1 className="title-underline">技術スタック</h1>
+      <ul className="list-unstyled row row-cols-md-3 mt-4">
+        {controller
+          .getTechStacks()
+          .sortedByProficiency()
+          .map((techStack) => (
+            <li
+              className="col p-3 my-3"
+              key={techStack.getTechnology().getName()}
+            >
+              <SkillItem techStack={techStack} />
+            </li>
+          ))}
       </ul>
-    </section>
+    </div>
   )
 }
+
+export default memo(Skills)
