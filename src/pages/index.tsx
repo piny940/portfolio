@@ -6,14 +6,9 @@ type HomeProps = {
   data: PortfolioData
 }
 
-export const getStaticProps = async (): Promise<{ props: HomeProps }> => {
-  const dataController = new DataController()
-  const data = dataController.getPortfolioData()
-
-  return {
-    props: { data },
-  }
-}
+export const getStaticProps = async (): Promise<{ props: HomeProps }> => ({
+  props: { data: new DataController().getPortfolioData() },
+})
 
 const Home: NextPage<HomeProps> = ({ data }) => {
   return <Index data={data} />
