@@ -17,14 +17,17 @@ export const Skills: React.FC<SkillsProps> = ({
     >
       <h2 className="h1 text-center title-underline">Skills</h2>
       <ul className="list-unstyled row row-cols-md-2 w-75 mt-4">
-        {techStacks.getTechStacks().map((techStack) => (
-          <li
-            className="col p-3 my-3"
-            key={techStack.getTechnology().getName()}
-          >
-            <SkillItem techStack={techStack} />
-          </li>
-        ))}
+        {techStacks
+          .sortedByProficiency()
+          .slice(0, 6)
+          .map((techStack) => (
+            <li
+              className="col p-3 my-3"
+              key={techStack.getTechnology().getName()}
+            >
+              <SkillItem techStack={techStack} />
+            </li>
+          ))}
       </ul>
     </section>
   )
