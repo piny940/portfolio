@@ -6,7 +6,7 @@ export type ProjectsIndexProps = {
   projects: Projects
 }
 
-export const ProjectsIndex: React.FC<ProjectsIndexProps> = ({
+export const ProjectItems: React.FC<ProjectsIndexProps> = ({
   className = '',
   projects,
 }) => {

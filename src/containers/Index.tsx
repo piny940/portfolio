@@ -1,6 +1,6 @@
 import { SkillItems } from './SkillItems'
 import { Profiles } from './Profile'
-import { ProjectsIndex } from './Projects'
+import { ProjectItems } from './ProjectItems'
 import { PortfolioController } from '@/controllers/portfolio_controller'
 import { PortfolioData } from '@/controllers/data_controller'
 
@@ -18,7 +18,7 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
         className="bg-body-tertiary"
         techStacks={controller.getTechStacks()}
       />
-      <ProjectsIndex className="bg-body" projects={controller.getProjects()} />
+      <ProjectItems className="bg-body" projects={controller.getProjects()} />
     </div>
   )
 }
