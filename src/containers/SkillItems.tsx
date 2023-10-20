@@ -6,7 +6,7 @@ export type SkillsProps = {
   techStacks: TechStacks
 }
 
-export const Skills: React.FC<SkillsProps> = ({
+export const SkillItems: React.FC<SkillsProps> = ({
   className = '',
   techStacks,
 }) => {
