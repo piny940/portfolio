@@ -5,14 +5,12 @@ import {
   ProjectItem,
   ProjectItemProps,
 } from '@/components/Portfolio/ProjectItem'
-import { ProjectType } from '@/resources/types'
+import { Project } from '@/models/project'
 
 describe('<ProjectItem />', () => {
   it('正常に描画される', async () => {
     const props = Mock.from<ProjectItemProps>({
-      project: Mock.from<ProjectType>({
-        github: 'github link',
-      }),
+      project: Mock.from<Project>({}),
     })
     const component = render(<ProjectItem {...props} />)
     await waitFor(() => {
