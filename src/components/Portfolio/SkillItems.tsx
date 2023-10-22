@@ -2,16 +2,12 @@ import { SkillItem } from '@/components/Portfolio/SkillItem'
 import { TechStack } from '@/models/tech_stack'
 
 export type SkillsProps = {
-  className?: string
   techStacks: TechStack[]
 }
 
-export const SkillItems: React.FC<SkillsProps> = ({
-  className = '',
-  techStacks,
-}) => {
+export const SkillItems: React.FC<SkillsProps> = ({ techStacks }) => {
   return (
-    <ul className="list-unstyled row row-cols-md-2 w-75 mt-4">
+    <ul className="list-unstyled row row-cols-md-3 mt-4">
       {techStacks.map((techStack) => (
         <li className="col p-3 my-3" key={techStack.getTechnology().getName()}>
           <SkillItem techStack={techStack} />
