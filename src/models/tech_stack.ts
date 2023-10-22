@@ -33,8 +33,14 @@ export class TechStacks {
   }
 
   getTechStacks = () => this.#techStacks
+
   sortedByProficiency = () =>
     this.#techStacks
       .slice()
       .sort((a, b) => b.getProficiency() - a.getProficiency())
+
+  findByTechnologyId = (technologyId: string) =>
+    this.#techStacks.find(
+      (techStack) => techStack.getTechnology().getId() === technologyId
+    )
 }

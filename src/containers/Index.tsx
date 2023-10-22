@@ -28,10 +28,14 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
       </section>
       <section
         id="projects"
-        className="d-flex flex-column align-items-center py-5"
+        className="d-flex flex-column align-items-center py-5 container px-4"
       >
         <h2 className="h1 text-center title-underline">プロジェクト</h2>
-        <ProjectItems projects={controller.getProjects().sortedByFavorite()} />
+        <div className="mt-3">
+          <ProjectItems
+            projects={controller.getProjects().sortedByFavorite()}
+          />
+        </div>
       </section>
     </div>
   )
