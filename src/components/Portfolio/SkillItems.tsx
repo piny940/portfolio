@@ -1,0 +1,18 @@
+import { SkillItem } from '@/components/Portfolio/SkillItem'
+import { TechStack } from '@/models/tech_stack'
+
+export type SkillsProps = {
+  techStacks: TechStack[]
+}
+
+export const SkillItems: React.FC<SkillsProps> = ({ techStacks }) => {
+  return (
+    <ul className="list-unstyled row row-cols-md-3 mt-4">
+      {techStacks.map((techStack) => (
+        <li className="col p-3 my-3" key={techStack.getTechnology().getName()}>
+          <SkillItem techStack={techStack} />
+        </li>
+      ))}
+    </ul>
+  )
+}
