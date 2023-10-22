@@ -19,8 +19,8 @@ const Skill = ({ data, id }: SkillProps): JSX.Element => {
 
   if (!techStack || !technology) return <Error statusCode={404} />
   return (
-    <div className="container mt-3">
-      <h1 className="title-underline ps-2">{technology.getName()}</h1>
+    <div className="container mt-4">
+      <h1 className="h1 title-underline ps-3">{technology.getName()}</h1>
       <section className="py-3 px-5">
         <h2>プロジェクト一覧</h2>
         <div className="d-flex flex-column align-items-center">
