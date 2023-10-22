@@ -1,9 +1,9 @@
 - technologyId: rails
-  proficiency: 100
+  proficiency: 95
 - technologyId: react
-  proficiency: 100
+  proficiency: 95
 - technologyId: typescript
-  proficiency: 100
+  proficiency: 95
 - technologyId: python
   proficiency: 70
 - technologyId: vue
