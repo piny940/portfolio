@@ -1,4 +1,4 @@
-import { SkillItems } from './SkillItems'
+import { SkillItems } from '../components/Portfolio/SkillItems'
 import { Profiles } from './Profile'
 import { ProjectItems } from '../components/Portfolio/ProjectItems'
 import { PortfolioController } from '@/controllers/portfolio_controller'
@@ -14,10 +14,18 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
   return (
     <div id="index">
       <Profiles className="bg-body" profile={controller.getProfile()} />
-      <SkillItems
-        className="bg-body-tertiary"
-        techStacks={controller.getTechStacks()}
-      />
+      <section
+        id="skills"
+        className="d-flex flex-column align-items-center p-5 bg-body-tertiary"
+      >
+        <h2 className="h1 text-center title-underline">技術スタック</h2>
+        <SkillItems
+          techStacks={controller
+            .getTechStacks()
+            .sortedByProficiency()
+            .slice(0, 6)}
+        />
+      </section>
       <section
         id="projects"
         className="d-flex flex-column align-items-center py-5"
