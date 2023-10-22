@@ -1,6 +1,7 @@
 import { PieItem } from '../Common/PieItem'
 import Image from 'next/image'
 import { TechStack } from '@/models/tech_stack'
+import Link from 'next/link'
 
 export type SkillItemProps = {
   techStack: TechStack
@@ -19,19 +20,21 @@ export const SkillItem: React.FC<SkillItemProps> = ({
       className={'mx-auto ' + className}
       percent={techStack.getProficiency()}
     >
-      <div className="d-flex flex-column mb-2">
-        {tech.getLogoSrc() && (
-          <div className="icon text-center">
-            <Image
-              alt={`${tech.getName()}-logo`}
-              src={tech.getLogoSrc()}
-              width={50}
-              height={50}
-            />
-          </div>
-        )}
-        <span className="text-center">{tech.getName()}</span>
-      </div>
+      <Link href={`/skills/${techStack.getTechnology().getId()}`}>
+        <div className="d-flex flex-column mb-2">
+          {tech.getLogoSrc() && (
+            <div className="icon text-center">
+              <Image
+                alt={`${tech.getName()}-logo`}
+                src={tech.getLogoSrc()}
+                width={50}
+                height={50}
+              />
+            </div>
+          )}
+          <span className="text-center">{tech.getName()}</span>
+        </div>
+      </Link>
     </PieItem>
   )
 }
