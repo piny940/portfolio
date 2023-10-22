@@ -1,4 +1,7 @@
-import { ProjectItems, ProjectsIndexProps } from '@/containers/Projects'
+import {
+  ProjectItems,
+  ProjectsIndexProps,
+} from '@/components/Portfolio/ProjectItems'
 import { expect } from '@jest/globals'
 import { render, waitFor } from '@testing-library/react'
 import { Mock } from 'ts-mockery'
