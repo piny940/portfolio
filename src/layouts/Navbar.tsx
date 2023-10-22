@@ -47,7 +47,7 @@ export const Navbar: React.FC = () => {
               </Link>
             </li>{' '}
             <li className="nav-item">
-              <Link className="nav-link active" href="/#projects">
+              <Link className="nav-link active" href="/projects">
                 プロジェクト
               </Link>
             </li>
