@@ -38,12 +38,16 @@ export class Project {
 
   getIsFavorite = () => this.#data.isFavorite
   getDetail = () => this.#data.detail
+  toData = () => this.#data
 }
 
 export class Projects {
   #projects: readonly Project[] = []
 
-  constructor(projectsData: ProjectsData, technologies: ITechnologies) {
+  constructor(
+    projectsData: ProjectsData,
+    private readonly technologies: ITechnologies
+  ) {
     this.#projects = projectsData.map((data) => new Project(data, technologies))
   }
 
@@ -57,5 +61,13 @@ export class Projects {
       project.getIsFavorite()
     )
     return [...favoriteProjects, ...notFavoriteProjects]
+  }
+
+  filterByTechnology = (techId: string) => {
+    const filteredProjects = this.#projects.filter((project) =>
+      project.getTechnologies().some((tech) => tech.getId() === techId)
+    )
+    const filteredData = filteredProjects.map((project) => project.toData())
+    return new Projects(filteredData, this.technologies)
   }
 }
