@@ -22,7 +22,7 @@ const Skill = ({ data, id }: SkillProps): JSX.Element => {
       <h1 className="title-underline ps-2">
         {skill.getTechnology().getName()}
       </h1>
-      <section className="py-5 px-5">
+      <section className="py-3 px-5">
         <h2>プロジェクト一覧</h2>
         <div className="d-flex flex-column align-items-center">
           <ProjectItems
