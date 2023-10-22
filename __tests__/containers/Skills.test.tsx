@@ -1,23 +1,16 @@
-import { SkillItems } from '@/containers/Skills'
+import { SkillItems } from '@/components/Portfolio/SkillItems'
+import { PortfolioController } from '@/controllers/portfolio_controller'
 import { expect } from '@jest/globals'
 import { render, waitFor } from '@testing-library/react'
-
-jest.mock('@/data/skills', () => ({
-  skillsData: [
-    {
-      name: 'Rails',
-      percent: 90,
-    },
-    {
-      name: 'React',
-      percent: 100,
-    },
-  ],
-}))
+import { data } from '../testHelpers/mock'
 
 describe('<Skills />', () => {
+  const controller = new PortfolioController(data)
+
   it('Skillsが正常に描画される', async () => {
-    const component = render(<SkillItems />)
+    const component = render(
+      <SkillItems techStacks={controller.getTechStacks().getTechStacks()} />
+    )
 
     await waitFor(() => {
       expect(component).toBeTruthy()
