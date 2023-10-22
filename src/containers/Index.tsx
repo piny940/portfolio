@@ -1,6 +1,6 @@
 import { SkillItems } from './SkillItems'
 import { Profiles } from './Profile'
-import { ProjectItems } from './ProjectItems'
+import { ProjectItems } from '../components/Portfolio/ProjectItems'
 import { PortfolioController } from '@/controllers/portfolio_controller'
 import { PortfolioData } from '@/controllers/data_controller'
 
@@ -18,7 +18,13 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
         className="bg-body-tertiary"
         techStacks={controller.getTechStacks()}
       />
-      <ProjectItems className="bg-body" projects={controller.getProjects()} />
+      <section
+        id="projects"
+        className="d-flex flex-column align-items-center py-5"
+      >
+        <h2 className="h1 text-center title-underline">プロジェクト</h2>
+        <ProjectItems projects={controller.getProjects().sortedByFavorite()} />
+      </section>
     </div>
   )
 }
