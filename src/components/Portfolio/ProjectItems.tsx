@@ -2,7 +2,7 @@ import { ProjectItem } from '@/components/Portfolio/ProjectItem'
 import { Project } from '@/models/project'
 
 export type ProjectsIndexProps = {
-  projects: Project[]
+  projects: readonly Project[]
 }
 
 export const ProjectItems: React.FC<ProjectsIndexProps> = ({ projects }) => {

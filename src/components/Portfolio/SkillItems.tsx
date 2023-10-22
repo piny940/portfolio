@@ -2,7 +2,7 @@ import { SkillItem } from '@/components/Portfolio/SkillItem'
 import { TechStack } from '@/models/tech_stack'
 
 export type SkillsItemsProps = {
-  techStacks: TechStack[]
+  techStacks: readonly TechStack[]
 }
 
 export const SkillItems: React.FC<SkillsItemsProps> = ({ techStacks }) => {
