@@ -24,7 +24,7 @@ export const Navbar: React.FC = () => {
       <div className="container-fluid px-5">
         <Link
           href="/"
-          className="title fw-bold d-flex align-items-center text-body"
+          className="unstyled title fw-bold d-flex align-items-center text-body"
         >
           <div>Piny940</div>
         </Link>

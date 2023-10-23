@@ -20,7 +20,10 @@ export const SkillItem: React.FC<SkillItemProps> = ({
       className={'mx-auto ' + className}
       percent={techStack.getProficiency()}
     >
-      <Link href={`/skills/${techStack.getTechnology().getId()}`}>
+      <Link
+        className="unstyled"
+        href={`/skills/${techStack.getTechnology().getId()}`}
+      >
         <div className="d-flex flex-column mb-2">
           {tech.getLogoSrc() && (
             <div className="icon text-center">
