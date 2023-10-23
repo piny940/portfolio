@@ -33,7 +33,7 @@
     - docker
   isFavorite: false
 - title: 絵文字召喚bot
-  id: emoji-creater
+  id: emoji-creator
   description: slack上で使える絵文字を自動で生成するslackアプリです
   github: 'https://github.com/piny940/emoji-creater'
   detailSrc: ''
