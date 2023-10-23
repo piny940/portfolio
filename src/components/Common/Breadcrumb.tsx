@@ -2,36 +2,28 @@ import Link from 'next/link'
 import { memo } from 'react'
 
 export type BreadcrumbProps = {
-  paths: [
-    {
-      name: string
-      path: string
-    }
-  ]
+  paths: Array<{
+    name: string
+    path: string
+  }>
 }
 
 const Breadcrumb = ({ paths }: BreadcrumbProps): JSX.Element => {
   return (
     <nav aria-label="breadcrumb" className="mt-3 ms-5">
       <ol className="breadcrumb">
-        <li className="breadcrumb-item">
-          <Link href="/">トップページ</Link>
-        </li>
-        {paths.map((path, i) => (
+        {paths.slice(0, paths.length - 1).map((path, i) => (
           <li className="breadcrumb-item" key={path.path}>
-            <Link
-              href={
-                '/' +
-                paths
-                  .slice(0, i + 1)
-                  .map((p) => p.path)
-                  .join('/')
-              }
-            >
-              {path.name}
-            </Link>
+            <Link href={path.path}>{path.name}</Link>
           </li>
         ))}
+        <li
+          className="breadcrumb-item active"
+          key={paths[paths.length - 1].path}
+          aria-current="page"
+        >
+          {paths[paths.length - 1].name}
+        </li>
       </ol>
     </nav>
   )
