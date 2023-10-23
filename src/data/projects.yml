@@ -39,6 +39,23 @@
   detailSrc: ''
   technologies:
     - rails
+- title: Railsテンプレート
+  id: rails-template
+  description: Railsの環境を構築するためのテンプレートです。CORSやDevise等の設定が済んでいます。
+  github: https://github.com/piny940/rails-template
+  detailSrc: ''
+  technologies:
+    - rails
+    - docker
+- title: Nextテンプレート
+  id: next-template
+  description: Next.jsの環境を構築するためのテンプレートです。ESLintやPrettier等の設定が済んでいます。
+  github: https://github.com/piny940/next-template
+  detailSrc: ''
+  technologies:
+    - react
+    - typescript
+    - docker
 - title: チャットアプリ
   id: clubroom
   description: discordのようにグループごとにメンバーやトークルームを作ることができます。
