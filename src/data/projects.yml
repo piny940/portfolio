@@ -47,6 +47,7 @@
   technologies:
     - rails
     - docker
+  link: 'https://rails_template.piny940.com'
 - title: Nextテンプレート
   id: next-template
   description: Next.jsの環境を構築するためのテンプレートです。ESLintやPrettier等の設定が済んでいます。
@@ -56,6 +57,7 @@
     - react
     - typescript
     - docker
+  link: 'https://next_template.piny940.com'
 - title: チャットアプリ
   id: clubroom
   description: discordのようにグループごとにメンバーやトークルームを作ることができます。
