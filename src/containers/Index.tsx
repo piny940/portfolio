@@ -28,6 +28,9 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
             .sortedByProficiency()
             .slice(0, 6)}
         />
+        <Link href="/skills" className="h5 text-primary">
+          もっと見る
+        </Link>
       </section>
       <section
         id="projects"
@@ -38,9 +41,12 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
         </Link>
         <div className="mt-4">
           <ProjectItems
-            projects={controller.getProjects().sortedByFavorite()}
+            projects={controller.getProjects().sortedByFavorite().slice(0, 6)}
           />
         </div>
+        <Link href="/projects" className="h5 text-primary">
+          <span>もっと見る</span>
+        </Link>
       </section>
     </div>
   )
