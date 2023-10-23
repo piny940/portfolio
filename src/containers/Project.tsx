@@ -28,7 +28,7 @@ export const ProjectShow: React.FC<ProjectShowProps> = ({ title, data }) => {
   return (
     <>
       <Breadcrumb paths={paths} />
-      <div className="mx-auto container">
+      <div className="mx-auto px-5">
         <h1 className="title-underline ps-2">{project.getTitle()}</h1>
         <div className="markdown pb-5">
           <MarkdownDisplay content={project.getDetail()} />
