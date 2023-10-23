@@ -27,7 +27,7 @@ const Skill = ({ data, id }: SkillProps): JSX.Element => {
   ]
 
   return (
-    <div className="">
+    <>
       <Breadcrumb paths={paths} />
       <div className="px-5">
         <h1 className="h1 title-underline ps-3">{technology.getName()}</h1>
@@ -43,7 +43,7 @@ const Skill = ({ data, id }: SkillProps): JSX.Element => {
           </div>
         </section>
       </div>
-    </div>
+    </>
   )
 }
 

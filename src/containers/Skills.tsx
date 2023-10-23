@@ -17,7 +17,7 @@ const Skills = ({ data }: SkillsProps): JSX.Element => {
   ]
 
   return (
-    <div className="">
+    <>
       <Breadcrumb paths={paths} />
       <div className="container mb-5 d-flex align-items-center flex-column">
         <h1 className="h1 text-center title-underline">技術スタック</h1>
@@ -35,7 +35,7 @@ const Skills = ({ data }: SkillsProps): JSX.Element => {
             ))}
         </ul>
       </div>
-    </div>
+    </>
   )
 }
 

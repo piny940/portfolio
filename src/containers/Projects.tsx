@@ -16,7 +16,7 @@ const Projects = ({ data }: ProjectsProps): JSX.Element => {
   ]
 
   return (
-    <div className="">
+    <>
       <Breadcrumb paths={paths} />
       <section
         id="projects"
@@ -29,7 +29,7 @@ const Projects = ({ data }: ProjectsProps): JSX.Element => {
           />
         </div>
       </section>
-    </div>
+    </>
   )
 }
 
