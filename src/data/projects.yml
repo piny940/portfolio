@@ -104,3 +104,12 @@
   qiita: 'https://qiita.com/piny940/items/d5519acb423ad22c51a8'
   isFavorite: true
   detailSrc: 'src/data/documents/mekashojo.md'
+
+- title: Go Todo App
+  id: go-todo-app
+  description: Go言語でクリーンアーキテクチャでtodoアプリを作成しました。
+  github: 'https://github.com/piny940/go-todo-app'
+  detailSrc: ''
+  technologies:
+    - go
+  isFavorite: false
