@@ -2,7 +2,7 @@ import { memo } from 'react'
 
 const Breadcrumb = (): JSX.Element => {
   return (
-    <nav aria-label="breadcrumb">
+    <nav aria-label="breadcrumb" className="mt-3 ms-5">
       <ol className="breadcrumb">
         <li className="breadcrumb-item">
           <a href="#">Home</a>

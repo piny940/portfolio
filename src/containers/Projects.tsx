@@ -13,7 +13,7 @@ const Projects = ({ data }: ProjectsProps): JSX.Element => {
   return (
     <section
       id="projects"
-      className="d-flex flex-column align-items-center py-5 container px-4"
+      className="d-flex flex-column align-items-center pb-5 container px-4"
     >
       <h2 className="h1 text-center title-underline">プロジェクト</h2>
       <div className="mt-3">

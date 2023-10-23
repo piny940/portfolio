@@ -11,7 +11,7 @@ const Skills = ({ data }: SkillsProps): JSX.Element => {
   const controller = new PortfolioController(data)
 
   return (
-    <div className="container my-5 d-flex align-items-center flex-column">
+    <div className="container mb-5 d-flex align-items-center flex-column">
       <h1 className="h1 text-center title-underline">技術スタック</h1>
       <ul className="list-unstyled row row-cols-md-3 mt-4">
         {controller
