@@ -22,8 +22,8 @@ const Projects = ({ data }: ProjectsProps): JSX.Element => {
         id="projects"
         className="d-flex flex-column align-items-center pb-5 container px-4"
       >
-        <h2 className="h1 text-center title-underline">プロジェクト</h2>
-        <div className="mt-3">
+        <h1 className="h1 text-center title-underline">プロジェクト</h1>
+        <div className="mt-4">
           <ProjectItems
             projects={controller.getProjects().sortedByFavorite()}
           />
