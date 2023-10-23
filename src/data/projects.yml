@@ -22,13 +22,42 @@
     - typescript
   isFavorite: false
   qiita: 'https://qiita.com/piny940/items/b51e8adaa49f38451b1f'
+- title: ポートフォリオ
+  id: portfolio
+  description: Piny940のポートフォリオです
+  github: 'https://github.com/piny940/portfolio'
+  link: 'https://piny940.com'
+  detailSrc: ''
+  technologies:
+    - react
+    - docker
+  isFavorite: false
 - title: 絵文字召喚bot
-  id: emoji-creater
+  id: emoji-creator
   description: slack上で使える絵文字を自動で生成するslackアプリです
   github: 'https://github.com/piny940/emoji-creater'
   detailSrc: ''
   technologies:
     - rails
+- title: Railsテンプレート
+  id: rails-template
+  description: Railsの環境を構築するためのテンプレートです。CORSやDevise等の設定が済んでいます。
+  github: https://github.com/piny940/rails-template
+  detailSrc: ''
+  technologies:
+    - rails
+    - docker
+  link: 'https://rails_template.piny940.com'
+- title: Nextテンプレート
+  id: next-template
+  description: Next.jsの環境を構築するためのテンプレートです。ESLintやPrettier等の設定が済んでいます。
+  github: https://github.com/piny940/next-template
+  detailSrc: ''
+  technologies:
+    - react
+    - typescript
+    - docker
+  link: 'https://next_template.piny940.com'
 - title: チャットアプリ
   id: clubroom
   description: discordのようにグループごとにメンバーやトークルームを作ることができます。
@@ -41,16 +70,6 @@
     - postgres
   isFavorite: true
   qiita: 'https://qiita.com/piny940/items/2d1867794081085bdb48'
-- title: ポートフォリオ
-  id: portfolio
-  description: Piny940のポートフォリオです
-  github: 'https://github.com/piny940/portfolio'
-  link: 'https://piny940.com'
-  detailSrc: ''
-  technologies:
-    - react
-    - docker
-  isFavorite: false
 - title: スタンプラリー
   id: mashiro-calender
   description: Vtuber凪乃ましろさん休暇中のスタンプラリー
