@@ -1,5 +1,7 @@
 export interface ProfileData {
   frontDescription: string
+  qiita: string
+  github: string
 }
 
 export class Profile {
@@ -10,4 +12,6 @@ export class Profile {
   }
 
   getFrontDescription = () => this.#data.frontDescription
+  getQiita = () => this.#data.qiita
+  getGithub = () => this.#data.github
 }

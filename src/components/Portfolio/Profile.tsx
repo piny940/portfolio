@@ -1,6 +1,11 @@
+import { useTheme } from '@/context/ThemeProvider'
 import { Profile } from '@/models/profile'
 import Image from 'next/image'
+import Link from 'next/link'
 import styled from 'styled-components'
+import githubWhiteIcon from '../../resources/images/common/github-white.png'
+import githubIcon from '../../resources/images/common/github.png'
+import qiitaIcon from '../../resources/images/common/qiita.png'
 
 const BgDiv = styled.div`
   background-image: url('/images/profile/background.png');
@@ -29,6 +34,8 @@ export const Profiles: React.FC<ProfilesProps> = ({
   className = '',
   profile,
 }) => {
+  const { theme } = useTheme()
+
   return (
     <div
       className={
@@ -45,6 +52,31 @@ export const Profiles: React.FC<ProfilesProps> = ({
           className="rounded-circle"
         />
         <h1 className="mt-2">Piny940</h1>
+        <ul className="list-unstyled mt-2 mb-1 d-flex align-items-center">
+          <li>
+            <Link
+              target="_blank"
+              href={profile.getGithub()}
+              className="unstyled mx-1"
+            >
+              <Image
+                src={theme === 'light' ? githubIcon : githubWhiteIcon}
+                width={31}
+                height={31}
+                alt="github-icon"
+              />
+            </Link>
+          </li>
+          <li>
+            <Link
+              href={profile.getQiita()}
+              target="_blank"
+              className="unstyled mx-1"
+            >
+              <Image src={qiitaIcon} width={31} height={31} alt="qiita-icon" />
+            </Link>
+          </li>
+        </ul>
         <p className="mt-3 top-profile">{profile.getFrontDescription()}</p>
       </ProfileDiv>
     </div>
