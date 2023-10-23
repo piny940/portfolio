@@ -18,7 +18,9 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
         <Navbar />
       </header>
       <main className="">
-        <Breadcrumb />
+        <div className="mt-3 ms-5">
+          <Breadcrumb />
+        </div>
         {children}
       </main>
     </div>
