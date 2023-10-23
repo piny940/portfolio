@@ -1,5 +1,5 @@
 import { SkillItems } from '../components/Portfolio/SkillItems'
-import { Profiles } from './Profile'
+import { Profiles } from '../components/Portfolio/Profile'
 import { ProjectItems } from '../components/Portfolio/ProjectItems'
 import { PortfolioController } from '@/controllers/portfolio_controller'
 import { PortfolioData } from '@/controllers/data_controller'
