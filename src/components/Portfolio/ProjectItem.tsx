@@ -46,13 +46,13 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
           <FavoriteIcon size={42} />
         </FavoriteIconDiv>
       )}
-      <Link href={`/projects/${project.getTitle()}`}>
+      <Link className="unstyled" href={`/projects/${project.getTitle()}`}>
         <h3 className="h5 my-1 title-underline pb-1">{project.getTitle()}</h3>
       </Link>
       <ul className="list-unstyled mt-2 mb-1 d-flex align-items-center">
         {githubLink && (
           <li>
-            <Link target="_blank" href={githubLink} className="mx-1">
+            <Link target="_blank" href={githubLink} className="unstyled mx-1">
               <Image
                 src={theme === 'light' ? githubIcon : githubWhiteIcon}
                 width={31}
@@ -64,7 +64,7 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
         )}
         {qiita && (
           <li>
-            <Link href={qiita} target="_blank" className="mx-1">
+            <Link href={qiita} target="_blank" className="unstyled mx-1">
               <Image src={qiitaIcon} width={31} height={31} alt="qiita-icon" />
             </Link>
           </li>
@@ -74,7 +74,7 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
             <Link
               href={projectLink}
               target="_blank"
-              className="mx-1 text-body d-flex align-items-center"
+              className="unstyled mx-1 text-body d-flex align-items-center"
             >
               <MaterialIcon name="open_in_new" size={31} />
             </Link>
