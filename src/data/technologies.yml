@@ -49,3 +49,7 @@
   name: PostgreSQL
   logoSrc: /images/skills/postgres.svg
   tagColor: '#6f42c1'
+- id: go
+  name: Go
+  logoSrc: /images/skills/go.svg
+  tagColor: '#0d6efd'
