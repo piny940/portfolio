@@ -1,3 +1,4 @@
+import Breadcrumb from '@/components/Common/Breadcrumb'
 import { MarkdownDisplay } from '@/components/Common/MarkdownDisplay'
 import { PortfolioData } from '@/controllers/data_controller'
 import { PortfolioController } from '@/controllers/portfolio_controller'
@@ -18,12 +19,21 @@ export const ProjectShow: React.FC<ProjectShowProps> = ({ title, data }) => {
 
   if (!project) return <Error statusCode={400} />
 
+  const paths = [
+    { name: 'トップページ', path: '/' },
+    { name: 'プロジェクト', path: '/projects' },
+    { name: project.getTitle(), path: `/projects/${title}` },
+  ]
+
   return (
-    <div className="mx-auto container">
-      <h1 className="title-underline ps-2">{project.getTitle()}</h1>
-      <div className="markdown pb-5">
-        <MarkdownDisplay content={project.getDetail()} />
+    <>
+      <Breadcrumb paths={paths} />
+      <div className="mx-auto container">
+        <h1 className="title-underline ps-2">{project.getTitle()}</h1>
+        <div className="markdown pb-5">
+          <MarkdownDisplay content={project.getDetail()} />
+        </div>
       </div>
-    </div>
+    </>
   )
 }
