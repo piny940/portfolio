@@ -12,3 +12,5 @@
   proficiency: 40
 - technologyId: django
   proficiency: 10
+- technologyId: go
+  proficiency: 60
