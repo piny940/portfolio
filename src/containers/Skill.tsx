@@ -12,13 +12,10 @@ export type SkillProps = {
 
 const Skill = ({ data, id }: SkillProps): JSX.Element => {
   const controller = new PortfolioController(data)
-  const techStack = useMemo(
-    () => controller.techStacks.findByTechnologyId(id),
-    [id, data]
-  )
-  const technology = useMemo(() => techStack?.getTechnology(), [techStack])
 
-  if (!techStack || !technology) return <Error statusCode={404} />
+  const technology = useMemo(() => controller.technologies.findById(id), [id])
+
+  if (!technology) return <Error statusCode={404} />
 
   const paths = [
     { name: 'トップページ', path: '/' },
