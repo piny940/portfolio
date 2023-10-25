@@ -3,6 +3,7 @@ import { TestID } from '@/resources/TestID'
 import { memo } from 'react'
 import styled from 'styled-components'
 import Badge from './Badge'
+import Link from 'next/link'
 
 const BlogItemDiv = styled.div`
   min-width: 400px;
@@ -19,7 +20,9 @@ const BlogItem = ({ blog }: BlogItemProps): JSX.Element => {
       data-testid={TestID.BLOG_ITEM}
       className="bg-body p-4 rounded border d-flex flex-column position-relative w-100 h-100 "
     >
-      <h3 className="h4">{blog.getTitle()}</h3>
+      <Link href={blog.getLink()} target="_blank" className="unstyled">
+        <h3 className="h4">{blog.getTitle()}</h3>
+      </Link>
       <ul className="list-unstyled mt-2 mb-1 d-flex">
         {blog.getTechnologies().map((tech) => (
           <li className="me-3" key={tech.getId()}>
