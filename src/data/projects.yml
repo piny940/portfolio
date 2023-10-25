@@ -51,6 +51,7 @@
   technologies:
     - rails
     - docker
+    - postgres
   link: 'https://rails_template.piny940.com'
 
 - title: Nextテンプレート
@@ -113,4 +114,5 @@
   detailSrc: ''
   technologies:
     - go
+    - postgres
   isFavorite: false
