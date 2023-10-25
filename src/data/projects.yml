@@ -2,7 +2,7 @@
   id: song-list
   description: Vtuberが歌った曲を記録・検索できます。自動更新機能によってメンタナンスフリーを実現しました。
   link: 'https://song-list.piny940.com'
-  technologies:
+  technologyIds:
     - rails
     - typescript
     - react
@@ -18,7 +18,7 @@
   link: 'https://chrome.google.com/webstore/detail/kokosuki-stamp/pnbpecefaimbeadmmombelidgkkgfeeg?hl=ja'
   github: 'https://github.com/piny940/kokosuko-stamp'
   detailSrc: 'src/data/documents/kokosuko-stamp.md'
-  technologies:
+  technologyIds:
     - react
     - typescript
   isFavorite: false
@@ -30,7 +30,7 @@
   github: 'https://github.com/piny940/portfolio'
   link: 'https://piny940.com'
   detailSrc: ''
-  technologies:
+  technologyIds:
     - react
     - docker
   isFavorite: false
@@ -40,7 +40,7 @@
   description: slack上で使える絵文字を自動で生成するslackアプリです
   github: 'https://github.com/piny940/emoji-creater'
   detailSrc: ''
-  technologies:
+  technologyIds:
     - rails
 
 # - title: Railsテンプレート
@@ -48,7 +48,7 @@
 #   description: Railsの環境を構築するためのテンプレートです。CORSやDevise等の設定が済んでいます。
 #   github: https://github.com/piny940/rails-template
 #   detailSrc: ''
-#   technologies:
+#   technologyIds:
 #     - rails
 #     - docker
 #     - postgres
@@ -59,7 +59,7 @@
 #   description: Next.jsの環境を構築するためのテンプレートです。ESLintやPrettier等の設定が済んでいます。
 #   github: https://github.com/piny940/next-template
 #   detailSrc: ''
-#   technologies:
+#   technologyIds:
 #     - react
 #     - typescript
 #     - docker
@@ -70,7 +70,7 @@
   description: discordのようにグループごとにメンバーやトークルームを作ることができます。
   github: 'https://github.com/piny940/clubroom'
   detailSrc: 'src/data/documents/clubroom.md'
-  technologies:
+  technologyIds:
     - rails
     - typescript
     - react
@@ -83,7 +83,7 @@
   description: Vtuber凪乃ましろさん休暇中のスタンプラリー
   github: 'https://github.com/piny940/mashiro-calender'
   detailSrc: ''
-  technologies:
+  technologyIds:
     - python
   isFavorite: false
 
@@ -92,7 +92,7 @@
   description: 大学の授業でオセロアプリをチーム開発しました。
   github: 'https://github.com/piny940/python-reverse'
   detailSrc: ''
-  technologies:
+  technologyIds:
     - python
   isFavorite: false
 
@@ -100,7 +100,7 @@
   id: mekashojo
   description: 大学のサークルでシューティングゲームをチームで開発しました。
   link: 'https://kmc-jp.booth.pm/items/3438923'
-  technologies:
+  technologyIds:
     - unity
   qiita: 'https://qiita.com/piny940/items/d5519acb423ad22c51a8'
   isFavorite: true
@@ -112,7 +112,7 @@
   description: Go言語でクリーンアーキテクチャでtodoアプリを作成しました。
   github: 'https://github.com/piny940/go-todo-app'
   detailSrc: ''
-  technologies:
+  technologyIds:
     - go
     - postgres
   isFavorite: false
