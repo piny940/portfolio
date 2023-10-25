@@ -52,7 +52,7 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
         <div className="mt-4 w-100 px-5">
           <BlogItems blogs={controller.blogs.sortedByDates(6)} />
         </div>
-        <Link href="/projects" className="h5 text-primary">
+        <Link href="/blogs" className="h5 text-primary">
           <span>もっと見る</span>
         </Link>
       </section>
