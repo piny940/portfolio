@@ -55,10 +55,7 @@
   tagColor: '#D24F60'
 - id: ssh
   name: SSH
-  tagColor: 'gray'
+  tagColor: '#90897C'
 - id: server
   name: 自宅サーバー
-  tagColor: 'gray'
-- id: vps
-  name: VPS
-  tagColor: 'gray'
+  tagColor: '#90897C'
