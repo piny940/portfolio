@@ -1,2 +1,6 @@
 - title: 自宅サーバーでNext.jsのサーバーを立てた話
   link: https://qiita.com/piny940/items/eddf7a8450a011eda85c
+  technologyIds:
+    - react
+    - typescript
+    - docker
