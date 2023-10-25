@@ -9,16 +9,20 @@ export interface BlogData {
 export type BlogsData = BlogData[]
 
 export class Blog {
-  constructor(
-    private readonly data: BlogData,
-    private readonly allTechnologies: Technologies
-  ) {}
+  #data: BlogData
+  #allTechnologies: Technologies
 
-  getTitle = () => this.data.title
-  getLink = () => this.data.link
+  constructor(data: BlogData, allTechnologies: Technologies) {
+    this.#data = data
+    this.#allTechnologies = allTechnologies
+  }
+
+  getTitle = () => this.#data.title
+  getLink = () => this.#data.link
+
   getTechnologies = () => {
-    return this.data.technologyIds.map((techId) =>
-      this.allTechnologies.findById(techId)
+    return this.#data.technologyIds.map((techId) =>
+      this.#allTechnologies.findById(techId)
     )
   }
 }
