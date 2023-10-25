@@ -6,10 +6,10 @@ import styled from 'styled-components'
 import githubWhiteIcon from '../../resources/images/common/github-white.png'
 import githubIcon from '../../resources/images/common/github.png'
 import qiitaIcon from '../../resources/images/common/qiita.png'
+import profileIcon from '../../resources/images/profile/icon.png'
+import background from '../../resources/images/profile/background.png'
 
 const BgDiv = styled.div`
-  background-image: url('/images/profile/background.png');
-  background-size: cover;
   opacity: 0.3;
 `
 
@@ -42,10 +42,12 @@ export const Profiles: React.FC<ProfilesProps> = ({
         'd-flex flex-column align-items-center position-relative ' + className
       }
     >
-      <BgDiv className="position-absolute w-100 h-100"></BgDiv>
+      <BgDiv className="position-absolute w-100 h-100 d-none d-sm-block">
+        <Image alt="背景画像" src={background} className="w-100 h-100" />
+      </BgDiv>
       <ProfileDiv className="top-middle d-flex flex-column align-items-center position-relative rounded p-3 bg-body">
         <Image
-          src="/images/icon.png"
+          src={profileIcon}
           alt="icon"
           width={150}
           height={150}
