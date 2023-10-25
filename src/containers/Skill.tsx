@@ -4,6 +4,7 @@ import { PortfolioController } from '@/controllers/portfolio_controller'
 import Error from 'next/error'
 import ProjectItems from '@/components/Portfolio/ProjectItems'
 import Breadcrumb from '@/components/Common/Breadcrumb'
+import BlogItems from '@/components/Portfolio/BlogItems'
 
 export type SkillProps = {
   data: PortfolioData
@@ -14,6 +15,16 @@ const Skill = ({ data, id }: SkillProps): JSX.Element => {
   const controller = new PortfolioController(data)
 
   const technology = useMemo(() => controller.technologies.findById(id), [id])
+  const projects = useMemo(() => {
+    return controller.projects
+      .filterByTechnology(technology.getId())
+      .sortedByFavorite()
+  }, [technology])
+  const blogs = useMemo(() => {
+    return controller.blogs
+      .filterByTechnology(technology.getId())
+      .sortedByDates()
+  }, [technology])
 
   if (!technology) return <Error statusCode={404} />
 
@@ -31,11 +42,13 @@ const Skill = ({ data, id }: SkillProps): JSX.Element => {
         <section className="py-3 px-5">
           <h2>プロジェクト一覧</h2>
           <div className="d-flex flex-column align-items-center">
-            <ProjectItems
-              projects={controller.projects
-                .filterByTechnology(technology.getId())
-                .sortedByFavorite()}
-            />
+            <ProjectItems projects={projects} />
+          </div>
+        </section>
+        <section className="py-3 px-5">
+          <h2>ブログ一覧</h2>
+          <div className="d-flex flex-column align-items-center">
+            <BlogItems blogs={blogs} />
           </div>
         </section>
       </div>
