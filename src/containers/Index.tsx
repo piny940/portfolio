@@ -4,7 +4,7 @@ import { PortfolioController } from '@/controllers/portfolio_controller'
 import { PortfolioData } from '@/controllers/data_controller'
 import { Profiles } from '@/components/Portfolio/Profile'
 import Link from 'next/link'
-import BlogItem from '@/components/Portfolio/BlogItem'
+import BlogItems from '@/components/Portfolio/BlogItems'
 
 export type IndexProps = {
   data: PortfolioData
@@ -54,14 +54,7 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
           <h2 className="h1 text-center title-underline">ブログ</h2>
         </Link>
         <div className="mt-4 w-100 px-5">
-          <div className="row row-cols-lg-2 w-100 align-items-stretch">
-            <div className="col-md p-3 mb-3">
-              <BlogItem />
-            </div>
-            <div className="col-md p-3 mb-3">
-              <BlogItem />
-            </div>
-          </div>
+          <BlogItems blogs={controller.blogs.getBlogs()} />
         </div>
         <Link href="/projects" className="h5 text-primary">
           <span>もっと見る</span>
