@@ -24,7 +24,7 @@
 - id: typescript
   name: Typescript
   logoSrc: /images/skills/typescript.svg
-  tagColor: '#0d6efd'
+  tagColor: '#0dcaf0'
 - id: python
   name: Python
   logoSrc: /images/skills/python.svg

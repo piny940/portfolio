@@ -1,11 +1,12 @@
 import { ProjectItem } from '@/components/Portfolio/ProjectItem'
 import { Project } from '@/models/project'
+import { memo } from 'react'
 
-export type ProjectsIndexProps = {
+export type ProjectItemsProps = {
   projects: readonly Project[]
 }
 
-export const ProjectItems: React.FC<ProjectsIndexProps> = ({ projects }) => {
+const ProjectItems: React.FC<ProjectItemsProps> = ({ projects }) => {
   return (
     <div className="row row-cols-md-2 row-cols-xl-3 d-flex align-items-stretch">
       {projects.map((project) => (
@@ -16,3 +17,5 @@ export const ProjectItems: React.FC<ProjectsIndexProps> = ({ projects }) => {
     </div>
   )
 }
+
+export default memo(ProjectItems)

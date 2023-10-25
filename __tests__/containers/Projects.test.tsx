@@ -1,16 +1,11 @@
-import { ProjectItems } from '@/components/Portfolio/ProjectItems'
-import { PortfolioController } from '@/controllers/portfolio_controller'
 import { expect } from '@jest/globals'
 import { render, waitFor } from '@testing-library/react'
 import { data } from '../testHelpers/mock'
-import { Project } from '@/models/project'
+import Projects from '@/containers/Projects'
 
-describe('<ProjectsIndex />', () => {
-  const controller = new PortfolioController(data)
-
+describe('<Projects />', () => {
   it('正常に描画される', async () => {
-    const projects: readonly Project[] = controller.getProjects().getProjects()
-    const component = render(<ProjectItems projects={projects} />)
+    const component = render(<Projects data={data} />)
     await waitFor(() => {
       expect(component).toBeTruthy()
     })

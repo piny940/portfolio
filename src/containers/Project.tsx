@@ -13,7 +13,7 @@ export type ProjectShowProps = {
 export const ProjectShow: React.FC<ProjectShowProps> = ({ title, data }) => {
   const controller = new PortfolioController(data)
   const project = useMemo(() => {
-    const projects = controller.getProjects().getProjects()
+    const projects = controller.projects.getProjects()
     return projects.find((project) => project.getTitle() === title)
   }, [title])
 

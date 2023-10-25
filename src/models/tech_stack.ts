@@ -32,12 +32,14 @@ export class TechStacks {
     )
   }
 
-  getTechStacks = () => this.#techStacks
+  getTechStacks = (limit?: number): readonly TechStack[] =>
+    this.#techStacks.slice(0, limit)
 
-  sortedByProficiency = () =>
+  sortedByProficiency = (limit?: number) =>
     this.#techStacks
       .slice()
       .sort((a, b) => b.getProficiency() - a.getProficiency())
+      .slice(0, limit)
 
   findByTechnologyId = (technologyId: string) =>
     this.#techStacks.find(

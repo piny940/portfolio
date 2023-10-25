@@ -9,6 +9,7 @@ import qiitaIcon from '../../resources/images/common/qiita.png'
 import { useMemo } from 'react'
 import { Project } from '@/models/project'
 import FavoriteIcon from './FavoriteIcon'
+import { TestID } from '@/resources/TestID'
 
 const ProjectItemDiv = styled.div`
   min-width: 300px;
@@ -40,6 +41,7 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
 
   return (
     <ProjectItemDiv
+      data-testid={TestID.PROJECT_ITEM}
       className={
         'p-3 rounded border d-flex flex-column align-items-center position-relative w-100 h-100 ' +
         className
