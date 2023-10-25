@@ -4,11 +4,14 @@ import { memo } from 'react'
 
 export type ProjectItemsProps = {
   projects: readonly Project[]
+  row?: number
 }
 
-const ProjectItems: React.FC<ProjectItemsProps> = ({ projects }) => {
+const ProjectItems: React.FC<ProjectItemsProps> = ({ projects, row = 3 }) => {
   return (
-    <div className="row row-cols-md-2 row-cols-xl-3 d-flex align-items-stretch w-100">
+    <div
+      className={`row row-cols-md-2 row-cols-xl-${row} d-flex align-items-stretch w-100`}
+    >
       {projects.map((project) => (
         <div className="col-md p-3 mb-3" key={project.getTitle()}>
           <ProjectItem project={project} />
