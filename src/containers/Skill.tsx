@@ -13,7 +13,7 @@ export type SkillProps = {
 const Skill = ({ data, id }: SkillProps): JSX.Element => {
   const controller = new PortfolioController(data)
   const techStack = useMemo(
-    () => controller.getTechStacks().findByTechnologyId(id),
+    () => controller.techStacks.findByTechnologyId(id),
     [id, data]
   )
   const technology = useMemo(() => techStack?.getTechnology(), [techStack])
@@ -35,8 +35,7 @@ const Skill = ({ data, id }: SkillProps): JSX.Element => {
           <h2>プロジェクト一覧</h2>
           <div className="d-flex flex-column align-items-center">
             <ProjectItems
-              projects={controller
-                .getProjects()
+              projects={controller.projects
                 .filterByTechnology(technology.getId())
                 .sortedByFavorite()}
             />

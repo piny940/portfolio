@@ -6,23 +6,17 @@ import { PortfolioData } from './data_controller'
 import { Blogs } from '@/models/blogs'
 
 export class PortfolioController {
-  #profile: Profile
-  #projects: Projects
-  #technologies: Technologies
-  #techStacks: TechStacks
-  #blogs: Blogs
+  readonly profile: Profile
+  readonly projects: Projects
+  readonly technologies: Technologies
+  readonly techStacks: TechStacks
+  readonly blogs: Blogs
 
   constructor(data: PortfolioData) {
-    this.#profile = new Profile(data.profileData)
-    this.#technologies = new Technologies(data.technologiesData)
-    this.#projects = new Projects(data.projectsData, this.#technologies)
-    this.#techStacks = new TechStacks(data.techStacksData, this.#technologies)
-    this.#blogs = new Blogs(data.blogsData, this.#technologies)
+    this.profile = new Profile(data.profileData)
+    this.technologies = new Technologies(data.technologiesData)
+    this.projects = new Projects(data.projectsData, this.technologies)
+    this.techStacks = new TechStacks(data.techStacksData, this.technologies)
+    this.blogs = new Blogs(data.blogsData, this.technologies)
   }
-
-  getProfile = () => this.#profile
-  getProjects = () => this.#projects
-  getTechnologies = () => this.#technologies
-  getTechStacks = () => this.#techStacks
-  getBlogs = () => this.#blogs
 }

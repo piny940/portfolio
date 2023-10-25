@@ -15,7 +15,7 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
 
   return (
     <div id="index">
-      <Profiles className="bg-body" profile={controller.getProfile()} />
+      <Profiles className="bg-body" profile={controller.profile} />
       <section
         id="skills"
         className="d-flex flex-column align-items-center p-5 bg-body-tertiary"
@@ -24,10 +24,7 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
           <h2 className="h1 text-center title-underline">技術スタック</h2>
         </Link>
         <SkillItems
-          techStacks={controller
-            .getTechStacks()
-            .sortedByProficiency()
-            .slice(0, 6)}
+          techStacks={controller.techStacks.sortedByProficiency().slice(0, 6)}
         />
         <Link href="/skills" className="h5 text-primary">
           もっと見る
@@ -42,7 +39,7 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
         </Link>
         <div className="mt-4">
           <ProjectItems
-            projects={controller.getProjects().sortedByFavorite().slice(0, 9)}
+            projects={controller.projects.sortedByFavorite().slice(0, 9)}
           />
         </div>
         <Link href="/projects" className="h5 text-primary">

@@ -24,9 +24,7 @@ const Projects = ({ data }: ProjectsProps): JSX.Element => {
       >
         <h1 className="h1 text-center title-underline">プロジェクト</h1>
         <div className="mt-4">
-          <ProjectItems
-            projects={controller.getProjects().sortedByFavorite()}
-          />
+          <ProjectItems projects={controller.projects.sortedByFavorite()} />
         </div>
       </section>
     </>
