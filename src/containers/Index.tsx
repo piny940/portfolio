@@ -49,7 +49,7 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
         className="d-flex flex-column align-items-center py-5 px-4"
       >
         <Link href="/blogs" className="unstyled">
-          <h2 className="h1 text-center title-underline">ブログ</h2>
+          <h2 className="h1 text-center title-underline">ブログ一覧</h2>
         </Link>
         <div className="mt-4 w-100 px-5">
           <BlogItems blogs={controller.blogs.sortedByDates(6)} />
