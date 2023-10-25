@@ -7,7 +7,7 @@
 ## 1. はじめに
 Youtubeでタイムスタンプを手軽に打てるようにする拡張機能を作成したのでその記録を記します。
 
-Githubリンク: https://github.com/piny940/kokosuko-stamp
+Githubリンク: https://github.com/piny940/kokosuko-stamp  
 アプリリンク: https://chrome.google.com/webstore/detail/kokosuki-stamp/pnbpecefaimbeadmmombelidgkkgfeeg?hl=ja
 
 **参考: Youtubeのタイムスタンプ機能とは**  
