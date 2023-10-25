@@ -25,13 +25,17 @@ export class Blog {
       this.#allTechnologies.findById(techId)
     )
   }
+
+  toData = () => this.#data
 }
 
 export class Blogs {
   #blogs: readonly Blog[] = []
+  #allTechnologies: Technologies
 
   constructor(blogsData: BlogsData, allTechnologies: Technologies) {
     this.#blogs = blogsData.map((data) => new Blog(data, allTechnologies))
+    this.#allTechnologies = allTechnologies
   }
 
   getBlogs = (limit?: number): readonly Blog[] => this.#blogs.slice(0, limit)
@@ -39,5 +43,13 @@ export class Blogs {
   sortedByDates = (limit?: number): readonly Blog[] => {
     const blogs = this.#blogs.slice().reverse()
     return blogs.slice(0, limit)
+  }
+
+  filterByTechnology = (techId: string) => {
+    const filteredBlogs = this.#blogs.filter((blog) =>
+      blog.getTechnologies().some((tech) => tech.getId() === techId)
+    )
+    const filteredData = filteredBlogs.map((blog) => blog.toData())
+    return new Blogs(filteredData, this.#allTechnologies)
   }
 }
