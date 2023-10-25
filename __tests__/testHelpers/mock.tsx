@@ -1,3 +1,5 @@
+import { PortfolioData } from '@/controllers/data_controller'
+import { BlogData } from '@/models/blogs'
 import { ProjectData } from '@/models/project'
 import { TechStackData } from '@/models/tech_stack'
 import { TechnologyData } from '@/models/technology'
@@ -12,9 +14,11 @@ export const TestComponent: React.FC<TestComponentProps> = ({ testID }) => {
   return <div data-testid={testID}>Test</div>
 }
 
-export const data = {
+export const data: PortfolioData = {
   profileData: {
     frontDescription: 'フロントエンドエンジニア',
+    qiita: 'https://example.com',
+    github: 'https://example.com',
   },
   projectsData: [
     Mock.from<ProjectData>({
@@ -53,6 +57,23 @@ export const data = {
     Mock.from<TechStackData>({
       technologyId: 'typescript',
       proficiency: 70,
+    }),
+  ],
+  blogsData: [
+    Mock.from<BlogData>({
+      title: 'Blog1',
+      link: 'https://example.com',
+      technologyIds: ['rails', 'react'],
+    }),
+    Mock.from<BlogData>({
+      title: 'Blog2',
+      link: 'https://example.com',
+      technologyIds: ['rails', 'typescript'],
+    }),
+    Mock.from<BlogData>({
+      title: 'Blog3',
+      link: 'https://example.com',
+      technologyIds: ['rails', 'typescript', 'react'],
     }),
   ],
 }
