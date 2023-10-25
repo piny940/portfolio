@@ -4,6 +4,7 @@ import { PortfolioController } from '@/controllers/portfolio_controller'
 import { PortfolioData } from '@/controllers/data_controller'
 import { Profiles } from '@/components/Portfolio/Profile'
 import Link from 'next/link'
+import BlogItem from '@/components/Portfolio/BlogItem'
 
 export type IndexProps = {
   data: PortfolioData
@@ -43,6 +44,22 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
           <ProjectItems
             projects={controller.getProjects().sortedByFavorite().slice(0, 9)}
           />
+        </div>
+        <Link href="/projects" className="h5 text-primary">
+          <span>もっと見る</span>
+        </Link>
+      </section>
+      <section
+        id="blogs"
+        className="d-flex flex-column align-items-center py-5 px-4  bg-body-tertiary"
+      >
+        <Link href="/blogs" className="unstyled">
+          <h2 className="h1 text-center title-underline">ブログ</h2>
+        </Link>
+        <div className="row row-cols-md-2 row-cols-xl-3 d-flex align-items-stretch">
+          <div className="col-md p-3 mb-3">
+            <BlogItem />
+          </div>
         </div>
         <Link href="/projects" className="h5 text-primary">
           <span>もっと見る</span>
