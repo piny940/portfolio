@@ -41,7 +41,7 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
         </Link>
         <div className="mt-4">
           <ProjectItems
-            projects={controller.getProjects().sortedByFavorite().slice(0, 6)}
+            projects={controller.getProjects().sortedByFavorite().slice(0, 9)}
           />
         </div>
         <Link href="/projects" className="h5 text-primary">
