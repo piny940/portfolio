@@ -40,7 +40,10 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
           <h2 className="h1 text-center title-underline">プロジェクト</h2>
         </Link>
         <div className="mt-5">
-          <ProjectItems projects={controller.projects.sortedByFavorite(6)} />
+          <ProjectItems
+            row={2}
+            projects={controller.projects.sortedByFavorite(4)}
+          />
         </div>
         <Link href="/projects" className="h5 text-primary">
           <span>もっと見る</span>
