@@ -1,5 +1,4 @@
 @import '../../node_modules/bootstrap/scss/bootstrap.scss';
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&display=swap');
 @import './utils.scss';
 
 html {
@@ -13,6 +12,7 @@ html {
 #root {
   min-height: 100dvh;
   font-family: 'Aria', 'Noto Sans JP', sans-serif;
+  font-display: swap;
 }
 
 a.unstyled {
