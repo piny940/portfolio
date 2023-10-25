@@ -1,10 +1,12 @@
 - title: インフラ初心者がUbuntuのVPSを立ててみた話
   link: https://qiita.com/piny940/items/9a3e51124d8f227cb075
-  technologyIds: []
+  technologyIds:
+    - ubuntu
 - title: CapistranoでRailsをVPSにデプロイするとき詰まった点
   link: https://qiita.com/piny940/items/e938736d3ce9a56e5b5a
   technologyIds:
     - rails
+    - ubuntu
     - postgres
 - title: Next.jsをPM2を使ってVPS上にデプロイしてみた
   link: https://qiita.com/piny940/items/78f2df1b50f4f21d5107
@@ -19,6 +21,7 @@
   link: https://qiita.com/piny940/items/23a3bac7f1d867b989dd
   technologyIds:
     - rails
+    - ubuntu
 - title: サブディレクトリ上でGithubCLIのruby/setup-rubyを実行する方法
   link: https://qiita.com/piny940/items/0b03b78d30b24a8b981d
   technologyIds:
@@ -31,20 +34,28 @@
     - docker
 - title: Speee 25卒サマーインターン体験記
   link: https://qiita.com/piny940/items/fadb6d629a2cb2763583
-  technologyIds: []
+  technologyIds:
+    - rails
 - title: 自宅サーバーにUbuntu22.04をインストールしてSSH接続できるようにした話
   link: https://qiita.com/piny940/items/f9d10fb2be3d7148d6ee
-  technologyIds: []
-- title: 自作サーバーをcloudflare経由でSSH接続できるようにした話
+  technologyIds:
+    - ubuntu
+    - server
+    - ssh
+- title: 自宅サーバーをcloudflare経由でSSH接続できるようにした話
   link: https://qiita.com/piny940/items/606a6b03c390c136c1f7
-  technologyIds: []
+  technologyIds:
+    - server
+    - ssh
 - title: 自宅サーバーでRootless dockerを使えるようにした話
   link: https://qiita.com/piny940/items/729e52a80724754daa99
   technologyIds:
     - docker
+    - server
 - title: Docker + nginx + cloudflareでNext.jsのサーバーを立ててみた
   link: https://qiita.com/piny940/items/eddf7a8450a011eda85c
   technologyIds:
     - react
     - typescript
     - docker
+    - server

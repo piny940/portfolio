@@ -1,34 +1,30 @@
-# blue:    "#0d6efd"
-# indigo:  "#6610f2"
-# purple:  "#6f42c1"
+# blue:    "#0D81DE"
+# purple:  "#8762C0"
 # pink:    "#d63384"
-# red:     "#dc3545"
-# orange:  "#fd7e14"
-# yellow:  "#ffc107"
+# red:     "#D24F60"
 # green:   "#198754"
-# teal:    "#20c997"
 # cyan:    "#0dcaf0"
 
 - id: ruby
   name: Ruby
   logoSrc: /images/skills/ruby.svg
-  tagColor: '#dc3545'
+  tagColor: '#D24F60'
 - id: rails
   name: Rails
   logoSrc: /images/skills/rails.svg
-  tagColor: '#dc3545'
+  tagColor: '#D24F60'
 - id: react
   name: React.js
   logoSrc: /images/skills/react.svg
-  tagColor: '#0d6efd'
+  tagColor: '#0D81DE'
 - id: typescript
   name: Typescript
   logoSrc: /images/skills/typescript.svg
-  tagColor: '#0dcaf0'
+  tagColor: '#0D81DE'
 - id: python
   name: Python
   logoSrc: /images/skills/python.svg
-  tagColor: '#0d6efd'
+  tagColor: '#0D81DE'
 - id: vue
   name: Vue.js
   logoSrc: /images/skills/vue.svg
@@ -44,12 +40,22 @@
 - id: docker
   name: Docker
   logoSrc: /images/skills/docker.svg
-  tagColor: '#6f42c1'
+  tagColor: '#8762C0'
 - id: postgres
   name: PostgreSQL
   logoSrc: /images/skills/postgres.svg
-  tagColor: '#6f42c1'
+  tagColor: '#8762C0'
 - id: go
   name: Go
   logoSrc: /images/skills/go.svg
-  tagColor: '#0d6efd'
+  tagColor: '#0D81DE'
+- id: ubuntu
+  name: Ubuntu
+  logoSrc: /images/skills/ubuntu.svg
+  tagColor: '#D24F60'
+- id: ssh
+  name: SSH
+  tagColor: '#90897C'
+- id: server
+  name: 自宅サーバー
+  tagColor: '#90897C'

@@ -51,6 +51,11 @@ export const Navbar: React.FC = () => {
                 プロジェクト
               </Link>
             </li>
+            <li className="nav-item">
+              <Link className="nav-link active" href="/blogs">
+                ブログ一覧
+              </Link>
+            </li>
             <li className="nav-item d-lg-none">
               <a
                 type="button"
