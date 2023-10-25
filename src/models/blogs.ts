@@ -1,3 +1,5 @@
+import { Technologies } from './technology'
+
 export interface BlogData {
   title: string
   link: string
@@ -7,21 +9,25 @@ export interface BlogData {
 export type BlogsData = BlogData[]
 
 export class Blog {
-  #data: BlogData
+  constructor(
+    private readonly data: BlogData,
+    private readonly allTechnologies: Technologies
+  ) {}
 
-  constructor(data: BlogData) {
-    this.#data = data
+  getTitle = () => this.data.title
+  getLink = () => this.data.link
+  getTechnologies = () => {
+    return this.data.technologyIds.map((techId) =>
+      this.allTechnologies.findById(techId)
+    )
   }
-
-  getTitle = () => this.#data.title
-  getLink = () => this.#data.link
 }
 
 export class Blogs {
   #blogs: readonly Blog[] = []
 
-  constructor(blogsData: BlogsData) {
-    this.#blogs = blogsData.map((data) => new Blog(data))
+  constructor(blogsData: BlogsData, allTechnologies: Technologies) {
+    this.#blogs = blogsData.map((data) => new Blog(data, allTechnologies))
   }
 
   getBlogs = () => this.#blogs
