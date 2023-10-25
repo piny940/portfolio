@@ -16,11 +16,11 @@ export type ProjectsData = ProjectData[]
 
 export class Project {
   #data: ProjectData
-  #technologies: ITechnologies
+  #allTechnologies: ITechnologies
 
-  constructor(data: ProjectData, technologies: ITechnologies) {
+  constructor(data: ProjectData, allTechnologies: ITechnologies) {
     this.#data = data
-    this.#technologies = technologies
+    this.#allTechnologies = allTechnologies
   }
 
   getTitle = () => this.#data.title
@@ -30,7 +30,7 @@ export class Project {
   getQiita = () => this.#data.qiita
   getTechnologies = () => {
     return this.#data.technologies.map((techId) =>
-      this.#technologies.findById(techId)
+      this.#allTechnologies.findById(techId)
     )
   }
 
@@ -46,9 +46,11 @@ export class Projects {
 
   constructor(
     projectsData: ProjectsData,
-    private readonly technologies: ITechnologies
+    private readonly allTechnologies: ITechnologies
   ) {
-    this.#projects = projectsData.map((data) => new Project(data, technologies))
+    this.#projects = projectsData.map(
+      (data) => new Project(data, allTechnologies)
+    )
   }
 
   getProjects = () => this.#projects
@@ -68,6 +70,6 @@ export class Projects {
       project.getTechnologies().some((tech) => tech.getId() === techId)
     )
     const filteredData = filteredProjects.map((project) => project.toData())
-    return new Projects(filteredData, this.technologies)
+    return new Projects(filteredData, this.allTechnologies)
   }
 }
