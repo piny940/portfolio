@@ -4,6 +4,7 @@ import { PortfolioController } from '@/controllers/portfolio_controller'
 import Error from 'next/error'
 import ProjectItems from '@/components/Portfolio/ProjectItems'
 import Breadcrumb from '@/components/Common/Breadcrumb'
+import BlogItems from '@/components/Portfolio/BlogItems'
 
 export type SkillProps = {
   data: PortfolioData
@@ -12,13 +13,20 @@ export type SkillProps = {
 
 const Skill = ({ data, id }: SkillProps): JSX.Element => {
   const controller = new PortfolioController(data)
-  const techStack = useMemo(
-    () => controller.techStacks.findByTechnologyId(id),
-    [id, data]
-  )
-  const technology = useMemo(() => techStack?.getTechnology(), [techStack])
 
-  if (!techStack || !technology) return <Error statusCode={404} />
+  const technology = useMemo(() => controller.technologies.findById(id), [id])
+  const projects = useMemo(() => {
+    return controller.projects
+      .filterByTechnology(technology.getId())
+      .sortedByFavorite()
+  }, [technology])
+  const blogs = useMemo(() => {
+    return controller.blogs
+      .filterByTechnology(technology.getId())
+      .sortedByDates()
+  }, [technology])
+
+  if (!technology) return <Error statusCode={404} />
 
   const paths = [
     { name: 'トップページ', path: '/' },
@@ -31,16 +39,23 @@ const Skill = ({ data, id }: SkillProps): JSX.Element => {
       <Breadcrumb paths={paths} />
       <div className="px-5">
         <h1 className="h1 title-underline ps-3">{technology.getName()}</h1>
-        <section className="py-3 px-5">
-          <h2>プロジェクト一覧</h2>
-          <div className="d-flex flex-column align-items-center">
-            <ProjectItems
-              projects={controller.projects
-                .filterByTechnology(technology.getId())
-                .sortedByFavorite()}
-            />
-          </div>
-        </section>
+        {projects.length > 0 && (
+          <section className="py-3 px-5">
+            <h2>プロジェクト一覧</h2>
+            <div className="d-flex flex-column align-items-center">
+              <ProjectItems projects={projects} />
+            </div>
+          </section>
+        )}
+
+        {blogs.length > 0 && (
+          <section className="py-3 px-5">
+            <h2>ブログ一覧</h2>
+            <div className="d-flex flex-column align-items-center">
+              <BlogItems blogs={blogs} />
+            </div>
+          </section>
+        )}
       </div>
     </>
   )

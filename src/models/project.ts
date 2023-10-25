@@ -43,14 +43,13 @@ export class Project {
 
 export class Projects {
   #projects: readonly Project[] = []
+  #allTechnologies: ITechnologies
 
-  constructor(
-    projectsData: ProjectsData,
-    private readonly allTechnologies: ITechnologies
-  ) {
+  constructor(projectsData: ProjectsData, allTechnologies: ITechnologies) {
     this.#projects = projectsData.map(
       (data) => new Project(data, allTechnologies)
     )
+    this.#allTechnologies = allTechnologies
   }
 
   getProjects = (limit?: number) => this.#projects.slice(0, limit)
@@ -70,6 +69,6 @@ export class Projects {
       project.getTechnologies().some((tech) => tech.getId() === techId)
     )
     const filteredData = filteredProjects.map((project) => project.toData())
-    return new Projects(filteredData, this.allTechnologies)
+    return new Projects(filteredData, this.#allTechnologies)
   }
 }

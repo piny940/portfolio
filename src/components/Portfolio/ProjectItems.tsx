@@ -8,7 +8,7 @@ export type ProjectItemsProps = {
 
 const ProjectItems: React.FC<ProjectItemsProps> = ({ projects }) => {
   return (
-    <div className="row row-cols-md-2 row-cols-xl-3 d-flex align-items-stretch">
+    <div className="row row-cols-md-2 row-cols-xl-3 d-flex align-items-stretch w-100">
       {projects.map((project) => (
         <div className="col-md p-3 mb-3" key={project.getTitle()}>
           <ProjectItem project={project} />
