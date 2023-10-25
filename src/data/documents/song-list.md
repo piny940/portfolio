@@ -7,8 +7,8 @@
 ## 1. はじめに
 Vtuberが歌枠で歌った曲を検索できる歌枠データベースを制作したのでその記録を記します。
 
-作成したアプリはこちらのリンクから見ることができます。  
-https://song-list.piny940.com
+アプリリンク: https://song-list.piny940.com  
+Githubリンク: https://github.com/piny940/song-list
 
 ## 2. 作ったアプリについて
 [2-1 アプリの概要](#2-1-アプリの概要)  
