@@ -13,7 +13,7 @@ export type BadgeProps = {
 
 const Badge = ({ color, label, size }: BadgeProps): JSX.Element => {
   const style: CSSProperties = {
-    color: color,
+    backgroundColor: color,
     fontSize: `${size}px`,
   }
   return (
