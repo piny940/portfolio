@@ -2,6 +2,7 @@ import { PieItem } from '../Common/PieItem'
 import Image from 'next/image'
 import { TechStack } from '@/models/tech_stack'
 import Link from 'next/link'
+import { TestID } from '@/resources/TestID'
 
 export type SkillItemProps = {
   techStack: TechStack
@@ -16,6 +17,7 @@ export const SkillItem: React.FC<SkillItemProps> = ({
 
   return (
     <PieItem
+      testId={TestID.SKILL_ITEM}
       innerClassName="bg-body"
       className={'mx-auto ' + className}
       percent={techStack.getProficiency()}

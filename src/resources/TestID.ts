@@ -6,4 +6,5 @@ export enum TestID {
   NAVBAR = 'navbar',
   PROFILE_BUTTON = 'profile-button',
   BLOG_ITEM = 'blog-item',
+  SKILL_ITEM = 'skill-item',
 }
