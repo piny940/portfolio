@@ -2,8 +2,8 @@ import { Blog } from '@/models/blogs'
 import { TestID } from '@/resources/TestID'
 import { memo } from 'react'
 import styled from 'styled-components'
-import Badge from './Badge'
 import Link from 'next/link'
+import TechnologyTag from './TechnologyTag'
 
 const BlogItemDiv = styled.div`
   min-width: 400px;
@@ -26,12 +26,7 @@ const BlogItem = ({ blog }: BlogItemProps): JSX.Element => {
       <ul className="list-unstyled mt-2 mb-1 d-flex">
         {blog.getTechnologies().map((tech) => (
           <li className="me-3" key={tech.getId()}>
-            <Badge
-              testId={TestID.TECHNOLOGY_BADGE}
-              color={tech.getTagColor()}
-              label={`#${tech.getName()}`}
-              size={17}
-            />
+            <TechnologyTag technology={tech} size={17} />
           </li>
         ))}
       </ul>
