@@ -53,16 +53,16 @@ export class Projects {
     )
   }
 
-  getProjects = () => this.#projects
+  getProjects = (limit?: number) => this.#projects.slice(0, limit)
 
-  sortedByFavorite = () => {
+  sortedByFavorite = (limit?: number) => {
     const notFavoriteProjects = this.#projects.filter(
       (project) => !project.getIsFavorite()
     )
     const favoriteProjects = this.#projects.filter((project) =>
       project.getIsFavorite()
     )
-    return [...favoriteProjects, ...notFavoriteProjects]
+    return [...favoriteProjects, ...notFavoriteProjects].slice(0, limit)
   }
 
   filterByTechnology = (techId: string) => {

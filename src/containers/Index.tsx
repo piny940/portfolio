@@ -23,9 +23,7 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
         <Link href="/skills" className="unstyled">
           <h2 className="h1 text-center title-underline">技術スタック</h2>
         </Link>
-        <SkillItems
-          techStacks={controller.techStacks.sortedByProficiency().slice(0, 6)}
-        />
+        <SkillItems techStacks={controller.techStacks.sortedByProficiency(6)} />
         <Link href="/skills" className="h5 text-primary">
           もっと見る
         </Link>
@@ -38,9 +36,7 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
           <h2 className="h1 text-center title-underline">プロジェクト</h2>
         </Link>
         <div className="mt-4">
-          <ProjectItems
-            projects={controller.projects.sortedByFavorite().slice(0, 9)}
-          />
+          <ProjectItems projects={controller.projects.sortedByFavorite(9)} />
         </div>
         <Link href="/projects" className="h5 text-primary">
           <span>もっと見る</span>
