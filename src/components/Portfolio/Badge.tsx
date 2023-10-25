@@ -1,3 +1,4 @@
+import { useTheme } from '@/context/ThemeProvider'
 import { CSSProperties, memo } from 'react'
 import styled from 'styled-components'
 
@@ -13,7 +14,10 @@ export type BadgeProps = {
 }
 
 const Badge = ({ color, label, size, testId }: BadgeProps): JSX.Element => {
+  const { theme } = useTheme()
+
   const style: CSSProperties = {
+    filter: theme === 'dark' ? 'brightness(85%)' : 'brightness(100%)',
     backgroundColor: color,
     fontSize: `${size}px`,
   }
