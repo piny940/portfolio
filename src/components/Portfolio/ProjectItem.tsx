@@ -11,7 +11,7 @@ import { Project } from '@/models/project'
 import FavoriteIcon from './FavoriteIcon'
 
 const ProjectItemDiv = styled.div`
-  min-width: 350px;
+  min-width: 300px;
   max-width: 100%;
 `
 const FavoriteIconDiv = styled.div`
