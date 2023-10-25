@@ -1,3 +1,4 @@
+import { Blog } from '@/models/blogs'
 import { memo } from 'react'
 import styled from 'styled-components'
 
@@ -9,10 +10,14 @@ const BadgeSpan = styled.span`
   font-size: 17px;
 `
 
-const BlogItem = (): JSX.Element => {
+export type BlogItemProps = {
+  blog: Blog
+}
+
+const BlogItem = ({ blog }: BlogItemProps): JSX.Element => {
   return (
     <BlogItemDiv className="bg-body p-4 rounded border d-flex flex-column position-relative w-100 h-100 ">
-      <h3 className="h4">自宅サーバーでNext.jsのサーバーを立てた話</h3>
+      <h3 className="h4">{blog.getTitle()}</h3>
       <ul className="list-unstyled mt-2 mb-1 d-flex">
         <li className="me-3">
           <BadgeSpan className="badge bg-primary">#Next.js</BadgeSpan>
