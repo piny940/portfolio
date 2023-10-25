@@ -39,18 +39,23 @@ const Skill = ({ data, id }: SkillProps): JSX.Element => {
       <Breadcrumb paths={paths} />
       <div className="px-5">
         <h1 className="h1 title-underline ps-3">{technology.getName()}</h1>
-        <section className="py-3 px-5">
-          <h2>プロジェクト一覧</h2>
-          <div className="d-flex flex-column align-items-center">
-            <ProjectItems projects={projects} />
-          </div>
-        </section>
-        <section className="py-3 px-5">
-          <h2>ブログ一覧</h2>
-          <div className="d-flex flex-column align-items-center">
-            <BlogItems blogs={blogs} />
-          </div>
-        </section>
+        {projects.length > 0 && (
+          <section className="py-3 px-5">
+            <h2>プロジェクト一覧</h2>
+            <div className="d-flex flex-column align-items-center">
+              <ProjectItems projects={projects} />
+            </div>
+          </section>
+        )}
+
+        {blogs.length > 0 && (
+          <section className="py-3 px-5">
+            <h2>ブログ一覧</h2>
+            <div className="d-flex flex-column align-items-center">
+              <BlogItems blogs={blogs} />
+            </div>
+          </section>
+        )}
       </div>
     </>
   )
