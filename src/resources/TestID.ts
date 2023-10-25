@@ -7,4 +7,5 @@ export enum TestID {
   PROFILE_BUTTON = 'profile-button',
   BLOG_ITEM = 'blog-item',
   SKILL_ITEM = 'skill-item',
+  PROJECT_ITEM = 'project-item',
 }

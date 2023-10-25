@@ -2,7 +2,7 @@ import { PortfolioData } from '@/controllers/data_controller'
 import { memo, useMemo } from 'react'
 import { PortfolioController } from '@/controllers/portfolio_controller'
 import Error from 'next/error'
-import { ProjectItems } from '@/components/Portfolio/ProjectItems'
+import ProjectItems from '@/components/Portfolio/ProjectItems'
 import Breadcrumb from '@/components/Common/Breadcrumb'
 
 export type SkillProps = {

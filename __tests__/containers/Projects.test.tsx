@@ -1,4 +1,4 @@
-import { ProjectItems } from '@/components/Portfolio/ProjectItems'
+import ProjectItems from '@/components/Portfolio/ProjectItems'
 import { PortfolioController } from '@/controllers/portfolio_controller'
 import { expect } from '@jest/globals'
 import { render, waitFor } from '@testing-library/react'

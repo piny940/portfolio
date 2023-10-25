@@ -1,7 +1,7 @@
 import { PortfolioData } from '@/controllers/data_controller'
 import { PortfolioController } from '@/controllers/portfolio_controller'
 import { memo } from 'react'
-import { ProjectItems } from '@/components/Portfolio/ProjectItems'
+import ProjectItems from '@/components/Portfolio/ProjectItems'
 import Breadcrumb from '@/components/Common/Breadcrumb'
 
 export type ProjectsProps = {
