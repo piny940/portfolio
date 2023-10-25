@@ -34,5 +34,11 @@ export class Blogs {
     this.#blogs = blogsData.map((data) => new Blog(data, allTechnologies))
   }
 
-  getBlogs = () => this.#blogs
+  getBlogs = (count: number): readonly Blog[] =>
+    count ? this.#blogs.slice(0, count) : this.#blogs
+
+  sortedByDates = (count: number | undefined): readonly Blog[] => {
+    const blogs = this.#blogs.slice().reverse()
+    return count ? blogs.slice(0, count) : blogs
+  }
 }
