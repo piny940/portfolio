@@ -18,15 +18,15 @@ export const data = {
   },
   projectsData: [
     Mock.from<ProjectData>({
-      technologies: ['rails', 'react'],
+      technologyIds: ['rails', 'react'],
       title: 'project1',
     }),
     Mock.from<ProjectData>({
-      technologies: ['typescript', 'react'],
+      technologyIds: ['typescript', 'react'],
       title: 'project2',
     }),
     Mock.from<ProjectData>({
-      technologies: ['typescript', 'rails'],
+      technologyIds: ['typescript', 'rails'],
       title: 'project3',
     }),
   ],

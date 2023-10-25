@@ -7,7 +7,7 @@ export interface ProjectData {
   link?: string
   github?: string
   qiita?: string
-  technologies: string[]
+  technologyIds: string[]
   isFavorite: boolean
   detailSrc: string
   detail: string
@@ -29,7 +29,7 @@ export class Project {
   getLink = () => this.#data.link
   getQiita = () => this.#data.qiita
   getTechnologies = () => {
-    return this.#data.technologies.map((techId) =>
+    return this.#data.technologyIds.map((techId) =>
       this.#allTechnologies.findById(techId)
     )
   }
