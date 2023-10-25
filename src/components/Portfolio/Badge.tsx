@@ -18,7 +18,7 @@ const Badge = ({ color, label, size, testId }: BadgeProps): JSX.Element => {
     fontSize: `${size}px`,
   }
   return (
-    <BadgeSpan data-testid={testId} style={style} className="badge bg-primary">
+    <BadgeSpan data-testid={testId} style={style} className="badge">
       {label}
     </BadgeSpan>
   )
