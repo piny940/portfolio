@@ -66,6 +66,7 @@ export const Profiles: React.FC<ProfilesProps> = ({
                 width={31}
                 height={31}
                 alt="github-icon"
+                loading="eager"
               />
             </Link>
           </li>
