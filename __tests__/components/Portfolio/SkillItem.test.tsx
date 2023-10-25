@@ -10,7 +10,7 @@ describe('<SkillItem />', () => {
 
   it('正常に描画される', async () => {
     const props = Mock.from<SkillItemProps>({
-      techStack: controller.getTechStacks().getTechStacks()[0],
+      techStack: controller.techStacks.getTechStacks()[0],
     })
     const component = render(<SkillItem {...props} />)
     await waitFor(() => {

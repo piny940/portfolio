@@ -9,7 +9,7 @@ describe('<Skills />', () => {
 
   it('Skillsが正常に描画される', async () => {
     const component = render(
-      <SkillItems techStacks={controller.getTechStacks().getTechStacks()} />
+      <SkillItems techStacks={controller.techStacks.getTechStacks()} />
     )
 
     await waitFor(() => {

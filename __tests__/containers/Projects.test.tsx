@@ -9,7 +9,7 @@ describe('<ProjectsIndex />', () => {
   const controller = new PortfolioController(data)
 
   it('正常に描画される', async () => {
-    const projects: readonly Project[] = controller.getProjects().getProjects()
+    const projects: readonly Project[] = controller.projects.getProjects()
     const component = render(<ProjectItems projects={projects} />)
     await waitFor(() => {
       expect(component).toBeTruthy()

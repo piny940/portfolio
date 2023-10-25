@@ -13,7 +13,7 @@ describe('<ProjectItem />', () => {
 
   it('正常に描画される', async () => {
     const props = Mock.from<ProjectItemProps>({
-      project: controller.getProjects().getProjects()[0],
+      project: controller.projects.getProjects()[0],
     })
     const component = render(<ProjectItem {...props} />)
     await waitFor(() => {
