@@ -8,4 +8,5 @@ export enum TestID {
   BLOG_ITEM = 'blog-item',
   SKILL_ITEM = 'skill-item',
   PROJECT_ITEM = 'project-item',
+  TECHNOLOGY_BADGE = 'technology-badge',
 }

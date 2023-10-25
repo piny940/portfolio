@@ -24,6 +24,7 @@ const BlogItem = ({ blog }: BlogItemProps): JSX.Element => {
         {blog.getTechnologies().map((tech) => (
           <li className="me-3" key={tech.getId()}>
             <Badge
+              testId={TestID.TECHNOLOGY_BADGE}
               color={tech.getTagColor()}
               label={`#${tech.getName()}`}
               size={17}

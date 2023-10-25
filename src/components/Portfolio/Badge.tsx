@@ -9,15 +9,16 @@ export type BadgeProps = {
   color: string
   label: string
   size: number
+  testId?: string
 }
 
-const Badge = ({ color, label, size }: BadgeProps): JSX.Element => {
+const Badge = ({ color, label, size, testId }: BadgeProps): JSX.Element => {
   const style: CSSProperties = {
     backgroundColor: color,
     fontSize: `${size}px`,
   }
   return (
-    <BadgeSpan style={style} className="badge bg-primary">
+    <BadgeSpan data-testid={testId} style={style} className="badge bg-primary">
       {label}
     </BadgeSpan>
   )
