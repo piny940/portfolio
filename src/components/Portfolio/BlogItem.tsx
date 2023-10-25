@@ -23,9 +23,9 @@ const BlogItem = ({ blog }: BlogItemProps): JSX.Element => {
       <Link href={blog.getLink()} target="_blank" className="unstyled">
         <h3 className="h4">{blog.getTitle()}</h3>
       </Link>
-      <ul className="list-unstyled mt-2 mb-1 d-flex">
+      <ul className="list-unstyled mt-2 mb-1 d-flex flex-wrap">
         {blog.getTechnologies().map((tech) => (
-          <li className="me-3" key={tech.getId()}>
+          <li className="me-3 mt-1" key={tech.getId()}>
             <TechnologyTag technology={tech} size={17} />
           </li>
         ))}
