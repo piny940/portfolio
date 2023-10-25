@@ -1,4 +1,5 @@
 import { Blog } from '@/models/blogs'
+import { TestID } from '@/resources/TestID'
 import { memo } from 'react'
 import styled from 'styled-components'
 
@@ -16,7 +17,10 @@ export type BlogItemProps = {
 
 const BlogItem = ({ blog }: BlogItemProps): JSX.Element => {
   return (
-    <BlogItemDiv className="bg-body p-4 rounded border d-flex flex-column position-relative w-100 h-100 ">
+    <BlogItemDiv
+      data-testid={TestID.BLOG_ITEM}
+      className="bg-body p-4 rounded border d-flex flex-column position-relative w-100 h-100 "
+    >
       <h3 className="h4">{blog.getTitle()}</h3>
       <ul className="list-unstyled mt-2 mb-1 d-flex">
         <li className="me-3">
