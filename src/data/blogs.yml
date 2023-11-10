@@ -59,3 +59,10 @@
     - typescript
     - docker
     - server
+- title: Next.js + NginxサーバーをDockerで構築した話
+  link: https://qiita.com/piny940/items/602316d913938db01c81
+  technologyIds:
+    - react
+    - typescript
+    - docker
+    - server
