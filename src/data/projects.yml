@@ -7,6 +7,7 @@
     - typescript
     - react
     - postgres
+    - docker
   isFavorite: true
   detailSrc: 'src/data/documents/song-list.md'
   qiita: 'https://qiita.com/piny940/items/439441130b8d11480d2e'
