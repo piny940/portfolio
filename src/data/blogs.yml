@@ -66,3 +66,9 @@
     - typescript
     - docker
     - server
+- title: Rails + Nginxの本番環境をDockerで構築した話
+  link: https://qiita.com/piny940/items/e41c2709692195f823b5
+  technologyIds:
+    - rails
+    - docker
+    - server
