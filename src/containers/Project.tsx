@@ -4,6 +4,7 @@ import TechnologyTag from '@/components/Portfolio/TechnologyTag'
 import { PortfolioData } from '@/controllers/data_controller'
 import { PortfolioController } from '@/controllers/portfolio_controller'
 import Error from 'next/error'
+import Link from 'next/link'
 import { useMemo } from 'react'
 
 export type ProjectShowProps = {
@@ -17,6 +18,8 @@ export const ProjectShow: React.FC<ProjectShowProps> = ({ title, data }) => {
     const projects = controller.projects.getProjects()
     return projects.find((project) => project.getTitle() === title)
   }, [title])
+  const link = useMemo(() => project?.getLink(), [project])
+  const github = useMemo(() => project?.getGithub(), [project])
 
   if (!project) return <Error statusCode={400} />
 
@@ -37,6 +40,24 @@ export const ProjectShow: React.FC<ProjectShowProps> = ({ title, data }) => {
               <TechnologyTag technology={tech} size={15} />
             </li>
           ))}
+        </ul>
+        <ul className="list-unstyled links ms-4">
+          {link && (
+            <li className="my-2">
+              アプリリンク:
+              <Link target="_blank" href={link} className="ms-1">
+                {link}
+              </Link>
+            </li>
+          )}
+          {github && (
+            <li className="my-2">
+              GitHub:
+              <Link target="_blank" href={github} className="ms-1">
+                {github}
+              </Link>
+            </li>
+          )}
         </ul>
         <div className="markdown pb-5">
           <MarkdownDisplay content={project.getDetail()} />
