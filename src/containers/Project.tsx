@@ -34,7 +34,7 @@ export const ProjectShow: React.FC<ProjectShowProps> = ({ title, data }) => {
         <ul className="list-unstyled d-flex mx-4 flex-wrap">
           {project.getTechnologies().map((tech) => (
             <li key={tech.getId()} className="mx-1">
-              <TechnologyTag technology={tech} size={16} />
+              <TechnologyTag technology={tech} size={15} />
             </li>
           ))}
         </ul>
