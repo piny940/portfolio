@@ -7,7 +7,7 @@
 - technologyId: python
   proficiency: 70
 - technologyId: docker
-  proficiency: 60
+  proficiency: 75
 - technologyId: vue
   proficiency: 40
 - technologyId: django
