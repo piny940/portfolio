@@ -11,6 +11,9 @@ const nextConfig = {
   images: {
     domains: ['storage.googleapis.com'],
   },
+  compiler: {
+    styledComponents: true,
+  },
   async rewrites() {
     return [
       {
