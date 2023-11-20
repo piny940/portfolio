@@ -76,6 +76,7 @@
     - react
     - typescript
     - postgres
+    - docker
   isFavorite: true
   qiita: 'https://qiita.com/piny940/items/2d1867794081085bdb48'
 
