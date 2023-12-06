@@ -72,3 +72,19 @@
     - rails
     - docker
     - server
+- title: Latexでよく使う構文(備忘録)
+  link: https://qiita.com/piny940/items/11732a3b802ec3447422
+  technologyIds: []
+- title: '[k8s] kubernetesのマルチノードクラスタでpodにアクセスできなくて困った件について'
+  link: https://qiita.com/piny940/items/3c1c10b80c7e173d527d
+  technologyIds:
+    - kubernetes
+    - ubuntu
+- title: '[k8s] minikube上でNext.js + nginxサーバーを立ててみた話'
+  link: https://qiita.com/piny940/items/0feef2500c8111a520ea
+  technologyIds:
+    - kubernetes
+- title: '[k8s] VPS上で立てたkubernetesクラスタを公開してみた話'
+  link: https://qiita.com/piny940/items/0ee6a391802c21ab48c1
+  technologyIds:
+    - kubernetes
