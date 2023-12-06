@@ -17,9 +17,9 @@ const CircleDiv = styled.div`
 `
 
 const PieDiv = styled.div<{
-  start: number[]
-  end: number[]
-  percent: number
+  $start: number[]
+  $end: number[]
+  $percent: number
 }>`
   width: 200px;
   height: 200px;
@@ -27,8 +27,8 @@ const PieDiv = styled.div<{
   background-image: conic-gradient(
     ${(
       props
-    ) => `rgb(${props.start[0]}, ${props.start[1]}, ${props.start[2]}), rgb(${props.end[0]}, ${props.end[1]}, ${props.end[2]}) ${props.percent}%,
-    rgb(79, 79, 79) ${props.percent}% 100%`}
+    ) => `rgb(${props.$start[0]}, ${props.$start[1]}, ${props.$start[2]}), rgb(${props.$end[0]}, ${props.$end[1]}, ${props.$end[2]}) ${props.$percent}%,
+    rgb(79, 79, 79) ${props.$percent}% 100%`}
   );
   position: relative;
 `
@@ -55,9 +55,9 @@ export const PieItem: React.FC<PieItemProps> = ({
   return (
     <PieDiv
       data-testid={testId}
-      start={start}
-      end={color}
-      percent={percent}
+      $start={start}
+      $end={color}
+      $percent={percent}
       className={className}
     >
       <CircleDiv className={innerClassName}>{children}</CircleDiv>
