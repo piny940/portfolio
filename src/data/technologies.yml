@@ -41,6 +41,10 @@
   name: Docker
   logoSrc: /images/skills/docker.svg
   tagColor: '#8762C0'
+- id: kubernetes
+  name: kubernetes
+  logoSrc: /images/skills/kubernetes/svg
+  tagColor: '#8762C0'
 - id: postgres
   name: PostgreSQL
   logoSrc: /images/skills/postgres.svg
