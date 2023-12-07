@@ -8,7 +8,6 @@ export type ProjectItemsProps = {
 }
 
 const ProjectItems: React.FC<ProjectItemsProps> = ({ projects, row = 3 }) => {
-  hoge
   return (
     <div
       className={`row row-cols-md-2 row-cols-xl-${row} d-flex align-items-stretch w-100`}
