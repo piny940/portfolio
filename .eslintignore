@@ -33,3 +33,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+.eslintrc.js
+jest.config.js
+jest.setup.js
+next.config.js

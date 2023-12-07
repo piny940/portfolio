@@ -23,4 +23,6 @@ jobs:
       - name: Yarn install
         run: yarn --cwd frontend install
       - name: Prettier && ESLint
-        run: yarn --cwd frontend next lint
+        run: if yarn --cwd frontend lint |& grep -E "(error|warn)"; then exit 1; fi
+      - name: Yarn test
+        run: if yarn --cwd frontend test |& grep -E "failed"; then exit 1; fi
