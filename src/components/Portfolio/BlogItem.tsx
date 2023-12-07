@@ -6,7 +6,6 @@ import Link from 'next/link'
 import TechnologyTag from './TechnologyTag'
 
 const BlogItemDiv = styled.div`
-  min-width: 400px;
   max-width: 100%;
 `
 

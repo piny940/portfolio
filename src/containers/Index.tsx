@@ -52,7 +52,7 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
       <div className="bg-body-tertiary py-2"></div>
       <section
         id="blogs"
-        className="d-flex flex-column align-items-center w-75 mx-auto py-5 px-4"
+        className="d-flex flex-column align-items-center mx-auto py-5 px-4 px-lg-5"
       >
         <Link href="/blogs" className="unstyled">
           <h2 className="h1 text-center title-underline">ブログ一覧</h2>
