@@ -10,7 +10,7 @@ const BlogItems = ({ blogs }: BlogItemsProps): JSX.Element => {
   return (
     <div className="row row-cols-lg-2 w-100 align-items-stretch">
       {blogs.map((blog) => (
-        <div className="col-md p-3 mb-3" key={blog.getTitle()}>
+        <div className="col-lg p-3 mb-3" key={blog.getTitle()}>
           <BlogItem blog={blog} />
         </div>
       ))}
