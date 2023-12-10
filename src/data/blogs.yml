@@ -88,3 +88,7 @@
   link: https://qiita.com/piny940/items/0ee6a391802c21ab48c1
   technologyIds:
     - kubernetes
+- title: '[k8s] kubernetesにGrafana + Prometheusをインストールした話'
+  link: https://qiita.com/piny940/items/831d386919ec8a81dae2
+  technologyIds:
+    - kubernetes
