@@ -92,3 +92,7 @@
   link: https://qiita.com/piny940/items/831d386919ec8a81dae2
   technologyIds:
     - kubernetes
+- title: '[k8s] fluxを使ってkubernetesの自動デプロイ基盤を整えた話'
+  link: https://qiita.com/piny940/items/536123b1c4b1884180fe
+  technologyIds:
+    - kubernetes
