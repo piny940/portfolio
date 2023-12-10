@@ -96,3 +96,7 @@
   link: https://qiita.com/piny940/items/536123b1c4b1884180fe
   technologyIds:
     - kubernetes
+- title: '[k8s] fluxでhelmとkustomizeが自動適用されるようにしてみた'
+  link: https://qiita.com/piny940/items/e99fea7fcba720047b11
+  technologyIds:
+    - kubernetes
