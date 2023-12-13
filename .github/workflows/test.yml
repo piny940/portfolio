@@ -18,7 +18,7 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
-      - name: Install Dependencies
+      - name: Yarn install
         run: yarn install --prefer-offline
       - name: Prettier && ESLint
         run: if yarn lint |& grep -E "(error|warn)"; then exit 1; fi
