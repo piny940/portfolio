@@ -1,4 +1,4 @@
-import { ProjectItem } from '@/components/Portfolio/ProjectItem'
+// import { ProjectItem } from '@/components/Portfolio/ProjectItem'
 import { Project } from '@/models/project'
 import { memo } from 'react'
 
@@ -14,7 +14,7 @@ const ProjectItems: React.FC<ProjectItemsProps> = ({ projects, row = 3 }) => {
     >
       {projects.map((project) => (
         <div className="col-md p-3 mb-3" key={project.getTitle()}>
-          <ProjectItem project={project} />
+          {/* <ProjectItem project={project} /> */}
         </div>
       ))}
     </div>
