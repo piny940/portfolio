@@ -14,7 +14,7 @@ const ProjectItems: React.FC<ProjectItemsProps> = ({ projects, row = 3 }) => {
     >
       {projects.map((project) => (
         <div className="col-md p-3 mb-3" key={project.getTitle()}>
-          <ProjaectItem project={project} />
+          <ProjectItem project={project} />
         </div>
       ))}
     </div>
