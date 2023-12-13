@@ -11,10 +11,6 @@ import { Project } from '@/models/project'
 import FavoriteIcon from './FavoriteIcon'
 import { TestID } from '@/resources/TestID'
 
-const ProjectItemDiv = styled.div`
-  min-width: 300px;
-  max-width: 100%;
-`
 const FavoriteIconDiv = styled.div`
   position: absolute;
   left: -10px;
@@ -40,7 +36,7 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
   )
 
   return (
-    <ProjectItemDiv
+    <div
       data-testid={TestID.PROJECT_ITEM}
       className={
         'p-3 rounded border d-flex flex-column align-items-center position-relative w-100 h-100 ' +
@@ -101,6 +97,6 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
         </p>
       </div>
       <p className="">{project.getDescription()}</p>
-    </ProjectItemDiv>
+    </div>
   )
 }
