@@ -12,7 +12,6 @@ import FavoriteIcon from './FavoriteIcon'
 import { TestID } from '@/resources/TestID'
 
 const ProjectItemDiv = styled.div`
-  min-width: 300px;
   max-width: 100%;
 `
 const FavoriteIconDiv = styled.div`
