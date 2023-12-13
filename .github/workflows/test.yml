@@ -8,21 +8,9 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 20
-      - name: Cache node modules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
-        with:
-          # npm キャッシュファイルは Linux/macOS の「~/.npm」に保存される
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
       - name: Yarn install
-        run: yarn --cwd frontend install
+        run: yarn install
       - name: Prettier && ESLint
-        run: if yarn --cwd frontend lint |& grep -E "(error|warn)"; then exit 1; fi
+        run: if yarn lint |& grep -E "(error|warn)"; then exit 1; fi
       - name: Yarn test
-        run: if yarn --cwd frontend test |& grep -E "failed"; then exit 1; fi
+        run: if yarn test |& grep -E "failed"; then exit 1; fi
