@@ -9,7 +9,9 @@ jobs:
         with:
           node-version: 20
       - name: Yarn install
-        run: yarn install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install
       - name: Prettier && ESLint
         run: if yarn lint |& grep -E "(error|warn)"; then exit 1; fi
       - name: Yarn test
