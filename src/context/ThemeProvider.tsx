@@ -44,6 +44,10 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     if (defaultTheme) setTheme(defaultTheme)
   }, [])
 
+  useEffect(() => {
+    document.querySelector('html')?.setAttribute('data-bs-theme', theme)
+  }, [theme])
+
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
 }
 

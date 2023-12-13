@@ -2,7 +2,7 @@ import { Head, Html, Main, NextScript } from 'next/document'
 
 function Document() {
   return (
-    <Html>
+    <Html className="bg-body">
       <Head>
         <link
           href="https://fonts.googleapis.com/icon?family=Material+Icons"
