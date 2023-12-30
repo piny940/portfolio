@@ -1,0 +1,9 @@
+{
+  "name": "blog-updater",
+  "version": "1.0.0",
+  "main": "main.js",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}
