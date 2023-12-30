@@ -11,7 +11,7 @@ export const Navbar: React.FC = () => {
     return () => {
       setTheme(theme === 'light' ? 'dark' : 'light')
     }
-  }, [theme])
+  }, [theme, setTheme])
 
   return (
     <nav

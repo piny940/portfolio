@@ -30,7 +30,7 @@ export const MarkdownDisplay = ({ content }: MarkdownDisplayProps) => {
       setHtml(htmlString)
     }
     void getContent()
-  }, [])
+  }, [content])
 
   return (
     <>
