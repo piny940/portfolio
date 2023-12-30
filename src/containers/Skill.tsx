@@ -12,19 +12,22 @@ export type SkillProps = {
 }
 
 const Skill = ({ data, id }: SkillProps): JSX.Element => {
-  const controller = new PortfolioController(data)
+  const controller = useMemo(() => new PortfolioController(data), [data])
 
-  const technology = useMemo(() => controller.technologies.findById(id), [id])
+  const technology = useMemo(
+    () => controller.technologies.findById(id),
+    [id, controller]
+  )
   const projects = useMemo(() => {
     return controller.projects
       .filterByTechnology(technology.getId())
       .sortedByFavorite()
-  }, [technology])
+  }, [technology, controller])
   const blogs = useMemo(() => {
     return controller.blogs
       .filterByTechnology(technology.getId())
       .sortedByDates()
-  }, [technology])
+  }, [technology, controller])
 
   if (!technology) return <Error statusCode={404} />
 
