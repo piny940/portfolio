@@ -2,6 +2,12 @@
   "name": "blog-updater",
   "version": "1.0.0",
   "main": "main.js",
+  "scripts": {
+    "dev": "webpack --mode development --watch",
+    "build": "webpack",
+    "lint": "eslint --ext .ts src",
+    "lint:fix": "eslint --fix --ext .ts src"
+  },
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.10.6",
