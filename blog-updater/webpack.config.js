@@ -1,4 +1,7 @@
 module.exports = {
+  entry: {
+    main: `${__dirname}/main.ts`,
+  },
   output: {
     path: `${__dirname}/out`,
     filename: '[name].js',

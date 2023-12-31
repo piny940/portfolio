@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
-    "jsx": "react",
-    "lib": ["dom", "esnext"],
+    "lib": [
+      "dom",
+      "esnext"
+    ],
     "target": "ESNext",
     "allowJs": false,
     "skipLibCheck": true,
@@ -13,8 +15,16 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "noEmit": false,
-    "types": ["node"]
+    "types": [
+      "node"
+    ]
   },
-  "include": ["*.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "include": [
+    "*.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
