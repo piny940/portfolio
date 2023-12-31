@@ -2,7 +2,7 @@ name: Test
 on: [push]
 
 jobs:
-  frontend:
+  app:
     env:
       NODE_VERSION: 20
     runs-on: ubuntu-latest
@@ -17,10 +17,33 @@ jobs:
         with:
           path: |
             node_modules
-          key: node-v${{ env.NODE_VERSION }}-deps-${{ hashFiles(format('{0}{1}', github.workspace, '/yarn.lock')) }}
+          key: app-node-v${{ env.NODE_VERSION }}-deps-${{ hashFiles(format('{0}{1}', github.workspace, '/yarn.lock')) }}
       - name: Yarn install
         run: yarn --cwd app install
       - name: Prettier && ESLint
         run: if yarn --cwd app lint |& grep -E "(error|warn)"; then exit 1; fi
       - name: Yarn test
         run: if yarn --cwd app test |& grep -E "failed"; then exit 1; fi
+
+  blog-updater:
+    env:
+      NODE_VERSION: 20
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION}}
+      - name: cache node_modules
+        id: node_modules_cache_id
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+          key: blog-updater-node-v${{ env.NODE_VERSION }}-deps-${{ hashFiles(format('{0}{1}', github.workspace, '/yarn.lock')) }}
+      - name: Yarn install
+        run: yarn --cwd blog-updater install
+      - name: Prettier && ESLint
+        run: if yarn --cwd blog-updater lint |& grep -E "(error|warn)"; then exit 1; fi
+      # - name: Yarn test
+      #   run: if yarn --cwd blog-updater test |& grep -E "failed"; then exit 1; fi
