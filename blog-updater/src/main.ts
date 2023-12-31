@@ -55,6 +55,17 @@ const main = async () => {
     }
   )
   console.log(ref)
+  const { data: pr } = await octokit.request(
+    'POST /repos/{owner}/{repo}/pulls',
+    {
+      owner,
+      repo,
+      title: 'test',
+      head: ref.ref,
+      base: branchName,
+    }
+  )
+  console.log(pr)
 
   // console.log(branches)
 }
