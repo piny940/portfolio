@@ -4,7 +4,7 @@
   "main": "main.js",
   "scripts": {
     "dev": "webpack --mode development --watch",
-    "build": "webpack",
+    "build": "webpack --mode production",
     "lint": "yarn -s run prettier --write . && yarn -s run eslint --ext .ts,.js, . --fix"
   },
   "license": "MIT",

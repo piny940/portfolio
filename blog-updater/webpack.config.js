@@ -1,6 +1,6 @@
 module.exports = {
   entry: {
-    main: `${__dirname}/main.ts`,
+    main: `${__dirname}/src/main.ts`,
   },
   output: {
     path: `${__dirname}/out`,
