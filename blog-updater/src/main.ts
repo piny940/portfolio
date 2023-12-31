@@ -1,31 +1,73 @@
-import crypto from 'crypto'
-import { Octokit } from 'octokit'
-import { createAppAuth } from '@octokit/auth-app'
-import dotenv from 'dotenv'
+import { initConfig } from './config'
+import { initOctokit } from './github'
 
-dotenv.config({ path: '.env.development' })
+initConfig()
+const owner = process.env.REPOSITORY_OWNER as string
+const repo = process.env.REPOSITORY_NAME as string
+const branchName = process.env.BRANCH_NAME as string
 
-const appId = process.env.GITHUB_APP_ID as string
-const privateKey = (process.env.GITHUB_APP_PRIVATE_KEY as string).replace(
-  /\\n/g,
-  '\n'
-)
-const clientId = process.env.GITHUB_APP_CLIENT_ID as string
-const clientSecret = process.env.GITHUB_APP_CLIENT_SECRET as string
+const main = async () => {
+  const octokit = await initOctokit()
+  const { data: branchesData } = await octokit.request(
+    'GET /repos/{owner}/{repo}/branches',
+    {
+      owner,
+      repo,
+    }
+  )
+  const masterBranch = branchesData.find((branch) => branch.name === branchName)
+  if (!masterBranch) throw new Error(`Branch ${branchName} not found`)
 
-const privateKeyPkcs8 = crypto.createPrivateKey(privateKey).export({
-  type: 'pkcs8',
-  format: 'pem',
-})
+  const { data: tree } = await octokit.request(
+    'POST /repos/{owner}/{repo}/git/trees',
+    {
+      owner,
+      repo,
+      tree: [
+        {
+          path: 'test.txt',
+          mode: '100644',
+          type: 'blob',
+          content: 'test',
+        },
+      ],
+      base_tree: masterBranch.commit.sha,
+    }
+  )
+  const { data: commit } = await octokit.request(
+    'POST /repos/{owner}/{repo}/git/commits',
+    {
+      owner,
+      repo,
+      message: 'test',
+      tree: tree.sha,
+      parents: [masterBranch.commit.sha],
+    }
+  )
+  console.log(commit)
+  const { data: ref } = await octokit.request(
+    'POST /repos/{owner}/{repo}/git/refs',
+    {
+      owner,
+      repo,
+      ref: `refs/heads/update-blog-${Date.now()}`,
+      sha: commit.sha,
+    }
+  )
+  console.log(ref)
+  const { data: pr } = await octokit.request(
+    'POST /repos/{owner}/{repo}/pulls',
+    {
+      owner,
+      repo,
+      title: 'test',
+      head: ref.ref,
+      base: branchName,
+    }
+  )
+  console.log(pr)
 
-const appOctokit = new Octokit({
-  authStrategy: createAppAuth,
-  auth: { appId, privateKey: privateKeyPkcs8, clientId, clientSecret },
-})
-console.log(appOctokit)
-
-const getData = async () => {
-  const data = await appOctokit.rest.apps.getAuthenticated()
-  console.log(data)
+  // console.log(branches)
 }
-void getData()
+
+main()
