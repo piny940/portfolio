@@ -24,6 +24,7 @@
     "crypto": false
   },
   "dependencies": {
+    "dotenv": "^16.3.1",
     "octokit": "^3.1.2"
   }
 }
