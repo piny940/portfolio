@@ -1,5 +1,5 @@
 node_modules
 *.log*
 .env
-dist
+out
 webpack.*.js
