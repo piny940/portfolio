@@ -13,7 +13,7 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "noEmit": false,
-    "types": ["node", "jest"]
+    "types": ["node"]
   },
   "include": ["*.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
