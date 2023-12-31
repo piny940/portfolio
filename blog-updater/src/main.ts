@@ -1,31 +1,15 @@
-import crypto from 'crypto'
-import { Octokit } from 'octokit'
-import { createAppAuth } from '@octokit/auth-app'
-import dotenv from 'dotenv'
+import { initConfig } from './config'
+import { initOctokit } from './github'
 
-dotenv.config({ path: '.env.development' })
+initConfig()
 
-const appId = process.env.GITHUB_APP_ID as string
-const privateKey = (process.env.GITHUB_APP_PRIVATE_KEY as string).replace(
-  /\\n/g,
-  '\n'
-)
-const clientId = process.env.GITHUB_APP_CLIENT_ID as string
-const clientSecret = process.env.GITHUB_APP_CLIENT_SECRET as string
-
-const privateKeyPkcs8 = crypto.createPrivateKey(privateKey).export({
-  type: 'pkcs8',
-  format: 'pem',
-})
-
-const appOctokit = new Octokit({
-  authStrategy: createAppAuth,
-  auth: { appId, privateKey: privateKeyPkcs8, clientId, clientSecret },
-})
-console.log(appOctokit)
-
-const getData = async () => {
-  const data = await appOctokit.rest.apps.getAuthenticated()
-  console.log(data)
+const main = async () => {
+  const octokit = await initOctokit()
+  const branches = await octokit.request('GET /repos/{owner}/{repo}/branches', {
+    owner: process.env.REPOSITORY_OWNER as string,
+    repo: process.env.REPOSITORY_NAME as string,
+  })
+  console.log(branches)
 }
-void getData()
+
+main()
