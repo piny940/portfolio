@@ -19,8 +19,8 @@ jobs:
             node_modules
           key: node-v${{ env.NODE_VERSION }}-deps-${{ hashFiles(format('{0}{1}', github.workspace, '/yarn.lock')) }}
       - name: Yarn install
-        run: yarn install
+        run: yarn --cwd app install
       - name: Prettier && ESLint
-        run: if yarn lint |& grep -E "(error|warn)"; then exit 1; fi
+        run: if yarn --cwd app lint |& grep -E "(error|warn)"; then exit 1; fi
       - name: Yarn test
-        run: if yarn test |& grep -E "failed"; then exit 1; fi
+        run: if yarn --cwd app test |& grep -E "failed"; then exit 1; fi
