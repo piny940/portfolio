@@ -21,8 +21,8 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          context: .
-          file: Dockerfile
+          context: ./app
+          file: ./app/Dockerfile
           tags: |
             ghcr.io/piny940/portfolio:1.0.${{ github.run_number }}
             ghcr.io/piny940/portfolio:latest
