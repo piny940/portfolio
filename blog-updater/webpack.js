@@ -3,10 +3,7 @@ const CopyPlugin = require('copy-webpack-plugin')
 const Dotenv = require('dotenv-webpack')
 
 module.exports = {
-  plugins: [
-    new CleanWebpackPlugin(),
-    new Dotenv({ systemvars: true }),
-  ],
+  plugins: [new CleanWebpackPlugin(), new Dotenv({ systemvars: true })],
   output: {
     path: `${__dirname}/out`,
     filename: '[name].js',

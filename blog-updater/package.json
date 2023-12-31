@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "webpack --mode development --watch",
     "build": "webpack",
-    "lint": "eslint --ext .ts src",
-    "lint:fix": "eslint --fix --ext .ts src"
+    "lint": "yarn -s run prettier --write . && yarn -s run eslint --ext .ts,.js, . --fix"
   },
   "license": "MIT",
   "devDependencies": {
