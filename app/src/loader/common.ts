@@ -10,7 +10,7 @@ export const dbClient = new Client({
   host: process.env.DB_HOST,
   port: Number(process.env.DB_PORT),
 })
-dbClient.connect()
+await dbClient.connect()
 
 export class FileLoader implements IFileLoader {
   load = (filename: string) => {
