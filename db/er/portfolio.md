@@ -2,6 +2,7 @@
 erDiagram
   blogs ||--o| qiita_articles : "Qiita記事"
   blogs ||--o| zenn_articles : "Zenn記事"
+  blogs ||--o| own_articles : "サイト内記事"
   blogs ||--o{ blog_tags : "ブログタグ"
   technologies ||--o{ blog_tags : ""
   technologies ||--o| tech_stacks : "習熟レベル"
@@ -35,14 +36,14 @@ erDiagram
   qiita_articles {
     bigserial id PK
     bigint blog_id FK
-    text body
-    integer comments_count
-    timestamp article_created_at
-    timestamp article_updated_at
+    text content
+    timestamp published_at
+    timestamp edited_at
     integer likes_count
-    varchar qiita_id
-    integer page_views_count
-    text raw_response
+    integer stocks_count
+    bigint qiita_id
+    integer views_count
+    text raw_body
     timestamp created_at
     timestamp updated_at
   }
@@ -52,12 +53,16 @@ erDiagram
     timestamp created_at
     timestamp updated_at
   }
+  own_articles {
+    bigserial id PK
+    text body
+    timestamp created_at
+    timestamp updated_at
+  }
   projects {
     varchar id PK
     varchar title
     varchar description
-    timestamp created_at
-    timestamp updated_at
     boolean is_favorite
     timestamp created_at
     timestamp updated_at
