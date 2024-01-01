@@ -2,6 +2,7 @@
 erDiagram
   blogs ||--o| qiita_articles : "Qiita記事"
   blogs ||--o| zenn_articles : "Zenn記事"
+  blogs ||--o| own_articles : "サイト内記事"
   blogs ||--o{ blog_tags : "ブログタグ"
   technologies ||--o{ blog_tags : ""
   technologies ||--o| tech_stacks : "習熟レベル"
@@ -37,16 +38,22 @@ erDiagram
     bigint blog_id FK
     text body
     integer comments_count
-    timestamp article_created_at
-    timestamp article_updated_at
+    timestamp published_at
+    timestamp edited_at
     integer likes_count
     varchar qiita_id
-    integer page_views_count
+    integer views_count
     text raw_response
     timestamp created_at
     timestamp updated_at
   }
   zenn_articles  {
+    bigserial id PK
+    text body
+    timestamp created_at
+    timestamp updated_at
+  }
+  own_articles {
     bigserial id PK
     text body
     timestamp created_at
