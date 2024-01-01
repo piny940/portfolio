@@ -36,14 +36,14 @@ erDiagram
   qiita_articles {
     bigserial id PK
     bigint blog_id FK
-    text body
+    text content
     timestamp published_at
     timestamp edited_at
     integer likes_count
     integer stocks_count
-    varchar qiita_id
+    bigint qiita_id
     integer views_count
-    text raw_response
+    text raw_body
     timestamp created_at
     timestamp updated_at
   }
@@ -63,8 +63,6 @@ erDiagram
     varchar id PK
     varchar title
     varchar description
-    timestamp created_at
-    timestamp updated_at
     boolean is_favorite
     timestamp created_at
     timestamp updated_at
