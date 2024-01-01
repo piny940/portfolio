@@ -37,10 +37,10 @@ erDiagram
     bigserial id PK
     bigint blog_id FK
     text body
-    integer comments_count
     timestamp published_at
     timestamp edited_at
     integer likes_count
+    integer stocks_count
     varchar qiita_id
     integer views_count
     text raw_response
