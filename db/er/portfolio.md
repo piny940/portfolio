@@ -1,0 +1,88 @@
+```mermaid
+erDiagram
+  blogs ||--o| qiita_articles : "Qiita記事"
+  blogs ||--o| zenn_articles : "Zenn記事"
+  blogs ||--o{ blog_tags : "ブログタグ"
+  technologies ||--o{ blog_tags : ""
+  technologies ||--o| tech_stacks : "習熟レベル"
+  technologies ||--o{ project_tags : ""
+  projects ||--o{ project_tags : "プロジェクトタグ"
+  projects ||--o{ project_links : "リンク"
+
+  blogs {
+    bigserial id PK
+    varchar title
+    varchar url
+    integer kind "記事種類"
+    timestamp created_at
+    timestamp updated_at
+  }
+  blog_tags {
+    bigserial id PK
+    bigint blog_id FK
+    varchar technology_id FK
+    timestamp created_at
+    timestamp updated_at
+  }
+  technologies {
+    varchar id PK
+    varchar name
+    varchar logo_url "nullable"
+    varchar tag_color
+    timestamp created_at
+    timestamp updated_at
+  }
+  qiita_articles {
+    bigserial id PK
+    bigint blog_id FK
+    text body
+    integer comments_count
+    timestamp article_created_at
+    timestamp article_updated_at
+    integer likes_count
+    varchar qiita_id
+    integer page_views_count
+    text raw_response
+    timestamp created_at
+    timestamp updated_at
+  }
+  zenn_articles  {
+    bigserial id PK
+    text body
+    timestamp created_at
+    timestamp updated_at
+  }
+  projects {
+    varchar id PK
+    varchar title
+    varchar description
+    timestamp created_at
+    timestamp updated_at
+    boolean is_favorite
+    timestamp created_at
+    timestamp updated_at
+  }
+  project_tags {
+    bigserial id PK
+    varchar technology_id FK
+    varchar project_id FK
+    timestamp created_at
+    timestamp updated_at
+  }
+  project_links {
+    bigserial id PK
+    varchar project_id PK
+    varchar url
+    integer kind "何のリンクか"
+    timestamp created_at
+    timestamp updated_at
+  }
+  tech_stacks {
+    bigserial id PK
+    varchar technology_id FK
+    integer proficiency
+    timestamp created_at
+    timestamp updated_at
+  }
+
+```
