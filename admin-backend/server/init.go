@@ -14,7 +14,7 @@ func Init() error {
 
 	router.Use(EchoContextToContextMiddleware)
 	router.Any("/query", graphqlHandler())
-	router.GET("/", playgroundHandler())
+	router.GET("", playgroundHandler())
 	e.Use(corsHandler())
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
