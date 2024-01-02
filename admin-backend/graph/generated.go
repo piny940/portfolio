@@ -3,10 +3,9 @@
 package graph
 
 import (
-	"admin-backend/graph/model"
+	"admin-backend/domain"
 	"bytes"
 	"context"
-	"embed"
 	"errors"
 	"fmt"
 	"strconv"
@@ -53,16 +52,16 @@ type ComplexityRoot struct {
 		ID        func(childComplexity int) int
 		Kind      func(childComplexity int) int
 		Title     func(childComplexity int) int
-		URL       func(childComplexity int) int
 		UpdatedAt func(childComplexity int) int
+		Url       func(childComplexity int) int
 	}
 
 	Mutation struct {
-		CreateBlog    func(childComplexity int, title string, url string, kind model.BlogKind) int
+		CreateBlog    func(childComplexity int, title string, url string, kind domain.BlogKind) int
 		CreateProject func(childComplexity int, id string, title string, description string, isFavorite bool) int
 		DeleteBlog    func(childComplexity int, id uint) int
 		DeleteProject func(childComplexity int, id string) int
-		UpdateBlog    func(childComplexity int, id uint, title string, url string, kind model.BlogKind) int
+		UpdateBlog    func(childComplexity int, id uint, title string, url string, kind domain.BlogKind) int
 		UpdateProject func(childComplexity int, id string, title string, description string, isFavorite bool) int
 	}
 
@@ -84,18 +83,18 @@ type ComplexityRoot struct {
 }
 
 type MutationResolver interface {
-	CreateBlog(ctx context.Context, title string, url string, kind model.BlogKind) (*model.Blog, error)
-	UpdateBlog(ctx context.Context, id uint, title string, url string, kind model.BlogKind) (*model.Blog, error)
-	DeleteBlog(ctx context.Context, id uint) (*model.Blog, error)
-	CreateProject(ctx context.Context, id string, title string, description string, isFavorite bool) (*model.Project, error)
-	UpdateProject(ctx context.Context, id string, title string, description string, isFavorite bool) (*model.Project, error)
-	DeleteProject(ctx context.Context, id string) (*model.Project, error)
+	CreateBlog(ctx context.Context, title string, url string, kind domain.BlogKind) (*domain.Blog, error)
+	UpdateBlog(ctx context.Context, id uint, title string, url string, kind domain.BlogKind) (*domain.Blog, error)
+	DeleteBlog(ctx context.Context, id uint) (*domain.Blog, error)
+	CreateProject(ctx context.Context, id string, title string, description string, isFavorite bool) (*domain.Project, error)
+	UpdateProject(ctx context.Context, id string, title string, description string, isFavorite bool) (*domain.Project, error)
+	DeleteProject(ctx context.Context, id string) (*domain.Project, error)
 }
 type QueryResolver interface {
-	Blogs(ctx context.Context) ([]*model.Blog, error)
-	Blog(ctx context.Context, id uint) (*model.Blog, error)
-	Projects(ctx context.Context) ([]*model.Project, error)
-	Project(ctx context.Context, id string) (*model.Project, error)
+	Blogs(ctx context.Context) ([]*domain.Blog, error)
+	Blog(ctx context.Context, id uint) (*domain.Blog, error)
+	Projects(ctx context.Context) ([]*domain.Project, error)
+	Project(ctx context.Context, id string) (*domain.Project, error)
 }
 
 type executableSchema struct {
@@ -145,19 +144,19 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Blog.Title(childComplexity), true
 
-	case "Blog.url":
-		if e.complexity.Blog.URL == nil {
-			break
-		}
-
-		return e.complexity.Blog.URL(childComplexity), true
-
 	case "Blog.updatedAt":
 		if e.complexity.Blog.UpdatedAt == nil {
 			break
 		}
 
 		return e.complexity.Blog.UpdatedAt(childComplexity), true
+
+	case "Blog.url":
+		if e.complexity.Blog.Url == nil {
+			break
+		}
+
+		return e.complexity.Blog.Url(childComplexity), true
 
 	case "Mutation.createBlog":
 		if e.complexity.Mutation.CreateBlog == nil {
@@ -169,7 +168,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateBlog(childComplexity, args["title"].(string), args["url"].(string), args["kind"].(model.BlogKind)), true
+		return e.complexity.Mutation.CreateBlog(childComplexity, args["title"].(string), args["url"].(string), args["kind"].(domain.BlogKind)), true
 
 	case "Mutation.createProject":
 		if e.complexity.Mutation.CreateProject == nil {
@@ -217,7 +216,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateBlog(childComplexity, args["id"].(uint), args["title"].(string), args["url"].(string), args["kind"].(model.BlogKind)), true
+		return e.complexity.Mutation.UpdateBlog(childComplexity, args["id"].(uint), args["title"].(string), args["url"].(string), args["kind"].(domain.BlogKind)), true
 
 	case "Mutation.updateProject":
 		if e.complexity.Mutation.UpdateProject == nil {
@@ -414,21 +413,49 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 	return introspection.WrapTypeFromDef(ec.Schema(), ec.Schema().Types[name]), nil
 }
 
-//go:embed "schema/blog.gql" "schema/project.gql" "schema/schema.gql"
-var sourcesFS embed.FS
-
-func sourceData(filename string) string {
-	data, err := sourcesFS.ReadFile(filename)
-	if err != nil {
-		panic(fmt.Sprintf("codegen problem: %s not available", filename))
-	}
-	return string(data)
+var sources = []*ast.Source{
+	{Name: "../schema/blog.gql", Input: `enum BlogKind {
+  QIITA
+}
+type Blog {
+  id: Uint!
+  title: String!
+  url: String!
+  kind: BlogKind!
+  createdAt: Time!
+  updatedAt: Time!
 }
 
-var sources = []*ast.Source{
-	{Name: "schema/blog.gql", Input: sourceData("schema/blog.gql"), BuiltIn: false},
-	{Name: "schema/project.gql", Input: sourceData("schema/project.gql"), BuiltIn: false},
-	{Name: "schema/schema.gql", Input: sourceData("schema/schema.gql"), BuiltIn: false},
+extend type Query {
+  blogs: [Blog!]!
+  blog(id: Uint!): Blog!
+}
+extend type Mutation {
+  createBlog(title: String!, url: String!, kind: BlogKind!): Blog!
+  updateBlog(id: Uint!, title: String!, url: String!, kind: BlogKind!): Blog!
+  deleteBlog(id: Uint!): Blog!
+}`, BuiltIn: false},
+	{Name: "../schema/project.gql", Input: `type Project {
+  id: String!
+  title: String!
+  description: String!
+  isFavorite: Boolean!
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+extend type Query {
+  projects: [Project!]!
+  project(id: String!): Project!
+}
+extend type Mutation {
+  createProject(id: String!, title: String!, description: String!, isFavorite:  Boolean!): Project!
+  updateProject(id: String!, title: String!, description: String!, isFavorite:  Boolean!): Project!
+  deleteProject(id: String!): Project!
+}`, BuiltIn: false},
+	{Name: "../schema/schema.gql", Input: `scalar Uint
+scalar Time
+`, BuiltIn: false},
 }
 var parsedSchema = gqlparser.MustLoadSchema(sources...)
 
@@ -457,10 +484,10 @@ func (ec *executionContext) field_Mutation_createBlog_args(ctx context.Context, 
 		}
 	}
 	args["url"] = arg1
-	var arg2 model.BlogKind
+	var arg2 domain.BlogKind
 	if tmp, ok := rawArgs["kind"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("kind"))
-		arg2, err = ec.unmarshalNBlogKind2adminᚑbackendᚋgraphᚋmodelᚐBlogKind(ctx, tmp)
+		arg2, err = ec.unmarshalNBlogKind2adminᚑbackendᚋdomainᚐBlogKind(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -571,10 +598,10 @@ func (ec *executionContext) field_Mutation_updateBlog_args(ctx context.Context, 
 		}
 	}
 	args["url"] = arg2
-	var arg3 model.BlogKind
+	var arg3 domain.BlogKind
 	if tmp, ok := rawArgs["kind"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("kind"))
-		arg3, err = ec.unmarshalNBlogKind2adminᚑbackendᚋgraphᚋmodelᚐBlogKind(ctx, tmp)
+		arg3, err = ec.unmarshalNBlogKind2adminᚑbackendᚋdomainᚐBlogKind(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -708,7 +735,7 @@ func (ec *executionContext) field___Type_fields_args(ctx context.Context, rawArg
 
 // region    **************************** field.gotpl *****************************
 
-func (ec *executionContext) _Blog_id(ctx context.Context, field graphql.CollectedField, obj *model.Blog) (ret graphql.Marshaler) {
+func (ec *executionContext) _Blog_id(ctx context.Context, field graphql.CollectedField, obj *domain.Blog) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Blog_id(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -752,7 +779,7 @@ func (ec *executionContext) fieldContext_Blog_id(ctx context.Context, field grap
 	return fc, nil
 }
 
-func (ec *executionContext) _Blog_title(ctx context.Context, field graphql.CollectedField, obj *model.Blog) (ret graphql.Marshaler) {
+func (ec *executionContext) _Blog_title(ctx context.Context, field graphql.CollectedField, obj *domain.Blog) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Blog_title(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -796,7 +823,7 @@ func (ec *executionContext) fieldContext_Blog_title(ctx context.Context, field g
 	return fc, nil
 }
 
-func (ec *executionContext) _Blog_url(ctx context.Context, field graphql.CollectedField, obj *model.Blog) (ret graphql.Marshaler) {
+func (ec *executionContext) _Blog_url(ctx context.Context, field graphql.CollectedField, obj *domain.Blog) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Blog_url(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -810,7 +837,7 @@ func (ec *executionContext) _Blog_url(ctx context.Context, field graphql.Collect
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.URL, nil
+		return obj.Url, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -840,7 +867,7 @@ func (ec *executionContext) fieldContext_Blog_url(ctx context.Context, field gra
 	return fc, nil
 }
 
-func (ec *executionContext) _Blog_kind(ctx context.Context, field graphql.CollectedField, obj *model.Blog) (ret graphql.Marshaler) {
+func (ec *executionContext) _Blog_kind(ctx context.Context, field graphql.CollectedField, obj *domain.Blog) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Blog_kind(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -866,9 +893,9 @@ func (ec *executionContext) _Blog_kind(ctx context.Context, field graphql.Collec
 		}
 		return graphql.Null
 	}
-	res := resTmp.(model.BlogKind)
+	res := resTmp.(domain.BlogKind)
 	fc.Result = res
-	return ec.marshalNBlogKind2adminᚑbackendᚋgraphᚋmodelᚐBlogKind(ctx, field.Selections, res)
+	return ec.marshalNBlogKind2adminᚑbackendᚋdomainᚐBlogKind(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Blog_kind(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -884,7 +911,7 @@ func (ec *executionContext) fieldContext_Blog_kind(ctx context.Context, field gr
 	return fc, nil
 }
 
-func (ec *executionContext) _Blog_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.Blog) (ret graphql.Marshaler) {
+func (ec *executionContext) _Blog_createdAt(ctx context.Context, field graphql.CollectedField, obj *domain.Blog) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Blog_createdAt(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -928,7 +955,7 @@ func (ec *executionContext) fieldContext_Blog_createdAt(ctx context.Context, fie
 	return fc, nil
 }
 
-func (ec *executionContext) _Blog_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.Blog) (ret graphql.Marshaler) {
+func (ec *executionContext) _Blog_updatedAt(ctx context.Context, field graphql.CollectedField, obj *domain.Blog) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Blog_updatedAt(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -986,7 +1013,7 @@ func (ec *executionContext) _Mutation_createBlog(ctx context.Context, field grap
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateBlog(rctx, fc.Args["title"].(string), fc.Args["url"].(string), fc.Args["kind"].(model.BlogKind))
+		return ec.resolvers.Mutation().CreateBlog(rctx, fc.Args["title"].(string), fc.Args["url"].(string), fc.Args["kind"].(domain.BlogKind))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -998,9 +1025,9 @@ func (ec *executionContext) _Mutation_createBlog(ctx context.Context, field grap
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Blog)
+	res := resTmp.(*domain.Blog)
 	fc.Result = res
-	return ec.marshalNBlog2ᚖadminᚑbackendᚋgraphᚋmodelᚐBlog(ctx, field.Selections, res)
+	return ec.marshalNBlog2ᚖadminᚑbackendᚋdomainᚐBlog(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createBlog(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1055,7 +1082,7 @@ func (ec *executionContext) _Mutation_updateBlog(ctx context.Context, field grap
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateBlog(rctx, fc.Args["id"].(uint), fc.Args["title"].(string), fc.Args["url"].(string), fc.Args["kind"].(model.BlogKind))
+		return ec.resolvers.Mutation().UpdateBlog(rctx, fc.Args["id"].(uint), fc.Args["title"].(string), fc.Args["url"].(string), fc.Args["kind"].(domain.BlogKind))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -1067,9 +1094,9 @@ func (ec *executionContext) _Mutation_updateBlog(ctx context.Context, field grap
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Blog)
+	res := resTmp.(*domain.Blog)
 	fc.Result = res
-	return ec.marshalNBlog2ᚖadminᚑbackendᚋgraphᚋmodelᚐBlog(ctx, field.Selections, res)
+	return ec.marshalNBlog2ᚖadminᚑbackendᚋdomainᚐBlog(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateBlog(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1136,9 +1163,9 @@ func (ec *executionContext) _Mutation_deleteBlog(ctx context.Context, field grap
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Blog)
+	res := resTmp.(*domain.Blog)
 	fc.Result = res
-	return ec.marshalNBlog2ᚖadminᚑbackendᚋgraphᚋmodelᚐBlog(ctx, field.Selections, res)
+	return ec.marshalNBlog2ᚖadminᚑbackendᚋdomainᚐBlog(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_deleteBlog(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1205,9 +1232,9 @@ func (ec *executionContext) _Mutation_createProject(ctx context.Context, field g
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Project)
+	res := resTmp.(*domain.Project)
 	fc.Result = res
-	return ec.marshalNProject2ᚖadminᚑbackendᚋgraphᚋmodelᚐProject(ctx, field.Selections, res)
+	return ec.marshalNProject2ᚖadminᚑbackendᚋdomainᚐProject(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createProject(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1274,9 +1301,9 @@ func (ec *executionContext) _Mutation_updateProject(ctx context.Context, field g
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Project)
+	res := resTmp.(*domain.Project)
 	fc.Result = res
-	return ec.marshalNProject2ᚖadminᚑbackendᚋgraphᚋmodelᚐProject(ctx, field.Selections, res)
+	return ec.marshalNProject2ᚖadminᚑbackendᚋdomainᚐProject(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateProject(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1343,9 +1370,9 @@ func (ec *executionContext) _Mutation_deleteProject(ctx context.Context, field g
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Project)
+	res := resTmp.(*domain.Project)
 	fc.Result = res
-	return ec.marshalNProject2ᚖadminᚑbackendᚋgraphᚋmodelᚐProject(ctx, field.Selections, res)
+	return ec.marshalNProject2ᚖadminᚑbackendᚋdomainᚐProject(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_deleteProject(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1386,7 +1413,7 @@ func (ec *executionContext) fieldContext_Mutation_deleteProject(ctx context.Cont
 	return fc, nil
 }
 
-func (ec *executionContext) _Project_id(ctx context.Context, field graphql.CollectedField, obj *model.Project) (ret graphql.Marshaler) {
+func (ec *executionContext) _Project_id(ctx context.Context, field graphql.CollectedField, obj *domain.Project) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Project_id(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1430,7 +1457,7 @@ func (ec *executionContext) fieldContext_Project_id(ctx context.Context, field g
 	return fc, nil
 }
 
-func (ec *executionContext) _Project_title(ctx context.Context, field graphql.CollectedField, obj *model.Project) (ret graphql.Marshaler) {
+func (ec *executionContext) _Project_title(ctx context.Context, field graphql.CollectedField, obj *domain.Project) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Project_title(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1474,7 +1501,7 @@ func (ec *executionContext) fieldContext_Project_title(ctx context.Context, fiel
 	return fc, nil
 }
 
-func (ec *executionContext) _Project_description(ctx context.Context, field graphql.CollectedField, obj *model.Project) (ret graphql.Marshaler) {
+func (ec *executionContext) _Project_description(ctx context.Context, field graphql.CollectedField, obj *domain.Project) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Project_description(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1518,7 +1545,7 @@ func (ec *executionContext) fieldContext_Project_description(ctx context.Context
 	return fc, nil
 }
 
-func (ec *executionContext) _Project_isFavorite(ctx context.Context, field graphql.CollectedField, obj *model.Project) (ret graphql.Marshaler) {
+func (ec *executionContext) _Project_isFavorite(ctx context.Context, field graphql.CollectedField, obj *domain.Project) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Project_isFavorite(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1562,7 +1589,7 @@ func (ec *executionContext) fieldContext_Project_isFavorite(ctx context.Context,
 	return fc, nil
 }
 
-func (ec *executionContext) _Project_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.Project) (ret graphql.Marshaler) {
+func (ec *executionContext) _Project_createdAt(ctx context.Context, field graphql.CollectedField, obj *domain.Project) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Project_createdAt(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1606,7 +1633,7 @@ func (ec *executionContext) fieldContext_Project_createdAt(ctx context.Context, 
 	return fc, nil
 }
 
-func (ec *executionContext) _Project_updatedAt(ctx context.Context, field graphql.CollectedField, obj *model.Project) (ret graphql.Marshaler) {
+func (ec *executionContext) _Project_updatedAt(ctx context.Context, field graphql.CollectedField, obj *domain.Project) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Project_updatedAt(ctx, field)
 	if err != nil {
 		return graphql.Null
@@ -1676,9 +1703,9 @@ func (ec *executionContext) _Query_blogs(ctx context.Context, field graphql.Coll
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Blog)
+	res := resTmp.([]*domain.Blog)
 	fc.Result = res
-	return ec.marshalNBlog2ᚕᚖadminᚑbackendᚋgraphᚋmodelᚐBlogᚄ(ctx, field.Selections, res)
+	return ec.marshalNBlog2ᚕᚖadminᚑbackendᚋdomainᚐBlogᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_blogs(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1734,9 +1761,9 @@ func (ec *executionContext) _Query_blog(ctx context.Context, field graphql.Colle
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Blog)
+	res := resTmp.(*domain.Blog)
 	fc.Result = res
-	return ec.marshalNBlog2ᚖadminᚑbackendᚋgraphᚋmodelᚐBlog(ctx, field.Selections, res)
+	return ec.marshalNBlog2ᚖadminᚑbackendᚋdomainᚐBlog(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_blog(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1803,9 +1830,9 @@ func (ec *executionContext) _Query_projects(ctx context.Context, field graphql.C
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Project)
+	res := resTmp.([]*domain.Project)
 	fc.Result = res
-	return ec.marshalNProject2ᚕᚖadminᚑbackendᚋgraphᚋmodelᚐProjectᚄ(ctx, field.Selections, res)
+	return ec.marshalNProject2ᚕᚖadminᚑbackendᚋdomainᚐProjectᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_projects(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1861,9 +1888,9 @@ func (ec *executionContext) _Query_project(ctx context.Context, field graphql.Co
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Project)
+	res := resTmp.(*domain.Project)
 	fc.Result = res
-	return ec.marshalNProject2ᚖadminᚑbackendᚋgraphᚋmodelᚐProject(ctx, field.Selections, res)
+	return ec.marshalNProject2ᚖadminᚑbackendᚋdomainᚐProject(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_project(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -3816,7 +3843,7 @@ func (ec *executionContext) fieldContext___Type_specifiedByURL(ctx context.Conte
 
 var blogImplementors = []string{"Blog"}
 
-func (ec *executionContext) _Blog(ctx context.Context, sel ast.SelectionSet, obj *model.Blog) graphql.Marshaler {
+func (ec *executionContext) _Blog(ctx context.Context, sel ast.SelectionSet, obj *domain.Blog) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, blogImplementors)
 
 	out := graphql.NewFieldSet(fields)
@@ -3964,7 +3991,7 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 
 var projectImplementors = []string{"Project"}
 
-func (ec *executionContext) _Project(ctx context.Context, sel ast.SelectionSet, obj *model.Project) graphql.Marshaler {
+func (ec *executionContext) _Project(ctx context.Context, sel ast.SelectionSet, obj *domain.Project) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, projectImplementors)
 
 	out := graphql.NewFieldSet(fields)
@@ -4490,11 +4517,11 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 
 // region    ***************************** type.gotpl *****************************
 
-func (ec *executionContext) marshalNBlog2adminᚑbackendᚋgraphᚋmodelᚐBlog(ctx context.Context, sel ast.SelectionSet, v model.Blog) graphql.Marshaler {
+func (ec *executionContext) marshalNBlog2adminᚑbackendᚋdomainᚐBlog(ctx context.Context, sel ast.SelectionSet, v domain.Blog) graphql.Marshaler {
 	return ec._Blog(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNBlog2ᚕᚖadminᚑbackendᚋgraphᚋmodelᚐBlogᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Blog) graphql.Marshaler {
+func (ec *executionContext) marshalNBlog2ᚕᚖadminᚑbackendᚋdomainᚐBlogᚄ(ctx context.Context, sel ast.SelectionSet, v []*domain.Blog) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -4518,7 +4545,7 @@ func (ec *executionContext) marshalNBlog2ᚕᚖadminᚑbackendᚋgraphᚋmodel�
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNBlog2ᚖadminᚑbackendᚋgraphᚋmodelᚐBlog(ctx, sel, v[i])
+			ret[i] = ec.marshalNBlog2ᚖadminᚑbackendᚋdomainᚐBlog(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -4538,7 +4565,7 @@ func (ec *executionContext) marshalNBlog2ᚕᚖadminᚑbackendᚋgraphᚋmodel�
 	return ret
 }
 
-func (ec *executionContext) marshalNBlog2ᚖadminᚑbackendᚋgraphᚋmodelᚐBlog(ctx context.Context, sel ast.SelectionSet, v *model.Blog) graphql.Marshaler {
+func (ec *executionContext) marshalNBlog2ᚖadminᚑbackendᚋdomainᚐBlog(ctx context.Context, sel ast.SelectionSet, v *domain.Blog) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -4548,13 +4575,13 @@ func (ec *executionContext) marshalNBlog2ᚖadminᚑbackendᚋgraphᚋmodelᚐBl
 	return ec._Blog(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNBlogKind2adminᚑbackendᚋgraphᚋmodelᚐBlogKind(ctx context.Context, v interface{}) (model.BlogKind, error) {
-	var res model.BlogKind
+func (ec *executionContext) unmarshalNBlogKind2adminᚑbackendᚋdomainᚐBlogKind(ctx context.Context, v interface{}) (domain.BlogKind, error) {
+	var res domain.BlogKind
 	err := res.UnmarshalGQL(v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNBlogKind2adminᚑbackendᚋgraphᚋmodelᚐBlogKind(ctx context.Context, sel ast.SelectionSet, v model.BlogKind) graphql.Marshaler {
+func (ec *executionContext) marshalNBlogKind2adminᚑbackendᚋdomainᚐBlogKind(ctx context.Context, sel ast.SelectionSet, v domain.BlogKind) graphql.Marshaler {
 	return v
 }
 
@@ -4573,11 +4600,11 @@ func (ec *executionContext) marshalNBoolean2bool(ctx context.Context, sel ast.Se
 	return res
 }
 
-func (ec *executionContext) marshalNProject2adminᚑbackendᚋgraphᚋmodelᚐProject(ctx context.Context, sel ast.SelectionSet, v model.Project) graphql.Marshaler {
+func (ec *executionContext) marshalNProject2adminᚑbackendᚋdomainᚐProject(ctx context.Context, sel ast.SelectionSet, v domain.Project) graphql.Marshaler {
 	return ec._Project(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNProject2ᚕᚖadminᚑbackendᚋgraphᚋmodelᚐProjectᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Project) graphql.Marshaler {
+func (ec *executionContext) marshalNProject2ᚕᚖadminᚑbackendᚋdomainᚐProjectᚄ(ctx context.Context, sel ast.SelectionSet, v []*domain.Project) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -4601,7 +4628,7 @@ func (ec *executionContext) marshalNProject2ᚕᚖadminᚑbackendᚋgraphᚋmode
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNProject2ᚖadminᚑbackendᚋgraphᚋmodelᚐProject(ctx, sel, v[i])
+			ret[i] = ec.marshalNProject2ᚖadminᚑbackendᚋdomainᚐProject(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -4621,7 +4648,7 @@ func (ec *executionContext) marshalNProject2ᚕᚖadminᚑbackendᚋgraphᚋmode
 	return ret
 }
 
-func (ec *executionContext) marshalNProject2ᚖadminᚑbackendᚋgraphᚋmodelᚐProject(ctx context.Context, sel ast.SelectionSet, v *model.Project) graphql.Marshaler {
+func (ec *executionContext) marshalNProject2ᚖadminᚑbackendᚋdomainᚐProject(ctx context.Context, sel ast.SelectionSet, v *domain.Project) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")

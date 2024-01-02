@@ -4,8 +4,8 @@ schema:
 
 # Where should the generated server code go?
 exec:
-  filename: generated.go
-  package: main
+  filename: graph/generated.go
+  package: graph
 
 # Uncomment to enable federation
 # federation:
@@ -90,3 +90,7 @@ models:
       - github.com/99designs/gqlgen/graphql.Uint
       - github.com/99designs/gqlgen/graphql.Uint64
       - github.com/99designs/gqlgen/graphql.Uint32
+  Project:
+    model: admin-backend/domain.Project
+  Blog:
+    model: admin-backend/domain.Blog

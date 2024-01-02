@@ -6,12 +6,11 @@ package resolver
 
 import (
 	"admin-backend/domain"
-	"admin-backend/graph/model"
 	"admin-backend/registry"
 	"context"
 )
 
-func (r *mutationResolver) CreateProject(ctx context.Context, id string, title string, description string, isFavorite bool) (*model.Project, error) {
+func (r *mutationResolver) CreateProject(ctx context.Context, id string, title string, description string, isFavorite bool) (*domain.Project, error) {
 	reg := registry.GetRegistry()
 	project := &domain.Project{
 		ID:          id,
@@ -23,10 +22,10 @@ func (r *mutationResolver) CreateProject(ctx context.Context, id string, title s
 	if err != nil {
 		return nil, err
 	}
-	return model.NewProject(project), nil
+	return project, nil
 }
 
-func (r *mutationResolver) UpdateProject(ctx context.Context, id string, title string, description string, isFavorite bool) (*model.Project, error) {
+func (r *mutationResolver) UpdateProject(ctx context.Context, id string, title string, description string, isFavorite bool) (*domain.Project, error) {
 	reg := registry.GetRegistry()
 	project := &domain.Project{
 		ID:          id,
@@ -38,32 +37,32 @@ func (r *mutationResolver) UpdateProject(ctx context.Context, id string, title s
 	if err != nil {
 		return nil, err
 	}
-	return model.NewProject(project), nil
+	return project, nil
 }
 
-func (r *mutationResolver) DeleteProject(ctx context.Context, id string) (*model.Project, error) {
+func (r *mutationResolver) DeleteProject(ctx context.Context, id string) (*domain.Project, error) {
 	reg := registry.GetRegistry()
 	project, err := reg.ProjectUsecase().Delete(id)
 	if err != nil {
 		return nil, err
 	}
-	return model.NewProject(project), nil
+	return project, nil
 }
 
-func (r *queryResolver) Projects(ctx context.Context) ([]*model.Project, error) {
+func (r *queryResolver) Projects(ctx context.Context) ([]*domain.Project, error) {
 	reg := registry.GetRegistry()
 	projects, err := reg.ProjectUsecase().List()
 	if err != nil {
 		return nil, err
 	}
-	return model.NewProjects(projects), nil
+	return projects, nil
 }
 
-func (r *queryResolver) Project(ctx context.Context, id string) (*model.Project, error) {
+func (r *queryResolver) Project(ctx context.Context, id string) (*domain.Project, error) {
 	reg := registry.GetRegistry()
 	project, err := reg.ProjectUsecase().Find(id)
 	if err != nil {
 		return nil, err
 	}
-	return model.NewProject(project), nil
+	return project, nil
 }

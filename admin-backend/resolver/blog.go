@@ -7,14 +7,14 @@ package resolver
 import (
 	"admin-backend/domain"
 	"admin-backend/graph"
-	"admin-backend/graph/model"
+	"admin-backend/model"
 	"admin-backend/registry"
 	"context"
 
 	"gorm.io/gorm"
 )
 
-func (r *mutationResolver) CreateBlog(ctx context.Context, title string, url string, kind model.BlogKind) (*model.Blog, error) {
+func (r *mutationResolver) CreateBlog(ctx context.Context, title string, url string, kind domain.BlogKind) (*domain.Blog, error) {
 	reg := registry.GetRegistry()
 	blog := &domain.Blog{
 		Title: title,
@@ -24,48 +24,48 @@ func (r *mutationResolver) CreateBlog(ctx context.Context, title string, url str
 	if err := reg.BlogUsecase().Create(blog); err != nil {
 		return nil, err
 	}
-	return model.NewBlog(blog), nil
+	return blog, nil
 }
 
-func (r *mutationResolver) UpdateBlog(ctx context.Context, id uint, title string, url string, kind model.BlogKind) (*model.Blog, error) {
+func (r *mutationResolver) UpdateBlog(ctx context.Context, id uint, title string, url string, kind domain.BlogKind) (*domain.Blog, error) {
 	reg := registry.GetRegistry()
 	blog := &domain.Blog{
 		Model: gorm.Model{ID: id},
 		Title: title,
 		Url:   url,
-		Kind:  model.BlogKindToDomain[kind],
+		Kind:  domain.BlogKindToDomain[kind],
 	}
 	if err := reg.BlogUsecase().Update(blog); err != nil {
 		return nil, err
 	}
-	return model.NewBlog(blog), nil
+	return blog, nil
 }
 
-func (r *mutationResolver) DeleteBlog(ctx context.Context, id uint) (*model.Blog, error) {
+func (r *mutationResolver) DeleteBlog(ctx context.Context, id uint) (*domain.Blog, error) {
 	reg := registry.GetRegistry()
 	blog, err := reg.BlogUsecase().Delete(id)
 	if err != nil {
 		return nil, err
 	}
-	return model.NewBlog(blog), nil
+	return blog, nil
 }
 
-func (r *queryResolver) Blogs(ctx context.Context) ([]*model.Blog, error) {
+func (r *queryResolver) Blogs(ctx context.Context) ([]*domain.Blog, error) {
 	reg := registry.GetRegistry()
 	blogs, err := reg.BlogUsecase().List()
 	if err != nil {
 		return nil, err
 	}
-	return model.NewBlogs(blogs), nil
+	return blogs, nil
 }
 
-func (r *queryResolver) Blog(ctx context.Context, id uint) (*model.Blog, error) {
+func (r *queryResolver) Blog(ctx context.Context, id uint) (*domain.Blog, error) {
 	reg := registry.GetRegistry()
 	blog, err := reg.BlogUsecase().Find(id)
 	if err != nil {
 		return nil, err
 	}
-	return model.NewBlog(blog), nil
+	return blog, nil
 }
 
 func (r *Resolver) Mutation() graph.MutationResolver { return &mutationResolver{r} }
