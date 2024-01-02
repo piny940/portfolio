@@ -18,8 +18,8 @@ type Project struct {
 }
 
 type IProjectRepo interface {
-	List() ([]Project, error)
-	Get(id uint) (*Project, error)
+	List() ([]*Project, error)
+	Find(id uint) (*Project, error)
 	Create(project *Project) error
 	Update(project *Project) error
 	Delete(id uint) (*Project, error)
