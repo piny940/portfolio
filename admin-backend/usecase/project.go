@@ -4,10 +4,10 @@ import "admin-backend/domain"
 
 type IProjectUsecase interface {
 	List() ([]*domain.Project, error)
-	Find(id uint) (*domain.Project, error)
+	Find(id string) (*domain.Project, error)
 	Create(project *domain.Project) error
 	Update(project *domain.Project) error
-	Delete(id uint) (*domain.Project, error)
+	Delete(id string) (*domain.Project, error)
 }
 type projectUsecase struct {
 	repo domain.IProjectRepo
@@ -17,11 +17,11 @@ func (u *projectUsecase) Create(project *domain.Project) error {
 	return u.repo.Create(project)
 }
 
-func (u *projectUsecase) Delete(id uint) (*domain.Project, error) {
+func (u *projectUsecase) Delete(id string) (*domain.Project, error) {
 	return u.repo.Delete(id)
 }
 
-func (u *projectUsecase) Find(id uint) (*domain.Project, error) {
+func (u *projectUsecase) Find(id string) (*domain.Project, error) {
 	return u.repo.Find(id)
 }
 

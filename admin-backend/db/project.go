@@ -14,7 +14,7 @@ func (r *projectRepo) Create(project *domain.Project) error {
 	return nil
 }
 
-func (r *projectRepo) Delete(id uint) (*domain.Project, error) {
+func (r *projectRepo) Delete(id string) (*domain.Project, error) {
 	var project domain.Project
 	result := r.db.Client.Delete(&project, id)
 	if result.Error != nil {
@@ -23,7 +23,7 @@ func (r *projectRepo) Delete(id uint) (*domain.Project, error) {
 	return &project, nil
 }
 
-func (r *projectRepo) Find(id uint) (*domain.Project, error) {
+func (r *projectRepo) Find(id string) (*domain.Project, error) {
 	var project domain.Project
 	result := r.db.Client.First(&project, id)
 	if result.Error != nil {
