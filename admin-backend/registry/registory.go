@@ -1,7 +1,7 @@
 package registry
 
 import (
-	"admin_backend/db"
+	"admin-backend/db"
 )
 
 type registry struct {

@@ -1,7 +1,7 @@
 package server
 
 import (
-	"admin_backend/config"
+	"admin-backend/config"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"

@@ -1,9 +1,9 @@
 package server
 
 import (
-	"admin_backend/graph"
-	"admin_backend/graph/loader"
-	"admin_backend/graph/resolver"
+	"admin-backend/graph"
+	"admin-backend/graph/loader"
+	"admin-backend/graph/resolver"
 	"context"
 
 	"github.com/99designs/gqlgen/graphql/handler"
