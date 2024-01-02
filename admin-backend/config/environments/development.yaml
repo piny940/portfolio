@@ -1,0 +1,5 @@
+db:
+  provider: postgres
+server:
+  version: v1
+  port: 8080
