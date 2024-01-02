@@ -10,10 +10,11 @@ import (
 func Init() error {
 	c := config.GetConfig()
 	e := echo.New()
+	router := e.Group(c.GetString("server.version"))
 
-	e.Use(EchoContextToContextMiddleware)
-	e.Any("/query", graphqlHandler())
-	e.GET("/", playgroundHandler())
+	router.Use(EchoContextToContextMiddleware)
+	router.Any("/query", graphqlHandler())
+	router.GET("/", playgroundHandler())
 	e.Use(corsHandler())
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
