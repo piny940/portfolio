@@ -8,6 +8,12 @@
     },
     {
       "path": "blog-updater"
+    },
+    {
+      "path": "admin-backend"
+    },
+    {
+      "path": "admin-frontend"
     }
   ],
   "settings": {}
