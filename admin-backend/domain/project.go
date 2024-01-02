@@ -1,8 +1,14 @@
 package domain
 
-import "time"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type Project struct {
+	gorm.Model
+
 	ID          uint
 	Title       string
 	Description string
