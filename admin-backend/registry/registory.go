@@ -2,6 +2,7 @@ package registry
 
 import (
 	"admin-backend/db"
+	"admin-backend/usecase"
 )
 
 type registry struct {
@@ -16,4 +17,9 @@ func Init(db *db.DB) {
 
 func GetRegistry() *registry {
 	return reg
+}
+
+func (r *registry) ProjectUsecase() usecase.IProjectUsecase {
+	repo := db.NewProjectRepo(r.db)
+	return usecase.NewProjectUsecase(repo)
 }

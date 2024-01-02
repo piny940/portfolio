@@ -15,7 +15,6 @@ func main() {
 	config.Init(*env)
 	db.Init()
 	registry.Init(db.GetDB())
-	defer db.Close()
 
 	if err := server.Init(); err != nil {
 		panic(err)

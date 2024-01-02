@@ -1,0 +1,18 @@
+type Project {
+  id: String!
+  title: String!
+  description: String!
+  isFavorite: Boolean!
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+extend type Query {
+  projects: [Project!]!
+  project(id: String!): Project!
+}
+extend type Mutation {
+  createProject(id: String!, title: String!, description: String!, isFavorite:  Boolean!): Project!
+  updateProject(id: String!, title: String!, description: String!, isFavorite:  Boolean!): Project!
+  deleteProject(id: String!): Project!
+}

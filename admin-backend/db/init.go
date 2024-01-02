@@ -1,36 +1,32 @@
 package db
 
 import (
-	"admin-backend/config"
-	"database/sql"
+	"admin-backend/domain"
 	"fmt"
 	"os"
 
-	_ "github.com/lib/pq"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 type DB struct {
-	Client *sql.DB
+	Client *gorm.DB
 }
 
 var db *DB
 
 func Init() {
-	c := config.GetConfig()
 	dsn := fmt.Sprintf("user=%s password=%s host=%s dbname=%s sslmode=%s",
 		os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_HOST"),
 		os.Getenv("DB_NAME"), os.Getenv("DB_SSLMODE"))
-	client, err := sql.Open(c.GetString("db.provider"), dsn)
+	client, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
+	client.AutoMigrate(&domain.Project{})
 	db = &DB{Client: client}
 }
 
 func GetDB() *DB {
 	return db
-}
-
-func Close() {
-	db.Client.Close()
 }
