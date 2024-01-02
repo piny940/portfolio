@@ -3,8 +3,8 @@ type Project {
   title: String!
   description: String!
   isFavorite: Boolean!
-  createdAt: String!
-  updatedAt: String!
+  createdAt: Time!
+  updatedAt: Time!
 }
 
 extend type Query {
