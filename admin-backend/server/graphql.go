@@ -28,7 +28,7 @@ func graphqlHandler() echo.HandlerFunc {
 	}
 }
 func playgroundHandler() echo.HandlerFunc {
-	handler := playground.Handler("GraphQL playground", "/query")
+	handler := playground.Handler("GraphQL playground", "/v1/query")
 
 	return func(c echo.Context) error {
 		handler.ServeHTTP(c.Response(), c.Request())
