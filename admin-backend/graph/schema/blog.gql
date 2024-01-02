@@ -1,0 +1,21 @@
+enum BlogKind {
+  QIITA
+}
+type Blog {
+  id: Uint!
+  title: String!
+  url: String!
+  kind: BlogKind!
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+extend type Query {
+  blogs: [Blog!]!
+  blog: Blog!
+}
+extend type Mutation {
+  createBlog(title: String!, url: String!, kind: BlogKind!): Blog!
+  updateBlog(id: Uint!, title: String!, url: String!, kind: BlogKind!): Blog!
+  deleteBlog(id: Uint!): Blog!
+}
