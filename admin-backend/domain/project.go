@@ -1,20 +1,11 @@
 package domain
 
-import (
-	"time"
-
-	"gorm.io/gorm"
-)
-
 type Project struct {
-	gorm.Model
-
-	ID          uint
-	Title       string
-	Description string
-	IsFavorite  bool
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
+	Common      `gorm:"embedded"`
+	ID          string `gorm:"primaryKey; type:varchar(127); not null"`
+	Title       string `gorm:"type:varchar(127); not null"`
+	Description string `gorm:"type:varchar(255); not null"`
+	IsFavorite  bool   `gorm:"not null"`
 }
 
 type IProjectRepo interface {
