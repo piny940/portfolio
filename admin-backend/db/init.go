@@ -1,6 +1,7 @@
 package db
 
 import (
+	"admin-backend/domain"
 	"fmt"
 	"os"
 
@@ -22,6 +23,7 @@ func Init() {
 	if err != nil {
 		panic(err)
 	}
+	client.AutoMigrate(&domain.Project{})
 	db = &DB{Client: client}
 }
 

@@ -22,5 +22,5 @@ type IProjectRepo interface {
 	Get(id uint) (*Project, error)
 	Create(project *Project) error
 	Update(project *Project) error
-	Delete(id uint) error
+	Delete(id uint) (*Project, error)
 }
