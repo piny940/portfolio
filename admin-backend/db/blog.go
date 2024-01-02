@@ -8,17 +8,31 @@ type blogRepo struct {
 
 // Create implements domain.IBlogRepo.
 func (r *blogRepo) Create(blog *domain.Blog) error {
-	panic("unimplemented")
+	result := r.db.Client.Create(blog)
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
 }
 
 // Delete implements domain.IBlogRepo.
 func (r *blogRepo) Delete(id uint) (*domain.Blog, error) {
-	panic("unimplemented")
+	var blog *domain.Blog
+	result := r.db.Client.Delete(blog, id)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return blog, nil
 }
 
 // Find implements domain.IBlogRepo.
 func (r *blogRepo) Find(id uint) (*domain.Blog, error) {
-	panic("unimplemented")
+	var blog *domain.Blog
+	result := r.db.Client.Find(blog, id)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return blog, nil
 }
 
 func (r *blogRepo) List() ([]*domain.Blog, error) {
@@ -32,7 +46,11 @@ func (r *blogRepo) List() ([]*domain.Blog, error) {
 
 // Update implements domain.IBlogRepo.
 func (r *blogRepo) Update(blog *domain.Blog) error {
-	panic("unimplemented")
+	result := r.db.Client.Save(blog)
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
 }
 
 func NewBlogRepo(db *DB) domain.IBlogRepo {
