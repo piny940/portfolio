@@ -6,7 +6,6 @@ package resolver
 
 import (
 	"admin-backend/domain"
-	"admin-backend/graph"
 	"admin-backend/graph/model"
 	"admin-backend/registry"
 	"context"
@@ -68,10 +67,3 @@ func (r *queryResolver) Project(ctx context.Context, id string) (*model.Project,
 	}
 	return model.NewProject(project), nil
 }
-
-func (r *Resolver) Mutation() graph.MutationResolver { return &mutationResolver{r} }
-
-func (r *Resolver) Query() graph.QueryResolver { return &queryResolver{r} }
-
-type mutationResolver struct{ *Resolver }
-type queryResolver struct{ *Resolver }

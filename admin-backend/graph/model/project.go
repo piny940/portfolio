@@ -13,7 +13,7 @@ func NewProject(project *domain.Project) *Project {
 	}
 }
 func NewProjects(projects []*domain.Project) []*Project {
-	var result []*Project
+	var result = make([]*Project, 0)
 	for _, project := range projects {
 		result = append(result, NewProject(project))
 	}

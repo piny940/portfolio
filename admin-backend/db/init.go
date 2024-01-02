@@ -23,7 +23,7 @@ func Init() {
 	if err != nil {
 		panic(err)
 	}
-	client.AutoMigrate(&domain.Project{})
+	client.AutoMigrate(&domain.Project{}, &domain.Blog{})
 	db = &DB{Client: client}
 }
 
