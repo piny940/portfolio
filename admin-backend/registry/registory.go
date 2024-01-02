@@ -23,3 +23,8 @@ func (r *registry) ProjectUsecase() usecase.IProjectUsecase {
 	repo := db.NewProjectRepo(r.db)
 	return usecase.NewProjectUsecase(repo)
 }
+
+func (r *registry) BlogUsecase() usecase.IBlogUsecase {
+	repo := db.NewBlogRepo(r.db)
+	return usecase.NewBlogUsecase(repo)
+}
