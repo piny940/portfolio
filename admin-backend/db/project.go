@@ -34,7 +34,7 @@ func (r *projectRepo) Find(id string) (*domain.Project, error) {
 
 func (r *projectRepo) List() ([]*domain.Project, error) {
 	var projects []*domain.Project
-	result := r.db.Client.Find(projects)
+	result := r.db.Client.Find(&projects)
 	if result.Error != nil {
 		return nil, result.Error
 	}
