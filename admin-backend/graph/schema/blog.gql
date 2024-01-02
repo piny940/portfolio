@@ -12,7 +12,7 @@ type Blog {
 
 extend type Query {
   blogs: [Blog!]!
-  blog: Blog!
+  blog(id: Uint!): Blog!
 }
 extend type Mutation {
   createBlog(title: String!, url: String!, kind: BlogKind!): Blog!
