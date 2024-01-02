@@ -1,7 +1,10 @@
 package domain
 
+import "gorm.io/gorm"
+
 type Project struct {
-	Common      `gorm:"embedded"`
+	gorm.Model
+
 	ID          string `gorm:"primaryKey; type:varchar(127); not null"`
 	Title       string `gorm:"type:varchar(127); not null"`
 	Description string `gorm:"type:varchar(255); not null"`
