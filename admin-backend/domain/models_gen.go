@@ -2,53 +2,8 @@
 
 package domain
 
-import (
-	"fmt"
-	"io"
-	"strconv"
-)
-
 type Mutation struct {
 }
 
 type Query struct {
-}
-
-type BlogKind string
-
-const (
-	BlogKindQiita BlogKind = "QIITA"
-)
-
-var AllBlogKind = []BlogKind{
-	BlogKindQiita,
-}
-
-func (e BlogKind) IsValid() bool {
-	switch e {
-	case BlogKindQiita:
-		return true
-	}
-	return false
-}
-
-func (e BlogKind) String() string {
-	return string(e)
-}
-
-func (e *BlogKind) UnmarshalGQL(v interface{}) error {
-	str, ok := v.(string)
-	if !ok {
-		return fmt.Errorf("enums must be strings")
-	}
-
-	*e = BlogKind(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid BlogKind", str)
-	}
-	return nil
-}
-
-func (e BlogKind) MarshalGQL(w io.Writer) {
-	fmt.Fprint(w, strconv.Quote(e.String()))
 }

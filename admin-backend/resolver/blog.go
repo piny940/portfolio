@@ -7,19 +7,27 @@ package resolver
 import (
 	"admin-backend/domain"
 	"admin-backend/graph"
-	"admin-backend/model"
 	"admin-backend/registry"
 	"context"
+	"fmt"
 
 	"gorm.io/gorm"
 )
 
-func (r *mutationResolver) CreateBlog(ctx context.Context, title string, url string, kind domain.BlogKind) (*domain.Blog, error) {
+func (r *blogResolver) Kind(ctx context.Context, obj *domain.Blog) (int, error) {
+	fmt.Println("kind was called")
+	if obj == nil {
+		return 0, nil
+	}
+	return int(obj.Kind), nil
+}
+
+func (r *mutationResolver) CreateBlog(ctx context.Context, title string, url string, kind int) (*domain.Blog, error) {
 	reg := registry.GetRegistry()
 	blog := &domain.Blog{
 		Title: title,
 		Url:   url,
-		Kind:  model.BlogKindToDomain[kind],
+		Kind:  domain.BlogKind(kind),
 	}
 	if err := reg.BlogUsecase().Create(blog); err != nil {
 		return nil, err
@@ -27,13 +35,13 @@ func (r *mutationResolver) CreateBlog(ctx context.Context, title string, url str
 	return blog, nil
 }
 
-func (r *mutationResolver) UpdateBlog(ctx context.Context, id uint, title string, url string, kind domain.BlogKind) (*domain.Blog, error) {
+func (r *mutationResolver) UpdateBlog(ctx context.Context, id uint, title string, url string, kind int) (*domain.Blog, error) {
 	reg := registry.GetRegistry()
 	blog := &domain.Blog{
 		Model: gorm.Model{ID: id},
 		Title: title,
 		Url:   url,
-		Kind:  domain.BlogKindToDomain[kind],
+		Kind:  domain.BlogKind(kind),
 	}
 	if err := reg.BlogUsecase().Update(blog); err != nil {
 		return nil, err
@@ -68,9 +76,19 @@ func (r *queryResolver) Blog(ctx context.Context, id uint) (*domain.Blog, error)
 	return blog, nil
 }
 
+func (r *Resolver) Blog() graph.BlogResolver { return &blogResolver{r} }
+
 func (r *Resolver) Mutation() graph.MutationResolver { return &mutationResolver{r} }
 
 func (r *Resolver) Query() graph.QueryResolver { return &queryResolver{r} }
 
+type blogResolver struct{ *Resolver }
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
+
+// !!! WARNING !!!
+// The code below was going to be deleted when updating resolvers. It has been copied here so you have
+// one last chance to move it out of harms way if you want. There are two reasons this happens:
+//   - When renaming or deleting a resolver the old code will be put in here. You can safely delete
+//     it when you're done.
+//   - You have helper methods in this file. Move them out to keep these resolver files clean.

@@ -39,6 +39,7 @@ type Config struct {
 }
 
 type ResolverRoot interface {
+	Blog() BlogResolver
 	Mutation() MutationResolver
 	Query() QueryResolver
 }
@@ -57,11 +58,11 @@ type ComplexityRoot struct {
 	}
 
 	Mutation struct {
-		CreateBlog    func(childComplexity int, title string, url string, kind domain.BlogKind) int
+		CreateBlog    func(childComplexity int, title string, url string, kind int) int
 		CreateProject func(childComplexity int, id string, title string, description string, isFavorite bool) int
 		DeleteBlog    func(childComplexity int, id uint) int
 		DeleteProject func(childComplexity int, id string) int
-		UpdateBlog    func(childComplexity int, id uint, title string, url string, kind domain.BlogKind) int
+		UpdateBlog    func(childComplexity int, id uint, title string, url string, kind int) int
 		UpdateProject func(childComplexity int, id string, title string, description string, isFavorite bool) int
 	}
 
@@ -82,9 +83,12 @@ type ComplexityRoot struct {
 	}
 }
 
+type BlogResolver interface {
+	Kind(ctx context.Context, obj *domain.Blog) (int, error)
+}
 type MutationResolver interface {
-	CreateBlog(ctx context.Context, title string, url string, kind domain.BlogKind) (*domain.Blog, error)
-	UpdateBlog(ctx context.Context, id uint, title string, url string, kind domain.BlogKind) (*domain.Blog, error)
+	CreateBlog(ctx context.Context, title string, url string, kind int) (*domain.Blog, error)
+	UpdateBlog(ctx context.Context, id uint, title string, url string, kind int) (*domain.Blog, error)
 	DeleteBlog(ctx context.Context, id uint) (*domain.Blog, error)
 	CreateProject(ctx context.Context, id string, title string, description string, isFavorite bool) (*domain.Project, error)
 	UpdateProject(ctx context.Context, id string, title string, description string, isFavorite bool) (*domain.Project, error)
@@ -168,7 +172,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateBlog(childComplexity, args["title"].(string), args["url"].(string), args["kind"].(domain.BlogKind)), true
+		return e.complexity.Mutation.CreateBlog(childComplexity, args["title"].(string), args["url"].(string), args["kind"].(int)), true
 
 	case "Mutation.createProject":
 		if e.complexity.Mutation.CreateProject == nil {
@@ -216,7 +220,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateBlog(childComplexity, args["id"].(uint), args["title"].(string), args["url"].(string), args["kind"].(domain.BlogKind)), true
+		return e.complexity.Mutation.UpdateBlog(childComplexity, args["id"].(uint), args["title"].(string), args["url"].(string), args["kind"].(int)), true
 
 	case "Mutation.updateProject":
 		if e.complexity.Mutation.UpdateProject == nil {
@@ -414,14 +418,12 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 }
 
 var sources = []*ast.Source{
-	{Name: "../schema/blog.gql", Input: `enum BlogKind {
-  QIITA
-}
+	{Name: "../schema/blog.gql", Input: `
 type Blog {
   id: Uint!
   title: String!
   url: String!
-  kind: BlogKind!
+  kind: Int!
   createdAt: Time!
   updatedAt: Time!
 }
@@ -431,8 +433,8 @@ extend type Query {
   blog(id: Uint!): Blog!
 }
 extend type Mutation {
-  createBlog(title: String!, url: String!, kind: BlogKind!): Blog!
-  updateBlog(id: Uint!, title: String!, url: String!, kind: BlogKind!): Blog!
+  createBlog(title: String!, url: String!, kind: Int!): Blog!
+  updateBlog(id: Uint!, title: String!, url: String!, kind: Int!): Blog!
   deleteBlog(id: Uint!): Blog!
 }`, BuiltIn: false},
 	{Name: "../schema/project.gql", Input: `type Project {
@@ -484,10 +486,10 @@ func (ec *executionContext) field_Mutation_createBlog_args(ctx context.Context, 
 		}
 	}
 	args["url"] = arg1
-	var arg2 domain.BlogKind
+	var arg2 int
 	if tmp, ok := rawArgs["kind"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("kind"))
-		arg2, err = ec.unmarshalNBlogKind2adminᚑbackendᚋdomainᚐBlogKind(ctx, tmp)
+		arg2, err = ec.unmarshalNInt2int(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -598,10 +600,10 @@ func (ec *executionContext) field_Mutation_updateBlog_args(ctx context.Context, 
 		}
 	}
 	args["url"] = arg2
-	var arg3 domain.BlogKind
+	var arg3 int
 	if tmp, ok := rawArgs["kind"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("kind"))
-		arg3, err = ec.unmarshalNBlogKind2adminᚑbackendᚋdomainᚐBlogKind(ctx, tmp)
+		arg3, err = ec.unmarshalNInt2int(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -881,7 +883,7 @@ func (ec *executionContext) _Blog_kind(ctx context.Context, field graphql.Collec
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Kind, nil
+		return ec.resolvers.Blog().Kind(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -893,19 +895,19 @@ func (ec *executionContext) _Blog_kind(ctx context.Context, field graphql.Collec
 		}
 		return graphql.Null
 	}
-	res := resTmp.(domain.BlogKind)
+	res := resTmp.(int)
 	fc.Result = res
-	return ec.marshalNBlogKind2adminᚑbackendᚋdomainᚐBlogKind(ctx, field.Selections, res)
+	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Blog_kind(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Blog",
 		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
+		IsMethod:   true,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type BlogKind does not have child fields")
+			return nil, errors.New("field of type Int does not have child fields")
 		},
 	}
 	return fc, nil
@@ -1013,7 +1015,7 @@ func (ec *executionContext) _Mutation_createBlog(ctx context.Context, field grap
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateBlog(rctx, fc.Args["title"].(string), fc.Args["url"].(string), fc.Args["kind"].(domain.BlogKind))
+		return ec.resolvers.Mutation().CreateBlog(rctx, fc.Args["title"].(string), fc.Args["url"].(string), fc.Args["kind"].(int))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -1082,7 +1084,7 @@ func (ec *executionContext) _Mutation_updateBlog(ctx context.Context, field grap
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateBlog(rctx, fc.Args["id"].(uint), fc.Args["title"].(string), fc.Args["url"].(string), fc.Args["kind"].(domain.BlogKind))
+		return ec.resolvers.Mutation().UpdateBlog(rctx, fc.Args["id"].(uint), fc.Args["title"].(string), fc.Args["url"].(string), fc.Args["kind"].(int))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3855,32 +3857,63 @@ func (ec *executionContext) _Blog(ctx context.Context, sel ast.SelectionSet, obj
 		case "id":
 			out.Values[i] = ec._Blog_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "title":
 			out.Values[i] = ec._Blog_title(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "url":
 			out.Values[i] = ec._Blog_url(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "kind":
-			out.Values[i] = ec._Blog_kind(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Blog_kind(ctx, field, obj)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
 			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "createdAt":
 			out.Values[i] = ec._Blog_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "updatedAt":
 			out.Values[i] = ec._Blog_updatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
@@ -4575,16 +4608,6 @@ func (ec *executionContext) marshalNBlog2ᚖadminᚑbackendᚋdomainᚐBlog(ctx 
 	return ec._Blog(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNBlogKind2adminᚑbackendᚋdomainᚐBlogKind(ctx context.Context, v interface{}) (domain.BlogKind, error) {
-	var res domain.BlogKind
-	err := res.UnmarshalGQL(v)
-	return res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) marshalNBlogKind2adminᚑbackendᚋdomainᚐBlogKind(ctx context.Context, sel ast.SelectionSet, v domain.BlogKind) graphql.Marshaler {
-	return v
-}
-
 func (ec *executionContext) unmarshalNBoolean2bool(ctx context.Context, v interface{}) (bool, error) {
 	res, err := graphql.UnmarshalBoolean(v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -4592,6 +4615,21 @@ func (ec *executionContext) unmarshalNBoolean2bool(ctx context.Context, v interf
 
 func (ec *executionContext) marshalNBoolean2bool(ctx context.Context, sel ast.SelectionSet, v bool) graphql.Marshaler {
 	res := graphql.MarshalBoolean(v)
+	if res == graphql.Null {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+	}
+	return res
+}
+
+func (ec *executionContext) unmarshalNInt2int(ctx context.Context, v interface{}) (int, error) {
+	res, err := graphql.UnmarshalInt(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.SelectionSet, v int) graphql.Marshaler {
+	res := graphql.MarshalInt(v)
 	if res == graphql.Null {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
