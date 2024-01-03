@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  frontend:
+  app:
     runs-on: ubuntu-latest
     steps:
       - name: Check out
