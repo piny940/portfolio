@@ -6,6 +6,7 @@
     "dev": "next dev -p 3002",
     "build": "next build",
     "start": "next start -p 4400",
+    "codegen": "graphql-codegen",
     "lint": "npx prettier --write . && npx eslint . --fix",
     "lint-check": "npx prettier -c . & npx eslint ."
   },
