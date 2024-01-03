@@ -1,0 +1,20 @@
+query getBlogs {
+  blogs {
+    id
+    title
+    url
+    kind
+    createdAt
+    updatedAt
+  }
+}
+query getBlog($id: Uint!) {
+  blog(id: $id) {
+    id
+    title
+    url
+    kind
+    createdAt
+    updatedAt
+  }
+}
