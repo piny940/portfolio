@@ -5,7 +5,7 @@ import "gorm.io/gorm"
 type BlogKind int
 
 const (
-	BlogQiita BlogKind = iota
+	BlogKindQiita BlogKind = iota
 )
 
 type Blog struct {

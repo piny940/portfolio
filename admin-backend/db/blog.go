@@ -1,6 +1,8 @@
 package db
 
-import "admin-backend/domain"
+import (
+	"admin-backend/domain"
+)
 
 type blogRepo struct {
 	db *DB
@@ -28,7 +30,7 @@ func (r *blogRepo) Delete(id uint) (*domain.Blog, error) {
 // Find implements domain.IBlogRepo.
 func (r *blogRepo) Find(id uint) (*domain.Blog, error) {
 	var blog *domain.Blog
-	result := r.db.Client.Find(blog, id)
+	result := r.db.Client.First(&blog, id)
 	if result.Error != nil {
 		return nil, result.Error
 	}
