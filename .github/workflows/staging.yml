@@ -1,4 +1,4 @@
-name: Build App for Staging
+name: Build for Staging
 on:
   push:
     branches:
