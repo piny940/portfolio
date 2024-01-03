@@ -5,11 +5,7 @@ const config: CodegenConfig = {
   documents: 'src/graphql/**/*.gql',
   generates: {
     'src/graphql/types/index.ts': {
-      plugins: [
-        'typescript',
-        'typescript-operations',
-        'typescript-urql',
-      ],
+      plugins: ['typescript', 'typescript-operations', 'typescript-urql'],
       config: {
         strictScalars: true,
         scalars: {
