@@ -1,4 +1,4 @@
-name: Docker Build for Staging
+name: Build App for Staging
 on:
   push:
     branches:
