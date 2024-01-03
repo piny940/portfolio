@@ -8,6 +8,7 @@ const config: CodegenConfig = {
       plugins: [
         'typescript',
         'typescript-operations',
+        'typescript-urql',
       ],
       config: {
         strictScalars: true,
