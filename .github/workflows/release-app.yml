@@ -24,5 +24,5 @@ jobs:
           context: ./app
           file: ./app/Dockerfile
           tags: |
-            ghcr.io/piny940/portfolio:1.0.${{ github.run_number }}
-            ghcr.io/piny940/portfolio:latest
+            ghcr.io/piny940/portfolio-app:1.0.${{ github.run_number }}
+            ghcr.io/piny940/portfolio-app:latest

@@ -1,8 +1,6 @@
-name: Build App for Staging
+name: Build AdminBackend for Release
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   frontend:
@@ -10,7 +8,6 @@ jobs:
     steps:
       - name: Check out
         uses: actions/checkout@v3
-
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
@@ -23,7 +20,9 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          context: ./app
-          file: ./app/Dockerfile
+          context: ./admin-backend
+          file: ./admin-backend/Dockerfile
           tags: |
-            ghcr.io/piny940/portfolio-app:main-${{ github.sha }}-${{ github.run_number }}
+            ghcr.io/piny940/portfolio-admin-backend:1.0.${{ github.run_number }}
+            ghcr.io/piny940/portfolio-admin-backend:latest
+
