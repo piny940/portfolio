@@ -9,16 +9,11 @@ import (
 	"admin-backend/graph"
 	"admin-backend/registry"
 	"context"
-	"fmt"
 
 	"gorm.io/gorm"
 )
 
 func (r *blogResolver) Kind(ctx context.Context, obj *domain.Blog) (int, error) {
-	fmt.Println("kind was called")
-	if obj == nil {
-		return 0, nil
-	}
 	return int(obj.Kind), nil
 }
 
@@ -85,10 +80,3 @@ func (r *Resolver) Query() graph.QueryResolver { return &queryResolver{r} }
 type blogResolver struct{ *Resolver }
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
-
-// !!! WARNING !!!
-// The code below was going to be deleted when updating resolvers. It has been copied here so you have
-// one last chance to move it out of harms way if you want. There are two reasons this happens:
-//   - When renaming or deleting a resolver the old code will be put in here. You can safely delete
-//     it when you're done.
-//   - You have helper methods in this file. Move them out to keep these resolver files clean.
