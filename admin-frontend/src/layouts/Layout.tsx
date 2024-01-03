@@ -12,7 +12,9 @@ export const Layout = ({ children }: LayoutProps): JSX.Element => {
           <Typography variant="h6">PortfolioAdmin</Typography>
         </Toolbar>
       </AppBar>
-      <Container sx={{ pt: 4, pb: 6 }}>{children}</Container>
+      <Container component="main" sx={{ pt: 4, pb: 6 }}>
+        {children}
+      </Container>
     </Box>
   )
 }
