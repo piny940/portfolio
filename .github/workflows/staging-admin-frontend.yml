@@ -1,8 +1,8 @@
 name: Build AdminFrontend for Staging
 on:
   push:
-    branches:
-      - main
+    # branches:
+    #   - main
 
 jobs:
   frontend:
