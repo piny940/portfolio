@@ -6,9 +6,13 @@
     "dev": "next dev -p 3002",
     "build": "next build",
     "start": "next start -p 4400",
-    "lint": "next lint"
+    "lint": "npx prettier --write . && npx eslint . --fix",
+    "lint-check": "npx prettier -c . & npx eslint ."
   },
   "dependencies": {
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.15.2",
     "graphql": "^16.8.1",
     "next": "14.0.4",
     "react": "^18",
