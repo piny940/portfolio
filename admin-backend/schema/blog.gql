@@ -6,7 +6,7 @@ type Blog {
   createdAt: Time!
   updatedAt: Time!
 }
-type BlogInput {
+input BlogInput {
   title: String!
   url: String!
   kind: Int!

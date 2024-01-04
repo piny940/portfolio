@@ -2,7 +2,20 @@
 
 package domain
 
+type BlogInput struct {
+	Title string `json:"title"`
+	URL   string `json:"url"`
+	Kind  int    `json:"kind"`
+}
+
 type Mutation struct {
+}
+
+type ProjectInput struct {
+	ID          string `json:"id"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	IsFavorite  bool   `json:"isFavorite"`
 }
 
 type Query struct {

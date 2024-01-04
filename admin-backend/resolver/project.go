@@ -10,13 +10,13 @@ import (
 	"context"
 )
 
-func (r *mutationResolver) CreateProject(ctx context.Context, id string, title string, description string, isFavorite bool) (*domain.Project, error) {
+func (r *mutationResolver) CreateProject(ctx context.Context, input domain.ProjectInput) (*domain.Project, error) {
 	reg := registry.GetRegistry()
 	project := &domain.Project{
-		ID:          id,
-		Title:       title,
-		Description: description,
-		IsFavorite:  isFavorite,
+		ID:          input.ID,
+		Title:       input.Title,
+		Description: input.Description,
+		IsFavorite:  input.IsFavorite,
 	}
 	err := reg.ProjectUsecase().Create(project)
 	if err != nil {
@@ -25,13 +25,13 @@ func (r *mutationResolver) CreateProject(ctx context.Context, id string, title s
 	return project, nil
 }
 
-func (r *mutationResolver) UpdateProject(ctx context.Context, id string, title string, description string, isFavorite bool) (*domain.Project, error) {
+func (r *mutationResolver) UpdateProject(ctx context.Context, input domain.ProjectInput) (*domain.Project, error) {
 	reg := registry.GetRegistry()
 	project := &domain.Project{
-		ID:          id,
-		Title:       title,
-		Description: description,
-		IsFavorite:  isFavorite,
+		ID:          input.ID,
+		Title:       input.Title,
+		Description: input.Description,
+		IsFavorite:  input.IsFavorite,
 	}
 	err := reg.ProjectUsecase().Update(project)
 	if err != nil {

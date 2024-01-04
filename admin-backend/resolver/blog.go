@@ -17,12 +17,12 @@ func (r *blogResolver) Kind(ctx context.Context, obj *domain.Blog) (int, error) 
 	return int(obj.Kind), nil
 }
 
-func (r *mutationResolver) CreateBlog(ctx context.Context, title string, url string, kind int) (*domain.Blog, error) {
+func (r *mutationResolver) CreateBlog(ctx context.Context, input domain.BlogInput) (*domain.Blog, error) {
 	reg := registry.GetRegistry()
 	blog := &domain.Blog{
-		Title: title,
-		Url:   url,
-		Kind:  domain.BlogKind(kind),
+		Title: input.Title,
+		Url:   input.URL,
+		Kind:  domain.BlogKind(input.Kind),
 	}
 	if err := reg.BlogUsecase().Create(blog); err != nil {
 		return nil, err
@@ -30,13 +30,13 @@ func (r *mutationResolver) CreateBlog(ctx context.Context, title string, url str
 	return blog, nil
 }
 
-func (r *mutationResolver) UpdateBlog(ctx context.Context, id uint, title string, url string, kind int) (*domain.Blog, error) {
+func (r *mutationResolver) UpdateBlog(ctx context.Context, id uint, input domain.BlogInput) (*domain.Blog, error) {
 	reg := registry.GetRegistry()
 	blog := &domain.Blog{
 		Model: gorm.Model{ID: id},
-		Title: title,
-		Url:   url,
-		Kind:  domain.BlogKind(kind),
+		Title: input.Title,
+		Url:   input.URL,
+		Kind:  domain.BlogKind(input.Kind),
 	}
 	if err := reg.BlogUsecase().Update(blog); err != nil {
 		return nil, err

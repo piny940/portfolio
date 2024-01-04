@@ -6,7 +6,7 @@ type Project {
   createdAt: Time!
   updatedAt: Time!
 }
-type ProjectInput {
+input ProjectInput {
   id: String!
   title: String!
   description: String!
