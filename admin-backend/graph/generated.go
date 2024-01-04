@@ -58,12 +58,12 @@ type ComplexityRoot struct {
 	}
 
 	Mutation struct {
-		CreateBlog    func(childComplexity int, title string, url string, kind int) int
-		CreateProject func(childComplexity int, id string, title string, description string, isFavorite bool) int
+		CreateBlog    func(childComplexity int, input domain.BlogInput) int
+		CreateProject func(childComplexity int, input domain.ProjectInput) int
 		DeleteBlog    func(childComplexity int, id uint) int
 		DeleteProject func(childComplexity int, id string) int
-		UpdateBlog    func(childComplexity int, id uint, title string, url string, kind int) int
-		UpdateProject func(childComplexity int, id string, title string, description string, isFavorite bool) int
+		UpdateBlog    func(childComplexity int, id uint, input domain.BlogInput) int
+		UpdateProject func(childComplexity int, input domain.ProjectInput) int
 	}
 
 	Project struct {
@@ -87,11 +87,11 @@ type BlogResolver interface {
 	Kind(ctx context.Context, obj *domain.Blog) (int, error)
 }
 type MutationResolver interface {
-	CreateBlog(ctx context.Context, title string, url string, kind int) (*domain.Blog, error)
-	UpdateBlog(ctx context.Context, id uint, title string, url string, kind int) (*domain.Blog, error)
+	CreateBlog(ctx context.Context, input domain.BlogInput) (*domain.Blog, error)
+	UpdateBlog(ctx context.Context, id uint, input domain.BlogInput) (*domain.Blog, error)
 	DeleteBlog(ctx context.Context, id uint) (*domain.Blog, error)
-	CreateProject(ctx context.Context, id string, title string, description string, isFavorite bool) (*domain.Project, error)
-	UpdateProject(ctx context.Context, id string, title string, description string, isFavorite bool) (*domain.Project, error)
+	CreateProject(ctx context.Context, input domain.ProjectInput) (*domain.Project, error)
+	UpdateProject(ctx context.Context, input domain.ProjectInput) (*domain.Project, error)
 	DeleteProject(ctx context.Context, id string) (*domain.Project, error)
 }
 type QueryResolver interface {
@@ -172,7 +172,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateBlog(childComplexity, args["title"].(string), args["url"].(string), args["kind"].(int)), true
+		return e.complexity.Mutation.CreateBlog(childComplexity, args["input"].(domain.BlogInput)), true
 
 	case "Mutation.createProject":
 		if e.complexity.Mutation.CreateProject == nil {
@@ -184,7 +184,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateProject(childComplexity, args["id"].(string), args["title"].(string), args["description"].(string), args["isFavorite"].(bool)), true
+		return e.complexity.Mutation.CreateProject(childComplexity, args["input"].(domain.ProjectInput)), true
 
 	case "Mutation.deleteBlog":
 		if e.complexity.Mutation.DeleteBlog == nil {
@@ -220,7 +220,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateBlog(childComplexity, args["id"].(uint), args["title"].(string), args["url"].(string), args["kind"].(int)), true
+		return e.complexity.Mutation.UpdateBlog(childComplexity, args["id"].(uint), args["input"].(domain.BlogInput)), true
 
 	case "Mutation.updateProject":
 		if e.complexity.Mutation.UpdateProject == nil {
@@ -232,7 +232,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateProject(childComplexity, args["id"].(string), args["title"].(string), args["description"].(string), args["isFavorite"].(bool)), true
+		return e.complexity.Mutation.UpdateProject(childComplexity, args["input"].(domain.ProjectInput)), true
 
 	case "Project.createdAt":
 		if e.complexity.Project.CreatedAt == nil {
@@ -321,7 +321,10 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 	rc := graphql.GetOperationContext(ctx)
 	ec := executionContext{rc, e, 0, 0, make(chan graphql.DeferredResult)}
-	inputUnmarshalMap := graphql.BuildUnmarshalerMap()
+	inputUnmarshalMap := graphql.BuildUnmarshalerMap(
+		ec.unmarshalInputBlogInput,
+		ec.unmarshalInputProjectInput,
+	)
 	first := true
 
 	switch rc.Operation.Operation {
@@ -418,8 +421,7 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 }
 
 var sources = []*ast.Source{
-	{Name: "../schema/blog.gql", Input: `
-type Blog {
+	{Name: "../schema/blog.gql", Input: `type Blog {
   id: Uint!
   title: String!
   url: String!
@@ -427,16 +429,22 @@ type Blog {
   createdAt: Time!
   updatedAt: Time!
 }
+input BlogInput {
+  title: String!
+  url: String!
+  kind: Int!
+}
 
 extend type Query {
   blogs: [Blog!]!
   blog(id: Uint!): Blog!
 }
 extend type Mutation {
-  createBlog(title: String!, url: String!, kind: Int!): Blog!
-  updateBlog(id: Uint!, title: String!, url: String!, kind: Int!): Blog!
+  createBlog(input: BlogInput!): Blog!
+  updateBlog(id: Uint!, input: BlogInput!): Blog!
   deleteBlog(id: Uint!): Blog!
-}`, BuiltIn: false},
+}
+`, BuiltIn: false},
 	{Name: "../schema/project.gql", Input: `type Project {
   id: String!
   title: String!
@@ -445,16 +453,23 @@ extend type Mutation {
   createdAt: Time!
   updatedAt: Time!
 }
+input ProjectInput {
+  id: String!
+  title: String!
+  description: String!
+  isFavorite: Boolean!
+}
 
 extend type Query {
   projects: [Project!]!
   project(id: String!): Project!
 }
 extend type Mutation {
-  createProject(id: String!, title: String!, description: String!, isFavorite:  Boolean!): Project!
-  updateProject(id: String!, title: String!, description: String!, isFavorite:  Boolean!): Project!
+  createProject(input: ProjectInput!): Project!
+  updateProject(input: ProjectInput!): Project!
   deleteProject(id: String!): Project!
-}`, BuiltIn: false},
+}
+`, BuiltIn: false},
 	{Name: "../schema/schema.gql", Input: `scalar Uint
 scalar Time
 `, BuiltIn: false},
@@ -468,75 +483,30 @@ var parsedSchema = gqlparser.MustLoadSchema(sources...)
 func (ec *executionContext) field_Mutation_createBlog_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 string
-	if tmp, ok := rawArgs["title"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("title"))
-		arg0, err = ec.unmarshalNString2string(ctx, tmp)
+	var arg0 domain.BlogInput
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNBlogInput2adminᚑbackendᚋdomainᚐBlogInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["title"] = arg0
-	var arg1 string
-	if tmp, ok := rawArgs["url"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("url"))
-		arg1, err = ec.unmarshalNString2string(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["url"] = arg1
-	var arg2 int
-	if tmp, ok := rawArgs["kind"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("kind"))
-		arg2, err = ec.unmarshalNInt2int(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["kind"] = arg2
+	args["input"] = arg0
 	return args, nil
 }
 
 func (ec *executionContext) field_Mutation_createProject_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 string
-	if tmp, ok := rawArgs["id"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-		arg0, err = ec.unmarshalNString2string(ctx, tmp)
+	var arg0 domain.ProjectInput
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNProjectInput2adminᚑbackendᚋdomainᚐProjectInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["id"] = arg0
-	var arg1 string
-	if tmp, ok := rawArgs["title"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("title"))
-		arg1, err = ec.unmarshalNString2string(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["title"] = arg1
-	var arg2 string
-	if tmp, ok := rawArgs["description"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
-		arg2, err = ec.unmarshalNString2string(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["description"] = arg2
-	var arg3 bool
-	if tmp, ok := rawArgs["isFavorite"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("isFavorite"))
-		arg3, err = ec.unmarshalNBoolean2bool(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["isFavorite"] = arg3
+	args["input"] = arg0
 	return args, nil
 }
 
@@ -582,75 +552,30 @@ func (ec *executionContext) field_Mutation_updateBlog_args(ctx context.Context, 
 		}
 	}
 	args["id"] = arg0
-	var arg1 string
-	if tmp, ok := rawArgs["title"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("title"))
-		arg1, err = ec.unmarshalNString2string(ctx, tmp)
+	var arg1 domain.BlogInput
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg1, err = ec.unmarshalNBlogInput2adminᚑbackendᚋdomainᚐBlogInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["title"] = arg1
-	var arg2 string
-	if tmp, ok := rawArgs["url"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("url"))
-		arg2, err = ec.unmarshalNString2string(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["url"] = arg2
-	var arg3 int
-	if tmp, ok := rawArgs["kind"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("kind"))
-		arg3, err = ec.unmarshalNInt2int(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["kind"] = arg3
+	args["input"] = arg1
 	return args, nil
 }
 
 func (ec *executionContext) field_Mutation_updateProject_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 string
-	if tmp, ok := rawArgs["id"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-		arg0, err = ec.unmarshalNString2string(ctx, tmp)
+	var arg0 domain.ProjectInput
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNProjectInput2adminᚑbackendᚋdomainᚐProjectInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["id"] = arg0
-	var arg1 string
-	if tmp, ok := rawArgs["title"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("title"))
-		arg1, err = ec.unmarshalNString2string(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["title"] = arg1
-	var arg2 string
-	if tmp, ok := rawArgs["description"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
-		arg2, err = ec.unmarshalNString2string(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["description"] = arg2
-	var arg3 bool
-	if tmp, ok := rawArgs["isFavorite"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("isFavorite"))
-		arg3, err = ec.unmarshalNBoolean2bool(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["isFavorite"] = arg3
+	args["input"] = arg0
 	return args, nil
 }
 
@@ -1015,7 +940,7 @@ func (ec *executionContext) _Mutation_createBlog(ctx context.Context, field grap
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateBlog(rctx, fc.Args["title"].(string), fc.Args["url"].(string), fc.Args["kind"].(int))
+		return ec.resolvers.Mutation().CreateBlog(rctx, fc.Args["input"].(domain.BlogInput))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -1084,7 +1009,7 @@ func (ec *executionContext) _Mutation_updateBlog(ctx context.Context, field grap
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateBlog(rctx, fc.Args["id"].(uint), fc.Args["title"].(string), fc.Args["url"].(string), fc.Args["kind"].(int))
+		return ec.resolvers.Mutation().UpdateBlog(rctx, fc.Args["id"].(uint), fc.Args["input"].(domain.BlogInput))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -1222,7 +1147,7 @@ func (ec *executionContext) _Mutation_createProject(ctx context.Context, field g
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateProject(rctx, fc.Args["id"].(string), fc.Args["title"].(string), fc.Args["description"].(string), fc.Args["isFavorite"].(bool))
+		return ec.resolvers.Mutation().CreateProject(rctx, fc.Args["input"].(domain.ProjectInput))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -1291,7 +1216,7 @@ func (ec *executionContext) _Mutation_updateProject(ctx context.Context, field g
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateProject(rctx, fc.Args["id"].(string), fc.Args["title"].(string), fc.Args["description"].(string), fc.Args["isFavorite"].(bool))
+		return ec.resolvers.Mutation().UpdateProject(rctx, fc.Args["input"].(domain.ProjectInput))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3835,6 +3760,95 @@ func (ec *executionContext) fieldContext___Type_specifiedByURL(ctx context.Conte
 
 // region    **************************** input.gotpl *****************************
 
+func (ec *executionContext) unmarshalInputBlogInput(ctx context.Context, obj interface{}) (domain.BlogInput, error) {
+	var it domain.BlogInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"title", "url", "kind"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "title":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("title"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Title = data
+		case "url":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("url"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.URL = data
+		case "kind":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("kind"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Kind = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputProjectInput(ctx context.Context, obj interface{}) (domain.ProjectInput, error) {
+	var it domain.ProjectInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"id", "title", "description", "isFavorite"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "id":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ID = data
+		case "title":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("title"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Title = data
+		case "description":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Description = data
+		case "isFavorite":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("isFavorite"))
+			data, err := ec.unmarshalNBoolean2bool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.IsFavorite = data
+		}
+	}
+
+	return it, nil
+}
+
 // endregion **************************** input.gotpl *****************************
 
 // region    ************************** interface.gotpl ***************************
@@ -4608,6 +4622,11 @@ func (ec *executionContext) marshalNBlog2ᚖadminᚑbackendᚋdomainᚐBlog(ctx 
 	return ec._Blog(ctx, sel, v)
 }
 
+func (ec *executionContext) unmarshalNBlogInput2adminᚑbackendᚋdomainᚐBlogInput(ctx context.Context, v interface{}) (domain.BlogInput, error) {
+	res, err := ec.unmarshalInputBlogInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNBoolean2bool(ctx context.Context, v interface{}) (bool, error) {
 	res, err := graphql.UnmarshalBoolean(v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -4694,6 +4713,11 @@ func (ec *executionContext) marshalNProject2ᚖadminᚑbackendᚋdomainᚐProjec
 		return graphql.Null
 	}
 	return ec._Project(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNProjectInput2adminᚑbackendᚋdomainᚐProjectInput(ctx context.Context, v interface{}) (domain.ProjectInput, error) {
+	res, err := ec.unmarshalInputProjectInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNString2string(ctx context.Context, v interface{}) (string, error) {
