@@ -1,5 +1,12 @@
 import { useGetBlogsQuery } from '@/graphql/types'
-import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
+import {
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from '@mui/material'
 import Error from 'next/error'
 
 export const Blogs = (): JSX.Element => {
@@ -17,6 +24,7 @@ export const Blogs = (): JSX.Element => {
           <TableCell>Kind</TableCell>
           <TableCell>CreatedAt</TableCell>
           <TableCell>UpdatedAt</TableCell>
+          <TableCell>Links</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -28,6 +36,10 @@ export const Blogs = (): JSX.Element => {
             <TableCell>{blog.kind}</TableCell>
             <TableCell>{blog.createdAt}</TableCell>
             <TableCell>{blog.updatedAt}</TableCell>
+            <TableCell>
+              <Button href={`/blogs/${blog.id}/edit`}>編集</Button>
+              <Button>削除</Button>
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>
