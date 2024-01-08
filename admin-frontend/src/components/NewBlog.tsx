@@ -1,4 +1,4 @@
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { BlogForm } from './BlogForm'
 import { useState } from 'react'
 import { BlogInput } from '@/graphql/types'
@@ -8,6 +8,9 @@ export const NewBlog = (): JSX.Element => {
 
   return (
     <Box>
+      <Typography variant="h4" component="h1">
+        NewBlog
+      </Typography>
       <BlogForm value={value} setInput={setValue} />
     </Box>
   )
