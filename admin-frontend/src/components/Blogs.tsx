@@ -36,9 +36,23 @@ export const Blogs = (): JSX.Element => {
             <TableCell>{blog.kind}</TableCell>
             <TableCell>{blog.createdAt}</TableCell>
             <TableCell>{blog.updatedAt}</TableCell>
-            <TableCell>
-              <Button href={`/blogs/${blog.id}/edit`}>編集</Button>
-              <Button>削除</Button>
+            <TableCell
+              sx={{
+                '> * + *': {
+                  marginLeft: 1,
+                },
+              }}
+            >
+              <Button
+                variant="contained"
+                size="small"
+                href={`/blogs/${blog.id}/edit`}
+              >
+                編集
+              </Button>
+              <Button variant="contained" size="small">
+                削除
+              </Button>
             </TableCell>
           </TableRow>
         ))}
