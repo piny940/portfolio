@@ -1,5 +1,13 @@
 import { BlogInput } from '@/graphql/types'
-import { Box, Select, TextField } from '@mui/material'
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from '@mui/material'
+import { allBlogKinds, blogKindLabel } from '../../utils/types'
 
 export type BlogFormProps = {
   value: BlogInput
@@ -14,7 +22,16 @@ export const BlogForm = ({ value, setInput }: BlogFormProps): JSX.Element => {
         value={value.title}
         onChange={(e) => setInput({ ...value, title: e.target.value })}
       />
-      <Select label="Kind"></Select>
+      <FormControl>
+        <InputLabel id="blog-form-kind-select">Kind</InputLabel>
+        <Select label="Kind" id="blog-form-kind-select" value={value.kind}>
+          {allBlogKinds.map((blogKind) => (
+            <MenuItem key={blogKind} value={blogKind}>
+              {blogKindLabel[blogKind]}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
       <TextField
         label="URL"
         value={value.url}
