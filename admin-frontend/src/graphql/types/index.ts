@@ -42,6 +42,12 @@ export type Blog = {
   url: Scalars['String']['output']
 }
 
+export type BlogInput = {
+  kind: Scalars['Int']['input']
+  title: Scalars['String']['input']
+  url: Scalars['String']['input']
+}
+
 export type Mutation = {
   __typename?: 'Mutation'
   createBlog: Blog
@@ -53,16 +59,11 @@ export type Mutation = {
 }
 
 export type MutationCreateBlogArgs = {
-  kind: Scalars['Int']['input']
-  title: Scalars['String']['input']
-  url: Scalars['String']['input']
+  input: BlogInput
 }
 
 export type MutationCreateProjectArgs = {
-  description: Scalars['String']['input']
-  id: Scalars['String']['input']
-  isFavorite: Scalars['Boolean']['input']
-  title: Scalars['String']['input']
+  input: ProjectInput
 }
 
 export type MutationDeleteBlogArgs = {
@@ -75,16 +76,11 @@ export type MutationDeleteProjectArgs = {
 
 export type MutationUpdateBlogArgs = {
   id: Scalars['Uint']['input']
-  kind: Scalars['Int']['input']
-  title: Scalars['String']['input']
-  url: Scalars['String']['input']
+  input: BlogInput
 }
 
 export type MutationUpdateProjectArgs = {
-  description: Scalars['String']['input']
-  id: Scalars['String']['input']
-  isFavorite: Scalars['Boolean']['input']
-  title: Scalars['String']['input']
+  input: ProjectInput
 }
 
 export type Project = {
@@ -95,6 +91,13 @@ export type Project = {
   isFavorite: Scalars['Boolean']['output']
   title: Scalars['String']['output']
   updatedAt: Scalars['Time']['output']
+}
+
+export type ProjectInput = {
+  description: Scalars['String']['input']
+  id: Scalars['String']['input']
+  isFavorite: Scalars['Boolean']['input']
+  title: Scalars['String']['input']
 }
 
 export type Query = {
@@ -135,6 +138,23 @@ export type GetBlogQueryVariables = Exact<{
 export type GetBlogQuery = {
   __typename?: 'Query'
   blog: {
+    __typename?: 'Blog'
+    id: number
+    title: string
+    url: string
+    kind: number
+    createdAt: string
+    updatedAt: string
+  }
+}
+
+export type CreateBlogMutationVariables = Exact<{
+  input: BlogInput
+}>
+
+export type CreateBlogMutation = {
+  __typename?: 'Mutation'
+  createBlog: {
     __typename?: 'Blog'
     id: number
     title: string
@@ -186,4 +206,22 @@ export function useGetBlogQuery(
     query: GetBlogDocument,
     ...options,
   })
+}
+export const CreateBlogDocument = gql`
+  mutation createBlog($input: BlogInput!) {
+    createBlog(input: $input) {
+      id
+      title
+      url
+      kind
+      createdAt
+      updatedAt
+    }
+  }
+`
+
+export function useCreateBlogMutation() {
+  return Urql.useMutation<CreateBlogMutation, CreateBlogMutationVariables>(
+    CreateBlogDocument
+  )
 }

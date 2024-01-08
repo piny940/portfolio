@@ -1,5 +1,7 @@
+import { Blogs } from '@/components/Blogs'
+
 const BlogsPage = (): JSX.Element => {
-  return <div>Blogs</div>
+  return <Blogs />
 }
 
 export default BlogsPage
