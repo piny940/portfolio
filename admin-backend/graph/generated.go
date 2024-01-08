@@ -39,7 +39,6 @@ type Config struct {
 }
 
 type ResolverRoot interface {
-	Blog() BlogResolver
 	Mutation() MutationResolver
 	Query() QueryResolver
 }
@@ -83,9 +82,6 @@ type ComplexityRoot struct {
 	}
 }
 
-type BlogResolver interface {
-	Kind(ctx context.Context, obj *domain.Blog) (int, error)
-}
 type MutationResolver interface {
 	CreateBlog(ctx context.Context, input domain.BlogInput) (*domain.Blog, error)
 	UpdateBlog(ctx context.Context, id uint, input domain.BlogInput) (*domain.Blog, error)
@@ -421,18 +417,21 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 }
 
 var sources = []*ast.Source{
-	{Name: "../schema/blog.gql", Input: `type Blog {
+	{Name: "../schema/blog.gql", Input: `enum BlogKind {
+  QIITA
+}
+type Blog {
   id: Uint!
   title: String!
   url: String!
-  kind: Int!
+  kind: BlogKind!
   createdAt: Time!
   updatedAt: Time!
 }
 input BlogInput {
   title: String!
   url: String!
-  kind: Int!
+  kind: BlogKind!
 }
 
 extend type Query {
@@ -808,7 +807,7 @@ func (ec *executionContext) _Blog_kind(ctx context.Context, field graphql.Collec
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Blog().Kind(rctx, obj)
+		return obj.Kind, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -820,19 +819,19 @@ func (ec *executionContext) _Blog_kind(ctx context.Context, field graphql.Collec
 		}
 		return graphql.Null
 	}
-	res := resTmp.(int)
+	res := resTmp.(domain.BlogKind)
 	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
+	return ec.marshalNBlogKind2adminᚑbackendᚋdomainᚐBlogKind(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Blog_kind(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Blog",
 		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
+		IsMethod:   false,
+		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
+			return nil, errors.New("field of type BlogKind does not have child fields")
 		},
 	}
 	return fc, nil
@@ -3790,7 +3789,7 @@ func (ec *executionContext) unmarshalInputBlogInput(ctx context.Context, obj int
 			it.URL = data
 		case "kind":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("kind"))
-			data, err := ec.unmarshalNInt2int(ctx, v)
+			data, err := ec.unmarshalNBlogKind2adminᚑbackendᚋdomainᚐBlogKind(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -3871,63 +3870,32 @@ func (ec *executionContext) _Blog(ctx context.Context, sel ast.SelectionSet, obj
 		case "id":
 			out.Values[i] = ec._Blog_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "title":
 			out.Values[i] = ec._Blog_title(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "url":
 			out.Values[i] = ec._Blog_url(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "kind":
-			field := field
-
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Blog_kind(ctx, field, obj)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
-				return res
+			out.Values[i] = ec._Blog_kind(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
 			}
-
-			if field.Deferrable != nil {
-				dfs, ok := deferred[field.Deferrable.Label]
-				di := 0
-				if ok {
-					dfs.AddField(field)
-					di = len(dfs.Values) - 1
-				} else {
-					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
-					deferred[field.Deferrable.Label] = dfs
-				}
-				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
-					return innerFunc(ctx, dfs)
-				})
-
-				// don't run the out.Concurrently() call below
-				out.Values[i] = graphql.Null
-				continue
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "createdAt":
 			out.Values[i] = ec._Blog_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		case "updatedAt":
 			out.Values[i] = ec._Blog_updatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
@@ -4627,6 +4595,16 @@ func (ec *executionContext) unmarshalNBlogInput2adminᚑbackendᚋdomainᚐBlogI
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalNBlogKind2adminᚑbackendᚋdomainᚐBlogKind(ctx context.Context, v interface{}) (domain.BlogKind, error) {
+	var res domain.BlogKind
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNBlogKind2adminᚑbackendᚋdomainᚐBlogKind(ctx context.Context, sel ast.SelectionSet, v domain.BlogKind) graphql.Marshaler {
+	return v
+}
+
 func (ec *executionContext) unmarshalNBoolean2bool(ctx context.Context, v interface{}) (bool, error) {
 	res, err := graphql.UnmarshalBoolean(v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -4634,21 +4612,6 @@ func (ec *executionContext) unmarshalNBoolean2bool(ctx context.Context, v interf
 
 func (ec *executionContext) marshalNBoolean2bool(ctx context.Context, sel ast.SelectionSet, v bool) graphql.Marshaler {
 	res := graphql.MarshalBoolean(v)
-	if res == graphql.Null {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
-		}
-	}
-	return res
-}
-
-func (ec *executionContext) unmarshalNInt2int(ctx context.Context, v interface{}) (int, error) {
-	res, err := graphql.UnmarshalInt(v)
-	return res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.SelectionSet, v int) graphql.Marshaler {
-	res := graphql.MarshalInt(v)
 	if res == graphql.Null {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")

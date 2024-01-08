@@ -1,15 +1,18 @@
+enum BlogKind {
+  QIITA
+}
 type Blog {
   id: Uint!
   title: String!
   url: String!
-  kind: Int!
+  kind: BlogKind!
   createdAt: Time!
   updatedAt: Time!
 }
 input BlogInput {
   title: String!
   url: String!
-  kind: Int!
+  kind: BlogKind!
 }
 
 extend type Query {

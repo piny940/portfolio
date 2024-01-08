@@ -2,17 +2,11 @@ package domain
 
 import "gorm.io/gorm"
 
-type BlogKind int
-
-const (
-	BlogKindQiita BlogKind = iota
-)
-
 type Blog struct {
 	gorm.Model
 	Title string   `gorm:"type:varchar(255); not null"`
 	Url   string   `gorm:"type:varchar(255); not null"`
-	Kind  BlogKind `gorm:"not null"`
+	Kind  BlogKind `gorm:"type:varchar(127); not null"`
 }
 
 type IBlogRepo interface {

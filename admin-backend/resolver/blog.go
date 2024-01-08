@@ -13,10 +13,6 @@ import (
 	"gorm.io/gorm"
 )
 
-func (r *blogResolver) Kind(ctx context.Context, obj *domain.Blog) (int, error) {
-	return int(obj.Kind), nil
-}
-
 func (r *mutationResolver) CreateBlog(ctx context.Context, input domain.BlogInput) (*domain.Blog, error) {
 	reg := registry.GetRegistry()
 	blog := &domain.Blog{
@@ -71,12 +67,9 @@ func (r *queryResolver) Blog(ctx context.Context, id uint) (*domain.Blog, error)
 	return blog, nil
 }
 
-func (r *Resolver) Blog() graph.BlogResolver { return &blogResolver{r} }
-
 func (r *Resolver) Mutation() graph.MutationResolver { return &mutationResolver{r} }
 
 func (r *Resolver) Query() graph.QueryResolver { return &queryResolver{r} }
 
-type blogResolver struct{ *Resolver }
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
