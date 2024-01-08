@@ -3,6 +3,12 @@ import '../styles/globals.scss'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { Layout } from '@/layouts/Layout'
+import { Client, Provider, cacheExchange, fetchExchange } from 'urql'
+
+const client = new Client({
+  url: '/api/query',
+  exchanges: [cacheExchange, fetchExchange],
+})
 
 const theme = createTheme({
   palette: {
@@ -27,9 +33,11 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta content="width=device-width,initial-scale=1" name="viewport" />
       </Head>
       <CssBaseline />
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <Provider value={client}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </Provider>
     </ThemeProvider>
   )
 }
