@@ -36,16 +36,20 @@ export type Blog = {
   __typename?: 'Blog'
   createdAt: Scalars['Time']['output']
   id: Scalars['Uint']['output']
-  kind: Scalars['Int']['output']
+  kind: BlogKind
   title: Scalars['String']['output']
   updatedAt: Scalars['Time']['output']
   url: Scalars['String']['output']
 }
 
 export type BlogInput = {
-  kind: Scalars['Int']['input']
+  kind: BlogKind
   title: Scalars['String']['input']
   url: Scalars['String']['input']
+}
+
+export enum BlogKind {
+  Qiita = 'QIITA',
 }
 
 export type Mutation = {
@@ -125,7 +129,7 @@ export type GetBlogsQuery = {
     id: number
     title: string
     url: string
-    kind: number
+    kind: BlogKind
     createdAt: string
     updatedAt: string
   }>
@@ -142,7 +146,7 @@ export type GetBlogQuery = {
     id: number
     title: string
     url: string
-    kind: number
+    kind: BlogKind
     createdAt: string
     updatedAt: string
   }
@@ -159,7 +163,7 @@ export type CreateBlogMutation = {
     id: number
     title: string
     url: string
-    kind: number
+    kind: BlogKind
     createdAt: string
     updatedAt: string
   }
