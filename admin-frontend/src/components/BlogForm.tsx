@@ -9,27 +9,31 @@ import {
   TextField,
 } from '@mui/material'
 import { allBlogKinds, blogKindLabel } from '../../utils/types'
+import { UseFormRegister } from 'react-hook-form'
 
 export type BlogFormProps = {
-  value: BlogInput
-  setInput: (input: BlogInput) => void
+  register: UseFormRegister<BlogInput>
+  submit: () => void
 }
 
-export const BlogForm = ({ value, setInput }: BlogFormProps): JSX.Element => {
+export const BlogForm = ({ register, submit }: BlogFormProps): JSX.Element => {
   return (
-    <Box component="form" sx={{ '> *': { margin: 2 } }}>
+    <Box onSubmit={submit} component="form" sx={{ '> *': { margin: 2 } }}>
       <Box>
         <TextField
           fullWidth
           label="Title"
-          value={value.title}
-          onChange={(e) => setInput({ ...value, title: e.target.value })}
+          {...register('title', { required: true })}
         />
       </Box>
       <Box>
         <FormControl fullWidth>
           <InputLabel id="blog-form-kind-select">Kind</InputLabel>
-          <Select label="Kind" id="blog-form-kind-select" value={value.kind}>
+          <Select
+            label="Kind"
+            id="blog-form-kind-select"
+            {...register('kind', { required: true })}
+          >
             {allBlogKinds.map((blogKind) => (
               <MenuItem key={blogKind} value={blogKind}>
                 {blogKindLabel[blogKind]}
@@ -42,8 +46,7 @@ export const BlogForm = ({ value, setInput }: BlogFormProps): JSX.Element => {
         <TextField
           fullWidth
           label="URL"
-          value={value.url}
-          onChange={(e) => setInput({ ...value, url: e.target.value })}
+          {...register('url', { required: true })}
         />
       </Box>
       <Box>
