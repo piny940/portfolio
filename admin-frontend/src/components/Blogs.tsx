@@ -10,6 +10,7 @@ import {
   Typography,
 } from '@mui/material'
 import Error from 'next/error'
+import Link from 'next/link'
 
 export const Blogs = (): JSX.Element => {
   const [{ data, error }] = useGetBlogsQuery()
@@ -22,7 +23,12 @@ export const Blogs = (): JSX.Element => {
         Blogs
       </Typography>
       <Box mt={2}>
-        <Button href="/blogs/new" fullWidth variant="contained">
+        <Button
+          component={Link}
+          href="/blogs/new"
+          fullWidth
+          variant="contained"
+        >
           新規作成
         </Button>
       </Box>
@@ -56,6 +62,7 @@ export const Blogs = (): JSX.Element => {
               >
                 <Button
                   variant="contained"
+                  component={Link}
                   size="small"
                   href={`/blogs/${blog.id}/edit`}
                 >

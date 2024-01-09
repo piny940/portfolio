@@ -1,25 +1,88 @@
 import { BlogInput } from '@/graphql/types'
-import { Box, Select, TextField } from '@mui/material'
+import {
+  Box,
+  Button,
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from '@mui/material'
+import { allBlogKinds, blogKindLabel } from '../../utils/types'
+import { Control, Controller } from 'react-hook-form'
 
 export type BlogFormProps = {
-  value: BlogInput
-  setInput: (input: BlogInput) => void
+  submit: () => void
+  control: Control<BlogInput, any>
 }
 
-export const BlogForm = ({ value, setInput }: BlogFormProps): JSX.Element => {
+export const BlogForm = ({ control, submit }: BlogFormProps): JSX.Element => {
+  const requiredRule = { required: 'このフィールドは必須です。' }
   return (
-    <Box component="form" sx={{ '> *': { margin: 1 } }}>
-      <TextField
-        label="Title"
-        value={value.title}
-        onChange={(e) => setInput({ ...value, title: e.target.value })}
-      />
-      <Select label="Kind"></Select>
-      <TextField
-        label="URL"
-        value={value.url}
-        onChange={(e) => setInput({ ...value, url: e.target.value })}
-      />
+    <Box onSubmit={submit} component="form" sx={{ '> *': { margin: 2 } }}>
+      <Box>
+        <Controller
+          control={control}
+          name="title"
+          rules={requiredRule}
+          render={({ field, fieldState }) => (
+            <TextField
+              fullWidth
+              label="Title"
+              error={fieldState.invalid}
+              helperText={fieldState.error?.message}
+              {...field}
+            />
+          )}
+        />
+      </Box>
+      <Box>
+        <Controller
+          name="kind"
+          control={control}
+          rules={requiredRule}
+          render={({ field, fieldState }) => (
+            <FormControl fullWidth>
+              <InputLabel id="blog-form-kind-select">Kind</InputLabel>
+              <Select
+                label="Kind"
+                id="blog-form-kind-select"
+                error={fieldState.invalid}
+                {...field}
+              >
+                {allBlogKinds.map((blogKind) => (
+                  <MenuItem key={blogKind} value={blogKind}>
+                    {blogKindLabel[blogKind]}
+                  </MenuItem>
+                ))}
+              </Select>
+              <FormHelperText>{fieldState.error?.message}</FormHelperText>
+            </FormControl>
+          )}
+        />
+      </Box>
+      <Box>
+        <Controller
+          name="url"
+          control={control}
+          rules={requiredRule}
+          render={({ field, fieldState }) => (
+            <TextField
+              fullWidth
+              label="URL"
+              error={fieldState.invalid}
+              helperText={fieldState.error?.message}
+              {...field}
+            />
+          )}
+        />
+      </Box>
+      <Box>
+        <Button type="submit" fullWidth variant="contained">
+          Submit
+        </Button>
+      </Box>
     </Box>
   )
 }

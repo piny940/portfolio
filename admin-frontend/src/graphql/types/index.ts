@@ -165,6 +165,24 @@ export type CreateBlogMutation = {
   }
 }
 
+export type UpdateBlogMutationVariables = Exact<{
+  id: Scalars['Uint']['input']
+  input: BlogInput
+}>
+
+export type UpdateBlogMutation = {
+  __typename?: 'Mutation'
+  updateBlog: {
+    __typename?: 'Blog'
+    id: number
+    title: string
+    url: string
+    kind: number
+    createdAt: string
+    updatedAt: string
+  }
+}
+
 export const GetBlogsDocument = gql`
   query getBlogs {
     blogs {
@@ -223,5 +241,23 @@ export const CreateBlogDocument = gql`
 export function useCreateBlogMutation() {
   return Urql.useMutation<CreateBlogMutation, CreateBlogMutationVariables>(
     CreateBlogDocument
+  )
+}
+export const UpdateBlogDocument = gql`
+  mutation updateBlog($id: Uint!, $input: BlogInput!) {
+    updateBlog(id: $id, input: $input) {
+      id
+      title
+      url
+      kind
+      createdAt
+      updatedAt
+    }
+  }
+`
+
+export function useUpdateBlogMutation() {
+  return Urql.useMutation<UpdateBlogMutation, UpdateBlogMutationVariables>(
+    UpdateBlogDocument
   )
 }
