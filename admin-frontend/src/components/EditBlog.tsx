@@ -1,32 +1,30 @@
 import { Box, Typography } from '@mui/material'
 import { BlogForm } from './BlogForm'
 import { useForm } from 'react-hook-form'
-import { BlogInput, useGetBlogQuery } from '@/graphql/types'
-import Error from 'next/error'
-import { useEffect } from 'react'
+import { Blog, BlogInput, useUpdateBlogMutation } from '@/graphql/types'
+import { useRouter } from 'next/router'
 
 export type EditBlogProps = {
-  id: number
+  blog: Blog
 }
 
-export const EditBlog = ({ id }: EditBlogProps): JSX.Element => {
-  const [{ data, fetching, error }] = useGetBlogQuery({ variables: { id } })
-  const { control, handleSubmit, reset } = useForm<BlogInput>({
-    defaultValues: data?.blog || { title: '', kind: 0, url: '' },
+export const EditBlog = ({ blog }: EditBlogProps): JSX.Element => {
+  const { getValues, control, handleSubmit } = useForm<BlogInput>({
+    defaultValues: { title: blog.title, kind: blog.kind, url: blog.url },
   })
+  const [, updateBlog] = useUpdateBlogMutation()
+  const router = useRouter()
+
   const submit = async () => {
-    console.log('submit')
+    const { error } = await updateBlog({ id: blog.id, input: getValues() })
+    if (error) return
+    void router.push('/blogs')
   }
 
-  useEffect(() => {
-    console.log(fetching)
-    reset()
-  }, [fetching, reset])
-  if (error != null) return <Error statusCode={404} />
   return (
     <Box>
       <Typography variant="h4" component="h1">
-        Edit Blog{id}
+        Edit Blog{blog.id}
       </Typography>
       <BlogForm control={control} submit={handleSubmit(submit)} />
     </Box>

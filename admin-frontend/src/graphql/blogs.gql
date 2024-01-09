@@ -28,3 +28,13 @@ mutation createBlog($input: BlogInput!) {
     updatedAt
   }
 }
+mutation updateBlog($id: Uint!, $input: BlogInput!) {
+  updateBlog(id: $id, input: $input) {
+    id
+    title
+    url
+    kind
+    createdAt
+    updatedAt
+  }
+}
