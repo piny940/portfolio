@@ -31,7 +31,7 @@ func (r *projectRepo) Delete(id string) (*domain.Project, error) {
 
 func (r *projectRepo) Find(id string) (*domain.Project, error) {
 	var project domain.Project
-	result := r.db.Client.First(&project, id)
+	result := r.db.Client.First(&project, "id = ?", id)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -49,7 +49,7 @@ func (r *projectRepo) List() ([]*domain.Project, error) {
 
 func (r *projectRepo) Update(input domain.ProjectInput) (*domain.Project, error) {
 	var project domain.Project
-	r.db.Client.First(&project, input.ID)
+	r.db.Client.First(&project, "id = ?", input.ID)
 	result := r.db.Client.Save(project)
 	if result.Error != nil {
 		return nil, result.Error
