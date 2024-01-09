@@ -18,7 +18,7 @@ type Blog struct {
 type IBlogRepo interface {
 	List() ([]*Blog, error)
 	Find(id uint) (*Blog, error)
-	Create(blog *Blog) error
-	Update(blog *Blog) error
+	Create(input BlogInput) (*Blog, error)
+	Update(id uint, input BlogInput) (*Blog, error)
 	Delete(id uint) (*Blog, error)
 }

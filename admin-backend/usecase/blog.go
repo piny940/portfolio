@@ -5,8 +5,8 @@ import "admin-backend/domain"
 type IBlogUsecase interface {
 	List() ([]*domain.Blog, error)
 	Find(id uint) (*domain.Blog, error)
-	Create(blog *domain.Blog) error
-	Update(blog *domain.Blog) error
+	Create(input domain.BlogInput) (*domain.Blog, error)
+	Update(id uint, input domain.BlogInput) (*domain.Blog, error)
 	Delete(id uint) (*domain.Blog, error)
 }
 type blogUsecase struct {
@@ -14,8 +14,8 @@ type blogUsecase struct {
 }
 
 // Create implements IBlogUsecase.
-func (u *blogUsecase) Create(blog *domain.Blog) error {
-	return u.repo.Create(blog)
+func (u *blogUsecase) Create(input domain.BlogInput) (*domain.Blog, error) {
+	return u.repo.Create(input)
 }
 
 // Delete implements IBlogUsecase.
@@ -34,8 +34,8 @@ func (u *blogUsecase) List() ([]*domain.Blog, error) {
 }
 
 // Update implements IBlogUsecase.
-func (u *blogUsecase) Update(blog *domain.Blog) error {
-	return u.repo.Update(blog)
+func (u *blogUsecase) Update(id uint, input domain.BlogInput) (*domain.Blog, error) {
+	return u.repo.Update(id, input)
 }
 
 func NewBlogUsecase(repo domain.IBlogRepo) IBlogUsecase {

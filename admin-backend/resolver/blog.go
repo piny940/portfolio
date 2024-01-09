@@ -9,8 +9,6 @@ import (
 	"admin-backend/graph"
 	"admin-backend/registry"
 	"context"
-
-	"gorm.io/gorm"
 )
 
 func (r *blogResolver) Kind(ctx context.Context, obj *domain.Blog) (int, error) {
@@ -19,12 +17,8 @@ func (r *blogResolver) Kind(ctx context.Context, obj *domain.Blog) (int, error) 
 
 func (r *mutationResolver) CreateBlog(ctx context.Context, input domain.BlogInput) (*domain.Blog, error) {
 	reg := registry.GetRegistry()
-	blog := &domain.Blog{
-		Title: input.Title,
-		Url:   input.URL,
-		Kind:  domain.BlogKind(input.Kind),
-	}
-	if err := reg.BlogUsecase().Create(blog); err != nil {
+	blog, err := reg.BlogUsecase().Create(input)
+	if err != nil {
 		return nil, err
 	}
 	return blog, nil
@@ -32,13 +26,8 @@ func (r *mutationResolver) CreateBlog(ctx context.Context, input domain.BlogInpu
 
 func (r *mutationResolver) UpdateBlog(ctx context.Context, id uint, input domain.BlogInput) (*domain.Blog, error) {
 	reg := registry.GetRegistry()
-	blog := &domain.Blog{
-		Model: gorm.Model{ID: id},
-		Title: input.Title,
-		Url:   input.URL,
-		Kind:  domain.BlogKind(input.Kind),
-	}
-	if err := reg.BlogUsecase().Update(blog); err != nil {
+	blog, err := reg.BlogUsecase().Update(id, input)
+	if err != nil {
 		return nil, err
 	}
 	return blog, nil
