@@ -14,10 +14,9 @@ import Link from 'next/link'
 
 export const Blogs = (): JSX.Element => {
   const [{ data, error }] = useGetBlogsQuery()
-  console.log(data, error)
 
-  if (!data) return <>loading...</>
   if (error) return <Error statusCode={400} />
+  if (!data) return <>loading...</>
   return (
     <Box>
       <Typography variant="h4" component="h2">
