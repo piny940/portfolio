@@ -12,13 +12,7 @@ import (
 
 func (r *mutationResolver) CreateProject(ctx context.Context, input domain.ProjectInput) (*domain.Project, error) {
 	reg := registry.GetRegistry()
-	project := &domain.Project{
-		ID:          input.ID,
-		Title:       input.Title,
-		Description: input.Description,
-		IsFavorite:  input.IsFavorite,
-	}
-	err := reg.ProjectUsecase().Create(project)
+	project, err := reg.ProjectUsecase().Create(input)
 	if err != nil {
 		return nil, err
 	}
@@ -27,13 +21,7 @@ func (r *mutationResolver) CreateProject(ctx context.Context, input domain.Proje
 
 func (r *mutationResolver) UpdateProject(ctx context.Context, input domain.ProjectInput) (*domain.Project, error) {
 	reg := registry.GetRegistry()
-	project := &domain.Project{
-		ID:          input.ID,
-		Title:       input.Title,
-		Description: input.Description,
-		IsFavorite:  input.IsFavorite,
-	}
-	err := reg.ProjectUsecase().Update(project)
+	project, err := reg.ProjectUsecase().Update(input)
 	if err != nil {
 		return nil, err
 	}
