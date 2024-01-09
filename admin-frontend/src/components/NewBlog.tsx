@@ -5,7 +5,8 @@ import { useForm } from 'react-hook-form'
 import { useEffect } from 'react'
 
 export const NewBlog = (): JSX.Element => {
-  const { register, watch, handleSubmit, getValues } = useForm<BlogInput>()
+  const { register, watch, handleSubmit, getValues, control } =
+    useForm<BlogInput>({ defaultValues: { kind: 0, title: '', url: '' } })
   const [, createBlog] = useCreateBlogMutation()
 
   const submit = async () => {
@@ -22,7 +23,11 @@ export const NewBlog = (): JSX.Element => {
       <Typography variant="h4" component="h1">
         NewBlog
       </Typography>
-      <BlogForm submit={handleSubmit(submit)} register={register} />
+      <BlogForm
+        control={control}
+        submit={handleSubmit(submit)}
+        register={register}
+      />
     </Box>
   )
 }

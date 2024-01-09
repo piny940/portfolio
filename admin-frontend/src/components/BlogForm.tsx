@@ -9,44 +9,53 @@ import {
   TextField,
 } from '@mui/material'
 import { allBlogKinds, blogKindLabel } from '../../utils/types'
-import { UseFormRegister } from 'react-hook-form'
+import { Control, Controller, UseFormRegister } from 'react-hook-form'
 
 export type BlogFormProps = {
   register: UseFormRegister<BlogInput>
   submit: () => void
+  control: Control<BlogInput, any>
 }
 
-export const BlogForm = ({ register, submit }: BlogFormProps): JSX.Element => {
+export const BlogForm = ({
+  control,
+  register,
+  submit,
+}: BlogFormProps): JSX.Element => {
   return (
     <Box onSubmit={submit} component="form" sx={{ '> *': { margin: 2 } }}>
       <Box>
-        <TextField
-          fullWidth
-          label="Title"
-          {...register('title', { required: true })}
+        <Controller
+          control={control}
+          name="title"
+          render={({ field, fieldState }) => (
+            <TextField fullWidth label="Title" {...field} />
+          )}
         />
       </Box>
       <Box>
-        <FormControl fullWidth>
-          <InputLabel id="blog-form-kind-select">Kind</InputLabel>
-          <Select
-            label="Kind"
-            id="blog-form-kind-select"
-            {...register('kind', { required: true })}
-          >
-            {allBlogKinds.map((blogKind) => (
-              <MenuItem key={blogKind} value={blogKind}>
-                {blogKindLabel[blogKind]}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <Controller
+          name="kind"
+          control={control}
+          render={({ field }) => (
+            <FormControl fullWidth>
+              <InputLabel id="blog-form-kind-select">Kind</InputLabel>
+              <Select label="Kind" id="blog-form-kind-select" {...field}>
+                {allBlogKinds.map((blogKind) => (
+                  <MenuItem key={blogKind} value={blogKind}>
+                    {blogKindLabel[blogKind]}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
+        />
       </Box>
       <Box>
-        <TextField
-          fullWidth
-          label="URL"
-          {...register('url', { required: true })}
+        <Controller
+          name="url"
+          control={control}
+          render={({ field }) => <TextField fullWidth label="URL" {...field} />}
         />
       </Box>
       <Box>
