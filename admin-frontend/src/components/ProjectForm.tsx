@@ -74,12 +74,11 @@ export const ProjectForm = ({
         <Controller
           name="isFavorite"
           control={control}
-          rules={requiredRule}
           render={({ field, fieldState }) => (
             <FormControl fullWidth error={fieldState.invalid}>
               <FormControlLabel
                 label="isFavorite"
-                control={<Checkbox {...field} />}
+                control={<Checkbox checked={field.value} {...field} />}
               />
               <FormHelperText>{fieldState.error?.message}</FormHelperText>
             </FormControl>

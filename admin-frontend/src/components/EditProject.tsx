@@ -15,6 +15,7 @@ export type EditProjectProps = {
 export const EditProject = ({ project }: EditProjectProps): JSX.Element => {
   const { getValues, control, handleSubmit } = useForm<ProjectInput>({
     defaultValues: {
+      id: project.id,
       title: project.title,
       description: project.description,
       isFavorite: project.isFavorite,

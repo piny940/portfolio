@@ -38,3 +38,13 @@ mutation updateProject($input: ProjectInput!) {
     updatedAt
   }
 }
+mutation deleteProject($id: String!) {
+  deleteProject(id: $id) {
+    id
+    title
+    description
+    isFavorite
+    createdAt
+    updatedAt
+  }
+}

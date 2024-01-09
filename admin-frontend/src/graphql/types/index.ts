@@ -183,6 +183,23 @@ export type UpdateBlogMutation = {
   }
 }
 
+export type DeleteBlogMutationVariables = Exact<{
+  id: Scalars['Uint']['input']
+}>
+
+export type DeleteBlogMutation = {
+  __typename?: 'Mutation'
+  deleteBlog: {
+    __typename?: 'Blog'
+    id: number
+    title: string
+    url: string
+    kind: number
+    createdAt: string
+    updatedAt: string
+  }
+}
+
 export type GetProjectsQueryVariables = Exact<{ [key: string]: never }>
 
 export type GetProjectsQuery = {
@@ -239,6 +256,23 @@ export type UpdateProjectMutationVariables = Exact<{
 export type UpdateProjectMutation = {
   __typename?: 'Mutation'
   updateProject: {
+    __typename?: 'Project'
+    id: string
+    title: string
+    description: string
+    isFavorite: boolean
+    createdAt: string
+    updatedAt: string
+  }
+}
+
+export type DeleteProjectMutationVariables = Exact<{
+  id: Scalars['String']['input']
+}>
+
+export type DeleteProjectMutation = {
+  __typename?: 'Mutation'
+  deleteProject: {
     __typename?: 'Project'
     id: string
     title: string
@@ -327,6 +361,24 @@ export function useUpdateBlogMutation() {
     UpdateBlogDocument
   )
 }
+export const DeleteBlogDocument = gql`
+  mutation deleteBlog($id: Uint!) {
+    deleteBlog(id: $id) {
+      id
+      title
+      url
+      kind
+      createdAt
+      updatedAt
+    }
+  }
+`
+
+export function useDeleteBlogMutation() {
+  return Urql.useMutation<DeleteBlogMutation, DeleteBlogMutationVariables>(
+    DeleteBlogDocument
+  )
+}
 export const GetProjectsDocument = gql`
   query getProjects {
     projects {
@@ -406,4 +458,23 @@ export function useUpdateProjectMutation() {
     UpdateProjectMutation,
     UpdateProjectMutationVariables
   >(UpdateProjectDocument)
+}
+export const DeleteProjectDocument = gql`
+  mutation deleteProject($id: String!) {
+    deleteProject(id: $id) {
+      id
+      title
+      description
+      isFavorite
+      createdAt
+      updatedAt
+    }
+  }
+`
+
+export function useDeleteProjectMutation() {
+  return Urql.useMutation<
+    DeleteProjectMutation,
+    DeleteProjectMutationVariables
+  >(DeleteProjectDocument)
 }
