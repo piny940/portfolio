@@ -2,32 +2,27 @@ import { Box, Typography } from '@mui/material'
 import { BlogForm } from './BlogForm'
 import { BlogInput, useCreateBlogMutation } from '@/graphql/types'
 import { useForm } from 'react-hook-form'
-import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 
 export const NewBlog = (): JSX.Element => {
-  const { register, watch, handleSubmit, getValues, control } =
-    useForm<BlogInput>({ defaultValues: { kind: 0, title: '', url: '' } })
+  const { handleSubmit, getValues, control } = useForm<BlogInput>({
+    defaultValues: { kind: 0, title: '', url: '' },
+  })
   const [, createBlog] = useCreateBlogMutation()
+  const router = useRouter()
 
   const submit = async () => {
-    console.log(getValues())
-    await createBlog({ input: getValues() })
-    return {}
+    const { error } = await createBlog({ input: getValues() })
+    if (error != null) return
+    void router.push('/blogs')
   }
-  useEffect(() => {
-    console.log(watch().kind, 'hoge')
-  }, [watch])
 
   return (
     <Box>
       <Typography variant="h4" component="h1">
         NewBlog
       </Typography>
-      <BlogForm
-        control={control}
-        submit={handleSubmit(submit)}
-        register={register}
-      />
+      <BlogForm control={control} submit={handleSubmit(submit)} />
     </Box>
   )
 }

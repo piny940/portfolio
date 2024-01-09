@@ -3,33 +3,37 @@ import {
   Box,
   Button,
   FormControl,
+  FormHelperText,
   InputLabel,
   MenuItem,
   Select,
   TextField,
 } from '@mui/material'
 import { allBlogKinds, blogKindLabel } from '../../utils/types'
-import { Control, Controller, UseFormRegister } from 'react-hook-form'
+import { Control, Controller } from 'react-hook-form'
 
 export type BlogFormProps = {
-  register: UseFormRegister<BlogInput>
   submit: () => void
   control: Control<BlogInput, any>
 }
 
-export const BlogForm = ({
-  control,
-  register,
-  submit,
-}: BlogFormProps): JSX.Element => {
+export const BlogForm = ({ control, submit }: BlogFormProps): JSX.Element => {
+  const requiredRule = { required: 'このフィールドは必須です。' }
   return (
     <Box onSubmit={submit} component="form" sx={{ '> *': { margin: 2 } }}>
       <Box>
         <Controller
           control={control}
           name="title"
+          rules={requiredRule}
           render={({ field, fieldState }) => (
-            <TextField fullWidth label="Title" {...field} />
+            <TextField
+              fullWidth
+              label="Title"
+              error={fieldState.invalid}
+              helperText={fieldState.error?.message}
+              {...field}
+            />
           )}
         />
       </Box>
@@ -37,16 +41,23 @@ export const BlogForm = ({
         <Controller
           name="kind"
           control={control}
-          render={({ field }) => (
+          rules={requiredRule}
+          render={({ field, fieldState }) => (
             <FormControl fullWidth>
               <InputLabel id="blog-form-kind-select">Kind</InputLabel>
-              <Select label="Kind" id="blog-form-kind-select" {...field}>
+              <Select
+                label="Kind"
+                id="blog-form-kind-select"
+                error={fieldState.invalid}
+                {...field}
+              >
                 {allBlogKinds.map((blogKind) => (
                   <MenuItem key={blogKind} value={blogKind}>
                     {blogKindLabel[blogKind]}
                   </MenuItem>
                 ))}
               </Select>
+              <FormHelperText>{fieldState.error?.message}</FormHelperText>
             </FormControl>
           )}
         />
@@ -55,11 +66,20 @@ export const BlogForm = ({
         <Controller
           name="url"
           control={control}
-          render={({ field }) => <TextField fullWidth label="URL" {...field} />}
+          rules={requiredRule}
+          render={({ field, fieldState }) => (
+            <TextField
+              fullWidth
+              label="URL"
+              error={fieldState.invalid}
+              helperText={fieldState.error?.message}
+              {...field}
+            />
+          )}
         />
       </Box>
       <Box>
-        <Button fullWidth variant="contained">
+        <Button type="submit" fullWidth variant="contained">
           Submit
         </Button>
       </Box>
