@@ -1,4 +1,4 @@
-import { useGetBlogsQuery } from '@/graphql/types'
+import { useDeleteBlogMutation, useGetBlogsQuery } from '@/graphql/types'
 import {
   Box,
   Button,
@@ -13,7 +13,13 @@ import Error from 'next/error'
 import Link from 'next/link'
 
 export const Blogs = (): JSX.Element => {
-  const [{ data, error }] = useGetBlogsQuery()
+  const [{ data, error }, refetchBlogs] = useGetBlogsQuery()
+  const [, deleteBlog] = useDeleteBlogMutation()
+
+  const deleteBlogHandler = async (id: number) => {
+    await deleteBlog({ id })
+    refetchBlogs()
+  }
 
   if (error) return <Error statusCode={400} />
   if (!data) return <>loading...</>
@@ -68,7 +74,13 @@ export const Blogs = (): JSX.Element => {
                 >
                   編集
                 </Button>
-                <Button variant="contained" size="small">
+                <Button
+                  variant="contained"
+                  size="small"
+                  onClick={() => {
+                    void deleteBlogHandler(blog.id)
+                  }}
+                >
                   削除
                 </Button>
               </TableCell>
