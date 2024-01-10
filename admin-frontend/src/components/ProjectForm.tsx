@@ -16,14 +16,17 @@ export type ProjectFormProps = {
   submit: () => void
   control: Control<ProjectInput, any>
   tagsControl: Control<TechTagsFormFields, any>
+  isEdit: boolean
 }
 
 export const ProjectForm = ({
   control,
   submit,
   tagsControl,
+  isEdit,
 }: ProjectFormProps): JSX.Element => {
   const requiredRule = { required: 'このフィールドは必須です。' }
+  console.log(isEdit)
   return (
     <Box onSubmit={submit} component="form" sx={{ '> *': { margin: 2 } }}>
       <Box>
@@ -38,6 +41,7 @@ export const ProjectForm = ({
               error={fieldState.invalid}
               helperText={fieldState.error?.message}
               {...field}
+              disabled={isEdit}
             />
           )}
         />

@@ -46,6 +46,7 @@ export const ProjectNew = (): JSX.Element => {
         NewProject
       </Typography>
       <ProjectForm
+        isEdit={false}
         tagsControl={tagsControl}
         control={control}
         submit={handleSubmit(submit)}

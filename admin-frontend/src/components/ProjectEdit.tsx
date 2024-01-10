@@ -30,9 +30,9 @@ export const ProjectEdit = ({ project }: ProjectEditProps): JSX.Element => {
       title: project.title,
       description: project.description,
       isFavorite: project.isFavorite,
-      appLink: project.appLink,
-      githubLink: project.githubLink,
-      qiitaLink: project.qiitaLink,
+      appLink: project.appLink || '',
+      githubLink: project.githubLink || '',
+      qiitaLink: project.qiitaLink || '',
     },
   })
   const { getValues: getTagsValues, control: tagsControl } =
@@ -58,6 +58,7 @@ export const ProjectEdit = ({ project }: ProjectEditProps): JSX.Element => {
         Edit Project{project.id}
       </Typography>
       <ProjectForm
+        isEdit={true}
         tagsControl={tagsControl}
         control={control}
         submit={handleSubmit(submit)}
