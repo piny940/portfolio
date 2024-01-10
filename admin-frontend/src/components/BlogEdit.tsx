@@ -3,13 +3,13 @@ import { useForm } from 'react-hook-form'
 import { Blog, useUpdateBlogMutation } from '@/graphql/types'
 import { useRouter } from 'next/router'
 import { BlogForm, BlogFormFields } from './BlogForm'
-import { TechnologyTagsFormFields } from './EditBlogTags'
+import { TechnologyTagsFormFields } from './BlogTagsEdit'
 
-export type EditBlogProps = {
+export type BlogEditProps = {
   blog: Pick<Blog, 'id' | 'title' | 'kind' | 'url' | 'tags'>
 }
 
-export const EditBlog = ({ blog }: EditBlogProps): JSX.Element => {
+export const BlogEdit = ({ blog }: BlogEditProps): JSX.Element => {
   const { getValues, control, handleSubmit } = useForm<BlogFormFields>({
     defaultValues: {
       title: blog.title,

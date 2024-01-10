@@ -1,7 +1,7 @@
-import { NewProject } from '@/components/NewProject'
+import { ProjectNew } from '@/components/ProjectNew'
 
-const NewProjectPage = (): JSX.Element => {
-  return <NewProject />
+const ProjectNewPage = (): JSX.Element => {
+  return <ProjectNew />
 }
 
-export default NewProjectPage
+export default ProjectNewPage

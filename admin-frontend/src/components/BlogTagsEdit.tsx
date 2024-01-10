@@ -22,10 +22,10 @@ import Error from 'next/error'
 export interface TechnologyTagsFormFields extends FieldValues {
   tags: Array<{ id: number }>
 }
-export type EditBlogTagProps = {
+export type BlogTagsEditProps = {
   control: Control<TechnologyTagsFormFields, any>
 }
-export const EditBlogTags = ({ control }: EditBlogTagProps): JSX.Element => {
+export const BlogTagsEdit = ({ control }: BlogTagsEditProps): JSX.Element => {
   const { fields, append } = useFieldArray({ control, name: 'tags' })
   const [{ data, error }] = useGetTechnologiesQuery()
 

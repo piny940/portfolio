@@ -1,9 +1,9 @@
-import { EditTechnology } from '@/components/EditTechnology'
+import { TechnologyEdit } from '@/components/TechnologyEdit'
 import { useGetTechnologyQuery } from '@/graphql/types'
 import Error from 'next/error'
 import { useRouter } from 'next/router'
 
-const EditTechnologyPage = (): JSX.Element => {
+const TechnologyEditPage = (): JSX.Element => {
   const router = useRouter()
   const { technologyId } = router.query
 
@@ -14,7 +14,7 @@ const EditTechnologyPage = (): JSX.Element => {
 
   if (error) return <Error statusCode={404} />
   if (!data) return <>loading</>
-  return <EditTechnology technology={data.technology} />
+  return <TechnologyEdit technology={data.technology} />
 }
 
-export default EditTechnologyPage
+export default TechnologyEditPage

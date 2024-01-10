@@ -1,11 +1,11 @@
 import { Box, Typography } from '@mui/material'
-import { BlogForm } from './BlogForm'
-import { BlogInput, useCreateBlogMutation } from '@/graphql/types'
+import { BlogForm, BlogFormFields } from './BlogForm'
+import { useCreateBlogMutation } from '@/graphql/types'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 
-export const NewBlog = (): JSX.Element => {
-  const { handleSubmit, getValues, control } = useForm<BlogInput>({
+export const BlogNew = (): JSX.Element => {
+  const { handleSubmit, getValues, control } = useForm<BlogFormFields>({
     defaultValues: { kind: 0, title: '', url: '' },
   })
   const [, createBlog] = useCreateBlogMutation()

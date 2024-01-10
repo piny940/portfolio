@@ -8,13 +8,13 @@ import {
 } from '@/graphql/types'
 import { useRouter } from 'next/router'
 
-export type EditTechnologyProps = {
+export type TechnologyEditProps = {
   technology: Technology
 }
 
-export const EditTechnology = ({
+export const TechnologyEdit = ({
   technology,
-}: EditTechnologyProps): JSX.Element => {
+}: TechnologyEditProps): JSX.Element => {
   const { getValues, control, handleSubmit } = useForm<TechnologyInput>({
     defaultValues: {
       name: technology.name,
