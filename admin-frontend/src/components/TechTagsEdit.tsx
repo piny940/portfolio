@@ -19,13 +19,13 @@ import {
 import { useGetTechnologiesQuery } from '@/graphql/types'
 import Error from 'next/error'
 
-export interface TechnologyTagsFormFields extends FieldValues {
+export interface TechTagsFormFields extends FieldValues {
   tags: Array<{ id: number }>
 }
-export type BlogTagsEditProps = {
-  control: Control<TechnologyTagsFormFields, any>
+export type TechTagsEditProps = {
+  control: Control<TechTagsFormFields, any>
 }
-export const BlogTagsEdit = ({ control }: BlogTagsEditProps): JSX.Element => {
+export const TechTagsEdit = ({ control }: TechTagsEditProps): JSX.Element => {
   const { fields, append } = useFieldArray({ control, name: 'tags' })
   const [{ data, error }] = useGetTechnologiesQuery()
 

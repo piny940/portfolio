@@ -8,7 +8,7 @@ import {
 } from '@/graphql/types'
 import { useRouter } from 'next/router'
 import { BlogForm } from './BlogForm'
-import { TechnologyTagsFormFields } from './BlogTagsEdit'
+import { TechTagsFormFields } from './TechTagsEdit'
 
 export type BlogEditProps = {
   blog: Pick<Blog, 'id' | 'title' | 'kind' | 'url' | 'tags'>
@@ -23,7 +23,7 @@ export const BlogEdit = ({ blog }: BlogEditProps): JSX.Element => {
     },
   })
   const { getValues: getTagsValues, control: tagsControl } =
-    useForm<TechnologyTagsFormFields>({
+    useForm<TechTagsFormFields>({
       defaultValues: { tags: blog.tags },
     })
   const [, updateBlog] = useUpdateBlogMutation()

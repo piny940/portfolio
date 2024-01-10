@@ -7,14 +7,14 @@ import {
 } from '@/graphql/types'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
-import { TechnologyTagsFormFields } from './BlogTagsEdit'
+import { TechTagsFormFields } from './TechTagsEdit'
 
 export const BlogNew = (): JSX.Element => {
   const { handleSubmit, getValues, control } = useForm<BlogInput>({
     defaultValues: { kind: 0, title: '', url: '' },
   })
   const { getValues: getTagsValues, control: tagsControl } =
-    useForm<TechnologyTagsFormFields>({
+    useForm<TechTagsFormFields>({
       defaultValues: { tags: [] },
     })
   const [, createBlog] = useCreateBlogMutation()
