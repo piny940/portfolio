@@ -4,7 +4,7 @@ import { ProjectInput, useCreateProjectMutation } from '@/graphql/types'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 
-export const NewProject = (): JSX.Element => {
+export const ProjectNew = (): JSX.Element => {
   const { handleSubmit, getValues, control } = useForm<ProjectInput>({
     defaultValues: { id: '', title: '', description: '', isFavorite: false },
   })
