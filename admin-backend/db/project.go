@@ -1,6 +1,10 @@
 package db
 
-import "admin-backend/domain"
+import (
+	"admin-backend/domain"
+
+	"gorm.io/gorm/clause"
+)
 
 type projectRepo struct {
 	db *DB
@@ -22,7 +26,7 @@ func (r *projectRepo) Create(input domain.ProjectInput) (*domain.Project, error)
 
 func (r *projectRepo) Delete(id string) (*domain.Project, error) {
 	var project domain.Project
-	result := r.db.Client.Delete(&project, id)
+	result := r.db.Client.Clauses(clause.Returning{}).Delete(&project, id)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -53,7 +57,7 @@ func (r *projectRepo) Update(input domain.ProjectInput) (*domain.Project, error)
 	project.Title = input.Title
 	project.Description = input.Description
 	project.IsFavorite = input.IsFavorite
-	result := r.db.Client.Save(project)
+	result := r.db.Client.Save(&project)
 	if result.Error != nil {
 		return nil, result.Error
 	}
