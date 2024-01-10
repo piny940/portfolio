@@ -1,12 +1,13 @@
 package domain
 
+import "gorm.io/gorm"
+
 type Technology struct {
-	ID        uint    `json:"id"`
-	Name      string  `json:"name"`
-	LogoURL   *string `json:"logo_url,omitempty"`
-	TagColor  string  `json:"tag_color"`
-	CreatedAt string  `json:"createdAt"`
-	UpdatedAt string  `json:"updatedAt"`
+	gorm.Model
+
+	Name     string  `gorm:"not null; type:varchar(127)" json:"name"`
+	LogoURL  *string `gorm:"type:varchar(255)" json:"logo_url,omitempty"`
+	TagColor string  `gorm:"not null; varchar(30)" json:"tag_color"`
 }
 
 type ITechnologyRepo interface {

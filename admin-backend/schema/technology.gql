@@ -3,8 +3,8 @@ type Technology {
   name: String!
   logo_url: String
   tag_color: String!
-  createdAt: String!
-  updatedAt: String!
+  createdAt: Time!
+  updatedAt: Time!
 }
 
 input TechnologyInput {
