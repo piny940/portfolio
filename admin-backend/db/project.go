@@ -26,7 +26,7 @@ func (r *projectRepo) Create(input domain.ProjectInput) (*domain.Project, error)
 
 func (r *projectRepo) Delete(id string) (*domain.Project, error) {
 	var project domain.Project
-	result := r.db.Client.Clauses(clause.Returning{}).Delete(&project, id)
+	result := r.db.Client.Clauses(clause.Returning{}).Where("id = ?", id).Delete(&project)
 	if result.Error != nil {
 		return nil, result.Error
 	}

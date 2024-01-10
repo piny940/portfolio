@@ -1,4 +1,4 @@
-import { useGetProjectsQuery } from '@/graphql/types'
+import { useDeleteProjectMutation, useGetProjectsQuery } from '@/graphql/types'
 import {
   Box,
   Button,
@@ -14,6 +14,7 @@ import Link from 'next/link'
 
 export const Projects = (): JSX.Element => {
   const [{ data, error }] = useGetProjectsQuery()
+  const [, deleteProject] = useDeleteProjectMutation()
 
   if (error) return <Error statusCode={400} />
   if (!data) return <>loading...</>
@@ -68,7 +69,13 @@ export const Projects = (): JSX.Element => {
                 >
                   編集
                 </Button>
-                <Button variant="contained" size="small">
+                <Button
+                  variant="contained"
+                  size="small"
+                  onClick={() => {
+                    void deleteProject({ id: project.id })
+                  }}
+                >
                   削除
                 </Button>
               </TableCell>
