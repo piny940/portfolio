@@ -14,9 +14,11 @@ import {
 } from '@mui/material'
 import Error from 'next/error'
 import Link from 'next/link'
+import { useMemo } from 'react'
 
 export const Technologies = (): JSX.Element => {
-  const [{ data, error }] = useGetTechnologiesQuery()
+  const context = useMemo(() => ({ additionalTypenames: ['Technology'] }), [])
+  const [{ data, error }] = useGetTechnologiesQuery({ context })
   const [, deleteTechnology] = useDeleteTechnologyMutation()
 
   if (error) return <Error statusCode={400} />
