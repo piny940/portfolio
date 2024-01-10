@@ -46,12 +46,20 @@ mutation createBlog($input: BlogInput!) {
     updatedAt
   }
 }
-mutation updateBlog($id: Uint!, $input: BlogInput!) {
+mutation updateBlogWithTags($id: Uint!, $input: BlogInput!, $tags: [Uint!]!) {
   updateBlog(id: $id, input: $input) {
     id
     title
     url
     kind
+    createdAt
+    updatedAt
+  }
+  updateBlogTags(id: $id, tags: $tags) {
+    id
+    name
+    logoUrl
+    tagColor
     createdAt
     updatedAt
   }

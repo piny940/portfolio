@@ -3,6 +3,7 @@ import {
   Button,
   FormControl,
   FormHelperText,
+  IconButton,
   InputLabel,
   List,
   ListItem,
@@ -18,6 +19,7 @@ import {
 } from 'react-hook-form'
 import { useGetTechnologiesQuery } from '@/graphql/types'
 import Error from 'next/error'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 export interface TechTagsFormFields extends FieldValues {
   tags: Array<{ id: number }>
@@ -26,7 +28,7 @@ export type TechTagsEditProps = {
   control: Control<TechTagsFormFields, any>
 }
 export const TechTagsEdit = ({ control }: TechTagsEditProps): JSX.Element => {
-  const { fields, append } = useFieldArray({ control, name: 'tags' })
+  const { fields, append, remove } = useFieldArray({ control, name: 'tags' })
   const [{ data, error }] = useGetTechnologiesQuery()
 
   if (!data) return <>loading...</>
@@ -45,12 +47,10 @@ export const TechTagsEdit = ({ control }: TechTagsEditProps): JSX.Element => {
               name={`tags.${index}.id`}
               render={({ field, fieldState }) => (
                 <FormControl fullWidth>
-                  <InputLabel id={`blog-form-tags-select-${index}`}>
-                    タグ
-                  </InputLabel>
+                  <InputLabel id={`form-tags-select-${index}`}>タグ</InputLabel>
                   <Select
                     label="Kind"
-                    id={`blog-form-tags-select-${index}`}
+                    id={`form-tags-select-${index}`}
                     error={fieldState.invalid}
                     {...field}
                   >
@@ -64,12 +64,19 @@ export const TechTagsEdit = ({ control }: TechTagsEditProps): JSX.Element => {
                 </FormControl>
               )}
             />
+            <Box sx={{ ml: 1 }}>
+              <IconButton onClick={() => remove(index)}>
+                <DeleteIcon fontSize="large" />
+              </IconButton>
+            </Box>
           </ListItem>
         ))}
       </List>
-      <Button onClick={() => append({ id: data.technologies[0].id })}>
-        タグ追加
-      </Button>
+      <Box sx={{ pl: 2 }}>
+        <Button onClick={() => append({ id: data.technologies[0].id })}>
+          タグ追加
+        </Button>
+      </Box>
     </Box>
   )
 }
