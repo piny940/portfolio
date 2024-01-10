@@ -57,6 +57,10 @@ func (r *technologyRepo) List() ([]*domain.Technology, error) {
 // Update implements domain.ITechnologyRepo.
 func (r *technologyRepo) Update(id uint, input domain.TechnologyInput) (*domain.Technology, error) {
 	var technology domain.Technology
+	r.db.Client.First(&technology, id)
+	technology.Name = input.Name
+	technology.LogoURL = input.LogoURL
+	technology.TagColor = input.TagColor
 	result := r.db.Client.Clauses(clause.Returning{}).Save(&technology)
 	if result.Error != nil {
 		return nil, result.Error
