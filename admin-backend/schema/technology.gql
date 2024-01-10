@@ -1,16 +1,16 @@
 type Technology {
   id: Uint!
   name: String!
-  logo_url: String
-  tag_color: String!
+  logoUrl: String
+  tagColor: String!
   createdAt: Time!
   updatedAt: Time!
 }
 
 input TechnologyInput {
   name: String!
-  logo_url: String
-  tag_color: String!
+  logoUrl: String
+  tagColor: String!
 }
 
 type Query {

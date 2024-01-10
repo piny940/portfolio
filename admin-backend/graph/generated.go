@@ -402,7 +402,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Technology.ID(childComplexity), true
 
-	case "Technology.logo_url":
+	case "Technology.logoUrl":
 		if e.complexity.Technology.LogoURL == nil {
 			break
 		}
@@ -416,7 +416,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Technology.Name(childComplexity), true
 
-	case "Technology.tag_color":
+	case "Technology.tagColor":
 		if e.complexity.Technology.TagColor == nil {
 			break
 		}
@@ -593,16 +593,16 @@ scalar Time
 	{Name: "../schema/technology.gql", Input: `type Technology {
   id: Uint!
   name: String!
-  logo_url: String
-  tag_color: String!
+  logoUrl: String
+  tagColor: String!
   createdAt: Time!
   updatedAt: Time!
 }
 
 input TechnologyInput {
   name: String!
-  logo_url: String
-  tag_color: String!
+  logoUrl: String
+  tagColor: String!
 }
 
 type Query {
@@ -1181,10 +1181,10 @@ func (ec *executionContext) fieldContext_Mutation_createTechnology(ctx context.C
 				return ec.fieldContext_Technology_id(ctx, field)
 			case "name":
 				return ec.fieldContext_Technology_name(ctx, field)
-			case "logo_url":
-				return ec.fieldContext_Technology_logo_url(ctx, field)
-			case "tag_color":
-				return ec.fieldContext_Technology_tag_color(ctx, field)
+			case "logoUrl":
+				return ec.fieldContext_Technology_logoUrl(ctx, field)
+			case "tagColor":
+				return ec.fieldContext_Technology_tagColor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Technology_createdAt(ctx, field)
 			case "updatedAt":
@@ -1250,10 +1250,10 @@ func (ec *executionContext) fieldContext_Mutation_updateTechnology(ctx context.C
 				return ec.fieldContext_Technology_id(ctx, field)
 			case "name":
 				return ec.fieldContext_Technology_name(ctx, field)
-			case "logo_url":
-				return ec.fieldContext_Technology_logo_url(ctx, field)
-			case "tag_color":
-				return ec.fieldContext_Technology_tag_color(ctx, field)
+			case "logoUrl":
+				return ec.fieldContext_Technology_logoUrl(ctx, field)
+			case "tagColor":
+				return ec.fieldContext_Technology_tagColor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Technology_createdAt(ctx, field)
 			case "updatedAt":
@@ -1319,10 +1319,10 @@ func (ec *executionContext) fieldContext_Mutation_deleteTechnology(ctx context.C
 				return ec.fieldContext_Technology_id(ctx, field)
 			case "name":
 				return ec.fieldContext_Technology_name(ctx, field)
-			case "logo_url":
-				return ec.fieldContext_Technology_logo_url(ctx, field)
-			case "tag_color":
-				return ec.fieldContext_Technology_tag_color(ctx, field)
+			case "logoUrl":
+				return ec.fieldContext_Technology_logoUrl(ctx, field)
+			case "tagColor":
+				return ec.fieldContext_Technology_tagColor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Technology_createdAt(ctx, field)
 			case "updatedAt":
@@ -2066,10 +2066,10 @@ func (ec *executionContext) fieldContext_Query_technologies(ctx context.Context,
 				return ec.fieldContext_Technology_id(ctx, field)
 			case "name":
 				return ec.fieldContext_Technology_name(ctx, field)
-			case "logo_url":
-				return ec.fieldContext_Technology_logo_url(ctx, field)
-			case "tag_color":
-				return ec.fieldContext_Technology_tag_color(ctx, field)
+			case "logoUrl":
+				return ec.fieldContext_Technology_logoUrl(ctx, field)
+			case "tagColor":
+				return ec.fieldContext_Technology_tagColor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Technology_createdAt(ctx, field)
 			case "updatedAt":
@@ -2124,10 +2124,10 @@ func (ec *executionContext) fieldContext_Query_technology(ctx context.Context, f
 				return ec.fieldContext_Technology_id(ctx, field)
 			case "name":
 				return ec.fieldContext_Technology_name(ctx, field)
-			case "logo_url":
-				return ec.fieldContext_Technology_logo_url(ctx, field)
-			case "tag_color":
-				return ec.fieldContext_Technology_tag_color(ctx, field)
+			case "logoUrl":
+				return ec.fieldContext_Technology_logoUrl(ctx, field)
+			case "tagColor":
+				return ec.fieldContext_Technology_tagColor(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Technology_createdAt(ctx, field)
 			case "updatedAt":
@@ -2621,8 +2621,8 @@ func (ec *executionContext) fieldContext_Technology_name(ctx context.Context, fi
 	return fc, nil
 }
 
-func (ec *executionContext) _Technology_logo_url(ctx context.Context, field graphql.CollectedField, obj *domain.Technology) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Technology_logo_url(ctx, field)
+func (ec *executionContext) _Technology_logoUrl(ctx context.Context, field graphql.CollectedField, obj *domain.Technology) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Technology_logoUrl(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -2649,7 +2649,7 @@ func (ec *executionContext) _Technology_logo_url(ctx context.Context, field grap
 	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Technology_logo_url(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Technology_logoUrl(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Technology",
 		Field:      field,
@@ -2662,8 +2662,8 @@ func (ec *executionContext) fieldContext_Technology_logo_url(ctx context.Context
 	return fc, nil
 }
 
-func (ec *executionContext) _Technology_tag_color(ctx context.Context, field graphql.CollectedField, obj *domain.Technology) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Technology_tag_color(ctx, field)
+func (ec *executionContext) _Technology_tagColor(ctx context.Context, field graphql.CollectedField, obj *domain.Technology) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Technology_tagColor(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -2693,7 +2693,7 @@ func (ec *executionContext) _Technology_tag_color(ctx context.Context, field gra
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Technology_tag_color(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Technology_tagColor(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Technology",
 		Field:      field,
@@ -4663,7 +4663,7 @@ func (ec *executionContext) unmarshalInputTechnologyInput(ctx context.Context, o
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "logo_url", "tag_color"}
+	fieldsInOrder := [...]string{"name", "logoUrl", "tagColor"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -4677,15 +4677,15 @@ func (ec *executionContext) unmarshalInputTechnologyInput(ctx context.Context, o
 				return it, err
 			}
 			it.Name = data
-		case "logo_url":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("logo_url"))
+		case "logoUrl":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("logoUrl"))
 			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
 			it.LogoURL = data
-		case "tag_color":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("tag_color"))
+		case "tagColor":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("tagColor"))
 			data, err := ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
@@ -5172,10 +5172,10 @@ func (ec *executionContext) _Technology(ctx context.Context, sel ast.SelectionSe
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "logo_url":
-			out.Values[i] = ec._Technology_logo_url(ctx, field, obj)
-		case "tag_color":
-			out.Values[i] = ec._Technology_tag_color(ctx, field, obj)
+		case "logoUrl":
+			out.Values[i] = ec._Technology_logoUrl(ctx, field, obj)
+		case "tagColor":
+			out.Values[i] = ec._Technology_tagColor(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}

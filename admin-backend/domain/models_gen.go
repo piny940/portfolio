@@ -23,6 +23,6 @@ type Query struct {
 
 type TechnologyInput struct {
 	Name     string  `json:"name"`
-	LogoURL  *string `json:"logo_url,omitempty"`
-	TagColor string  `json:"tag_color"`
+	LogoURL  *string `json:"logoUrl,omitempty"`
+	TagColor string  `json:"tagColor"`
 }

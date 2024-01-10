@@ -5,9 +5,9 @@ import "gorm.io/gorm"
 type Technology struct {
 	gorm.Model
 
-	Name     string  `gorm:"not null; type:varchar(127)" json:"name"`
-	LogoURL  *string `gorm:"type:varchar(255)" json:"logo_url,omitempty"`
-	TagColor string  `gorm:"not null; varchar(30)" json:"tag_color"`
+	Name     string  `gorm:"not null; type:varchar(127)"`
+	LogoURL  *string `gorm:"type:varchar(255)"`
+	TagColor string  `gorm:"not null; varchar(30)"`
 }
 
 type ITechnologyRepo interface {
