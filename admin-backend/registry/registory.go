@@ -28,3 +28,8 @@ func (r *registry) BlogUsecase() usecase.IBlogUsecase {
 	repo := db.NewBlogRepo(r.db)
 	return usecase.NewBlogUsecase(repo)
 }
+
+func (r *registry) TechnologyUsecase() usecase.ITechnologyUsecase {
+	repo := db.NewTechnologyRepo(r.db)
+	return usecase.NewTechnologyUsecase(repo)
+}
