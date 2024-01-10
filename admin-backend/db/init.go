@@ -38,7 +38,7 @@ func Init() {
 	if err = client.SetupJoinTable(&domain.Project{}, "Tags", &domain.ProjectTechnologyTag{}); err != nil {
 		panic(err)
 	}
-	db = &DB{Client: client}
+	db = &DB{Client: client.Debug()}
 }
 
 func GetDB() *DB {
