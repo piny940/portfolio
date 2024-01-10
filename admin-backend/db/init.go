@@ -23,10 +23,19 @@ func Init() {
 	if err != nil {
 		panic(err)
 	}
-	if err = client.AutoMigrate(&domain.Project{}, &domain.Blog{}, &domain.Technology{}, &domain.BlogTechnologyTag{}); err != nil {
+	if err = client.AutoMigrate(
+		&domain.Project{},
+		&domain.Blog{},
+		&domain.Technology{},
+		&domain.BlogTechnologyTag{},
+		&domain.ProjectTechnologyTag{},
+	); err != nil {
 		panic(err)
 	}
 	if err = client.SetupJoinTable(&domain.Blog{}, "Tags", &domain.BlogTechnologyTag{}); err != nil {
+		panic(err)
+	}
+	if err = client.SetupJoinTable(&domain.Project{}, "Tags", &domain.ProjectTechnologyTag{}); err != nil {
 		panic(err)
 	}
 	db = &DB{Client: client}

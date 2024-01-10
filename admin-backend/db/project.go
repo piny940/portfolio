@@ -10,6 +10,43 @@ type projectRepo struct {
 	db *DB
 }
 
+// ListTags implements domain.IProjectRepo.
+func (r *projectRepo) ListTags(projectIds []string) ([]*domain.Technology, error) {
+	var projectTechnologyTags []*domain.ProjectTechnologyTag
+	result := r.db.Client.Where("project_id in ?", projectIds).Find(&projectTechnologyTags)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	technologyIds := make([]string, len(projectTechnologyTags))
+	for i, tag := range projectTechnologyTags {
+		technologyIds[i] = tag.TechnologyID
+	}
+	var technologies []*domain.Technology
+	result = r.db.Client.Find(&technologies, technologyIds)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return technologies, nil
+}
+
+// UpdateTags implements domain.IProjectRepo.
+func (r *projectRepo) UpdateTags(projectId string, technologyIds []uint) ([]*domain.Technology, error) {
+	var project domain.Project
+	result := r.db.Client.Where("id = ?", projectId).First(&project)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	var technologies []*domain.Technology
+	result = r.db.Client.Find(&technologies, technologyIds)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	if err := r.db.Client.Model(&project).Association("Tags").Replace(&technologies); err != nil {
+		return nil, err
+	}
+	return technologies, nil
+}
+
 func (r *projectRepo) Create(input domain.ProjectInput) (*domain.Project, error) {
 	project := domain.Project{
 		ID:          input.ID,

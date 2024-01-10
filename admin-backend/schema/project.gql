@@ -3,6 +3,7 @@ type Project {
   title: String!
   description: String!
   isFavorite: Boolean!
+  tags: [Technology!]!
   createdAt: Time!
   updatedAt: Time!
 }
@@ -21,4 +22,5 @@ extend type Mutation {
   createProject(input: ProjectInput!): Project!
   updateProject(input: ProjectInput!): Project!
   deleteProject(id: String!): Project!
+  updateProjectTags(id: String!, tags: [Uint!]!): [Technology!]!
 }
