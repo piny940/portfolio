@@ -1,6 +1,10 @@
 package domain
 
-import "gorm.io/gorm"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type BlogKind int
 
@@ -14,6 +18,15 @@ type Blog struct {
 	Url   string        `gorm:"type:varchar(255); not null"`
 	Kind  BlogKind      `gorm:"not null"`
 	Tags  []*Technology `gorm:"many2many:blog_technology_tags;"`
+}
+
+type BlogTechnologyTag struct {
+	BlogID       uint `gorm:"primary_key"`
+	Blog         Blog
+	TechnologyID uint `gorm:"primary_key"`
+	Technology   Technology
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
 }
 
 type IBlogRepo interface {
