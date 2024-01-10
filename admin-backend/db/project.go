@@ -179,13 +179,13 @@ func (r *projectRepo) updateLink(link *string, projectId string, kind ProjectLin
 	if result.Error != nil {
 		return result.Error
 	}
-	if link == nil && projectLink != nil {
+	if isLinkEmpty(link) && projectLink != nil {
 		result = r.db.Client.Where("id = ?", projectLink.ID).Delete(&projectLink)
 		if result.Error != nil {
 			return result.Error
 		}
 		return nil
-	} else if link != nil {
+	} else if !isLinkEmpty(link) {
 		projectLink.Url = *link
 		projectLink.Kind = kind
 		projectLink.ProjectID = projectId
@@ -219,4 +219,8 @@ func (r *projectRepo) setLinks(projects []*domain.Project) error {
 		}
 	}
 	return nil
+}
+
+func isLinkEmpty(link *string) bool {
+	return link == nil || *link == ""
 }
