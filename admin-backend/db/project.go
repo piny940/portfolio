@@ -3,11 +3,44 @@ package db
 import (
 	"admin-backend/domain"
 
+	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
 
 type projectRepo struct {
 	db *DB
+}
+type ProjectLinkKind int
+
+const (
+	projectLinkKindApp ProjectLinkKind = iota
+	projectLinkKindQiita
+	projectLinkKindGithub
+)
+
+type ProjectLink struct {
+	gorm.Model
+	ProjectID string
+	Project   domain.Project
+	Url       string          `gorm:"type:varchar(255); not null"`
+	Kind      ProjectLinkKind `gorm:"not null"`
+}
+
+func NewProjectRepo(db *DB) domain.IProjectRepo {
+	return &projectRepo{db: db}
+}
+
+func (r *projectRepo) GetLinksByProjectIds(projectIds []string) (map[string][]*ProjectLink, error) {
+	var links []*ProjectLink
+	result := r.db.Client.Where("project_id in ?", projectIds).Find(&links)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	var linksByProjectId = make(map[string][]*ProjectLink, len(projectIds))
+	for _, link := range links {
+		linksByProjectId[link.ProjectID] = append(linksByProjectId[link.ProjectID], link)
+	}
+	return linksByProjectId, nil
 }
 
 // ListTags implements domain.IProjectRepo.
@@ -58,14 +91,28 @@ func (r *projectRepo) Create(input domain.ProjectInput) (*domain.Project, error)
 	if result.Error != nil {
 		return nil, result.Error
 	}
+	if err := r.updateLinks(input, project.ID); err != nil {
+		return nil, err
+	}
+	if err := r.setLinks([]*domain.Project{&project}); err != nil {
+		return nil, err
+	}
 	return &project, nil
 }
 
 func (r *projectRepo) Delete(id string) (*domain.Project, error) {
-	var project domain.Project
-	result := r.db.Client.Clauses(clause.Returning{}).Where("id = ?", id).Delete(&project)
+	var projectLinks []*ProjectLink
+	result := r.db.Client.Where("project_id = ?", id).Delete(&projectLinks)
 	if result.Error != nil {
 		return nil, result.Error
+	}
+	var project domain.Project
+	result = r.db.Client.Clauses(clause.Returning{}).Where("id = ?", id).Delete(&project)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	if err := r.setLinks([]*domain.Project{&project}); err != nil {
+		return nil, err
 	}
 	return &project, nil
 }
@@ -76,6 +123,9 @@ func (r *projectRepo) Find(id string) (*domain.Project, error) {
 	if result.Error != nil {
 		return nil, result.Error
 	}
+	if err := r.setLinks([]*domain.Project{&project}); err != nil {
+		return nil, err
+	}
 	return &project, nil
 }
 
@@ -84,6 +134,9 @@ func (r *projectRepo) List() ([]*domain.Project, error) {
 	result := r.db.Client.Find(&projects)
 	if result.Error != nil {
 		return nil, result.Error
+	}
+	if err := r.setLinks(projects); err != nil {
+		return nil, err
 	}
 	return projects, nil
 }
@@ -98,9 +151,76 @@ func (r *projectRepo) Update(input domain.ProjectInput) (*domain.Project, error)
 	if result.Error != nil {
 		return nil, result.Error
 	}
+	if err := r.updateLinks(input, project.ID); err != nil {
+		return nil, err
+	}
+	if err := r.setLinks([]*domain.Project{&project}); err != nil {
+		return nil, err
+	}
 	return &project, nil
 }
 
-func NewProjectRepo(db *DB) domain.IProjectRepo {
-	return &projectRepo{db: db}
+func (r *projectRepo) updateLinks(input domain.ProjectInput, projectId string) error {
+	if err := r.updateLink(input.AppLink, projectId, projectLinkKindApp); err != nil {
+		return err
+	}
+	if err := r.updateLink(input.QiitaLink, projectId, projectLinkKindQiita); err != nil {
+		return err
+	}
+	if err := r.updateLink(input.GithubLink, projectId, projectLinkKindGithub); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (r *projectRepo) updateLink(link *string, projectId string, kind ProjectLinkKind) error {
+	var projectLink = &ProjectLink{}
+	result := r.db.Client.Where("project_id = ? and kind = ?", projectId, kind).Limit(1).Find(projectLink)
+	if result.Error != nil {
+		return result.Error
+	}
+	if isLinkEmpty(link) && projectLink != nil {
+		result = r.db.Client.Where("id = ?", projectLink.ID).Delete(&projectLink)
+		if result.Error != nil {
+			return result.Error
+		}
+		return nil
+	} else if !isLinkEmpty(link) {
+		projectLink.Url = *link
+		projectLink.Kind = kind
+		projectLink.ProjectID = projectId
+		result = r.db.Client.Save(projectLink)
+		if result.Error != nil {
+			return result.Error
+		}
+	}
+	return nil
+}
+
+func (r *projectRepo) setLinks(projects []*domain.Project) error {
+	projectIds := make([]string, len(projects))
+	for i, project := range projects {
+		projectIds[i] = project.ID
+	}
+	links, err := r.GetLinksByProjectIds(projectIds)
+	if err != nil {
+		return err
+	}
+	for _, project := range projects {
+		for _, link := range links[project.ID] {
+			switch link.Kind {
+			case projectLinkKindApp:
+				project.AppLink = &link.Url
+			case projectLinkKindQiita:
+				project.QiitaLink = &link.Url
+			case projectLinkKindGithub:
+				project.GithubLink = &link.Url
+			}
+		}
+	}
+	return nil
+}
+
+func isLinkEmpty(link *string) bool {
+	return link == nil || *link == ""
 }

@@ -12,10 +12,13 @@ type Mutation struct {
 }
 
 type ProjectInput struct {
-	ID          string `json:"id"`
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	IsFavorite  bool   `json:"isFavorite"`
+	ID          string  `json:"id"`
+	Title       string  `json:"title"`
+	Description string  `json:"description"`
+	IsFavorite  bool    `json:"isFavorite"`
+	GithubLink  *string `json:"githubLink,omitempty"`
+	QiitaLink   *string `json:"qiitaLink,omitempty"`
+	AppLink     *string `json:"appLink,omitempty"`
 }
 
 type Query struct {

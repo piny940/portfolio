@@ -11,7 +11,15 @@ import { TechTagsFormFields } from './TechTagsEdit'
 
 export const ProjectNew = (): JSX.Element => {
   const { handleSubmit, getValues, control } = useForm<ProjectInput>({
-    defaultValues: { id: '', title: '', description: '', isFavorite: false },
+    defaultValues: {
+      id: '',
+      title: '',
+      description: '',
+      isFavorite: false,
+      appLink: '',
+      qiitaLink: '',
+      githubLink: '',
+    },
   })
   const { getValues: getTagsValues, control: tagsControl } =
     useForm<TechTagsFormFields>({
@@ -38,6 +46,7 @@ export const ProjectNew = (): JSX.Element => {
         NewProject
       </Typography>
       <ProjectForm
+        isEdit={false}
         tagsControl={tagsControl}
         control={control}
         submit={handleSubmit(submit)}

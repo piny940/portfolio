@@ -7,6 +7,7 @@ import {
   FormControlLabel,
   FormHelperText,
   TextField,
+  Typography,
 } from '@mui/material'
 import { Control, Controller } from 'react-hook-form'
 import { TechTagsEdit, TechTagsFormFields } from './TechTagsEdit'
@@ -15,14 +16,17 @@ export type ProjectFormProps = {
   submit: () => void
   control: Control<ProjectInput, any>
   tagsControl: Control<TechTagsFormFields, any>
+  isEdit: boolean
 }
 
 export const ProjectForm = ({
   control,
   submit,
   tagsControl,
+  isEdit,
 }: ProjectFormProps): JSX.Element => {
   const requiredRule = { required: 'このフィールドは必須です。' }
+  console.log(isEdit)
   return (
     <Box onSubmit={submit} component="form" sx={{ '> *': { margin: 2 } }}>
       <Box>
@@ -37,6 +41,7 @@ export const ProjectForm = ({
               error={fieldState.invalid}
               helperText={fieldState.error?.message}
               {...field}
+              disabled={isEdit}
             />
           )}
         />
@@ -87,6 +92,56 @@ export const ProjectForm = ({
             </FormControl>
           )}
         />
+      </Box>
+      <Box sx={{ '> *': { margin: 2 } }}>
+        <Typography variant="h5" component="h2">
+          Links
+        </Typography>
+        <Box>
+          <Controller
+            name="appLink"
+            control={control}
+            render={({ field, fieldState }) => (
+              <TextField
+                fullWidth
+                label="AppLink"
+                error={fieldState.invalid}
+                helperText={fieldState.error?.message}
+                {...field}
+              />
+            )}
+          />
+        </Box>
+        <Box>
+          <Controller
+            name="githubLink"
+            control={control}
+            render={({ field, fieldState }) => (
+              <TextField
+                fullWidth
+                label="GithubLink"
+                error={fieldState.invalid}
+                helperText={fieldState.error?.message}
+                {...field}
+              />
+            )}
+          />
+        </Box>
+        <Box>
+          <Controller
+            name="qiitaLink"
+            control={control}
+            render={({ field, fieldState }) => (
+              <TextField
+                fullWidth
+                label="QiitaLink"
+                error={fieldState.invalid}
+                helperText={fieldState.error?.message}
+                {...field}
+              />
+            )}
+          />
+        </Box>
       </Box>
       <TechTagsEdit control={tagsControl} />
       <Box>

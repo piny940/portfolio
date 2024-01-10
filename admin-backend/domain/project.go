@@ -14,6 +14,9 @@ type Project struct {
 	Description string        `gorm:"type:varchar(255); not null"`
 	IsFavorite  bool          `gorm:"not null"`
 	Tags        []*Technology `gorm:"many2many:project_technology_tags"`
+	GithubLink  *string       `gorm:"-"`
+	QiitaLink   *string       `gorm:"-"`
+	AppLink     *string       `gorm:"-"`
 }
 
 type ProjectTechnologyTag struct {

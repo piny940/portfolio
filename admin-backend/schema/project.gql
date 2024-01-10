@@ -3,6 +3,9 @@ type Project {
   title: String!
   description: String!
   isFavorite: Boolean!
+  githubLink: String
+  qiitaLink: String
+  appLink: String
   tags: [Technology!]!
   createdAt: Time!
   updatedAt: Time!
@@ -12,6 +15,9 @@ input ProjectInput {
   title: String!
   description: String!
   isFavorite: Boolean!
+  githubLink: String
+  qiitaLink: String
+  appLink: String
 }
 
 extend type Query {

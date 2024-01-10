@@ -36,8 +36,8 @@ export const TechTagsEdit = ({ control }: TechTagsEditProps): JSX.Element => {
   if (data.technologies.length === 0) return <>No technologies</>
   return (
     <Box>
-      <Typography variant="h5" component="h3">
-        タグ
+      <Typography variant="h5" component="h2">
+        Tags
       </Typography>
       <List>
         {fields.map((item, index) => (
@@ -47,7 +47,7 @@ export const TechTagsEdit = ({ control }: TechTagsEditProps): JSX.Element => {
               name={`tags.${index}.id`}
               render={({ field, fieldState }) => (
                 <FormControl fullWidth>
-                  <InputLabel id={`form-tags-select-${index}`}>タグ</InputLabel>
+                  <InputLabel id={`form-tags-select-${index}`}>Tag</InputLabel>
                   <Select
                     label="Kind"
                     id={`form-tags-select-${index}`}
@@ -74,7 +74,7 @@ export const TechTagsEdit = ({ control }: TechTagsEditProps): JSX.Element => {
       </List>
       <Box sx={{ pl: 2 }}>
         <Button onClick={() => append({ id: data.technologies[0].id })}>
-          タグ追加
+          Add Tag
         </Button>
       </Box>
     </Box>
