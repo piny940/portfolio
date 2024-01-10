@@ -11,10 +11,14 @@ import {
 } from '@mui/material'
 import { allBlogKinds, blogKindLabel } from '../../utils/types'
 import { Control, Controller } from 'react-hook-form'
+import { EditBlogTag } from './EditBlogTag'
 
+export interface BlogFormFields extends BlogInput {
+  tags: Array<{ id: number }>
+}
 export type BlogFormProps = {
   submit: () => void
-  control: Control<BlogInput, any>
+  control: Control<BlogFormFields, any>
 }
 
 export const BlogForm = ({ control, submit }: BlogFormProps): JSX.Element => {
@@ -78,6 +82,7 @@ export const BlogForm = ({ control, submit }: BlogFormProps): JSX.Element => {
           )}
         />
       </Box>
+      <EditBlogTag control={control} />
       <Box>
         <Button type="submit" fullWidth variant="contained">
           Submit

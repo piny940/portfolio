@@ -48,3 +48,13 @@ mutation deleteBlog($id: Uint!) {
     updatedAt
   }
 }
+mutation updateBlogTags($id: Uint!, $tags: [Uint!]!) {
+  updateBlogTags(id: $id, tags: $tags) {
+    id
+    name
+    logoUrl
+    tagColor
+    createdAt
+    updatedAt
+  }
+}

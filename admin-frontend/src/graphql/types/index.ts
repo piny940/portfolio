@@ -37,6 +37,7 @@ export type Blog = {
   createdAt: Scalars['Time']['output']
   id: Scalars['Uint']['output']
   kind: Scalars['Int']['output']
+  tags: Array<Technology>
   title: Scalars['String']['output']
   updatedAt: Scalars['Time']['output']
   url: Scalars['String']['output']
@@ -57,6 +58,7 @@ export type Mutation = {
   deleteProject: Project
   deleteTechnology: Technology
   updateBlog: Blog
+  updateBlogTags: Array<Maybe<Technology>>
   updateProject: Project
   updateTechnology: Technology
 }
@@ -88,6 +90,11 @@ export type MutationDeleteTechnologyArgs = {
 export type MutationUpdateBlogArgs = {
   id: Scalars['Uint']['input']
   input: BlogInput
+}
+
+export type MutationUpdateBlogTagsArgs = {
+  id: Scalars['Uint']['input']
+  tags: Array<Scalars['Uint']['input']>
 }
 
 export type MutationUpdateProjectArgs = {
@@ -236,6 +243,24 @@ export type DeleteBlogMutation = {
     createdAt: string
     updatedAt: string
   }
+}
+
+export type UpdateBlogTagsMutationVariables = Exact<{
+  id: Scalars['Uint']['input']
+  tags: Array<Scalars['Uint']['input']> | Scalars['Uint']['input']
+}>
+
+export type UpdateBlogTagsMutation = {
+  __typename?: 'Mutation'
+  updateBlogTags: Array<{
+    __typename?: 'Technology'
+    id: number
+    name: string
+    logoUrl?: string | null
+    tagColor: string
+    createdAt: string
+    updatedAt: string
+  } | null>
 }
 
 export type GetProjectsQueryVariables = Exact<{ [key: string]: never }>
@@ -500,6 +525,25 @@ export function useDeleteBlogMutation() {
   return Urql.useMutation<DeleteBlogMutation, DeleteBlogMutationVariables>(
     DeleteBlogDocument
   )
+}
+export const UpdateBlogTagsDocument = gql`
+  mutation updateBlogTags($id: Uint!, $tags: [Uint!]!) {
+    updateBlogTags(id: $id, tags: $tags) {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
+  }
+`
+
+export function useUpdateBlogTagsMutation() {
+  return Urql.useMutation<
+    UpdateBlogTagsMutation,
+    UpdateBlogTagsMutationVariables
+  >(UpdateBlogTagsDocument)
 }
 export const GetProjectsDocument = gql`
   query getProjects {
