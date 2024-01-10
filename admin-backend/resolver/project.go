@@ -6,6 +6,7 @@ package resolver
 
 import (
 	"admin-backend/domain"
+	"admin-backend/graph"
 	"admin-backend/registry"
 	"context"
 )
@@ -37,6 +38,24 @@ func (r *mutationResolver) DeleteProject(ctx context.Context, id string) (*domai
 	return project, nil
 }
 
+func (r *mutationResolver) UpdateProjectTags(ctx context.Context, id string, tags []uint) ([]*domain.Technology, error) {
+	reg := registry.GetRegistry()
+	technologies, err := reg.ProjectUsecase().UpdateTags(id, tags)
+	if err != nil {
+		return nil, err
+	}
+	return technologies, nil
+}
+
+func (r *projectResolver) Tags(ctx context.Context, obj *domain.Project) ([]*domain.Technology, error) {
+	reg := registry.GetRegistry()
+	technologies, err := reg.ProjectUsecase().ListTags([]string{obj.ID})
+	if err != nil {
+		return nil, err
+	}
+	return technologies, nil
+}
+
 func (r *queryResolver) Projects(ctx context.Context) ([]*domain.Project, error) {
 	reg := registry.GetRegistry()
 	projects, err := reg.ProjectUsecase().List()
@@ -54,3 +73,7 @@ func (r *queryResolver) Project(ctx context.Context, id string) (*domain.Project
 	}
 	return project, nil
 }
+
+func (r *Resolver) Project() graph.ProjectResolver { return &projectResolver{r} }
+
+type projectResolver struct{ *Resolver }

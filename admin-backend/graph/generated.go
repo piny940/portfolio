@@ -41,6 +41,7 @@ type Config struct {
 type ResolverRoot interface {
 	Blog() BlogResolver
 	Mutation() MutationResolver
+	Project() ProjectResolver
 	Query() QueryResolver
 }
 
@@ -59,16 +60,17 @@ type ComplexityRoot struct {
 	}
 
 	Mutation struct {
-		CreateBlog       func(childComplexity int, input domain.BlogInput) int
-		CreateProject    func(childComplexity int, input domain.ProjectInput) int
-		CreateTechnology func(childComplexity int, input domain.TechnologyInput) int
-		DeleteBlog       func(childComplexity int, id uint) int
-		DeleteProject    func(childComplexity int, id string) int
-		DeleteTechnology func(childComplexity int, id uint) int
-		UpdateBlog       func(childComplexity int, id uint, input domain.BlogInput) int
-		UpdateBlogTags   func(childComplexity int, id uint, tags []uint) int
-		UpdateProject    func(childComplexity int, input domain.ProjectInput) int
-		UpdateTechnology func(childComplexity int, id uint, input domain.TechnologyInput) int
+		CreateBlog        func(childComplexity int, input domain.BlogInput) int
+		CreateProject     func(childComplexity int, input domain.ProjectInput) int
+		CreateTechnology  func(childComplexity int, input domain.TechnologyInput) int
+		DeleteBlog        func(childComplexity int, id uint) int
+		DeleteProject     func(childComplexity int, id string) int
+		DeleteTechnology  func(childComplexity int, id uint) int
+		UpdateBlog        func(childComplexity int, id uint, input domain.BlogInput) int
+		UpdateBlogTags    func(childComplexity int, id uint, tags []uint) int
+		UpdateProject     func(childComplexity int, input domain.ProjectInput) int
+		UpdateProjectTags func(childComplexity int, id string, tags []uint) int
+		UpdateTechnology  func(childComplexity int, id uint, input domain.TechnologyInput) int
 	}
 
 	Project struct {
@@ -76,6 +78,7 @@ type ComplexityRoot struct {
 		Description func(childComplexity int) int
 		ID          func(childComplexity int) int
 		IsFavorite  func(childComplexity int) int
+		Tags        func(childComplexity int) int
 		Title       func(childComplexity int) int
 		UpdatedAt   func(childComplexity int) int
 	}
@@ -114,6 +117,10 @@ type MutationResolver interface {
 	CreateProject(ctx context.Context, input domain.ProjectInput) (*domain.Project, error)
 	UpdateProject(ctx context.Context, input domain.ProjectInput) (*domain.Project, error)
 	DeleteProject(ctx context.Context, id string) (*domain.Project, error)
+	UpdateProjectTags(ctx context.Context, id string, tags []uint) ([]*domain.Technology, error)
+}
+type ProjectResolver interface {
+	Tags(ctx context.Context, obj *domain.Project) ([]*domain.Technology, error)
 }
 type QueryResolver interface {
 	Technologies(ctx context.Context) ([]*domain.Technology, error)
@@ -300,6 +307,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.UpdateProject(childComplexity, args["input"].(domain.ProjectInput)), true
 
+	case "Mutation.updateProjectTags":
+		if e.complexity.Mutation.UpdateProjectTags == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateProjectTags_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateProjectTags(childComplexity, args["id"].(string), args["tags"].([]uint)), true
+
 	case "Mutation.updateTechnology":
 		if e.complexity.Mutation.UpdateTechnology == nil {
 			break
@@ -339,6 +358,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Project.IsFavorite(childComplexity), true
+
+	case "Project.tags":
+		if e.complexity.Project.Tags == nil {
+			break
+		}
+
+		return e.complexity.Project.Tags(childComplexity), true
 
 	case "Project.title":
 		if e.complexity.Project.Title == nil {
@@ -592,6 +618,7 @@ extend type Mutation {
   title: String!
   description: String!
   isFavorite: Boolean!
+  tags: [Technology!]!
   createdAt: Time!
   updatedAt: Time!
 }
@@ -610,6 +637,7 @@ extend type Mutation {
   createProject(input: ProjectInput!): Project!
   updateProject(input: ProjectInput!): Project!
   deleteProject(id: String!): Project!
+  updateProjectTags(id: String!, tags: [Uint!]!): [Technology!]!
 }
 `, BuiltIn: false},
 	{Name: "../schema/schema.gql", Input: `scalar Uint
@@ -783,6 +811,30 @@ func (ec *executionContext) field_Mutation_updateBlog_args(ctx context.Context, 
 		}
 	}
 	args["input"] = arg1
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_updateProjectTags_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+		arg0, err = ec.unmarshalNString2string(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["id"] = arg0
+	var arg1 []uint
+	if tmp, ok := rawArgs["tags"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("tags"))
+		arg1, err = ec.unmarshalNUint2ᚕuintᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["tags"] = arg1
 	return args, nil
 }
 
@@ -1781,6 +1833,8 @@ func (ec *executionContext) fieldContext_Mutation_createProject(ctx context.Cont
 				return ec.fieldContext_Project_description(ctx, field)
 			case "isFavorite":
 				return ec.fieldContext_Project_isFavorite(ctx, field)
+			case "tags":
+				return ec.fieldContext_Project_tags(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Project_createdAt(ctx, field)
 			case "updatedAt":
@@ -1850,6 +1904,8 @@ func (ec *executionContext) fieldContext_Mutation_updateProject(ctx context.Cont
 				return ec.fieldContext_Project_description(ctx, field)
 			case "isFavorite":
 				return ec.fieldContext_Project_isFavorite(ctx, field)
+			case "tags":
+				return ec.fieldContext_Project_tags(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Project_createdAt(ctx, field)
 			case "updatedAt":
@@ -1919,6 +1975,8 @@ func (ec *executionContext) fieldContext_Mutation_deleteProject(ctx context.Cont
 				return ec.fieldContext_Project_description(ctx, field)
 			case "isFavorite":
 				return ec.fieldContext_Project_isFavorite(ctx, field)
+			case "tags":
+				return ec.fieldContext_Project_tags(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Project_createdAt(ctx, field)
 			case "updatedAt":
@@ -1935,6 +1993,75 @@ func (ec *executionContext) fieldContext_Mutation_deleteProject(ctx context.Cont
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_deleteProject_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateProjectTags(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateProjectTags(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateProjectTags(rctx, fc.Args["id"].(string), fc.Args["tags"].([]uint))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*domain.Technology)
+	fc.Result = res
+	return ec.marshalNTechnology2ᚕᚖadminᚑbackendᚋdomainᚐTechnologyᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateProjectTags(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Technology_id(ctx, field)
+			case "name":
+				return ec.fieldContext_Technology_name(ctx, field)
+			case "logoUrl":
+				return ec.fieldContext_Technology_logoUrl(ctx, field)
+			case "tagColor":
+				return ec.fieldContext_Technology_tagColor(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Technology_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Technology_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Technology", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateProjectTags_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -2112,6 +2239,64 @@ func (ec *executionContext) fieldContext_Project_isFavorite(ctx context.Context,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Project_tags(ctx context.Context, field graphql.CollectedField, obj *domain.Project) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Project_tags(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Project().Tags(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*domain.Technology)
+	fc.Result = res
+	return ec.marshalNTechnology2ᚕᚖadminᚑbackendᚋdomainᚐTechnologyᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Project_tags(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Project",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Technology_id(ctx, field)
+			case "name":
+				return ec.fieldContext_Technology_name(ctx, field)
+			case "logoUrl":
+				return ec.fieldContext_Technology_logoUrl(ctx, field)
+			case "tagColor":
+				return ec.fieldContext_Technology_tagColor(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Technology_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Technology_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Technology", field.Name)
 		},
 	}
 	return fc, nil
@@ -2510,6 +2695,8 @@ func (ec *executionContext) fieldContext_Query_projects(ctx context.Context, fie
 				return ec.fieldContext_Project_description(ctx, field)
 			case "isFavorite":
 				return ec.fieldContext_Project_isFavorite(ctx, field)
+			case "tags":
+				return ec.fieldContext_Project_tags(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Project_createdAt(ctx, field)
 			case "updatedAt":
@@ -2568,6 +2755,8 @@ func (ec *executionContext) fieldContext_Query_project(ctx context.Context, fiel
 				return ec.fieldContext_Project_description(ctx, field)
 			case "isFavorite":
 				return ec.fieldContext_Project_isFavorite(ctx, field)
+			case "tags":
+				return ec.fieldContext_Project_tags(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Project_createdAt(ctx, field)
 			case "updatedAt":
@@ -5111,6 +5300,13 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "updateProjectTags":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateProjectTags(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -5148,32 +5344,68 @@ func (ec *executionContext) _Project(ctx context.Context, sel ast.SelectionSet, 
 		case "id":
 			out.Values[i] = ec._Project_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "title":
 			out.Values[i] = ec._Project_title(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "description":
 			out.Values[i] = ec._Project_description(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "isFavorite":
 			out.Values[i] = ec._Project_isFavorite(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
+		case "tags":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Project_tags(ctx, field, obj)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "createdAt":
 			out.Values[i] = ec._Project_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "updatedAt":
 			out.Values[i] = ec._Project_updatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))

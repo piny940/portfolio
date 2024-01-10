@@ -60,6 +60,7 @@ export type Mutation = {
   updateBlog: Blog
   updateBlogTags: Array<Maybe<Technology>>
   updateProject: Project
+  updateProjectTags: Array<Technology>
   updateTechnology: Technology
 }
 
@@ -101,6 +102,11 @@ export type MutationUpdateProjectArgs = {
   input: ProjectInput
 }
 
+export type MutationUpdateProjectTagsArgs = {
+  id: Scalars['String']['input']
+  tags: Array<Scalars['Uint']['input']>
+}
+
 export type MutationUpdateTechnologyArgs = {
   id: Scalars['Uint']['input']
   input: TechnologyInput
@@ -112,6 +118,7 @@ export type Project = {
   description: Scalars['String']['output']
   id: Scalars['String']['output']
   isFavorite: Scalars['Boolean']['output']
+  tags: Array<Technology>
   title: Scalars['String']['output']
   updatedAt: Scalars['Time']['output']
 }
@@ -331,6 +338,32 @@ export type GetProjectQuery = {
   }
 }
 
+export type GetProjectWithTagsQueryVariables = Exact<{
+  id: Scalars['String']['input']
+}>
+
+export type GetProjectWithTagsQuery = {
+  __typename?: 'Query'
+  project: {
+    __typename?: 'Project'
+    id: string
+    title: string
+    description: string
+    isFavorite: boolean
+    createdAt: string
+    updatedAt: string
+    tags: Array<{
+      __typename?: 'Technology'
+      id: number
+      name: string
+      logoUrl?: string | null
+      tagColor: string
+      createdAt: string
+      updatedAt: string
+    }>
+  }
+}
+
 export type CreateProjectMutationVariables = Exact<{
   input: ProjectInput
 }>
@@ -365,6 +398,34 @@ export type UpdateProjectMutation = {
   }
 }
 
+export type UpdateProjectWithTagsMutationVariables = Exact<{
+  id: Scalars['String']['input']
+  input: ProjectInput
+  tags: Array<Scalars['Uint']['input']> | Scalars['Uint']['input']
+}>
+
+export type UpdateProjectWithTagsMutation = {
+  __typename?: 'Mutation'
+  updateProject: {
+    __typename?: 'Project'
+    id: string
+    title: string
+    description: string
+    isFavorite: boolean
+    createdAt: string
+    updatedAt: string
+  }
+  updateProjectTags: Array<{
+    __typename?: 'Technology'
+    id: number
+    name: string
+    logoUrl?: string | null
+    tagColor: string
+    createdAt: string
+    updatedAt: string
+  }>
+}
+
 export type DeleteProjectMutationVariables = Exact<{
   id: Scalars['String']['input']
 }>
@@ -380,6 +441,24 @@ export type DeleteProjectMutation = {
     createdAt: string
     updatedAt: string
   }
+}
+
+export type UpdateProjectTagsMutationVariables = Exact<{
+  id: Scalars['String']['input']
+  tags: Array<Scalars['Uint']['input']> | Scalars['Uint']['input']
+}>
+
+export type UpdateProjectTagsMutation = {
+  __typename?: 'Mutation'
+  updateProjectTags: Array<{
+    __typename?: 'Technology'
+    id: number
+    name: string
+    logoUrl?: string | null
+    tagColor: string
+    createdAt: string
+    updatedAt: string
+  }>
 }
 
 export type GetTechnologiesQueryVariables = Exact<{ [key: string]: never }>
@@ -661,6 +740,35 @@ export function useGetProjectQuery(
     ...options,
   })
 }
+export const GetProjectWithTagsDocument = gql`
+  query getProjectWithTags($id: String!) {
+    project(id: $id) {
+      id
+      title
+      description
+      isFavorite
+      createdAt
+      updatedAt
+      tags {
+        id
+        name
+        logoUrl
+        tagColor
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`
+
+export function useGetProjectWithTagsQuery(
+  options: Omit<Urql.UseQueryArgs<GetProjectWithTagsQueryVariables>, 'query'>
+) {
+  return Urql.useQuery<
+    GetProjectWithTagsQuery,
+    GetProjectWithTagsQueryVariables
+  >({ query: GetProjectWithTagsDocument, ...options })
+}
 export const CreateProjectDocument = gql`
   mutation createProject($input: ProjectInput!) {
     createProject(input: $input) {
@@ -699,6 +807,37 @@ export function useUpdateProjectMutation() {
     UpdateProjectMutationVariables
   >(UpdateProjectDocument)
 }
+export const UpdateProjectWithTagsDocument = gql`
+  mutation updateProjectWithTags(
+    $id: String!
+    $input: ProjectInput!
+    $tags: [Uint!]!
+  ) {
+    updateProject(input: $input) {
+      id
+      title
+      description
+      isFavorite
+      createdAt
+      updatedAt
+    }
+    updateProjectTags(id: $id, tags: $tags) {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
+  }
+`
+
+export function useUpdateProjectWithTagsMutation() {
+  return Urql.useMutation<
+    UpdateProjectWithTagsMutation,
+    UpdateProjectWithTagsMutationVariables
+  >(UpdateProjectWithTagsDocument)
+}
 export const DeleteProjectDocument = gql`
   mutation deleteProject($id: String!) {
     deleteProject(id: $id) {
@@ -717,6 +856,25 @@ export function useDeleteProjectMutation() {
     DeleteProjectMutation,
     DeleteProjectMutationVariables
   >(DeleteProjectDocument)
+}
+export const UpdateProjectTagsDocument = gql`
+  mutation updateProjectTags($id: String!, $tags: [Uint!]!) {
+    updateProjectTags(id: $id, tags: $tags) {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
+  }
+`
+
+export function useUpdateProjectTagsMutation() {
+  return Urql.useMutation<
+    UpdateProjectTagsMutation,
+    UpdateProjectTagsMutationVariables
+  >(UpdateProjectTagsDocument)
 }
 export const GetTechnologiesDocument = gql`
   query getTechnologies {

@@ -4,12 +4,13 @@ import { useForm } from 'react-hook-form'
 import {
   Project,
   ProjectInput,
-  useUpdateProjectMutation,
+  useUpdateProjectWithTagsMutation,
 } from '@/graphql/types'
 import { useRouter } from 'next/router'
+import { TechTagsFormFields } from './TechTagsEdit'
 
 export type ProjectEditProps = {
-  project: Project
+  project: Pick<Project, 'id' | 'title' | 'description' | 'isFavorite' | 'tags'>
 }
 
 export const ProjectEdit = ({ project }: ProjectEditProps): JSX.Element => {
@@ -21,12 +22,18 @@ export const ProjectEdit = ({ project }: ProjectEditProps): JSX.Element => {
       isFavorite: project.isFavorite,
     },
   })
-  const [, updateProject] = useUpdateProjectMutation()
+  const { getValues: getTagsValues, control: tagsControl } =
+    useForm<TechTagsFormFields>({
+      defaultValues: { tags: project.tags },
+    })
+  const [, updateProject] = useUpdateProjectWithTagsMutation()
   const router = useRouter()
 
   const submit = async () => {
     const { error } = await updateProject({
+      id: project.id,
       input: getValues(),
+      tags: getTagsValues().tags.map((tag) => tag.id),
     })
     if (error) return
     void router.push('/projects')
@@ -37,7 +44,11 @@ export const ProjectEdit = ({ project }: ProjectEditProps): JSX.Element => {
       <Typography variant="h4" component="h1">
         Edit Project{project.id}
       </Typography>
-      <ProjectForm control={control} submit={handleSubmit(submit)} />
+      <ProjectForm
+        tagsControl={tagsControl}
+        control={control}
+        submit={handleSubmit(submit)}
+      />
     </Box>
   )
 }
