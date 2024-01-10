@@ -1,22 +1,32 @@
 package db
 
-import "admin-backend/domain"
+import (
+	"admin-backend/domain"
+
+	"gorm.io/gorm/clause"
+)
 
 type projectRepo struct {
 	db *DB
 }
 
-func (r *projectRepo) Create(project *domain.Project) error {
-	result := r.db.Client.Create(project)
-	if result.Error != nil {
-		return result.Error
+func (r *projectRepo) Create(input domain.ProjectInput) (*domain.Project, error) {
+	project := domain.Project{
+		ID:          input.ID,
+		Title:       input.Title,
+		Description: input.Description,
+		IsFavorite:  input.IsFavorite,
 	}
-	return nil
+	result := r.db.Client.Create(&project)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return &project, nil
 }
 
 func (r *projectRepo) Delete(id string) (*domain.Project, error) {
 	var project domain.Project
-	result := r.db.Client.Delete(&project, id)
+	result := r.db.Client.Clauses(clause.Returning{}).Where("id = ?", id).Delete(&project)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -25,7 +35,7 @@ func (r *projectRepo) Delete(id string) (*domain.Project, error) {
 
 func (r *projectRepo) Find(id string) (*domain.Project, error) {
 	var project domain.Project
-	result := r.db.Client.First(&project, id)
+	result := r.db.Client.First(&project, "id = ?", id)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -41,12 +51,17 @@ func (r *projectRepo) List() ([]*domain.Project, error) {
 	return projects, nil
 }
 
-func (r *projectRepo) Update(project *domain.Project) error {
-	result := r.db.Client.Save(project)
+func (r *projectRepo) Update(input domain.ProjectInput) (*domain.Project, error) {
+	var project domain.Project
+	r.db.Client.First(&project, "id = ?", input.ID)
+	project.Title = input.Title
+	project.Description = input.Description
+	project.IsFavorite = input.IsFavorite
+	result := r.db.Client.Save(&project)
 	if result.Error != nil {
-		return result.Error
+		return nil, result.Error
 	}
-	return nil
+	return &project, nil
 }
 
 func NewProjectRepo(db *DB) domain.IProjectRepo {

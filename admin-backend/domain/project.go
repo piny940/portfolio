@@ -14,7 +14,7 @@ type Project struct {
 type IProjectRepo interface {
 	List() ([]*Project, error)
 	Find(id string) (*Project, error)
-	Create(project *Project) error
-	Update(project *Project) error
+	Create(input ProjectInput) (*Project, error)
+	Update(input ProjectInput) (*Project, error)
 	Delete(id string) (*Project, error)
 }

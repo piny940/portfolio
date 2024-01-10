@@ -2,6 +2,8 @@ package db
 
 import (
 	"admin-backend/domain"
+
+	"gorm.io/gorm/clause"
 )
 
 type blogRepo struct {
@@ -25,7 +27,7 @@ func (r *blogRepo) Create(input domain.BlogInput) (*domain.Blog, error) {
 // Delete implements domain.IBlogRepo.
 func (r *blogRepo) Delete(id uint) (*domain.Blog, error) {
 	var blog domain.Blog
-	result := r.db.Client.Delete(&blog, id)
+	result := r.db.Client.Clauses(clause.Returning{}).Delete(&blog, id)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -34,12 +36,12 @@ func (r *blogRepo) Delete(id uint) (*domain.Blog, error) {
 
 // Find implements domain.IBlogRepo.
 func (r *blogRepo) Find(id uint) (*domain.Blog, error) {
-	var blog *domain.Blog
+	var blog domain.Blog
 	result := r.db.Client.First(&blog, id)
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	return blog, nil
+	return &blog, nil
 }
 
 func (r *blogRepo) List() ([]*domain.Blog, error) {
@@ -53,12 +55,12 @@ func (r *blogRepo) List() ([]*domain.Blog, error) {
 
 // Update implements domain.IBlogRepo.
 func (r *blogRepo) Update(id uint, input domain.BlogInput) (*domain.Blog, error) {
-	blog := domain.Blog{}
+	var blog domain.Blog
 	r.db.Client.First(&blog, id)
 	blog.Title = input.Title
 	blog.Kind = domain.BlogKind(input.Kind)
 	blog.Url = input.URL
-	result := r.db.Client.Save(blog)
+	result := r.db.Client.Save(&blog)
 	if result.Error != nil {
 		return nil, result.Error
 	}

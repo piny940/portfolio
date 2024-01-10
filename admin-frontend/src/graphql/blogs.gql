@@ -38,3 +38,13 @@ mutation updateBlog($id: Uint!, $input: BlogInput!) {
     updatedAt
   }
 }
+mutation deleteBlog($id: Uint!) {
+  deleteBlog(id: $id) {
+    id
+    title
+    url
+    kind
+    createdAt
+    updatedAt
+  }
+}

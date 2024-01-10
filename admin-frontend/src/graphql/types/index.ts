@@ -183,6 +183,106 @@ export type UpdateBlogMutation = {
   }
 }
 
+export type DeleteBlogMutationVariables = Exact<{
+  id: Scalars['Uint']['input']
+}>
+
+export type DeleteBlogMutation = {
+  __typename?: 'Mutation'
+  deleteBlog: {
+    __typename?: 'Blog'
+    id: number
+    title: string
+    url: string
+    kind: number
+    createdAt: string
+    updatedAt: string
+  }
+}
+
+export type GetProjectsQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetProjectsQuery = {
+  __typename?: 'Query'
+  projects: Array<{
+    __typename?: 'Project'
+    id: string
+    title: string
+    description: string
+    isFavorite: boolean
+    createdAt: string
+    updatedAt: string
+  }>
+}
+
+export type GetProjectQueryVariables = Exact<{
+  id: Scalars['String']['input']
+}>
+
+export type GetProjectQuery = {
+  __typename?: 'Query'
+  project: {
+    __typename?: 'Project'
+    id: string
+    title: string
+    description: string
+    isFavorite: boolean
+    createdAt: string
+    updatedAt: string
+  }
+}
+
+export type CreateProjectMutationVariables = Exact<{
+  input: ProjectInput
+}>
+
+export type CreateProjectMutation = {
+  __typename?: 'Mutation'
+  createProject: {
+    __typename?: 'Project'
+    id: string
+    title: string
+    description: string
+    isFavorite: boolean
+    createdAt: string
+    updatedAt: string
+  }
+}
+
+export type UpdateProjectMutationVariables = Exact<{
+  input: ProjectInput
+}>
+
+export type UpdateProjectMutation = {
+  __typename?: 'Mutation'
+  updateProject: {
+    __typename?: 'Project'
+    id: string
+    title: string
+    description: string
+    isFavorite: boolean
+    createdAt: string
+    updatedAt: string
+  }
+}
+
+export type DeleteProjectMutationVariables = Exact<{
+  id: Scalars['String']['input']
+}>
+
+export type DeleteProjectMutation = {
+  __typename?: 'Mutation'
+  deleteProject: {
+    __typename?: 'Project'
+    id: string
+    title: string
+    description: string
+    isFavorite: boolean
+    createdAt: string
+    updatedAt: string
+  }
+}
+
 export const GetBlogsDocument = gql`
   query getBlogs {
     blogs {
@@ -260,4 +360,121 @@ export function useUpdateBlogMutation() {
   return Urql.useMutation<UpdateBlogMutation, UpdateBlogMutationVariables>(
     UpdateBlogDocument
   )
+}
+export const DeleteBlogDocument = gql`
+  mutation deleteBlog($id: Uint!) {
+    deleteBlog(id: $id) {
+      id
+      title
+      url
+      kind
+      createdAt
+      updatedAt
+    }
+  }
+`
+
+export function useDeleteBlogMutation() {
+  return Urql.useMutation<DeleteBlogMutation, DeleteBlogMutationVariables>(
+    DeleteBlogDocument
+  )
+}
+export const GetProjectsDocument = gql`
+  query getProjects {
+    projects {
+      id
+      title
+      description
+      isFavorite
+      createdAt
+      updatedAt
+    }
+  }
+`
+
+export function useGetProjectsQuery(
+  options?: Omit<Urql.UseQueryArgs<GetProjectsQueryVariables>, 'query'>
+) {
+  return Urql.useQuery<GetProjectsQuery, GetProjectsQueryVariables>({
+    query: GetProjectsDocument,
+    ...options,
+  })
+}
+export const GetProjectDocument = gql`
+  query getProject($id: String!) {
+    project(id: $id) {
+      id
+      title
+      description
+      isFavorite
+      createdAt
+      updatedAt
+    }
+  }
+`
+
+export function useGetProjectQuery(
+  options: Omit<Urql.UseQueryArgs<GetProjectQueryVariables>, 'query'>
+) {
+  return Urql.useQuery<GetProjectQuery, GetProjectQueryVariables>({
+    query: GetProjectDocument,
+    ...options,
+  })
+}
+export const CreateProjectDocument = gql`
+  mutation createProject($input: ProjectInput!) {
+    createProject(input: $input) {
+      id
+      title
+      description
+      isFavorite
+      createdAt
+      updatedAt
+    }
+  }
+`
+
+export function useCreateProjectMutation() {
+  return Urql.useMutation<
+    CreateProjectMutation,
+    CreateProjectMutationVariables
+  >(CreateProjectDocument)
+}
+export const UpdateProjectDocument = gql`
+  mutation updateProject($input: ProjectInput!) {
+    updateProject(input: $input) {
+      id
+      title
+      description
+      isFavorite
+      createdAt
+      updatedAt
+    }
+  }
+`
+
+export function useUpdateProjectMutation() {
+  return Urql.useMutation<
+    UpdateProjectMutation,
+    UpdateProjectMutationVariables
+  >(UpdateProjectDocument)
+}
+export const DeleteProjectDocument = gql`
+  mutation deleteProject($id: String!) {
+    deleteProject(id: $id) {
+      id
+      title
+      description
+      isFavorite
+      createdAt
+      updatedAt
+    }
+  }
+`
+
+export function useDeleteProjectMutation() {
+  return Urql.useMutation<
+    DeleteProjectMutation,
+    DeleteProjectMutationVariables
+  >(DeleteProjectDocument)
 }

@@ -1,0 +1,50 @@
+query getProjects {
+  projects {
+    id
+    title
+    description
+    isFavorite
+    createdAt
+    updatedAt
+  }
+}
+query getProject($id: String!) {
+  project(id: $id) {
+    id
+    title
+    description
+    isFavorite
+    createdAt
+    updatedAt
+  }
+}
+mutation createProject($input: ProjectInput!) {
+  createProject(input: $input) {
+    id
+    title
+    description
+    isFavorite
+    createdAt
+    updatedAt
+  }
+}
+mutation updateProject($input: ProjectInput!) {
+  updateProject(input: $input) {
+    id
+    title
+    description
+    isFavorite
+    createdAt
+    updatedAt
+  }
+}
+mutation deleteProject($id: String!) {
+  deleteProject(id: $id) {
+    id
+    title
+    description
+    isFavorite
+    createdAt
+    updatedAt
+  }
+}

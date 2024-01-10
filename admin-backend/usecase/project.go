@@ -5,16 +5,16 @@ import "admin-backend/domain"
 type IProjectUsecase interface {
 	List() ([]*domain.Project, error)
 	Find(id string) (*domain.Project, error)
-	Create(project *domain.Project) error
-	Update(project *domain.Project) error
+	Create(input domain.ProjectInput) (*domain.Project, error)
+	Update(input domain.ProjectInput) (*domain.Project, error)
 	Delete(id string) (*domain.Project, error)
 }
 type projectUsecase struct {
 	repo domain.IProjectRepo
 }
 
-func (u *projectUsecase) Create(project *domain.Project) error {
-	return u.repo.Create(project)
+func (u *projectUsecase) Create(input domain.ProjectInput) (*domain.Project, error) {
+	return u.repo.Create(input)
 }
 
 func (u *projectUsecase) Delete(id string) (*domain.Project, error) {
@@ -29,8 +29,8 @@ func (u *projectUsecase) List() ([]*domain.Project, error) {
 	return u.repo.List()
 }
 
-func (u *projectUsecase) Update(project *domain.Project) error {
-	return u.repo.Update(project)
+func (u *projectUsecase) Update(input domain.ProjectInput) (*domain.Project, error) {
+	return u.repo.Update(input)
 }
 
 func NewProjectUsecase(repo domain.IProjectRepo) IProjectUsecase {
