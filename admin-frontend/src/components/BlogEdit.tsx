@@ -1,8 +1,13 @@
 import { Box, Typography } from '@mui/material'
 import { useForm } from 'react-hook-form'
-import { Blog, useUpdateBlogMutation } from '@/graphql/types'
+import {
+  Blog,
+  BlogInput,
+  useUpdateBlogMutation,
+  useUpdateBlogTagsMutation,
+} from '@/graphql/types'
 import { useRouter } from 'next/router'
-import { BlogForm, BlogFormFields } from './BlogForm'
+import { BlogForm } from './BlogForm'
 import { TechnologyTagsFormFields } from './BlogTagsEdit'
 
 export type BlogEditProps = {
@@ -10,23 +15,32 @@ export type BlogEditProps = {
 }
 
 export const BlogEdit = ({ blog }: BlogEditProps): JSX.Element => {
-  const { getValues, control, handleSubmit } = useForm<BlogFormFields>({
+  const { getValues, control, handleSubmit } = useForm<BlogInput>({
     defaultValues: {
       title: blog.title,
       kind: blog.kind,
       url: blog.url,
-      tags: blog.tags,
     },
   })
-  const { control: tagsControl } = useForm<TechnologyTagsFormFields>({
-    defaultValues: { tags: blog.tags },
-  })
+  const { getValues: getTagsValues, control: tagsControl } =
+    useForm<TechnologyTagsFormFields>({
+      defaultValues: { tags: blog.tags },
+    })
   const [, updateBlog] = useUpdateBlogMutation()
+  const [, updateBlogTags] = useUpdateBlogTagsMutation()
   const router = useRouter()
 
   const submit = async () => {
-    const { error } = await updateBlog({ id: blog.id, input: getValues() })
-    if (error) return
+    const { data, error } = await updateBlog({
+      id: blog.id,
+      input: getValues(),
+    })
+    if (!data || error) return
+    const { error: tagsError } = await updateBlogTags({
+      id: data.updateBlog.id,
+      tags: getTagsValues().tags.map((tag) => tag.id),
+    })
+    if (tagsError) return
     void router.push('/blogs')
   }
 

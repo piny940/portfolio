@@ -1,23 +1,34 @@
 import { Box, Typography } from '@mui/material'
-import { BlogForm, BlogFormFields } from './BlogForm'
-import { useCreateBlogMutation } from '@/graphql/types'
+import { BlogForm } from './BlogForm'
+import {
+  BlogInput,
+  useCreateBlogMutation,
+  useUpdateBlogTagsMutation,
+} from '@/graphql/types'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import { TechnologyTagsFormFields } from './BlogTagsEdit'
 
 export const BlogNew = (): JSX.Element => {
-  const { handleSubmit, getValues, control } = useForm<BlogFormFields>({
+  const { handleSubmit, getValues, control } = useForm<BlogInput>({
     defaultValues: { kind: 0, title: '', url: '' },
   })
-  const { control: tagsControl } = useForm<TechnologyTagsFormFields>({
-    defaultValues: { tags: [] },
-  })
+  const { getValues: getTagsValues, control: tagsControl } =
+    useForm<TechnologyTagsFormFields>({
+      defaultValues: { tags: [] },
+    })
   const [, createBlog] = useCreateBlogMutation()
+  const [, updateBlogTags] = useUpdateBlogTagsMutation()
   const router = useRouter()
 
   const submit = async () => {
-    const { error } = await createBlog({ input: getValues() })
-    if (error != null) return
+    const { data, error } = await createBlog({ input: getValues() })
+    if (data == null || error != null) return
+    const { error: tagsError } = await updateBlogTags({
+      id: data.createBlog.id,
+      tags: getTagsValues().tags.map((tag) => tag.id),
+    })
+    if (tagsError != null) return
     void router.push('/blogs')
   }
 

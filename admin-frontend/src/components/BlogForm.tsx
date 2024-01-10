@@ -13,12 +13,9 @@ import { allBlogKinds, blogKindLabel } from '../../utils/types'
 import { Control, Controller } from 'react-hook-form'
 import { BlogTagsEdit, TechnologyTagsFormFields } from './BlogTagsEdit'
 
-export interface BlogFormFields extends BlogInput {
-  tags: Array<{ id: number }>
-}
 export type BlogFormProps = {
   submit: () => void
-  control: Control<BlogFormFields, any>
+  control: Control<BlogInput, any>
   tagsControl: Control<TechnologyTagsFormFields, any>
 }
 
