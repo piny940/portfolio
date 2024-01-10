@@ -9,15 +9,18 @@ import {
   TextField,
 } from '@mui/material'
 import { Control, Controller } from 'react-hook-form'
+import { TechTagsEdit, TechTagsFormFields } from './TechTagsEdit'
 
 export type ProjectFormProps = {
   submit: () => void
   control: Control<ProjectInput, any>
+  tagsControl: Control<TechTagsFormFields, any>
 }
 
 export const ProjectForm = ({
   control,
   submit,
+  tagsControl,
 }: ProjectFormProps): JSX.Element => {
   const requiredRule = { required: 'このフィールドは必須です。' }
   return (
@@ -85,6 +88,7 @@ export const ProjectForm = ({
           )}
         />
       </Box>
+      <TechTagsEdit control={tagsControl} />
       <Box>
         <Button type="submit" fullWidth variant="contained">
           Submit
