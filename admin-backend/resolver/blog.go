@@ -62,10 +62,4 @@ func (r *queryResolver) Blog(ctx context.Context, id uint) (*domain.Blog, error)
 
 func (r *Resolver) Blog() graph.BlogResolver { return &blogResolver{r} }
 
-func (r *Resolver) Mutation() graph.MutationResolver { return &mutationResolver{r} }
-
-func (r *Resolver) Query() graph.QueryResolver { return &queryResolver{r} }
-
 type blogResolver struct{ *Resolver }
-type mutationResolver struct{ *Resolver }
-type queryResolver struct{ *Resolver }

@@ -17,7 +17,7 @@ func (r *projectRepo) Create(input domain.ProjectInput) (*domain.Project, error)
 		Description: input.Description,
 		IsFavorite:  input.IsFavorite,
 	}
-	result := r.db.Client.Create(&project)
+	result := r.db.Client.Clauses(clause.Returning{}).Create(&project)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -57,7 +57,7 @@ func (r *projectRepo) Update(input domain.ProjectInput) (*domain.Project, error)
 	project.Title = input.Title
 	project.Description = input.Description
 	project.IsFavorite = input.IsFavorite
-	result := r.db.Client.Save(&project)
+	result := r.db.Client.Clauses(clause.Returning{}).Save(&project)
 	if result.Error != nil {
 		return nil, result.Error
 	}

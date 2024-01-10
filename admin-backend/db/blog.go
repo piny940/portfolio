@@ -17,7 +17,7 @@ func (r *blogRepo) Create(input domain.BlogInput) (*domain.Blog, error) {
 		Kind:  domain.BlogKind(input.Kind),
 		Url:   input.URL,
 	}
-	result := r.db.Client.Create(&blog)
+	result := r.db.Client.Clauses(clause.Returning{}).Create(&blog)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -60,7 +60,7 @@ func (r *blogRepo) Update(id uint, input domain.BlogInput) (*domain.Blog, error)
 	blog.Title = input.Title
 	blog.Kind = domain.BlogKind(input.Kind)
 	blog.Url = input.URL
-	result := r.db.Client.Save(&blog)
+	result := r.db.Client.Clauses(clause.Returning{}).Save(&blog)
 	if result.Error != nil {
 		return nil, result.Error
 	}

@@ -15,6 +15,9 @@ const Home: NextPage = () => {
         <ListItemButton component={Link} href="/projects">
           <ListItemText primary="Projects" />
         </ListItemButton>
+        <ListItemButton component={Link} href="/technologies">
+          <ListItemText primary="Technologies" />
+        </ListItemButton>
       </List>
     </>
   )

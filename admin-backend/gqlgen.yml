@@ -94,3 +94,5 @@ models:
     model: admin-backend/domain.Project
   Blog:
     model: admin-backend/domain.Blog
+  Technology:
+    model: admin-backend/domain.Technology

@@ -9,6 +9,7 @@ const EditProjectPage = (): JSX.Element => {
 
   const [{ data, error }] = useGetProjectQuery({
     variables: { id: projectId as string },
+    pause: !router.isReady,
   })
 
   if (error) return <Error statusCode={404} />

@@ -1,0 +1,25 @@
+type Technology {
+  id: Uint!
+  name: String!
+  logoUrl: String
+  tagColor: String!
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+input TechnologyInput {
+  name: String!
+  logoUrl: String
+  tagColor: String!
+}
+
+type Query {
+  technologies: [Technology!]!
+  technology(id: Uint!): Technology!
+}
+
+type Mutation {
+  createTechnology(input: TechnologyInput!): Technology!
+  updateTechnology(id: Uint!, input: TechnologyInput!): Technology!
+  deleteTechnology(id: Uint!): Technology!
+}

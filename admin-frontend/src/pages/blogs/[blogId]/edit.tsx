@@ -8,7 +8,8 @@ const EditBlogPage = (): JSX.Element => {
   const { blogId } = router.query
 
   const [{ data, error }] = useGetBlogQuery({
-    variables: { id: parseInt(blogId as string) || -1 },
+    variables: { id: parseInt(blogId as string) },
+    pause: !router.isReady,
   })
 
   if (error) return <Error statusCode={404} />
