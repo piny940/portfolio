@@ -3,11 +3,11 @@ erDiagram
   blogs ||--o| qiita_articles : "Qiita記事"
   blogs ||--o| zenn_articles : "Zenn記事"
   blogs ||--o| own_articles : "サイト内記事"
-  blogs ||--o{ blog_tags : "ブログタグ"
-  technologies ||--o{ blog_tags : ""
+  blogs ||--o{ blog_technology_tags : "ブログタグ"
+  technologies ||--o{ blog_technology_tags : ""
   technologies ||--o| tech_stacks : "習熟レベル"
-  technologies ||--o{ project_tags : ""
-  projects ||--o{ project_tags : "プロジェクトタグ"
+  technologies ||--o{ project_technology_tags : ""
+  projects ||--o{ project_technology_tags : "プロジェクトタグ"
   projects ||--o{ project_links : "リンク"
 
   blogs {
@@ -18,7 +18,7 @@ erDiagram
     timestamp created_at
     timestamp updated_at
   }
-  blog_tags {
+  blog_technology_tags {
     bigserial id PK
     bigint blog_id FK
     varchar technology_id FK
@@ -67,7 +67,7 @@ erDiagram
     timestamp created_at
     timestamp updated_at
   }
-  project_tags {
+  project_technology_tags {
     bigserial id PK
     varchar technology_id FK
     varchar project_id FK
