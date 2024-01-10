@@ -1,5 +1,5 @@
 import { EditBlog } from '@/components/EditBlog'
-import { useGetBlogQuery } from '@/graphql/types'
+import { useGetBlogWithTagsQuery } from '@/graphql/types'
 import Error from 'next/error'
 import { useRouter } from 'next/router'
 
@@ -7,7 +7,7 @@ const EditBlogPage = (): JSX.Element => {
   const router = useRouter()
   const { blogId } = router.query
 
-  const [{ data, error }] = useGetBlogQuery({
+  const [{ data, error }] = useGetBlogWithTagsQuery({
     variables: { id: parseInt(blogId as string) },
     pause: !router.isReady,
   })

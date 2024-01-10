@@ -6,7 +6,7 @@ import { BlogForm, BlogFormFields } from './BlogForm'
 import { TechnologyTagsFormFields } from './EditBlogTags'
 
 export type EditBlogProps = {
-  blog: Blog
+  blog: Pick<Blog, 'id' | 'title' | 'kind' | 'url' | 'tags'>
 }
 
 export const EditBlog = ({ blog }: EditBlogProps): JSX.Element => {

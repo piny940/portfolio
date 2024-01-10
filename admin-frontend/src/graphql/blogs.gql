@@ -18,6 +18,24 @@ query getBlog($id: Uint!) {
     updatedAt
   }
 }
+query getBlogWithTags($id: Uint!) {
+  blog(id: $id) {
+    id
+    title
+    url
+    kind
+    createdAt
+    updatedAt
+    tags {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
+  }
+}
 mutation createBlog($input: BlogInput!) {
   createBlog(input: $input) {
     id

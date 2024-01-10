@@ -193,6 +193,32 @@ export type GetBlogQuery = {
   }
 }
 
+export type GetBlogWithTagsQueryVariables = Exact<{
+  id: Scalars['Uint']['input']
+}>
+
+export type GetBlogWithTagsQuery = {
+  __typename?: 'Query'
+  blog: {
+    __typename?: 'Blog'
+    id: number
+    title: string
+    url: string
+    kind: number
+    createdAt: string
+    updatedAt: string
+    tags: Array<{
+      __typename?: 'Technology'
+      id: number
+      name: string
+      logoUrl?: string | null
+      tagColor: string
+      createdAt: string
+      updatedAt: string
+    }>
+  }
+}
+
 export type CreateBlogMutationVariables = Exact<{
   input: BlogInput
 }>
@@ -469,6 +495,35 @@ export function useGetBlogQuery(
 ) {
   return Urql.useQuery<GetBlogQuery, GetBlogQueryVariables>({
     query: GetBlogDocument,
+    ...options,
+  })
+}
+export const GetBlogWithTagsDocument = gql`
+  query getBlogWithTags($id: Uint!) {
+    blog(id: $id) {
+      id
+      title
+      url
+      kind
+      createdAt
+      updatedAt
+      tags {
+        id
+        name
+        logoUrl
+        tagColor
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`
+
+export function useGetBlogWithTagsQuery(
+  options: Omit<Urql.UseQueryArgs<GetBlogWithTagsQueryVariables>, 'query'>
+) {
+  return Urql.useQuery<GetBlogWithTagsQuery, GetBlogWithTagsQueryVariables>({
+    query: GetBlogWithTagsDocument,
     ...options,
   })
 }
