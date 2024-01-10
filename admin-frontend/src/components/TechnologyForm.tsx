@@ -50,7 +50,6 @@ export const TechnologyForm = ({
         <Controller
           name="logoUrl"
           control={control}
-          rules={requiredRule}
           render={({ field, fieldState }) => (
             <TextField
               fullWidth
