@@ -2,6 +2,8 @@ package db
 
 import (
 	"admin-backend/domain"
+
+	"gorm.io/gorm/clause"
 )
 
 type blogRepo struct {
@@ -25,7 +27,7 @@ func (r *blogRepo) Create(input domain.BlogInput) (*domain.Blog, error) {
 // Delete implements domain.IBlogRepo.
 func (r *blogRepo) Delete(id uint) (*domain.Blog, error) {
 	var blog domain.Blog
-	result := r.db.Client.Delete(&blog, id)
+	result := r.db.Client.Clauses(clause.Returning{}).Delete(&blog, id)
 	if result.Error != nil {
 		return nil, result.Error
 	}

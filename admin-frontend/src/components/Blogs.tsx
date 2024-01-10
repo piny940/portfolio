@@ -13,13 +13,8 @@ import Error from 'next/error'
 import Link from 'next/link'
 
 export const Blogs = (): JSX.Element => {
-  const [{ data, error }, refetchBlogs] = useGetBlogsQuery()
+  const [{ data, error }] = useGetBlogsQuery()
   const [, deleteBlog] = useDeleteBlogMutation()
-
-  const deleteBlogHandler = async (id: number) => {
-    await deleteBlog({ id })
-    refetchBlogs()
-  }
 
   if (error) return <Error statusCode={400} />
   if (!data) return <>loading...</>
@@ -78,7 +73,7 @@ export const Blogs = (): JSX.Element => {
                   variant="contained"
                   size="small"
                   onClick={() => {
-                    void deleteBlogHandler(blog.id)
+                    void deleteBlog({ id: blog.id })
                   }}
                 >
                   削除
