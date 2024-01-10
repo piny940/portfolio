@@ -21,6 +21,15 @@ func (r *blogRepo) Create(input domain.BlogInput) (*domain.Blog, error) {
 	if result.Error != nil {
 		return nil, result.Error
 	}
+	technologies := []*domain.Technology{}
+	result = r.db.Client.Find(&technologies, input.TagIds)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	if err := r.db.Client.Model(&blog).Association("Tags").Append(technologies); err != nil {
+		return nil, err
+	}
+	blog.Tags = technologies
 	return &blog, nil
 }
 
@@ -56,14 +65,26 @@ func (r *blogRepo) List() ([]*domain.Blog, error) {
 // Update implements domain.IBlogRepo.
 func (r *blogRepo) Update(id uint, input domain.BlogInput) (*domain.Blog, error) {
 	var blog domain.Blog
-	r.db.Client.First(&blog, id)
-	blog.Title = input.Title
-	blog.Kind = domain.BlogKind(input.Kind)
-	blog.Url = input.URL
-	result := r.db.Client.Clauses(clause.Returning{}).Save(&blog)
+	result := r.db.Client.First(&blog, id)
 	if result.Error != nil {
 		return nil, result.Error
 	}
+	blog.Title = input.Title
+	blog.Kind = domain.BlogKind(input.Kind)
+	blog.Url = input.URL
+	result = r.db.Client.Clauses(clause.Returning{}).Save(&blog)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	technologies := []*domain.Technology{}
+	result = r.db.Client.Find(&technologies, input.TagIds)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	if err := r.db.Client.Model(&blog).Association("Tags").Replace(technologies); err != nil {
+		return nil, err
+	}
+	blog.Tags = technologies
 	return &blog, nil
 }
 

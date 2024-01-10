@@ -10,9 +10,10 @@ const (
 
 type Blog struct {
 	gorm.Model
-	Title string   `gorm:"type:varchar(255); not null"`
-	Url   string   `gorm:"type:varchar(255); not null"`
-	Kind  BlogKind `gorm:"not null"`
+	Title string        `gorm:"type:varchar(255); not null"`
+	Url   string        `gorm:"type:varchar(255); not null"`
+	Kind  BlogKind      `gorm:"not null"`
+	Tags  []*Technology `gorm:"many2many:blog_technology_tags;"`
 }
 
 type IBlogRepo interface {

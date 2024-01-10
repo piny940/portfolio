@@ -3,9 +3,10 @@
 package domain
 
 type BlogInput struct {
-	Title string `json:"title"`
-	URL   string `json:"url"`
-	Kind  int    `json:"kind"`
+	Title  string `json:"title"`
+	URL    string `json:"url"`
+	Kind   int    `json:"kind"`
+	TagIds []uint `json:"tagIds"`
 }
 
 type Mutation struct {
