@@ -114,19 +114,25 @@ export type MutationUpdateTechnologyArgs = {
 
 export type Project = {
   __typename?: 'Project'
+  appLink?: Maybe<Scalars['String']['output']>
   createdAt: Scalars['Time']['output']
   description: Scalars['String']['output']
+  githubLink?: Maybe<Scalars['String']['output']>
   id: Scalars['String']['output']
   isFavorite: Scalars['Boolean']['output']
+  qiitaLink?: Maybe<Scalars['String']['output']>
   tags: Array<Technology>
   title: Scalars['String']['output']
   updatedAt: Scalars['Time']['output']
 }
 
 export type ProjectInput = {
+  appLink?: InputMaybe<Scalars['String']['input']>
   description: Scalars['String']['input']
+  githubLink?: InputMaybe<Scalars['String']['input']>
   id: Scalars['String']['input']
   isFavorite: Scalars['Boolean']['input']
+  qiitaLink?: InputMaybe<Scalars['String']['input']>
   title: Scalars['String']['input']
 }
 
@@ -316,6 +322,9 @@ export type GetProjectsQuery = {
     title: string
     description: string
     isFavorite: boolean
+    appLink?: string | null
+    githubLink?: string | null
+    qiitaLink?: string | null
     createdAt: string
     updatedAt: string
   }>
@@ -333,6 +342,9 @@ export type GetProjectQuery = {
     title: string
     description: string
     isFavorite: boolean
+    appLink?: string | null
+    githubLink?: string | null
+    qiitaLink?: string | null
     createdAt: string
     updatedAt: string
   }
@@ -350,6 +362,9 @@ export type GetProjectWithTagsQuery = {
     title: string
     description: string
     isFavorite: boolean
+    appLink?: string | null
+    githubLink?: string | null
+    qiitaLink?: string | null
     createdAt: string
     updatedAt: string
     tags: Array<{
@@ -376,6 +391,9 @@ export type CreateProjectMutation = {
     title: string
     description: string
     isFavorite: boolean
+    appLink?: string | null
+    githubLink?: string | null
+    qiitaLink?: string | null
     createdAt: string
     updatedAt: string
   }
@@ -393,6 +411,9 @@ export type UpdateProjectMutation = {
     title: string
     description: string
     isFavorite: boolean
+    appLink?: string | null
+    githubLink?: string | null
+    qiitaLink?: string | null
     createdAt: string
     updatedAt: string
   }
@@ -412,6 +433,9 @@ export type UpdateProjectWithTagsMutation = {
     title: string
     description: string
     isFavorite: boolean
+    appLink?: string | null
+    githubLink?: string | null
+    qiitaLink?: string | null
     createdAt: string
     updatedAt: string
   }
@@ -438,6 +462,9 @@ export type DeleteProjectMutation = {
     title: string
     description: string
     isFavorite: boolean
+    appLink?: string | null
+    githubLink?: string | null
+    qiitaLink?: string | null
     createdAt: string
     updatedAt: string
   }
@@ -705,6 +732,9 @@ export const GetProjectsDocument = gql`
       title
       description
       isFavorite
+      appLink
+      githubLink
+      qiitaLink
       createdAt
       updatedAt
     }
@@ -726,6 +756,9 @@ export const GetProjectDocument = gql`
       title
       description
       isFavorite
+      appLink
+      githubLink
+      qiitaLink
       createdAt
       updatedAt
     }
@@ -747,6 +780,9 @@ export const GetProjectWithTagsDocument = gql`
       title
       description
       isFavorite
+      appLink
+      githubLink
+      qiitaLink
       createdAt
       updatedAt
       tags {
@@ -776,6 +812,9 @@ export const CreateProjectDocument = gql`
       title
       description
       isFavorite
+      appLink
+      githubLink
+      qiitaLink
       createdAt
       updatedAt
     }
@@ -795,6 +834,9 @@ export const UpdateProjectDocument = gql`
       title
       description
       isFavorite
+      appLink
+      githubLink
+      qiitaLink
       createdAt
       updatedAt
     }
@@ -818,6 +860,9 @@ export const UpdateProjectWithTagsDocument = gql`
       title
       description
       isFavorite
+      appLink
+      githubLink
+      qiitaLink
       createdAt
       updatedAt
     }
@@ -845,6 +890,9 @@ export const DeleteProjectDocument = gql`
       title
       description
       isFavorite
+      appLink
+      githubLink
+      qiitaLink
       createdAt
       updatedAt
     }

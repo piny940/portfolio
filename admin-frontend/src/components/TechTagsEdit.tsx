@@ -36,7 +36,7 @@ export const TechTagsEdit = ({ control }: TechTagsEditProps): JSX.Element => {
   if (data.technologies.length === 0) return <>No technologies</>
   return (
     <Box>
-      <Typography variant="h5" component="h3">
+      <Typography variant="h5" component="h2">
         タグ
       </Typography>
       <List>

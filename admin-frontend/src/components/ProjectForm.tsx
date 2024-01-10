@@ -7,6 +7,7 @@ import {
   FormControlLabel,
   FormHelperText,
   TextField,
+  Typography,
 } from '@mui/material'
 import { Control, Controller } from 'react-hook-form'
 import { TechTagsEdit, TechTagsFormFields } from './TechTagsEdit'
@@ -87,6 +88,56 @@ export const ProjectForm = ({
             </FormControl>
           )}
         />
+      </Box>
+      <Box sx={{ '> *': { margin: 2 } }}>
+        <Typography variant="h5" component="h2">
+          Links
+        </Typography>
+        <Box>
+          <Controller
+            name="appLink"
+            control={control}
+            render={({ field, fieldState }) => (
+              <TextField
+                fullWidth
+                label="AppLink"
+                error={fieldState.invalid}
+                helperText={fieldState.error?.message}
+                {...field}
+              />
+            )}
+          />
+        </Box>
+        <Box>
+          <Controller
+            name="githubLink"
+            control={control}
+            render={({ field, fieldState }) => (
+              <TextField
+                fullWidth
+                label="GithubLink"
+                error={fieldState.invalid}
+                helperText={fieldState.error?.message}
+                {...field}
+              />
+            )}
+          />
+        </Box>
+        <Box>
+          <Controller
+            name="qiitaLink"
+            control={control}
+            render={({ field, fieldState }) => (
+              <TextField
+                fullWidth
+                label="QiitaLink"
+                error={fieldState.invalid}
+                helperText={fieldState.error?.message}
+                {...field}
+              />
+            )}
+          />
+        </Box>
       </Box>
       <TechTagsEdit control={tagsControl} />
       <Box>
