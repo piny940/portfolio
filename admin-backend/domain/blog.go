@@ -35,4 +35,6 @@ type IBlogRepo interface {
 	Create(input BlogInput) (*Blog, error)
 	Update(id uint, input BlogInput) (*Blog, error)
 	Delete(id uint) (*Blog, error)
+	ListTags(blogIds []uint) ([]*Technology, error)
+	UpdateTags(blogId uint, technologyIds []uint) ([]*Technology, error)
 }

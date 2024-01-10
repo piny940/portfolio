@@ -15,6 +15,15 @@ func (r *blogResolver) Kind(ctx context.Context, obj *domain.Blog) (int, error) 
 	return int(obj.Kind), nil
 }
 
+func (r *blogResolver) Tags(ctx context.Context, obj *domain.Blog) ([]*domain.Technology, error) {
+	reg := registry.GetRegistry()
+	tags, err := reg.BlogUsecase().ListTags([]uint{obj.ID})
+	if err != nil {
+		return nil, err
+	}
+	return tags, nil
+}
+
 func (r *mutationResolver) CreateBlog(ctx context.Context, input domain.BlogInput) (*domain.Blog, error) {
 	reg := registry.GetRegistry()
 	blog, err := reg.BlogUsecase().Create(input)
@@ -40,6 +49,15 @@ func (r *mutationResolver) DeleteBlog(ctx context.Context, id uint) (*domain.Blo
 		return nil, err
 	}
 	return blog, nil
+}
+
+func (r *mutationResolver) UpdateBlogTags(ctx context.Context, id uint, tags []uint) ([]*domain.Technology, error) {
+	reg := registry.GetRegistry()
+	technologies, err := reg.BlogUsecase().UpdateTags(id, tags)
+	if err != nil {
+		return nil, err
+	}
+	return technologies, nil
 }
 
 func (r *queryResolver) Blogs(ctx context.Context) ([]*domain.Blog, error) {
