@@ -52,6 +52,7 @@ type ComplexityRoot struct {
 		CreatedAt func(childComplexity int) int
 		ID        func(childComplexity int) int
 		Kind      func(childComplexity int) int
+		Tags      func(childComplexity int) int
 		Title     func(childComplexity int) int
 		UpdatedAt func(childComplexity int) int
 		Url       func(childComplexity int) int
@@ -65,6 +66,7 @@ type ComplexityRoot struct {
 		DeleteProject    func(childComplexity int, id string) int
 		DeleteTechnology func(childComplexity int, id uint) int
 		UpdateBlog       func(childComplexity int, id uint, input domain.BlogInput) int
+		UpdateBlogTags   func(childComplexity int, id uint, tags []uint) int
 		UpdateProject    func(childComplexity int, input domain.ProjectInput) int
 		UpdateTechnology func(childComplexity int, id uint, input domain.TechnologyInput) int
 	}
@@ -99,6 +101,7 @@ type ComplexityRoot struct {
 
 type BlogResolver interface {
 	Kind(ctx context.Context, obj *domain.Blog) (int, error)
+	Tags(ctx context.Context, obj *domain.Blog) ([]*domain.Technology, error)
 }
 type MutationResolver interface {
 	CreateTechnology(ctx context.Context, input domain.TechnologyInput) (*domain.Technology, error)
@@ -107,6 +110,7 @@ type MutationResolver interface {
 	CreateBlog(ctx context.Context, input domain.BlogInput) (*domain.Blog, error)
 	UpdateBlog(ctx context.Context, id uint, input domain.BlogInput) (*domain.Blog, error)
 	DeleteBlog(ctx context.Context, id uint) (*domain.Blog, error)
+	UpdateBlogTags(ctx context.Context, id uint, tags []uint) ([]*domain.Technology, error)
 	CreateProject(ctx context.Context, input domain.ProjectInput) (*domain.Project, error)
 	UpdateProject(ctx context.Context, input domain.ProjectInput) (*domain.Project, error)
 	DeleteProject(ctx context.Context, id string) (*domain.Project, error)
@@ -159,6 +163,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Blog.Kind(childComplexity), true
+
+	case "Blog.tags":
+		if e.complexity.Blog.Tags == nil {
+			break
+		}
+
+		return e.complexity.Blog.Tags(childComplexity), true
 
 	case "Blog.title":
 		if e.complexity.Blog.Title == nil {
@@ -264,6 +275,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.UpdateBlog(childComplexity, args["id"].(uint), args["input"].(domain.BlogInput)), true
+
+	case "Mutation.updateBlogTags":
+		if e.complexity.Mutation.UpdateBlogTags == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateBlogTags_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateBlogTags(childComplexity, args["id"].(uint), args["tags"].([]uint)), true
 
 	case "Mutation.updateProject":
 		if e.complexity.Mutation.UpdateProject == nil {
@@ -543,6 +566,7 @@ var sources = []*ast.Source{
   title: String!
   url: String!
   kind: Int!
+  tags: [Technology!]!
   createdAt: Time!
   updatedAt: Time!
 }
@@ -560,6 +584,7 @@ extend type Mutation {
   createBlog(input: BlogInput!): Blog!
   updateBlog(id: Uint!, input: BlogInput!): Blog!
   deleteBlog(id: Uint!): Blog!
+  updateBlogTags(id: Uint!, tags: [Uint!]!): [Technology]!
 }
 `, BuiltIn: false},
 	{Name: "../schema/project.gql", Input: `type Project {
@@ -710,6 +735,30 @@ func (ec *executionContext) field_Mutation_deleteTechnology_args(ctx context.Con
 		}
 	}
 	args["id"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_updateBlogTags_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 uint
+	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+		arg0, err = ec.unmarshalNUint2uint(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["id"] = arg0
+	var arg1 []uint
+	if tmp, ok := rawArgs["tags"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("tags"))
+		arg1, err = ec.unmarshalNUint2ᚕuintᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["tags"] = arg1
 	return args, nil
 }
 
@@ -1045,6 +1094,64 @@ func (ec *executionContext) fieldContext_Blog_kind(ctx context.Context, field gr
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Blog_tags(ctx context.Context, field graphql.CollectedField, obj *domain.Blog) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Blog_tags(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Blog().Tags(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*domain.Technology)
+	fc.Result = res
+	return ec.marshalNTechnology2ᚕᚖadminᚑbackendᚋdomainᚐTechnologyᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Blog_tags(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Blog",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Technology_id(ctx, field)
+			case "name":
+				return ec.fieldContext_Technology_name(ctx, field)
+			case "logoUrl":
+				return ec.fieldContext_Technology_logoUrl(ctx, field)
+			case "tagColor":
+				return ec.fieldContext_Technology_tagColor(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Technology_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Technology_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Technology", field.Name)
 		},
 	}
 	return fc, nil
@@ -1392,6 +1499,8 @@ func (ec *executionContext) fieldContext_Mutation_createBlog(ctx context.Context
 				return ec.fieldContext_Blog_url(ctx, field)
 			case "kind":
 				return ec.fieldContext_Blog_kind(ctx, field)
+			case "tags":
+				return ec.fieldContext_Blog_tags(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Blog_createdAt(ctx, field)
 			case "updatedAt":
@@ -1461,6 +1570,8 @@ func (ec *executionContext) fieldContext_Mutation_updateBlog(ctx context.Context
 				return ec.fieldContext_Blog_url(ctx, field)
 			case "kind":
 				return ec.fieldContext_Blog_kind(ctx, field)
+			case "tags":
+				return ec.fieldContext_Blog_tags(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Blog_createdAt(ctx, field)
 			case "updatedAt":
@@ -1530,6 +1641,8 @@ func (ec *executionContext) fieldContext_Mutation_deleteBlog(ctx context.Context
 				return ec.fieldContext_Blog_url(ctx, field)
 			case "kind":
 				return ec.fieldContext_Blog_kind(ctx, field)
+			case "tags":
+				return ec.fieldContext_Blog_tags(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Blog_createdAt(ctx, field)
 			case "updatedAt":
@@ -1546,6 +1659,75 @@ func (ec *executionContext) fieldContext_Mutation_deleteBlog(ctx context.Context
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_deleteBlog_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateBlogTags(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateBlogTags(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateBlogTags(rctx, fc.Args["id"].(uint), fc.Args["tags"].([]uint))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*domain.Technology)
+	fc.Result = res
+	return ec.marshalNTechnology2ᚕᚖadminᚑbackendᚋdomainᚐTechnology(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateBlogTags(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Technology_id(ctx, field)
+			case "name":
+				return ec.fieldContext_Technology_name(ctx, field)
+			case "logoUrl":
+				return ec.fieldContext_Technology_logoUrl(ctx, field)
+			case "tagColor":
+				return ec.fieldContext_Technology_tagColor(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Technology_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Technology_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Technology", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateBlogTags_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -2197,6 +2379,8 @@ func (ec *executionContext) fieldContext_Query_blogs(ctx context.Context, field 
 				return ec.fieldContext_Blog_url(ctx, field)
 			case "kind":
 				return ec.fieldContext_Blog_kind(ctx, field)
+			case "tags":
+				return ec.fieldContext_Blog_tags(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Blog_createdAt(ctx, field)
 			case "updatedAt":
@@ -2255,6 +2439,8 @@ func (ec *executionContext) fieldContext_Query_blog(ctx context.Context, field g
 				return ec.fieldContext_Blog_url(ctx, field)
 			case "kind":
 				return ec.fieldContext_Blog_kind(ctx, field)
+			case "tags":
+				return ec.fieldContext_Blog_tags(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Blog_createdAt(ctx, field)
 			case "updatedAt":
@@ -4767,6 +4953,42 @@ func (ec *executionContext) _Blog(ctx context.Context, sel ast.SelectionSet, obj
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+		case "tags":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Blog_tags(ctx, field, obj)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "createdAt":
 			out.Values[i] = ec._Blog_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -4857,6 +5079,13 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "deleteBlog":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_deleteBlog(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updateBlogTags":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateBlogTags(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -5713,6 +5942,44 @@ func (ec *executionContext) marshalNTechnology2adminᚑbackendᚋdomainᚐTechno
 	return ec._Technology(ctx, sel, &v)
 }
 
+func (ec *executionContext) marshalNTechnology2ᚕᚖadminᚑbackendᚋdomainᚐTechnology(ctx context.Context, sel ast.SelectionSet, v []*domain.Technology) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalOTechnology2ᚖadminᚑbackendᚋdomainᚐTechnology(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	return ret
+}
+
 func (ec *executionContext) marshalNTechnology2ᚕᚖadminᚑbackendᚋdomainᚐTechnologyᚄ(ctx context.Context, sel ast.SelectionSet, v []*domain.Technology) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
@@ -5800,6 +6067,38 @@ func (ec *executionContext) marshalNUint2uint(ctx context.Context, sel ast.Selec
 		}
 	}
 	return res
+}
+
+func (ec *executionContext) unmarshalNUint2ᚕuintᚄ(ctx context.Context, v interface{}) ([]uint, error) {
+	var vSlice []interface{}
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
+	var err error
+	res := make([]uint, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNUint2uint(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) marshalNUint2ᚕuintᚄ(ctx context.Context, sel ast.SelectionSet, v []uint) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	for i := range v {
+		ret[i] = ec.marshalNUint2uint(ctx, sel, v[i])
+	}
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
 }
 
 func (ec *executionContext) marshalN__Directive2githubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐDirective(ctx context.Context, sel ast.SelectionSet, v introspection.Directive) graphql.Marshaler {
@@ -6095,6 +6394,13 @@ func (ec *executionContext) marshalOString2ᚖstring(ctx context.Context, sel as
 	}
 	res := graphql.MarshalString(*v)
 	return res
+}
+
+func (ec *executionContext) marshalOTechnology2ᚖadminᚑbackendᚋdomainᚐTechnology(ctx context.Context, sel ast.SelectionSet, v *domain.Technology) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._Technology(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalO__EnumValue2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐEnumValueᚄ(ctx context.Context, sel ast.SelectionSet, v []introspection.EnumValue) graphql.Marshaler {

@@ -3,6 +3,7 @@ type Blog {
   title: String!
   url: String!
   kind: Int!
+  tags: [Technology!]!
   createdAt: Time!
   updatedAt: Time!
 }
@@ -20,4 +21,5 @@ extend type Mutation {
   createBlog(input: BlogInput!): Blog!
   updateBlog(id: Uint!, input: BlogInput!): Blog!
   deleteBlog(id: Uint!): Blog!
+  updateBlogTags(id: Uint!, tags: [Uint!]!): [Technology]!
 }

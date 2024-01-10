@@ -1,7 +1,7 @@
-import { NewTechnology } from '@/components/NewTechnology'
+import { TechnologyNew } from '@/components/TechnologyNew'
 
-const NewTechnologyPage = (): JSX.Element => {
-  return <NewTechnology />
+const TechnologyNewPage = (): JSX.Element => {
+  return <TechnologyNew />
 }
 
-export default NewTechnologyPage
+export default TechnologyNewPage

@@ -11,9 +11,11 @@ import {
 } from '@mui/material'
 import Error from 'next/error'
 import Link from 'next/link'
+import { useMemo } from 'react'
 
 export const Blogs = (): JSX.Element => {
-  const [{ data, error }] = useGetBlogsQuery()
+  const context = useMemo(() => ({ additionalTypenames: ['Blog'] }), [])
+  const [{ data, error }] = useGetBlogsQuery({ context })
   const [, deleteBlog] = useDeleteBlogMutation()
 
   if (error) return <Error statusCode={400} />

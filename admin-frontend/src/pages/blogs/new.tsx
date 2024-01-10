@@ -1,7 +1,7 @@
-import { NewBlog } from '@/components/NewBlog'
+import { BlogNew } from '@/components/BlogNew'
 
-const NewBlogPage = (): JSX.Element => {
-  return <NewBlog />
+const BlogNewPage = (): JSX.Element => {
+  return <BlogNew />
 }
 
-export default NewBlogPage
+export default BlogNewPage

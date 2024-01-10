@@ -18,6 +18,24 @@ query getBlog($id: Uint!) {
     updatedAt
   }
 }
+query getBlogWithTags($id: Uint!) {
+  blog(id: $id) {
+    id
+    title
+    url
+    kind
+    createdAt
+    updatedAt
+    tags {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
+  }
+}
 mutation createBlog($input: BlogInput!) {
   createBlog(input: $input) {
     id
@@ -28,12 +46,20 @@ mutation createBlog($input: BlogInput!) {
     updatedAt
   }
 }
-mutation updateBlog($id: Uint!, $input: BlogInput!) {
+mutation updateBlogWithTags($id: Uint!, $input: BlogInput!, $tags: [Uint!]!) {
   updateBlog(id: $id, input: $input) {
     id
     title
     url
     kind
+    createdAt
+    updatedAt
+  }
+  updateBlogTags(id: $id, tags: $tags) {
+    id
+    name
+    logoUrl
+    tagColor
     createdAt
     updatedAt
   }
@@ -44,6 +70,16 @@ mutation deleteBlog($id: Uint!) {
     title
     url
     kind
+    createdAt
+    updatedAt
+  }
+}
+mutation updateBlogTags($id: Uint!, $tags: [Uint!]!) {
+  updateBlogTags(id: $id, tags: $tags) {
+    id
+    name
+    logoUrl
+    tagColor
     createdAt
     updatedAt
   }

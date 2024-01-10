@@ -11,13 +11,19 @@ import {
 } from '@mui/material'
 import { allBlogKinds, blogKindLabel } from '../../utils/types'
 import { Control, Controller } from 'react-hook-form'
+import { TechTagsEdit, TechTagsFormFields } from './TechTagsEdit'
 
 export type BlogFormProps = {
   submit: () => void
   control: Control<BlogInput, any>
+  tagsControl: Control<TechTagsFormFields, any>
 }
 
-export const BlogForm = ({ control, submit }: BlogFormProps): JSX.Element => {
+export const BlogForm = ({
+  control,
+  submit,
+  tagsControl,
+}: BlogFormProps): JSX.Element => {
   const requiredRule = { required: 'このフィールドは必須です。' }
   return (
     <Box onSubmit={submit} component="form" sx={{ '> *': { margin: 2 } }}>
@@ -78,6 +84,7 @@ export const BlogForm = ({ control, submit }: BlogFormProps): JSX.Element => {
           )}
         />
       </Box>
+      <TechTagsEdit control={tagsControl} />
       <Box>
         <Button type="submit" fullWidth variant="contained">
           Submit

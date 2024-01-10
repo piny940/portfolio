@@ -37,6 +37,7 @@ export type Blog = {
   createdAt: Scalars['Time']['output']
   id: Scalars['Uint']['output']
   kind: Scalars['Int']['output']
+  tags: Array<Technology>
   title: Scalars['String']['output']
   updatedAt: Scalars['Time']['output']
   url: Scalars['String']['output']
@@ -57,6 +58,7 @@ export type Mutation = {
   deleteProject: Project
   deleteTechnology: Technology
   updateBlog: Blog
+  updateBlogTags: Array<Maybe<Technology>>
   updateProject: Project
   updateTechnology: Technology
 }
@@ -88,6 +90,11 @@ export type MutationDeleteTechnologyArgs = {
 export type MutationUpdateBlogArgs = {
   id: Scalars['Uint']['input']
   input: BlogInput
+}
+
+export type MutationUpdateBlogTagsArgs = {
+  id: Scalars['Uint']['input']
+  tags: Array<Scalars['Uint']['input']>
 }
 
 export type MutationUpdateProjectArgs = {
@@ -186,6 +193,32 @@ export type GetBlogQuery = {
   }
 }
 
+export type GetBlogWithTagsQueryVariables = Exact<{
+  id: Scalars['Uint']['input']
+}>
+
+export type GetBlogWithTagsQuery = {
+  __typename?: 'Query'
+  blog: {
+    __typename?: 'Blog'
+    id: number
+    title: string
+    url: string
+    kind: number
+    createdAt: string
+    updatedAt: string
+    tags: Array<{
+      __typename?: 'Technology'
+      id: number
+      name: string
+      logoUrl?: string | null
+      tagColor: string
+      createdAt: string
+      updatedAt: string
+    }>
+  }
+}
+
 export type CreateBlogMutationVariables = Exact<{
   input: BlogInput
 }>
@@ -203,12 +236,13 @@ export type CreateBlogMutation = {
   }
 }
 
-export type UpdateBlogMutationVariables = Exact<{
+export type UpdateBlogWithTagsMutationVariables = Exact<{
   id: Scalars['Uint']['input']
   input: BlogInput
+  tags: Array<Scalars['Uint']['input']> | Scalars['Uint']['input']
 }>
 
-export type UpdateBlogMutation = {
+export type UpdateBlogWithTagsMutation = {
   __typename?: 'Mutation'
   updateBlog: {
     __typename?: 'Blog'
@@ -219,6 +253,15 @@ export type UpdateBlogMutation = {
     createdAt: string
     updatedAt: string
   }
+  updateBlogTags: Array<{
+    __typename?: 'Technology'
+    id: number
+    name: string
+    logoUrl?: string | null
+    tagColor: string
+    createdAt: string
+    updatedAt: string
+  } | null>
 }
 
 export type DeleteBlogMutationVariables = Exact<{
@@ -236,6 +279,24 @@ export type DeleteBlogMutation = {
     createdAt: string
     updatedAt: string
   }
+}
+
+export type UpdateBlogTagsMutationVariables = Exact<{
+  id: Scalars['Uint']['input']
+  tags: Array<Scalars['Uint']['input']> | Scalars['Uint']['input']
+}>
+
+export type UpdateBlogTagsMutation = {
+  __typename?: 'Mutation'
+  updateBlogTags: Array<{
+    __typename?: 'Technology'
+    id: number
+    name: string
+    logoUrl?: string | null
+    tagColor: string
+    createdAt: string
+    updatedAt: string
+  } | null>
 }
 
 export type GetProjectsQueryVariables = Exact<{ [key: string]: never }>
@@ -447,6 +508,35 @@ export function useGetBlogQuery(
     ...options,
   })
 }
+export const GetBlogWithTagsDocument = gql`
+  query getBlogWithTags($id: Uint!) {
+    blog(id: $id) {
+      id
+      title
+      url
+      kind
+      createdAt
+      updatedAt
+      tags {
+        id
+        name
+        logoUrl
+        tagColor
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`
+
+export function useGetBlogWithTagsQuery(
+  options: Omit<Urql.UseQueryArgs<GetBlogWithTagsQueryVariables>, 'query'>
+) {
+  return Urql.useQuery<GetBlogWithTagsQuery, GetBlogWithTagsQueryVariables>({
+    query: GetBlogWithTagsDocument,
+    ...options,
+  })
+}
 export const CreateBlogDocument = gql`
   mutation createBlog($input: BlogInput!) {
     createBlog(input: $input) {
@@ -465,8 +555,8 @@ export function useCreateBlogMutation() {
     CreateBlogDocument
   )
 }
-export const UpdateBlogDocument = gql`
-  mutation updateBlog($id: Uint!, $input: BlogInput!) {
+export const UpdateBlogWithTagsDocument = gql`
+  mutation updateBlogWithTags($id: Uint!, $input: BlogInput!, $tags: [Uint!]!) {
     updateBlog(id: $id, input: $input) {
       id
       title
@@ -475,13 +565,22 @@ export const UpdateBlogDocument = gql`
       createdAt
       updatedAt
     }
+    updateBlogTags(id: $id, tags: $tags) {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
   }
 `
 
-export function useUpdateBlogMutation() {
-  return Urql.useMutation<UpdateBlogMutation, UpdateBlogMutationVariables>(
-    UpdateBlogDocument
-  )
+export function useUpdateBlogWithTagsMutation() {
+  return Urql.useMutation<
+    UpdateBlogWithTagsMutation,
+    UpdateBlogWithTagsMutationVariables
+  >(UpdateBlogWithTagsDocument)
 }
 export const DeleteBlogDocument = gql`
   mutation deleteBlog($id: Uint!) {
@@ -500,6 +599,25 @@ export function useDeleteBlogMutation() {
   return Urql.useMutation<DeleteBlogMutation, DeleteBlogMutationVariables>(
     DeleteBlogDocument
   )
+}
+export const UpdateBlogTagsDocument = gql`
+  mutation updateBlogTags($id: Uint!, $tags: [Uint!]!) {
+    updateBlogTags(id: $id, tags: $tags) {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
+  }
+`
+
+export function useUpdateBlogTagsMutation() {
+  return Urql.useMutation<
+    UpdateBlogTagsMutation,
+    UpdateBlogTagsMutationVariables
+  >(UpdateBlogTagsDocument)
 }
 export const GetProjectsDocument = gql`
   query getProjects {

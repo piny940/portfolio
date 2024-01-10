@@ -8,11 +8,11 @@ import {
 } from '@/graphql/types'
 import { useRouter } from 'next/router'
 
-export type EditProjectProps = {
+export type ProjectEditProps = {
   project: Project
 }
 
-export const EditProject = ({ project }: EditProjectProps): JSX.Element => {
+export const ProjectEdit = ({ project }: ProjectEditProps): JSX.Element => {
   const { getValues, control, handleSubmit } = useForm<ProjectInput>({
     defaultValues: {
       id: project.id,

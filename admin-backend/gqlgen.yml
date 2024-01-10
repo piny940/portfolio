@@ -94,5 +94,8 @@ models:
     model: admin-backend/domain.Project
   Blog:
     model: admin-backend/domain.Blog
+    fields:
+      tags:
+        resolver: true
   Technology:
     model: admin-backend/domain.Technology

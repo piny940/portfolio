@@ -11,9 +11,11 @@ import {
 } from '@mui/material'
 import Error from 'next/error'
 import Link from 'next/link'
+import { useMemo } from 'react'
 
 export const Projects = (): JSX.Element => {
-  const [{ data, error }] = useGetProjectsQuery()
+  const context = useMemo(() => ({ additionalTypenames: ['Project'] }), [])
+  const [{ data, error }] = useGetProjectsQuery({ context })
   const [, deleteProject] = useDeleteProjectMutation()
 
   if (error) return <Error statusCode={400} />

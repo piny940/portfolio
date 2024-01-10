@@ -1,9 +1,9 @@
-import { EditProject } from '@/components/EditProject'
+import { ProjectEdit } from '@/components/ProjectEdit'
 import { useGetProjectQuery } from '@/graphql/types'
 import Error from 'next/error'
 import { useRouter } from 'next/router'
 
-const EditProjectPage = (): JSX.Element => {
+const ProjectEditPage = (): JSX.Element => {
   const router = useRouter()
   const { projectId } = router.query
 
@@ -14,7 +14,7 @@ const EditProjectPage = (): JSX.Element => {
 
   if (error) return <Error statusCode={404} />
   if (!data) return <>loading</>
-  return <EditProject project={data.project} />
+  return <ProjectEdit project={data.project} />
 }
 
-export default EditProjectPage
+export default ProjectEditPage
