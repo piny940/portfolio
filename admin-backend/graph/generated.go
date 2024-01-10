@@ -74,10 +74,13 @@ type ComplexityRoot struct {
 	}
 
 	Project struct {
+		AppLink     func(childComplexity int) int
 		CreatedAt   func(childComplexity int) int
 		Description func(childComplexity int) int
+		GithubLink  func(childComplexity int) int
 		ID          func(childComplexity int) int
 		IsFavorite  func(childComplexity int) int
+		QiitaLink   func(childComplexity int) int
 		Tags        func(childComplexity int) int
 		Title       func(childComplexity int) int
 		UpdatedAt   func(childComplexity int) int
@@ -331,6 +334,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.UpdateTechnology(childComplexity, args["id"].(uint), args["input"].(domain.TechnologyInput)), true
 
+	case "Project.appLink":
+		if e.complexity.Project.AppLink == nil {
+			break
+		}
+
+		return e.complexity.Project.AppLink(childComplexity), true
+
 	case "Project.createdAt":
 		if e.complexity.Project.CreatedAt == nil {
 			break
@@ -345,6 +355,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Project.Description(childComplexity), true
 
+	case "Project.githubLink":
+		if e.complexity.Project.GithubLink == nil {
+			break
+		}
+
+		return e.complexity.Project.GithubLink(childComplexity), true
+
 	case "Project.id":
 		if e.complexity.Project.ID == nil {
 			break
@@ -358,6 +375,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Project.IsFavorite(childComplexity), true
+
+	case "Project.qiitaLink":
+		if e.complexity.Project.QiitaLink == nil {
+			break
+		}
+
+		return e.complexity.Project.QiitaLink(childComplexity), true
 
 	case "Project.tags":
 		if e.complexity.Project.Tags == nil {
@@ -618,6 +642,9 @@ extend type Mutation {
   title: String!
   description: String!
   isFavorite: Boolean!
+  githubLink: String
+  qiitaLink: String
+  appLink: String
   tags: [Technology!]!
   createdAt: Time!
   updatedAt: Time!
@@ -627,6 +654,9 @@ input ProjectInput {
   title: String!
   description: String!
   isFavorite: Boolean!
+  githubLink: String
+  qiitaLink: String
+  appLink: String
 }
 
 extend type Query {
@@ -1833,6 +1863,12 @@ func (ec *executionContext) fieldContext_Mutation_createProject(ctx context.Cont
 				return ec.fieldContext_Project_description(ctx, field)
 			case "isFavorite":
 				return ec.fieldContext_Project_isFavorite(ctx, field)
+			case "githubLink":
+				return ec.fieldContext_Project_githubLink(ctx, field)
+			case "qiitaLink":
+				return ec.fieldContext_Project_qiitaLink(ctx, field)
+			case "appLink":
+				return ec.fieldContext_Project_appLink(ctx, field)
 			case "tags":
 				return ec.fieldContext_Project_tags(ctx, field)
 			case "createdAt":
@@ -1904,6 +1940,12 @@ func (ec *executionContext) fieldContext_Mutation_updateProject(ctx context.Cont
 				return ec.fieldContext_Project_description(ctx, field)
 			case "isFavorite":
 				return ec.fieldContext_Project_isFavorite(ctx, field)
+			case "githubLink":
+				return ec.fieldContext_Project_githubLink(ctx, field)
+			case "qiitaLink":
+				return ec.fieldContext_Project_qiitaLink(ctx, field)
+			case "appLink":
+				return ec.fieldContext_Project_appLink(ctx, field)
 			case "tags":
 				return ec.fieldContext_Project_tags(ctx, field)
 			case "createdAt":
@@ -1975,6 +2017,12 @@ func (ec *executionContext) fieldContext_Mutation_deleteProject(ctx context.Cont
 				return ec.fieldContext_Project_description(ctx, field)
 			case "isFavorite":
 				return ec.fieldContext_Project_isFavorite(ctx, field)
+			case "githubLink":
+				return ec.fieldContext_Project_githubLink(ctx, field)
+			case "qiitaLink":
+				return ec.fieldContext_Project_qiitaLink(ctx, field)
+			case "appLink":
+				return ec.fieldContext_Project_appLink(ctx, field)
 			case "tags":
 				return ec.fieldContext_Project_tags(ctx, field)
 			case "createdAt":
@@ -2239,6 +2287,129 @@ func (ec *executionContext) fieldContext_Project_isFavorite(ctx context.Context,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Project_githubLink(ctx context.Context, field graphql.CollectedField, obj *domain.Project) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Project_githubLink(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.GithubLink, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Project_githubLink(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Project",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Project_qiitaLink(ctx context.Context, field graphql.CollectedField, obj *domain.Project) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Project_qiitaLink(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.QiitaLink, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Project_qiitaLink(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Project",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Project_appLink(ctx context.Context, field graphql.CollectedField, obj *domain.Project) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Project_appLink(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.AppLink, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Project_appLink(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Project",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -2695,6 +2866,12 @@ func (ec *executionContext) fieldContext_Query_projects(ctx context.Context, fie
 				return ec.fieldContext_Project_description(ctx, field)
 			case "isFavorite":
 				return ec.fieldContext_Project_isFavorite(ctx, field)
+			case "githubLink":
+				return ec.fieldContext_Project_githubLink(ctx, field)
+			case "qiitaLink":
+				return ec.fieldContext_Project_qiitaLink(ctx, field)
+			case "appLink":
+				return ec.fieldContext_Project_appLink(ctx, field)
 			case "tags":
 				return ec.fieldContext_Project_tags(ctx, field)
 			case "createdAt":
@@ -2755,6 +2932,12 @@ func (ec *executionContext) fieldContext_Query_project(ctx context.Context, fiel
 				return ec.fieldContext_Project_description(ctx, field)
 			case "isFavorite":
 				return ec.fieldContext_Project_isFavorite(ctx, field)
+			case "githubLink":
+				return ec.fieldContext_Project_githubLink(ctx, field)
+			case "qiitaLink":
+				return ec.fieldContext_Project_qiitaLink(ctx, field)
+			case "appLink":
+				return ec.fieldContext_Project_appLink(ctx, field)
 			case "tags":
 				return ec.fieldContext_Project_tags(ctx, field)
 			case "createdAt":
@@ -4990,7 +5173,7 @@ func (ec *executionContext) unmarshalInputProjectInput(ctx context.Context, obj 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"id", "title", "description", "isFavorite"}
+	fieldsInOrder := [...]string{"id", "title", "description", "isFavorite", "githubLink", "qiitaLink", "appLink"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -5025,6 +5208,27 @@ func (ec *executionContext) unmarshalInputProjectInput(ctx context.Context, obj 
 				return it, err
 			}
 			it.IsFavorite = data
+		case "githubLink":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("githubLink"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.GithubLink = data
+		case "qiitaLink":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("qiitaLink"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.QiitaLink = data
+		case "appLink":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("appLink"))
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.AppLink = data
 		}
 	}
 
@@ -5361,6 +5565,12 @@ func (ec *executionContext) _Project(ctx context.Context, sel ast.SelectionSet, 
 			if out.Values[i] == graphql.Null {
 				atomic.AddUint32(&out.Invalids, 1)
 			}
+		case "githubLink":
+			out.Values[i] = ec._Project_githubLink(ctx, field, obj)
+		case "qiitaLink":
+			out.Values[i] = ec._Project_qiitaLink(ctx, field, obj)
+		case "appLink":
+			out.Values[i] = ec._Project_appLink(ctx, field, obj)
 		case "tags":
 			field := field
 

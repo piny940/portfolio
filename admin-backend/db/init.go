@@ -29,6 +29,7 @@ func Init() {
 		&domain.Technology{},
 		&domain.BlogTechnologyTag{},
 		&domain.ProjectTechnologyTag{},
+		&ProjectLink{},
 	); err != nil {
 		panic(err)
 	}
