@@ -52,10 +52,13 @@ export type Mutation = {
   __typename?: 'Mutation'
   createBlog: Blog
   createProject: Project
+  createTechnology: Technology
   deleteBlog: Blog
   deleteProject: Project
+  deleteTechnology: Technology
   updateBlog: Blog
   updateProject: Project
+  updateTechnology: Technology
 }
 
 export type MutationCreateBlogArgs = {
@@ -66,12 +69,20 @@ export type MutationCreateProjectArgs = {
   input: ProjectInput
 }
 
+export type MutationCreateTechnologyArgs = {
+  input: TechnologyInput
+}
+
 export type MutationDeleteBlogArgs = {
   id: Scalars['Uint']['input']
 }
 
 export type MutationDeleteProjectArgs = {
   id: Scalars['String']['input']
+}
+
+export type MutationDeleteTechnologyArgs = {
+  id: Scalars['Uint']['input']
 }
 
 export type MutationUpdateBlogArgs = {
@@ -81,6 +92,11 @@ export type MutationUpdateBlogArgs = {
 
 export type MutationUpdateProjectArgs = {
   input: ProjectInput
+}
+
+export type MutationUpdateTechnologyArgs = {
+  id: Scalars['Uint']['input']
+  input: TechnologyInput
 }
 
 export type Project = {
@@ -106,6 +122,8 @@ export type Query = {
   blogs: Array<Blog>
   project: Project
   projects: Array<Project>
+  technologies: Array<Technology>
+  technology: Technology
 }
 
 export type QueryBlogArgs = {
@@ -114,6 +132,26 @@ export type QueryBlogArgs = {
 
 export type QueryProjectArgs = {
   id: Scalars['String']['input']
+}
+
+export type QueryTechnologyArgs = {
+  id: Scalars['Uint']['input']
+}
+
+export type Technology = {
+  __typename?: 'Technology'
+  createdAt: Scalars['Time']['output']
+  id: Scalars['Uint']['output']
+  logoUrl?: Maybe<Scalars['String']['output']>
+  name: Scalars['String']['output']
+  tagColor: Scalars['String']['output']
+  updatedAt: Scalars['Time']['output']
+}
+
+export type TechnologyInput = {
+  logoUrl?: InputMaybe<Scalars['String']['input']>
+  name: Scalars['String']['input']
+  tagColor: Scalars['String']['input']
 }
 
 export type GetBlogsQueryVariables = Exact<{ [key: string]: never }>
@@ -278,6 +316,90 @@ export type DeleteProjectMutation = {
     title: string
     description: string
     isFavorite: boolean
+    createdAt: string
+    updatedAt: string
+  }
+}
+
+export type GetTechnologiesQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetTechnologiesQuery = {
+  __typename?: 'Query'
+  technologies: Array<{
+    __typename?: 'Technology'
+    id: number
+    name: string
+    logoUrl?: string | null
+    tagColor: string
+    createdAt: string
+    updatedAt: string
+  }>
+}
+
+export type GetTechnologyQueryVariables = Exact<{
+  id: Scalars['Uint']['input']
+}>
+
+export type GetTechnologyQuery = {
+  __typename?: 'Query'
+  technology: {
+    __typename?: 'Technology'
+    id: number
+    name: string
+    logoUrl?: string | null
+    tagColor: string
+    createdAt: string
+    updatedAt: string
+  }
+}
+
+export type CreateTechnologyMutationVariables = Exact<{
+  input: TechnologyInput
+}>
+
+export type CreateTechnologyMutation = {
+  __typename?: 'Mutation'
+  createTechnology: {
+    __typename?: 'Technology'
+    id: number
+    name: string
+    logoUrl?: string | null
+    tagColor: string
+    createdAt: string
+    updatedAt: string
+  }
+}
+
+export type UpdateTechnologyMutationVariables = Exact<{
+  id: Scalars['Uint']['input']
+  input: TechnologyInput
+}>
+
+export type UpdateTechnologyMutation = {
+  __typename?: 'Mutation'
+  updateTechnology: {
+    __typename?: 'Technology'
+    id: number
+    name: string
+    logoUrl?: string | null
+    tagColor: string
+    createdAt: string
+    updatedAt: string
+  }
+}
+
+export type DeleteTechnologyMutationVariables = Exact<{
+  id: Scalars['Uint']['input']
+}>
+
+export type DeleteTechnologyMutation = {
+  __typename?: 'Mutation'
+  deleteTechnology: {
+    __typename?: 'Technology'
+    id: number
+    name: string
+    logoUrl?: string | null
+    tagColor: string
     createdAt: string
     updatedAt: string
   }
@@ -477,4 +599,103 @@ export function useDeleteProjectMutation() {
     DeleteProjectMutation,
     DeleteProjectMutationVariables
   >(DeleteProjectDocument)
+}
+export const GetTechnologiesDocument = gql`
+  query getTechnologies {
+    technologies {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
+  }
+`
+
+export function useGetTechnologiesQuery(
+  options?: Omit<Urql.UseQueryArgs<GetTechnologiesQueryVariables>, 'query'>
+) {
+  return Urql.useQuery<GetTechnologiesQuery, GetTechnologiesQueryVariables>({
+    query: GetTechnologiesDocument,
+    ...options,
+  })
+}
+export const GetTechnologyDocument = gql`
+  query getTechnology($id: Uint!) {
+    technology(id: $id) {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
+  }
+`
+
+export function useGetTechnologyQuery(
+  options: Omit<Urql.UseQueryArgs<GetTechnologyQueryVariables>, 'query'>
+) {
+  return Urql.useQuery<GetTechnologyQuery, GetTechnologyQueryVariables>({
+    query: GetTechnologyDocument,
+    ...options,
+  })
+}
+export const CreateTechnologyDocument = gql`
+  mutation createTechnology($input: TechnologyInput!) {
+    createTechnology(input: $input) {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
+  }
+`
+
+export function useCreateTechnologyMutation() {
+  return Urql.useMutation<
+    CreateTechnologyMutation,
+    CreateTechnologyMutationVariables
+  >(CreateTechnologyDocument)
+}
+export const UpdateTechnologyDocument = gql`
+  mutation updateTechnology($id: Uint!, $input: TechnologyInput!) {
+    updateTechnology(id: $id, input: $input) {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
+  }
+`
+
+export function useUpdateTechnologyMutation() {
+  return Urql.useMutation<
+    UpdateTechnologyMutation,
+    UpdateTechnologyMutationVariables
+  >(UpdateTechnologyDocument)
+}
+export const DeleteTechnologyDocument = gql`
+  mutation deleteTechnology($id: Uint!) {
+    deleteTechnology(id: $id) {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
+  }
+`
+
+export function useDeleteTechnologyMutation() {
+  return Urql.useMutation<
+    DeleteTechnologyMutation,
+    DeleteTechnologyMutationVariables
+  >(DeleteTechnologyDocument)
 }
