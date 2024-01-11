@@ -13,7 +13,7 @@
       "path": "backend"
     },
     {
-      "path": "admin-frontend"
+      "path": "admin"
     }
   ],
   "settings": {}
