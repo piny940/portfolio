@@ -27,7 +27,7 @@ jobs:
           tags: |
             ghcr.io/piny940/portfolio-app:main-${{ github.sha }}-${{ github.run_number }}
 
-  admin-backend:
+  backend:
     runs-on: ubuntu-latest
     steps:
       - name: Check out
@@ -44,12 +44,12 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          context: ./admin-backend
-          file: ./admin-backend/Dockerfile
+          context: ./backend
+          file: ./backend/Dockerfile
           tags: |
-            ghcr.io/piny940/portfolio-admin-backend:main-${{ github.sha }}-${{ github.run_number }}
+            ghcr.io/piny940/portfolio-backend:main-${{ github.sha }}-${{ github.run_number }}
 
-  admin-frontend:
+  admin:
     runs-on: ubuntu-latest
     steps:
       - name: Check out
@@ -66,9 +66,9 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          context: ./admin-frontend
+          context: ./admin
           build-args: |
-            "BACKEND_HOST=http://portfolio-admin-backend-staging.default.svc.cluster.local:8080"
-          file: ./admin-frontend/Dockerfile
+            "BACKEND_HOST=http://portfolio-backend-staging.default.svc.cluster.local:8080"
+          file: ./admin/Dockerfile
           tags: |
-            ghcr.io/piny940/portfolio-admin-frontend:main-${{ github.sha }}-${{ github.run_number }}
+            ghcr.io/piny940/portfolio-admin:main-${{ github.sha }}-${{ github.run_number }}

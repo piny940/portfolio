@@ -1,6 +1,6 @@
 package usecase
 
-import "admin-backend/domain"
+import "backend/domain"
 
 type IProjectUsecase interface {
 	List() ([]*domain.Project, error)

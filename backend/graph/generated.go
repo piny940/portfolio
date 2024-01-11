@@ -3,7 +3,7 @@
 package graph
 
 import (
-	"admin-backend/domain"
+	"backend/domain"
 	"bytes"
 	"context"
 	"errors"
