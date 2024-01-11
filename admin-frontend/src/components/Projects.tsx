@@ -12,6 +12,7 @@ import {
 import Error from 'next/error'
 import Link from 'next/link'
 import { useMemo } from 'react'
+import { dateLabel } from '../../utils/helpers'
 
 export const Projects = (): JSX.Element => {
   const context = useMemo(() => ({ additionalTypenames: ['Project'] }), [])
@@ -54,8 +55,8 @@ export const Projects = (): JSX.Element => {
               <TableCell>{project.title}</TableCell>
               <TableCell>{project.description}</TableCell>
               <TableCell>{project.isFavorite ? 'true' : 'false'}</TableCell>
-              <TableCell>{project.createdAt}</TableCell>
-              <TableCell>{project.updatedAt}</TableCell>
+              <TableCell>{dateLabel(project.createdAt)}</TableCell>
+              <TableCell>{dateLabel(project.updatedAt)}</TableCell>
               <TableCell
                 sx={{
                   '> * + *': {
