@@ -1,9 +1,9 @@
-name: Build AdminBackend for Release
+name: Build Admin for Release
 on:
   workflow_dispatch:
 
 jobs:
-  backend:
+  frontend:
     runs-on: ubuntu-latest
     steps:
       - name: Check out
@@ -20,9 +20,10 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          context: ./backend
-          file: ./backend/Dockerfile
+          context: ./admin
+          file: ./admin/Dockerfile
+          build-args: |
+            "BACKEND_HOST=http://portfolio-backend.default.svc.cluster.local:8080"
           tags: |
-            ghcr.io/piny940/portfolio-backend:1.0.${{ github.run_number }}
-            ghcr.io/piny940/portfolio-backend:latest
-
+            ghcr.io/piny940/portfolio-admin:1.0.${{ github.run_number }}
+            ghcr.io/piny940/portfolio-admin:latest
