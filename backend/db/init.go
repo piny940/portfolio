@@ -1,7 +1,7 @@
 package db
 
 import (
-	"admin-backend/domain"
+	"backend/domain"
 	"fmt"
 	"os"
 

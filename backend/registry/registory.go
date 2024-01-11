@@ -1,8 +1,8 @@
 package registry
 
 import (
-	"admin-backend/db"
-	"admin-backend/usecase"
+	"backend/db"
+	"backend/usecase"
 )
 
 type registry struct {

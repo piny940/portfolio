@@ -1,6 +1,6 @@
 package resolver
 
-import "admin-backend/loader"
+import "backend/loader"
 
 //go:generate go run github.com/99designs/gqlgen generate
 

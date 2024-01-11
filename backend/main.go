@@ -1,10 +1,10 @@
 package main
 
 import (
-	"admin-backend/config"
-	"admin-backend/db"
-	"admin-backend/registry"
-	"admin-backend/server"
+	"backend/config"
+	"backend/db"
+	"backend/registry"
+	"backend/server"
 	"flag"
 )
 
