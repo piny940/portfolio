@@ -49,7 +49,7 @@ jobs:
           tags: |
             ghcr.io/piny940/portfolio-backend:main-${{ github.sha }}-${{ github.run_number }}
 
-  admin-frontend:
+  admin:
     runs-on: ubuntu-latest
     steps:
       - name: Check out
@@ -66,9 +66,9 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          context: ./admin-frontend
+          context: ./admin
           build-args: |
             "BACKEND_HOST=http://portfolio-backend-staging.default.svc.cluster.local:8080"
-          file: ./admin-frontend/Dockerfile
+          file: ./admin/Dockerfile
           tags: |
-            ghcr.io/piny940/portfolio-admin-frontend:main-${{ github.sha }}-${{ github.run_number }}
+            ghcr.io/piny940/portfolio-admin:main-${{ github.sha }}-${{ github.run_number }}
