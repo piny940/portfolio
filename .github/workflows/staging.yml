@@ -68,7 +68,7 @@ jobs:
           push: true
           context: ./admin-frontend
           build-args: |
-            "BACKEND_HOST=http://portfolio-admin-backend-staging.default.svc.cluster.local"
+            "BACKEND_HOST=http://portfolio-admin-backend-staging.default.svc.cluster.local:8080"
           file: ./admin-frontend/Dockerfile
           tags: |
             ghcr.io/piny940/portfolio-admin-frontend:main-${{ github.sha }}-${{ github.run_number }}
