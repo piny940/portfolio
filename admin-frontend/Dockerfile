@@ -20,6 +20,8 @@ RUN --mount=type=bind,source=package.json,target=package.json \
 FROM deps as build
 
 COPY . .
+ARG BACKEND_HOST
+ENV BACKEND_HOST ${BACKEND_HOST}
 RUN yarn run build
 
 ################################################################################
