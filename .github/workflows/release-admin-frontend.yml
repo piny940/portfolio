@@ -18,12 +18,12 @@ jobs:
         uses: docker/setup-buildx-action@v3
       - name: Build and push Docker images
         uses: docker/build-push-action@v5
-        env:
-          BACKEND_HOST: https://portfolio-admin-backend.default.svc.cluster.local
         with:
           push: true
           context: ./admin-frontend
           file: ./admin-frontend/Dockerfile
+          build-args: |
+            "BACKEND_HOST=https://portfolio-admin-backend.default.svc.cluster.local"
           tags: |
             ghcr.io/piny940/portfolio-admin-frontend:1.0.${{ github.run_number }}
             ghcr.io/piny940/portfolio-admin-frontend:latest
