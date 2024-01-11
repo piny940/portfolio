@@ -15,6 +15,7 @@ import {
 import Error from 'next/error'
 import Link from 'next/link'
 import { useMemo } from 'react'
+import { dateLabel } from '../../utils/helpers'
 
 export const Technologies = (): JSX.Element => {
   const context = useMemo(() => ({ additionalTypenames: ['Technology'] }), [])
@@ -57,8 +58,8 @@ export const Technologies = (): JSX.Element => {
               <TableCell>{technology.name}</TableCell>
               <TableCell>{technology.logoUrl}</TableCell>
               <TableCell>{technology.tagColor}</TableCell>
-              <TableCell>{technology.createdAt}</TableCell>
-              <TableCell>{technology.updatedAt}</TableCell>
+              <TableCell>{dateLabel(technology.createdAt)}</TableCell>
+              <TableCell>{dateLabel(technology.updatedAt)}</TableCell>
               <TableCell
                 sx={{
                   '> * + *': {

@@ -12,6 +12,8 @@ import {
 import Error from 'next/error'
 import Link from 'next/link'
 import { useMemo } from 'react'
+import { BlogKind, blogKindLabel } from '../../utils/types'
+import { dateLabel } from '../../utils/helpers'
 
 export const Blogs = (): JSX.Element => {
   const context = useMemo(() => ({ additionalTypenames: ['Blog'] }), [])
@@ -53,9 +55,9 @@ export const Blogs = (): JSX.Element => {
               <TableCell>{blog.id}</TableCell>
               <TableCell>{blog.title}</TableCell>
               <TableCell>{blog.url}</TableCell>
-              <TableCell>{blog.kind}</TableCell>
-              <TableCell>{blog.createdAt}</TableCell>
-              <TableCell>{blog.updatedAt}</TableCell>
+              <TableCell>{blogKindLabel[blog.kind as BlogKind]}</TableCell>
+              <TableCell>{dateLabel(blog.createdAt)}</TableCell>
+              <TableCell>{dateLabel(blog.updatedAt)}</TableCell>
               <TableCell
                 sx={{
                   '> * + *': {
