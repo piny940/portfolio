@@ -4,7 +4,6 @@ import {
   Link as MuiLink,
   Typography,
 } from '@mui/material'
-import { useRouter } from 'next/router'
 
 export type BreadcrumbProps = {
   paths: Array<{
@@ -14,9 +13,6 @@ export type BreadcrumbProps = {
 }
 
 export const Breadcrumbs = ({ paths }: BreadcrumbProps): JSX.Element => {
-  const router = useRouter()
-
-  console.log(router)
   return (
     <MuiBreadcrumbs sx={{ m: 1 }} aria-label="breadcrumb">
       {paths.slice(0, paths.length - 1).map((path) => (
