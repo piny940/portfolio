@@ -3750,9 +3750,9 @@ func (ec *executionContext) _TechStack_technology(ctx context.Context, field gra
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*domain.Technology)
+	res := resTmp.(domain.Technology)
 	fc.Result = res
-	return ec.marshalNTechnology2ᚖbackendᚋdomainᚐTechnology(ctx, field.Selections, res)
+	return ec.marshalNTechnology2backendᚋdomainᚐTechnology(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_TechStack_technology(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
