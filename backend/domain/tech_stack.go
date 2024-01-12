@@ -5,8 +5,8 @@ import "time"
 type TechStack struct {
 	ID           uint `gorm:"primarykey"`
 	TechnologyID uint
-	Technology   Technology `gorm:"constraint:OnDelete:RESTRICT;"`
-	Proficiency  int        `gorm:"not null"`
+	Technology   Technology
+	Proficiency  int `gorm:"not null"`
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 }

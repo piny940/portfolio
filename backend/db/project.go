@@ -21,7 +21,7 @@ const (
 type ProjectLink struct {
 	gorm.Model
 	ProjectID string
-	Project   domain.Project
+	Project   domain.Project  `gorm:"constraint:OnDelete:CASCADE;"`
 	Url       string          `gorm:"type:varchar(255); not null"`
 	Kind      ProjectLinkKind `gorm:"not null"`
 }
