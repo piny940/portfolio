@@ -55,6 +55,7 @@ export const TechStacks = (): JSX.Element => {
             <TableRow key={techStack.id}>
               <TableCell>{techStack.id}</TableCell>
               <TableCell>{techStack.technology.name}</TableCell>
+              <TableCell>{techStack.proficiency}</TableCell>
               <TableCell>{dateLabel(techStack.createdAt)}</TableCell>
               <TableCell>{dateLabel(techStack.updatedAt)}</TableCell>
               <TableCell
