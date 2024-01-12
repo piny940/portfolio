@@ -27,7 +27,9 @@ func authHandler() echo.MiddlewareFunc {
 			}
 			useId, err := auth.VerifyJWTToken(token)
 			if err != nil || useId != os.Getenv("ADMIN_ID") {
-				return c.JSON(http.StatusUnauthorized, "invalid token")
+				return c.JSON(http.StatusUnauthorized, echo.Map{
+					"message": "invalid token",
+				})
 			}
 
 			return next(c)
@@ -40,7 +42,9 @@ func loginHandler() echo.HandlerFunc {
 		userId := c.FormValue("id")
 		password := c.FormValue("password")
 		if userId != os.Getenv("ADMIN_ID") || password != os.Getenv("ADMIN_PASSWORD") {
-			return c.JSON(http.StatusBadRequest, "invalid id or password")
+			return c.JSON(http.StatusBadRequest, echo.Map{
+				"message": "invalid id or password",
+			})
 		}
 		token, err := auth.CreateJWTToken(userId)
 		if err != nil {
