@@ -2,6 +2,7 @@ package server
 
 import (
 	"backend/config"
+	"os"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -16,6 +17,9 @@ func Init() error {
 	router.Any("/query", graphqlHandler())
 	router.GET("", playgroundHandler())
 	e.Use(corsHandler())
+	e.Use(middleware.KeyAuth(func(key string, c echo.Context) (bool, error) {
+		return key == os.Getenv("API_TOKEN"), nil
+	}))
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
