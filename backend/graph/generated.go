@@ -69,7 +69,6 @@ type ComplexityRoot struct {
 		DeleteProject     func(childComplexity int, id string) int
 		DeleteTechStack   func(childComplexity int, id uint) int
 		DeleteTechnology  func(childComplexity int, id uint) int
-		Login             func(childComplexity int, input domain.AuthInput) int
 		UpdateBlog        func(childComplexity int, id uint, input domain.BlogInput) int
 		UpdateBlogTags    func(childComplexity int, id uint, tags []uint) int
 		UpdateProject     func(childComplexity int, input domain.ProjectInput) int
@@ -129,7 +128,6 @@ type MutationResolver interface {
 	CreateTechnology(ctx context.Context, input domain.TechnologyInput) (*domain.Technology, error)
 	UpdateTechnology(ctx context.Context, id uint, input domain.TechnologyInput) (*domain.Technology, error)
 	DeleteTechnology(ctx context.Context, id uint) (*domain.Technology, error)
-	Login(ctx context.Context, input domain.AuthInput) (string, error)
 	CreateBlog(ctx context.Context, input domain.BlogInput) (*domain.Blog, error)
 	UpdateBlog(ctx context.Context, id uint, input domain.BlogInput) (*domain.Blog, error)
 	DeleteBlog(ctx context.Context, id uint) (*domain.Blog, error)
@@ -322,18 +320,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.DeleteTechnology(childComplexity, args["id"].(uint)), true
-
-	case "Mutation.login":
-		if e.complexity.Mutation.Login == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_login_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.Login(childComplexity, args["input"].(domain.AuthInput)), true
 
 	case "Mutation.updateBlog":
 		if e.complexity.Mutation.UpdateBlog == nil {
@@ -645,7 +631,6 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 	rc := graphql.GetOperationContext(ctx)
 	ec := executionContext{rc, e, 0, 0, make(chan graphql.DeferredResult)}
 	inputUnmarshalMap := graphql.BuildUnmarshalerMap(
-		ec.unmarshalInputAuthInput,
 		ec.unmarshalInputBlogInput,
 		ec.unmarshalInputProjectInput,
 		ec.unmarshalInputTechStackInput,
@@ -747,15 +732,6 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 }
 
 var sources = []*ast.Source{
-	{Name: "../schema/auth.gql", Input: `input AuthInput {
-  id: String!
-  password: String!
-}
-
-extend type Mutation {
-  login(input: AuthInput!): String!
-}
-`, BuiltIn: false},
 	{Name: "../schema/blog.gql", Input: `type Blog {
   id: Uint!
   title: String!
@@ -993,21 +969,6 @@ func (ec *executionContext) field_Mutation_deleteTechnology_args(ctx context.Con
 		}
 	}
 	args["id"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_login_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 domain.AuthInput
-	if tmp, ok := rawArgs["input"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalNAuthInput2backendᚋdomainᚐAuthInput(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["input"] = arg0
 	return args, nil
 }
 
@@ -1782,61 +1743,6 @@ func (ec *executionContext) fieldContext_Mutation_deleteTechnology(ctx context.C
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_deleteTechnology_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return fc, err
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Mutation_login(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_login(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().Login(rctx, fc.Args["input"].(domain.AuthInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Mutation_login(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_login_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -6046,40 +5952,6 @@ func (ec *executionContext) fieldContext___Type_specifiedByURL(ctx context.Conte
 
 // region    **************************** input.gotpl *****************************
 
-func (ec *executionContext) unmarshalInputAuthInput(ctx context.Context, obj interface{}) (domain.AuthInput, error) {
-	var it domain.AuthInput
-	asMap := map[string]interface{}{}
-	for k, v := range obj.(map[string]interface{}) {
-		asMap[k] = v
-	}
-
-	fieldsInOrder := [...]string{"id", "password"}
-	for _, k := range fieldsInOrder {
-		v, ok := asMap[k]
-		if !ok {
-			continue
-		}
-		switch k {
-		case "id":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-			data, err := ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.ID = data
-		case "password":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("password"))
-			data, err := ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Password = data
-		}
-	}
-
-	return it, nil
-}
-
 func (ec *executionContext) unmarshalInputBlogInput(ctx context.Context, obj interface{}) (domain.BlogInput, error) {
 	var it domain.BlogInput
 	asMap := map[string]interface{}{}
@@ -6440,13 +6312,6 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "deleteTechnology":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_deleteTechnology(ctx, field)
-			})
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "login":
-			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_login(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -7364,11 +7229,6 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 // endregion **************************** object.gotpl ****************************
 
 // region    ***************************** type.gotpl *****************************
-
-func (ec *executionContext) unmarshalNAuthInput2backendᚋdomainᚐAuthInput(ctx context.Context, v interface{}) (domain.AuthInput, error) {
-	res, err := ec.unmarshalInputAuthInput(ctx, v)
-	return res, graphql.ErrorOnPath(ctx, err)
-}
 
 func (ec *executionContext) marshalNBlog2backendᚋdomainᚐBlog(ctx context.Context, sel ast.SelectionSet, v domain.Blog) graphql.Marshaler {
 	return ec._Blog(ctx, sel, &v)
