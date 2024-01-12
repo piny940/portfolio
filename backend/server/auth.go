@@ -25,7 +25,7 @@ func authHandler() echo.MiddlewareFunc {
 			}
 			useId, err := auth.VerifyJWTToken(token)
 			if err != nil || useId != os.Getenv("ADMIN_ID") {
-				return err
+				return c.JSON(http.StatusUnauthorized, "invalid token")
 			}
 
 			return next(c)

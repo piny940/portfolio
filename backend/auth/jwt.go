@@ -2,7 +2,6 @@ package auth
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"time"
 
@@ -31,7 +30,7 @@ func VerifyJWTToken(tokenString string) (string, error) {
 		return []byte(os.Getenv("JWT_SECRET")), nil
 	})
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid && int64(claims["exp"].(float64)) > time.Now().Unix() {
 		return claims["userId"].(string), nil
