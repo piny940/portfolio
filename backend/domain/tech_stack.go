@@ -1,14 +1,14 @@
 package domain
 
-import (
-	"gorm.io/gorm"
-)
+import "time"
 
 type TechStack struct {
-	gorm.Model
+	ID           uint `gorm:"primarykey"`
 	TechnologyID uint
 	Technology   Technology `gorm:"constraint:OnDelete:RESTRICT;"`
 	Proficiency  int        `gorm:"not null"`
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
 }
 
 type ITechStackRepo interface {

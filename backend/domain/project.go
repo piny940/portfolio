@@ -17,6 +17,8 @@ type Project struct {
 	GithubLink  *string       `gorm:"-"`
 	QiitaLink   *string       `gorm:"-"`
 	AppLink     *string       `gorm:"-"`
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
 }
 
 type ProjectTechnologyTag struct {
