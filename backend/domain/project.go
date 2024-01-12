@@ -17,13 +17,15 @@ type Project struct {
 	GithubLink  *string       `gorm:"-"`
 	QiitaLink   *string       `gorm:"-"`
 	AppLink     *string       `gorm:"-"`
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
 }
 
 type ProjectTechnologyTag struct {
-	ProjectID    string `gorm:"primary_key"`
-	Project      Project
-	TechnologyID string `gorm:"primary_key"`
-	Technology   Technology
+	ProjectID    string     `gorm:"primary_key"`
+	Project      Project    `gorm:"constraint:OnDelete:CASCADE;"`
+	TechnologyID string     `gorm:"primary_key"`
+	Technology   Technology `gorm:"constraint:OnDelete:CASCADE;"`
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 }

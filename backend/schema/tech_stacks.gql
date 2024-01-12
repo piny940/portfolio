@@ -1,0 +1,24 @@
+type TechStack {
+  id: Uint!
+  technologyId: Uint!
+  technology: Technology!
+  proficiency: Int!
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+input TechStackInput {
+  technologyId: Uint!
+  proficiency: Int!
+}
+
+extend type Query {
+  techStacks: [TechStack!]!
+  techStack(id: Uint!): TechStack!
+}
+
+extend type Mutation {
+  createTechStack(input: TechStackInput!): TechStack!
+  updateTechStack(id: Uint!, input: TechStackInput!): TechStack!
+  deleteTechStack(id: Uint!): TechStack!
+}

@@ -30,6 +30,7 @@ func Init() {
 		&domain.BlogTechnologyTag{},
 		&domain.ProjectTechnologyTag{},
 		&ProjectLink{},
+		&domain.TechStack{},
 	); err != nil {
 		panic(err)
 	}

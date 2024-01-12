@@ -24,6 +24,11 @@ type ProjectInput struct {
 type Query struct {
 }
 
+type TechStackInput struct {
+	TechnologyID uint `json:"technologyId"`
+	Proficiency  int  `json:"proficiency"`
+}
+
 type TechnologyInput struct {
 	Name     string  `json:"name"`
 	LogoURL  *string `json:"logoUrl,omitempty"`

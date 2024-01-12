@@ -2,8 +2,6 @@ package domain
 
 import (
 	"time"
-
-	"gorm.io/gorm"
 )
 
 type BlogKind int
@@ -13,18 +11,20 @@ const (
 )
 
 type Blog struct {
-	gorm.Model
-	Title string        `gorm:"type:varchar(255); not null"`
-	Url   string        `gorm:"type:varchar(255); not null"`
-	Kind  BlogKind      `gorm:"not null"`
-	Tags  []*Technology `gorm:"many2many:blog_technology_tags;"`
+	ID        uint          `gorm:"primarykey"`
+	Title     string        `gorm:"type:varchar(255); not null"`
+	Url       string        `gorm:"type:varchar(255); not null"`
+	Kind      BlogKind      `gorm:"not null"`
+	Tags      []*Technology `gorm:"many2many:blog_technology_tags;"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 type BlogTechnologyTag struct {
-	BlogID       uint `gorm:"primary_key"`
-	Blog         Blog
-	TechnologyID uint `gorm:"primary_key"`
-	Technology   Technology
+	BlogID       uint       `gorm:"primary_key"`
+	Blog         Blog       `gorm:"constraint:OnDelete:CASCADE;"`
+	TechnologyID uint       `gorm:"primary_key"`
+	Technology   Technology `gorm:"constraint:OnDelete:CASCADE;"`
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 }
