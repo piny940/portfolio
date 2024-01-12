@@ -7,8 +7,8 @@ import (
 type TechStack struct {
 	gorm.Model
 	TechnologyID uint
-	Technology   Technology
-	Proficiency  int `gorm:"not null"`
+	Technology   Technology `gorm:"constraint:OnDelete:RESTRICT;"`
+	Proficiency  int        `gorm:"not null"`
 }
 
 type ITechStackRepo interface {

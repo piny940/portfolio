@@ -21,10 +21,10 @@ type Blog struct {
 }
 
 type BlogTechnologyTag struct {
-	BlogID       uint `gorm:"primary_key"`
-	Blog         Blog
-	TechnologyID uint `gorm:"primary_key"`
-	Technology   Technology
+	BlogID       uint       `gorm:"primary_key"`
+	Blog         Blog       `gorm:"constraint:OnDelete:CASCADE;"`
+	TechnologyID uint       `gorm:"primary_key"`
+	Technology   Technology `gorm:"constraint:OnDelete:CASCADE;"`
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 }
