@@ -1,5 +1,14 @@
-import { TechStackInput } from '@/graphql/types'
-import { Box, Button, TextField } from '@mui/material'
+import { TechStackInput, useGetTechnologiesQuery } from '@/graphql/types'
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from '@mui/material'
+import Error from 'next/error'
 import { Control, Controller } from 'react-hook-form'
 
 export type TechStackFormProps = {
@@ -11,7 +20,11 @@ export const TechStackForm = ({
   control,
   submit,
 }: TechStackFormProps): JSX.Element => {
+  const [{ data, error }] = useGetTechnologiesQuery()
   const requiredRule = { required: 'このフィールドは必須です。' }
+
+  if (error) return <Error statusCode={404} />
+  if (!data) return <>loading...</>
   return (
     <Box onSubmit={submit} component="form" sx={{ '> *': { margin: 2 } }}>
       <Box>
@@ -20,13 +33,16 @@ export const TechStackForm = ({
           name="technologyId"
           rules={requiredRule}
           render={({ field, fieldState }) => (
-            <TextField
-              fullWidth
-              label="Technology"
-              error={fieldState.invalid}
-              helperText={fieldState.error?.message}
-              {...field}
-            />
+            <FormControl fullWidth>
+              <InputLabel>Technology</InputLabel>
+              <Select error={fieldState.invalid} label="Technology" {...field}>
+                {data.technologies.map((tech) => (
+                  <MenuItem key={tech.id} value={tech.id}>
+                    {tech.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           )}
         />
       </Box>
