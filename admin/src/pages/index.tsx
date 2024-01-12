@@ -9,6 +9,9 @@ const Home: NextPage = () => {
         Home
       </Typography>
       <List>
+        <ListItemButton component={Link} href="/login">
+          <ListItemText primary="Login" />
+        </ListItemButton>
         <ListItemButton component={Link} href="/blogs">
           <ListItemText primary="Blogs" />
         </ListItemButton>
