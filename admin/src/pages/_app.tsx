@@ -3,12 +3,8 @@ import '../styles/globals.scss'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { Layout } from '@/layouts/Layout'
-import { Client, Provider, cacheExchange, fetchExchange } from 'urql'
-
-const client = new Client({
-  url: '/api/query',
-  exchanges: [cacheExchange, fetchExchange],
-})
+import { Provider } from 'urql'
+import client from '@/graphql/client'
 
 const theme = createTheme({
   palette: {

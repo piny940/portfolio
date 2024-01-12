@@ -10,9 +10,12 @@ import (
 func Init() error {
 	c := config.GetConfig()
 	e := echo.New()
+
 	router := e.Group(c.GetString("server.version"))
 
 	router.Use(EchoContextToContextMiddleware)
+	router.Use(authHandler())
+	router.POST("/login", loginHandler())
 	router.Any("/query", graphqlHandler())
 	router.GET("", playgroundHandler())
 	e.Use(corsHandler())
