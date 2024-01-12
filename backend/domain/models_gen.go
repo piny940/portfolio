@@ -2,6 +2,11 @@
 
 package domain
 
+type AuthInput struct {
+	ID       string `json:"id"`
+	Password string `json:"password"`
+}
+
 type BlogInput struct {
 	Title string `json:"title"`
 	URL   string `json:"url"`
