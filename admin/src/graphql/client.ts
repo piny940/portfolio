@@ -4,7 +4,10 @@ import { BACKEND_JWT_TOKEN_KEY } from '../../utils/constants'
 
 const getAuthConfig = async (utils: AuthUtilities): Promise<AuthConfig> => ({
   addAuthToOperation: (operation) => {
-    const token = localStorage.getItem(BACKEND_JWT_TOKEN_KEY)
+    let token = ''
+    if (typeof window !== 'undefined') {
+      token = localStorage.getItem(BACKEND_JWT_TOKEN_KEY) || ''
+    }
     return utils.appendHeaders(operation, {
       Authorization: `Bearer ${token}`,
     })

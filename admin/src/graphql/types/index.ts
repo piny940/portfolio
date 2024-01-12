@@ -156,6 +156,7 @@ export type Query = {
   __typename?: 'Query'
   blog: Blog
   blogs: Array<Blog>
+  me?: Maybe<Scalars['String']['output']>
   project: Project
   projects: Array<Project>
   techStack: TechStack
@@ -210,6 +211,10 @@ export type TechnologyInput = {
   name: Scalars['String']['input']
   tagColor: Scalars['String']['input']
 }
+
+export type GetMeQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetMeQuery = { __typename?: 'Query'; me?: string | null }
 
 export type GetBlogsQueryVariables = Exact<{ [key: string]: never }>
 
@@ -700,6 +705,20 @@ export type DeleteTechnologyMutation = {
   }
 }
 
+export const GetMeDocument = gql`
+  query getMe {
+    me
+  }
+`
+
+export function useGetMeQuery(
+  options?: Omit<Urql.UseQueryArgs<GetMeQueryVariables>, 'query'>
+) {
+  return Urql.useQuery<GetMeQuery, GetMeQueryVariables>({
+    query: GetMeDocument,
+    ...options,
+  })
+}
 export const GetBlogsDocument = gql`
   query getBlogs {
     blogs {
