@@ -2,6 +2,8 @@ import { Box, Button, TextField, Typography } from '@mui/material'
 import { Controller, useForm } from 'react-hook-form'
 import { serialize } from 'object-to-formdata'
 import { useRouter } from 'next/router'
+import { toStorage } from '../../utils/storage'
+import { BACKEND_JWT_TOKEN_KEY } from '../../utils/constants'
 
 type LoginInput = {
   id: string
@@ -24,6 +26,7 @@ export const Login = (): JSX.Element => {
       setError('password', { message: data.message })
       return
     }
+    toStorage(BACKEND_JWT_TOKEN_KEY, data.token as string)
     void router.push('/')
   }
   return (
