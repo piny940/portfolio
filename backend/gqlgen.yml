@@ -102,3 +102,5 @@ models:
         resolver: true
   Technology:
     model: backend/domain.Technology
+  TechStack:
+    model: backend/domain.TechStack

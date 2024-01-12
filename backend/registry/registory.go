@@ -33,3 +33,8 @@ func (r *registry) TechnologyUsecase() usecase.ITechnologyUsecase {
 	repo := db.NewTechnologyRepo(r.db)
 	return usecase.NewTechnologyUsecase(repo)
 }
+
+func (r *registry) TechStackUsecase() usecase.ITechStackUsecase {
+	repo := db.NewTechStackRepo(r.db)
+	return usecase.NewTechStackUsecase(repo)
+}
