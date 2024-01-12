@@ -2,6 +2,7 @@ package server
 
 import (
 	"backend/auth"
+	"backend/config"
 	"fmt"
 	"net/http"
 	"os"
@@ -13,7 +14,8 @@ import (
 func authHandler() echo.MiddlewareFunc {
 	return echo.MiddlewareFunc(func(next echo.HandlerFunc) echo.HandlerFunc {
 		return echo.HandlerFunc(func(c echo.Context) error {
-			if c.Path() == fmt.Sprintf("/%s/login", c.Param("version")) {
+			conf := config.GetConfig()
+			if c.Path() == fmt.Sprintf("/%s/login", conf.GetString("server.version")) {
 				return next(c)
 			}
 
