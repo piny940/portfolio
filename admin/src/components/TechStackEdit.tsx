@@ -9,10 +9,7 @@ import { useRouter } from 'next/router'
 import { TechStackForm } from './TechStackForm'
 
 export type TechStackEditProps = {
-  techStack: Pick<
-    TechStack,
-    'id' | 'technology' | 'technologyId' | 'proficiency'
-  >
+  techStack: Pick<TechStack, 'id' | 'technologyId' | 'proficiency'>
 }
 
 export const TechStackEdit = ({

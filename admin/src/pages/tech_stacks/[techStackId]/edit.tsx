@@ -1,25 +1,28 @@
-import { BlogEdit } from '@/components/BlogEdit'
+import { TechStackEdit } from '@/components/TechStackEdit'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
-import { useGetBlogWithTagsQuery } from '@/graphql/types'
 import Error from 'next/error'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
+import { useGetTechStackQuery } from '@/graphql/types'
 
-const BlogEditPage = (): JSX.Element => {
+const TechStackEditPage = (): JSX.Element => {
   const router = useRouter()
-  const { blogId } = router.query
+  const { techStackId } = router.query
 
-  const [{ data, error }] = useGetBlogWithTagsQuery({
-    variables: { id: parseInt(blogId as string) },
+  const [{ data, error }] = useGetTechStackQuery({
+    variables: { id: parseInt(techStackId as string) },
     pause: !router.isReady,
   })
   const paths = useMemo(
     () => [
       { name: 'Home', path: '/' },
-      { name: 'Blogs', path: '/blogs' },
-      { name: 'Edit Blog', path: `/blogs/${data?.blog?.id}/edit` },
+      { name: 'TechStacks', path: '/tech_stacks' },
+      {
+        name: 'Edit TechStack',
+        path: `/tech_stacks/${data?.techStack?.id}/edit`,
+      },
     ],
-    [data?.blog?.id]
+    [data?.techStack?.id]
   )
 
   if (error) return <Error statusCode={404} />
@@ -27,9 +30,9 @@ const BlogEditPage = (): JSX.Element => {
   return (
     <>
       <Breadcrumbs paths={paths} />
-      <BlogEdit blog={data.blog} />
+      <TechStackEdit techStack={data.techStack} />
     </>
   )
 }
 
-export default BlogEditPage
+export default TechStackEditPage
