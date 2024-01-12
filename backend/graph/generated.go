@@ -43,6 +43,7 @@ type ResolverRoot interface {
 	Mutation() MutationResolver
 	Project() ProjectResolver
 	Query() QueryResolver
+	TechStack() TechStackResolver
 }
 
 type DirectiveRoot struct {
@@ -151,6 +152,9 @@ type QueryResolver interface {
 	Project(ctx context.Context, id string) (*domain.Project, error)
 	TechStacks(ctx context.Context) ([]*domain.TechStack, error)
 	TechStack(ctx context.Context, id uint) (*domain.TechStack, error)
+}
+type TechStackResolver interface {
+	Technology(ctx context.Context, obj *domain.TechStack) (*domain.Technology, error)
 }
 
 type executableSchema struct {
@@ -3738,7 +3742,7 @@ func (ec *executionContext) _TechStack_technology(ctx context.Context, field gra
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Technology, nil
+		return ec.resolvers.TechStack().Technology(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3750,17 +3754,17 @@ func (ec *executionContext) _TechStack_technology(ctx context.Context, field gra
 		}
 		return graphql.Null
 	}
-	res := resTmp.(domain.Technology)
+	res := resTmp.(*domain.Technology)
 	fc.Result = res
-	return ec.marshalNTechnology2backendᚋdomainᚐTechnology(ctx, field.Selections, res)
+	return ec.marshalNTechnology2ᚖbackendᚋdomainᚐTechnology(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_TechStack_technology(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "TechStack",
 		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
+		IsMethod:   true,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
@@ -6758,32 +6762,63 @@ func (ec *executionContext) _TechStack(ctx context.Context, sel ast.SelectionSet
 		case "id":
 			out.Values[i] = ec._TechStack_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "technologyId":
 			out.Values[i] = ec._TechStack_technologyId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "technology":
-			out.Values[i] = ec._TechStack_technology(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._TechStack_technology(ctx, field, obj)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
 			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "proficiency":
 			out.Values[i] = ec._TechStack_proficiency(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "createdAt":
 			out.Values[i] = ec._TechStack_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "updatedAt":
 			out.Values[i] = ec._TechStack_updatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))

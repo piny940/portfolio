@@ -6,6 +6,7 @@ package resolver
 
 import (
 	"backend/domain"
+	"backend/graph"
 	"backend/registry"
 	"context"
 )
@@ -54,3 +55,16 @@ func (r *queryResolver) TechStack(ctx context.Context, id uint) (*domain.TechSta
 	}
 	return techStack, nil
 }
+
+func (r *techStackResolver) Technology(ctx context.Context, obj *domain.TechStack) (*domain.Technology, error) {
+	reg := registry.GetRegistry()
+	technology, err := reg.TechnologyUsecase().Find(obj.TechnologyID)
+	if err != nil {
+		return nil, err
+	}
+	return technology, nil
+}
+
+func (r *Resolver) TechStack() graph.TechStackResolver { return &techStackResolver{r} }
+
+type techStackResolver struct{ *Resolver }
