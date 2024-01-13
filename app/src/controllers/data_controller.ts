@@ -19,24 +19,18 @@ export interface PortfolioData {
 }
 
 export class DataController {
-  #data: PortfolioData
-
-  constructor() {
-    this.#data = this.#load()
+  getPortfolioData = async () => {
+    return await this.#load()
   }
 
-  getPortfolioData = () => {
-    return this.#data
-  }
-
-  #load = (): PortfolioData => {
+  #load = async (): Promise<PortfolioData> => {
     const fileLoader = new FileLoader()
     const yamlLoader = new YamlLoader()
     const projectsData = new ProjectsLoader(fileLoader, yamlLoader).load()
     const profileData = new ProfileLoader(yamlLoader).load()
     const technologiesData = new TechnologiesLoader(yamlLoader).load()
     const techStacksData = new TechStacksLoader(yamlLoader).load()
-    const blogsData = new BlogsLoader(yamlLoader).load()
+    const blogsData = await new BlogsLoader().load()
 
     return {
       projectsData,

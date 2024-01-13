@@ -1,16 +1,7 @@
 import { readFileSync } from 'fs'
 import { IFileLoader, IYamlLoader } from './_common'
 import { load } from 'js-yaml'
-import { Client } from 'pg'
-
-export const dbClient = new Client({
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  host: process.env.DB_HOST,
-  port: Number(process.env.DB_PORT),
-})
-await dbClient.connect()
+import { Client, cacheExchange, fetchExchange } from 'urql'
 
 export class FileLoader implements IFileLoader {
   load = (filename: string) => {
@@ -34,3 +25,14 @@ export class YamlLoader implements IYamlLoader {
     return load(content) as T
   }
 }
+
+export const gqlClient = new Client({
+  url: 'http://localhost:8080/v1/query',
+  exchanges: [cacheExchange, fetchExchange],
+  fetchOptions: () => {
+    const token = process.env.BACKEND_TOKEN || ''
+    return {
+      headers: { authorization: `Bearer ${token}` },
+    }
+  },
+})

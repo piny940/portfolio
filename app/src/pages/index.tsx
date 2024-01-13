@@ -7,7 +7,7 @@ type HomeProps = {
 }
 
 export const getStaticProps = async (): Promise<{ props: HomeProps }> => ({
-  props: { data: new DataController().getPortfolioData() },
+  props: { data: await new DataController().getPortfolioData() },
 })
 
 const Home: NextPage<HomeProps> = ({ data }) => {

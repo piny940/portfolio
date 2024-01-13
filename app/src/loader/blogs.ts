@@ -1,15 +1,17 @@
 import { BlogsData } from '@/models/blogs'
-import { IYamlLoader } from './_common'
+import { gqlClient } from './common'
+import { Blog, GetBlogsDocument } from '@/graphql/types'
 
 export class BlogsLoader {
-  #BLOGS_DATA_PATH = 'src/data/blogs.yml'
-  #loader
-
-  constructor(loader: IYamlLoader) {
-    this.#loader = loader
-  }
-
-  load() {
-    return this.#loader.load<BlogsData>(this.#BLOGS_DATA_PATH)
+  async load(): Promise<BlogsData> {
+    const {
+      data: { blogs },
+    } = await gqlClient.query(GetBlogsDocument, {}).toPromise()
+    if (!blogs) throw new Error('Failed to load blogs')
+    return blogs.map((blog: Blog) => ({
+      title: blog.title,
+      link: blog.url,
+      technologyIds: blog.tags.map((tech) => tech.id.toString()),
+    }))
   }
 }
