@@ -1,7 +1,10 @@
 import { readFileSync } from 'fs'
 import { IFileLoader, IYamlLoader } from './_common'
 import { load } from 'js-yaml'
-import { Client, cacheExchange, fetchExchange } from 'urql'
+import { Blog, Project, TechStack } from '@/resources/types'
+import { ProfileData } from '@/models/profile'
+import { queryGql } from '@/utils/api'
+import { ProfileLoader } from './profile'
 
 export class FileLoader implements IFileLoader {
   load = (filename: string) => {
@@ -26,13 +29,62 @@ export class YamlLoader implements IYamlLoader {
   }
 }
 
-export const gqlClient = new Client({
-  url: 'http://localhost:8080/v1/query',
-  exchanges: [cacheExchange, fetchExchange],
-  fetchOptions: () => {
-    const token = process.env.BACKEND_TOKEN || ''
-    return {
-      headers: { authorization: `Bearer ${token}` },
+const portfolioQuery = `
+query {
+  blogs {
+    id
+    title
+    url
+    tags {
+      id
+      name
+      tagColor
+      logoUrl
     }
-  },
-})
+  }
+  projects {
+    id
+    title
+    description
+    isFavorite
+    appLink
+    githubLink
+    qiitaLink
+    tags {
+      id
+      name
+      tagColor
+      logoUrl
+    }
+  }
+  techStacks {
+    id
+    technology {
+      id
+      name
+      tagColor
+      logoUrl
+    }
+    proficiency
+  }
+}
+`
+export type PortfolioData = {
+  profile: ProfileData
+  blogs: Blog[]
+  projects: Project[]
+  techStacks: TechStack[]
+}
+export const loadPortfolioData = async () => {
+  const profileLoader = new ProfileLoader(new YamlLoader())
+  const profile = profileLoader.load()
+  const data = await queryGql<{
+    blogs: Blog[]
+    projects: Project[]
+    techStacks: TechStack[]
+  }>(portfolioQuery)
+  return {
+    ...data,
+    profile,
+  }
+}
