@@ -4,17 +4,15 @@ import type { NextPage } from 'next'
 import Link from 'next/link'
 
 const Home: NextPage = () => {
-  const [{ data, error }] = useGetMeQuery()
+  const [{ data }] = useGetMeQuery()
 
-  if (error) return <div>{error.message}</div>
-  if (!data) return <div>loading...</div>
   return (
     <>
       <Typography variant="h4" component="h1">
         Home
       </Typography>
       <List>
-        {data.me ? (
+        {data?.me ? (
           <>
             <ListItemButton component={Link} href="/blogs">
               <ListItemText primary="Blogs" />

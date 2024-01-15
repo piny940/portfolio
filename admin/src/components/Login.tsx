@@ -63,6 +63,7 @@ export const Login = (): JSX.Element => {
             render={({ field, fieldState }) => (
               <TextField
                 fullWidth
+                type="password"
                 label="Password"
                 error={fieldState.invalid}
                 helperText={fieldState.error?.message}
