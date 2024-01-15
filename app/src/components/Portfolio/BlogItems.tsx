@@ -1,16 +1,16 @@
-import { Blog } from '@/models/blogs'
+import { Blog } from '@/resources/types'
 import BlogItem from './BlogItem'
 import { memo } from 'react'
 
 export type BlogItemsProps = {
-  blogs: readonly Blog[]
+  blogs: Blog[]
 }
 
 const BlogItems = ({ blogs }: BlogItemsProps): JSX.Element => {
   return (
     <div className="row row-cols-lg-2 w-100 align-items-stretch">
       {blogs.map((blog) => (
-        <div className="col-lg p-3 mb-3" key={blog.getTitle()}>
+        <div className="col-lg p-3 mb-3" key={blog.id}>
           <BlogItem blog={blog} />
         </div>
       ))}

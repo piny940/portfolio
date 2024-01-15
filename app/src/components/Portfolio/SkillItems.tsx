@@ -1,8 +1,8 @@
 import { SkillItem } from '@/components/Portfolio/SkillItem'
-import { TechStack } from '@/models/tech_stack'
+import { TechStack } from '@/resources/types'
 
 export type SkillsItemsProps = {
-  techStacks: readonly TechStack[]
+  techStacks: TechStack[]
   row?: number
 }
 
@@ -13,7 +13,7 @@ export const SkillItems: React.FC<SkillsItemsProps> = ({
   return (
     <ul className={`list-unstyled row row-cols-md-${row} mt-4`}>
       {techStacks.map((techStack) => (
-        <li className="col p-3 my-3" key={techStack.getTechnology().getId()}>
+        <li className="col p-3 my-3" key={techStack.id}>
           <SkillItem techStack={techStack} />
         </li>
       ))}

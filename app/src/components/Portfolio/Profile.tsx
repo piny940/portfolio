@@ -1,5 +1,4 @@
 import { useTheme } from '@/context/ThemeProvider'
-import { Profile } from '@/models/profile'
 import Image from 'next/image'
 import Link from 'next/link'
 import styled from 'styled-components'
@@ -8,6 +7,7 @@ import githubIcon from '../../resources/images/common/github.png'
 import qiitaIcon from '../../resources/images/common/qiita.png'
 import profileIcon from '../../resources/images/profile/icon.png'
 import background from '../../resources/images/profile/background.png'
+import { ProfileData } from '@/models/profile'
 
 const BgDiv = styled.div`
   opacity: 0.3;
@@ -27,7 +27,7 @@ const ProfileDiv = styled.div`
 
 export type ProfilesProps = {
   className?: string
-  profile: Profile
+  profile: ProfileData
 }
 
 export const Profiles: React.FC<ProfilesProps> = ({
@@ -58,7 +58,7 @@ export const Profiles: React.FC<ProfilesProps> = ({
           <li>
             <Link
               target="_blank"
-              href={profile.getGithub()}
+              href={profile.github}
               className="unstyled mx-1"
             >
               <Image
@@ -72,7 +72,7 @@ export const Profiles: React.FC<ProfilesProps> = ({
           </li>
           <li>
             <Link
-              href={profile.getQiita()}
+              href={profile.qiita}
               target="_blank"
               className="unstyled mx-1"
             >
@@ -80,7 +80,7 @@ export const Profiles: React.FC<ProfilesProps> = ({
             </Link>
           </li>
         </ul>
-        <p className="mt-3 top-profile">{profile.getFrontDescription()}</p>
+        <p className="mt-3 top-profile">{profile.frontDescription}</p>
       </ProfileDiv>
     </div>
   )
