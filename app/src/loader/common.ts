@@ -1,16 +1,10 @@
 import { readFileSync } from 'fs'
 import { IFileLoader, IYamlLoader } from './_common'
 import { load } from 'js-yaml'
-import { Client } from 'pg'
-
-export const dbClient = new Client({
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  host: process.env.DB_HOST,
-  port: Number(process.env.DB_PORT),
-})
-await dbClient.connect()
+import { Blog, Project, TechStack, Technology } from '@/resources/types'
+import { ProfileData } from '@/models/profile'
+import { queryGql } from '@/utils/api'
+import { ProfileLoader } from './profile'
 
 export class FileLoader implements IFileLoader {
   load = (filename: string) => {
@@ -32,5 +26,73 @@ export class YamlLoader implements IYamlLoader {
   load = <T = any>(filename: string): T => {
     const content = this.#fileLoader.load(filename)
     return load(content) as T
+  }
+}
+
+const portfolioQuery = `
+query {
+  blogs {
+    id
+    title
+    url
+    tags {
+      id
+      name
+      tagColor
+      logoUrl
+    }
+  }
+  projects {
+    id
+    title
+    description
+    isFavorite
+    appLink
+    githubLink
+    qiitaLink
+    tags {
+      id
+      name
+      tagColor
+      logoUrl
+    }
+  }
+  techStacks {
+    id
+    technology {
+      id
+      name
+      tagColor
+      logoUrl
+    }
+    proficiency
+  }
+  technologies {
+    id
+    name
+    tagColor
+    logoUrl
+  }
+}
+`
+export type PortfolioData = {
+  profile: ProfileData
+  blogs: Blog[]
+  projects: Project[]
+  techStacks: TechStack[]
+  technologies: Technology[]
+}
+export const loadPortfolioData = async () => {
+  const profileLoader = new ProfileLoader(new YamlLoader())
+  const profile = profileLoader.load()
+  const data = await queryGql<{
+    blogs: Blog[]
+    projects: Project[]
+    techStacks: TechStack[]
+    technologies: Technology[]
+  }>(portfolioQuery)
+  return {
+    ...data,
+    profile,
   }
 }

@@ -1,21 +1,18 @@
 import { SkillItems } from '../components/Portfolio/SkillItems'
 import ProjectItems from '../components/Portfolio/ProjectItems'
-import { PortfolioController } from '@/controllers/portfolio_controller'
-import { PortfolioData } from '@/controllers/data_controller'
 import { Profiles } from '@/components/Portfolio/Profile'
 import Link from 'next/link'
 import BlogItems from '@/components/Portfolio/BlogItems'
+import { PortfolioData } from '@/loader/common'
 
 export type IndexProps = {
   data: PortfolioData
 }
 
 export const Index = ({ data }: IndexProps): JSX.Element => {
-  const controller = new PortfolioController(data)
-
   return (
     <div id="index">
-      <Profiles className="bg-body" profile={controller.profile} />
+      <Profiles className="bg-body" profile={data.profile} />
       <section
         id="skills"
         className="d-flex flex-column align-items-center w-75 p-5 mx-auto"
@@ -23,10 +20,7 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
         <Link href="/skills" className="unstyled">
           <h2 className="h1 text-center title-underline">技術スタック</h2>
         </Link>
-        <SkillItems
-          row={2}
-          techStacks={controller.techStacks.sortedByProficiency(6)}
-        />
+        <SkillItems row={2} techStacks={data.techStacks} />
         <Link href="/skills" className="h5 text-primary">
           もっと見る
         </Link>
@@ -40,10 +34,7 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
           <h2 className="h1 text-center title-underline">プロジェクト</h2>
         </Link>
         <div className="mt-5">
-          <ProjectItems
-            row={2}
-            projects={controller.projects.sortedByFavorite(6)}
-          />
+          <ProjectItems row={2} projects={data.projects} />
         </div>
         <Link href="/projects" className="h5 text-primary">
           <span>もっと見る</span>
@@ -58,7 +49,7 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
           <h2 className="h1 text-center title-underline">ブログ一覧</h2>
         </Link>
         <div className="mt-5 w-100">
-          <BlogItems blogs={controller.blogs.sortedByDates(4)} />
+          <BlogItems blogs={data.blogs} />
         </div>
         <Link href="/blogs" className="h5 text-primary">
           <span>もっと見る</span>

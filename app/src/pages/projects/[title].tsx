@@ -1,5 +1,5 @@
 import { ProjectShow } from '@/containers/Project'
-import { DataController, PortfolioData } from '@/controllers/data_controller'
+import { PortfolioData, loadPortfolioData } from '@/loader/common'
 import { GetStaticPaths } from 'next'
 import { useRouter } from 'next/router'
 
@@ -8,11 +8,8 @@ type ProjectProps = {
 }
 
 export const getStaticProps = async (): Promise<{ props: ProjectProps }> => {
-  const dataController = new DataController()
-  const data = dataController.getPortfolioData()
-
   return {
-    props: { data },
+    props: { data: await loadPortfolioData() },
   }
 }
 export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {

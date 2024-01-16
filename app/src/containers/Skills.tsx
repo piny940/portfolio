@@ -1,16 +1,15 @@
-import { PortfolioData } from '@/controllers/data_controller'
 import { memo } from 'react'
-import { PortfolioController } from '@/controllers/portfolio_controller'
 import { SkillItem } from '@/components/Portfolio/SkillItem'
 import Breadcrumb from '@/components/Common/Breadcrumb'
+import { TechStack } from '@/resources/types'
 
 export type SkillsProps = {
-  data: PortfolioData
+  data: {
+    techStacks: TechStack[]
+  }
 }
 
 const Skills = ({ data }: SkillsProps): JSX.Element => {
-  const controller = new PortfolioController(data)
-
   const paths = [
     { name: 'トップページ', path: '/' },
     { name: '技術スタック', path: '/skills' },
@@ -22,11 +21,8 @@ const Skills = ({ data }: SkillsProps): JSX.Element => {
       <div className="container mb-5 d-flex align-items-center flex-column">
         <h1 className="h1 text-center title-underline">技術スタック</h1>
         <ul className="list-unstyled row row-cols-md-3 mt-4">
-          {controller.techStacks.sortedByProficiency().map((techStack) => (
-            <li
-              className="col p-3 my-3"
-              key={techStack.getTechnology().getId()}
-            >
+          {data.techStacks.map((techStack) => (
+            <li className="col p-3 my-3" key={techStack.technology.id}>
               <SkillItem techStack={techStack} />
             </li>
           ))}

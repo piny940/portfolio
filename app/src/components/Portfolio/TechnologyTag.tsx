@@ -1,8 +1,8 @@
-import { Technology } from '@/models/technology'
 import Badge from './Badge'
 import { TestID } from '@/resources/TestID'
 import { memo } from 'react'
 import Link from 'next/link'
+import { Technology } from '@/resources/types'
 
 export type TechnologyTagProps = {
   technology: Technology
@@ -14,11 +14,11 @@ const TechnologyTag = ({
   size,
 }: TechnologyTagProps): JSX.Element => {
   return (
-    <Link href={`/skills/${technology.getId()}`}>
+    <Link href={`/skills/${technology.id}`}>
       <Badge
         testId={TestID.TECHNOLOGY_BADGE}
-        color={technology.getTagColor()}
-        label={`#${technology.getName()}`}
+        color={technology.tagColor}
+        label={`#${technology.name}`}
         size={size}
       />
     </Link>

@@ -7,9 +7,9 @@ import githubWhiteIcon from '../../resources/images/common/github-white.png'
 import githubIcon from '../../resources/images/common/github.png'
 import qiitaIcon from '../../resources/images/common/qiita.png'
 import { useMemo } from 'react'
-import { Project } from '@/models/project'
 import FavoriteIcon from './FavoriteIcon'
 import { TestID } from '@/resources/TestID'
+import { Project } from '@/resources/types'
 
 const FavoriteIconDiv = styled.div`
   position: absolute;
@@ -27,12 +27,12 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
   className = '',
 }) => {
   const { theme } = useTheme()
-  const githubLink = useMemo(() => project.getGithub(), [project])
-  const projectLink = useMemo(() => project.getLink(), [project])
-  const qiita = useMemo(() => project.getQiita(), [project])
+  const githubLink = useMemo(() => project.githubLink, [project])
+  const projectLink = useMemo(() => project.appLink, [project])
+  const qiita = useMemo(() => project.qiitaLink, [project])
 
   const renderTitle = () => (
-    <h3 className="h5 my-1 title-underline pb-1">{project.getTitle()}</h3>
+    <h3 className="h5 my-1 title-underline pb-1">{project.title}</h3>
   )
 
   return (
@@ -43,13 +43,13 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
         className
       }
     >
-      {project.getIsFavorite() && (
+      {project.isFavorite && (
         <FavoriteIconDiv>
           <FavoriteIcon size={42} />
         </FavoriteIconDiv>
       )}
-      {project.getDetail() ? (
-        <Link className="unstyled" href={`/projects/${project.getTitle()}`}>
+      {project.qiitaLink ? (
+        <Link className="unstyled" href={project.qiitaLink}>
           {renderTitle()}
         </Link>
       ) : (
@@ -90,13 +90,10 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
       <div className="d-flex flex-column align-items-center mt-1">
         <h4 className="small text-muted fw-normal p-0 m-0">使用技術</h4>
         <p className="small text-muted text-center">
-          {project
-            .getTechnologies()
-            .map((tech) => tech.getName())
-            .join(', ')}
+          {project.tags.map((tech) => tech.name).join(', ')}
         </p>
       </div>
-      <p className="">{project.getDescription()}</p>
+      <p className="">{project.description}</p>
     </div>
   )
 }

@@ -1,9 +1,9 @@
 import { ProjectItem } from '@/components/Portfolio/ProjectItem'
-import { Project } from '@/models/project'
+import { Project } from '@/resources/types'
 import { memo } from 'react'
 
 export type ProjectItemsProps = {
-  projects: readonly Project[]
+  projects: Project[]
   row?: number
 }
 
@@ -13,7 +13,7 @@ const ProjectItems: React.FC<ProjectItemsProps> = ({ projects, row = 3 }) => {
       className={`row row-cols-md-2 row-cols-xl-${row} d-flex align-items-stretch w-100`}
     >
       {projects.map((project) => (
-        <div className="col-md p-3 mb-3" key={project.getTitle()}>
+        <div className="col-md p-3 mb-3" key={project.title}>
           <ProjectItem project={project} />
         </div>
       ))}

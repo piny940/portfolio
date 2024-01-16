@@ -4,15 +4,12 @@ import { Mock } from 'ts-mockery'
 import ProjectItems, {
   ProjectItemsProps,
 } from '@/components/Portfolio/ProjectItems'
-import { PortfolioController } from '@/controllers/portfolio_controller'
 import { data } from '../../testHelpers/mock'
 import { TestID } from '@/resources/TestID'
 
 describe('<ProjectItems />', () => {
-  const controller = new PortfolioController(data)
-
   it('正常に描画される', async () => {
-    const projects = controller.projects.getProjects()
+    const projects = data.projects
     const props = Mock.from<ProjectItemsProps>({ projects })
     const component = render(<ProjectItems {...props} />)
 

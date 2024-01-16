@@ -1,12 +1,12 @@
 import Projects from '@/containers/Projects'
-import { DataController, PortfolioData } from '@/controllers/data_controller'
+import { PortfolioData, loadPortfolioData } from '@/loader/common'
 
 type ProjectsProps = {
   data: PortfolioData
 }
 
 export const getStaticProps = async (): Promise<{ props: ProjectsProps }> => ({
-  props: { data: new DataController().getPortfolioData() },
+  props: { data: await loadPortfolioData() },
 })
 
 const ProjectsPage = ({ data }: ProjectsProps): JSX.Element => {
