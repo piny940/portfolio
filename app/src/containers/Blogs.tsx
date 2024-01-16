@@ -1,15 +1,15 @@
-import { PortfolioData } from '@/controllers/data_controller'
-import { PortfolioController } from '@/controllers/portfolio_controller'
 import { memo } from 'react'
 import BlogItems from '@/components/Portfolio/BlogItems'
 import Breadcrumb from '@/components/Common/Breadcrumb'
+import { Blog } from '@/resources/types'
 
 export type BlogsProps = {
-  data: PortfolioData
+  data: {
+    blogs: Blog[]
+  }
 }
 
 const Blogs = ({ data }: BlogsProps): JSX.Element => {
-  const controller = new PortfolioController(data)
   const paths = [
     { name: 'トップページ', path: '/' },
     { name: 'ブログ一覧', path: '/blogs' },
@@ -24,7 +24,7 @@ const Blogs = ({ data }: BlogsProps): JSX.Element => {
       >
         <h1 className="h1 text-center title-underline">ブログ一覧</h1>
         <div className="mt-4">
-          <BlogItems blogs={controller.blogs.sortedByDates()} />
+          <BlogItems blogs={data.blogs} />
         </div>
       </section>
     </>

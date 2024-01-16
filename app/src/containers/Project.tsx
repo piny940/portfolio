@@ -1,42 +1,42 @@
 import Breadcrumb from '@/components/Common/Breadcrumb'
 import { MarkdownDisplay } from '@/components/Common/MarkdownDisplay'
 import TechnologyTag from '@/components/Portfolio/TechnologyTag'
-import { PortfolioData } from '@/controllers/data_controller'
-import { PortfolioController } from '@/controllers/portfolio_controller'
+import { Project } from '@/resources/types'
 import Error from 'next/error'
 import Link from 'next/link'
 import { useMemo } from 'react'
 
 export type ProjectShowProps = {
   title: string
-  data: PortfolioData
+  data: {
+    projects: Project[]
+  }
 }
 
 export const ProjectShow: React.FC<ProjectShowProps> = ({ title, data }) => {
-  const controller = useMemo(() => new PortfolioController(data), [data])
   const project = useMemo(() => {
-    const projects = controller.projects.getProjects()
-    return projects.find((project) => project.getTitle() === title)
-  }, [title, controller])
-  const link = useMemo(() => project?.getLink(), [project])
-  const github = useMemo(() => project?.getGithub(), [project])
+    const projects = data.projects
+    return projects.find((project) => project.title === title)
+  }, [title, data])
+  const link = useMemo(() => project?.appLink, [project])
+  const github = useMemo(() => project?.githubLink, [project])
 
   if (!project) return <Error statusCode={400} />
 
   const paths = [
     { name: 'トップページ', path: '/' },
     { name: 'プロジェクト', path: '/projects' },
-    { name: project.getTitle(), path: `/projects/${title}` },
+    { name: project.title, path: `/projects/${title}` },
   ]
 
   return (
     <>
       <Breadcrumb paths={paths} />
       <div className="mx-auto px-5">
-        <h1 className="title-underline ps-2">{project.getTitle()}</h1>
+        <h1 className="title-underline ps-2">{project.title}</h1>
         <ul className="list-unstyled d-flex mx-4 flex-wrap">
-          {project.getTechnologies().map((tech) => (
-            <li key={tech.getId()} className="mx-1">
+          {project.tags.map((tech) => (
+            <li key={tech.id} className="mx-1">
               <TechnologyTag technology={tech} size={15} />
             </li>
           ))}
@@ -60,7 +60,7 @@ export const ProjectShow: React.FC<ProjectShowProps> = ({ title, data }) => {
           )}
         </ul>
         <div className="markdown pb-5">
-          <MarkdownDisplay content={project.getDetail()} />
+          <MarkdownDisplay content={project.description} />
         </div>
       </div>
     </>
