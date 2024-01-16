@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs'
 import { IFileLoader, IYamlLoader } from './_common'
 import { load } from 'js-yaml'
-import { Blog, Project, TechStack } from '@/resources/types'
+import { Blog, Project, TechStack, Technology } from '@/resources/types'
 import { ProfileData } from '@/models/profile'
 import { queryGql } from '@/utils/api'
 import { ProfileLoader } from './profile'
@@ -67,6 +67,12 @@ query {
     }
     proficiency
   }
+  technologies {
+    id
+    name
+    tagColor
+    logoUrl
+  }
 }
 `
 export type PortfolioData = {
@@ -74,6 +80,7 @@ export type PortfolioData = {
   blogs: Blog[]
   projects: Project[]
   techStacks: TechStack[]
+  technologies: Technology[]
 }
 export const loadPortfolioData = async () => {
   const profileLoader = new ProfileLoader(new YamlLoader())
@@ -82,6 +89,7 @@ export const loadPortfolioData = async () => {
     blogs: Blog[]
     projects: Project[]
     techStacks: TechStack[]
+    technologies: Technology[]
   }>(portfolioQuery)
   return {
     ...data,

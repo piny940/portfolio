@@ -1,5 +1,5 @@
 import Skill from '@/containers/Skill'
-import { DataController, PortfolioData } from '@/controllers/data_controller'
+import { PortfolioData, loadPortfolioData } from '@/loader/common'
 import { GetStaticPaths } from 'next'
 import { useRouter } from 'next/router'
 
@@ -8,11 +8,8 @@ type SkillProps = {
 }
 
 export const getStaticProps = async (): Promise<{ props: SkillProps }> => {
-  const dataController = new DataController()
-  const data = dataController.getPortfolioData()
-
   return {
-    props: { data },
+    props: { data: await loadPortfolioData() },
   }
 }
 export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
@@ -25,7 +22,7 @@ export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
 const SkillPage = ({ data }: SkillProps): JSX.Element => {
   const router = useRouter()
   const id = router.query.id as string
-  return <Skill id={id} data={data} />
+  return <Skill id={parseInt(id)} data={data} />
 }
 
 export default SkillPage
