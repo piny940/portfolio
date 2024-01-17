@@ -26,7 +26,6 @@ export const ProjectForm = ({
   isEdit,
 }: ProjectFormProps): JSX.Element => {
   const requiredRule = { required: 'このフィールドは必須です。' }
-  console.log(isEdit)
   return (
     <Box onSubmit={submit} component="form" sx={{ '> *': { margin: 2 } }}>
       <Box>

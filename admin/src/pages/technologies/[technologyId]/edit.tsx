@@ -13,7 +13,6 @@ const TechnologyEditPage = (): JSX.Element => {
     variables: { id: parseInt(technologyId as string) },
     pause: !router.isReady,
   })
-  console.log(router)
   const paths = useMemo(
     () => [
       { name: 'Home', path: '/' },
