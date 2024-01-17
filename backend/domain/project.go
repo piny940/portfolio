@@ -2,13 +2,9 @@ package domain
 
 import (
 	"time"
-
-	"gorm.io/gorm"
 )
 
 type Project struct {
-	gorm.Model
-
 	ID          string        `gorm:"primaryKey; type:varchar(127); not null"`
 	Title       string        `gorm:"type:varchar(127); not null"`
 	Description string        `gorm:"type:varchar(255); not null"`

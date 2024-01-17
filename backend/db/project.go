@@ -2,8 +2,8 @@ package db
 
 import (
 	"backend/domain"
+	"time"
 
-	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
 
@@ -19,11 +19,13 @@ const (
 )
 
 type ProjectLink struct {
-	gorm.Model
+	ID        uint `gorm:"primarykey"`
 	ProjectID string
 	Project   domain.Project  `gorm:"constraint:OnDelete:CASCADE;"`
 	Url       string          `gorm:"type:varchar(255); not null"`
 	Kind      ProjectLinkKind `gorm:"not null"`
+	CreatedAt time.Time       `gorm:"type:timestamp; not null;"`
+	UpdatedAt time.Time       `gorm:"type:timestamp; not null;"`
 }
 
 func NewProjectRepo(db *DB) domain.IProjectRepo {
