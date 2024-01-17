@@ -3,9 +3,11 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   app:
+    needs: backend
     runs-on: ubuntu-latest
     steps:
       - name: Check out
@@ -53,6 +55,7 @@ jobs:
             ghcr.io/piny940/portfolio-backend:main-${{ github.sha }}-${{ github.run_number }}
 
   admin:
+    needs: backend
     runs-on: ubuntu-latest
     steps:
       - name: Check out
