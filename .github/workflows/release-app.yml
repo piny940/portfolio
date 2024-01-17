@@ -23,6 +23,9 @@ jobs:
           push: true
           context: ./app
           file: ./app/Dockerfile
+          build-args: |
+            BACKEND_HOST=http://portfolio-app-backend.default.svc.cluster.local:8080
+            BACKEND_TOKEN=${{ secrets.BACKEND_API_TOKEN }}
           tags: |
             ghcr.io/piny940/portfolio-app:1.0.${{ github.run_number }}
             ghcr.io/piny940/portfolio-app:latest
