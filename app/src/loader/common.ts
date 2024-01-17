@@ -1,8 +1,13 @@
 import { readFileSync } from 'fs'
 import { IFileLoader, IYamlLoader } from './_common'
 import { load } from 'js-yaml'
-import { Blog, Project, TechStack, Technology } from '@/resources/types'
-import { ProfileData } from '@/models/profile'
+import {
+  Blog,
+  Profile,
+  Project,
+  TechStack,
+  Technology,
+} from '@/resources/types'
 import { queryGql } from '@/utils/api'
 import { ProfileLoader } from './profile'
 
@@ -76,7 +81,7 @@ query {
 }
 `
 export type PortfolioData = {
-  profile: ProfileData
+  profile: Profile
   blogs: Blog[]
   projects: Project[]
   techStacks: TechStack[]

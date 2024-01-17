@@ -7,7 +7,7 @@ import githubIcon from '../../resources/images/common/github.png'
 import qiitaIcon from '../../resources/images/common/qiita.png'
 import profileIcon from '../../resources/images/profile/icon.png'
 import background from '../../resources/images/profile/background.png'
-import { ProfileData } from '@/models/profile'
+import { Profile } from '@/resources/types'
 
 const BgDiv = styled.div`
   opacity: 0.3;
@@ -27,7 +27,7 @@ const ProfileDiv = styled.div`
 
 export type ProfilesProps = {
   className?: string
-  profile: ProfileData
+  profile: Profile
 }
 
 export const Profiles: React.FC<ProfilesProps> = ({

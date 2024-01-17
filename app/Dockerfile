@@ -31,6 +31,12 @@ RUN --mount=type=bind,source=package.json,target=package.json \
 # Create a stage for building the application.
 FROM deps as build
 
+ARG BACKEND_HOST
+ENV BACKEND_HOST $BACKEND_HOST
+
+ARG BACKEND_TOKEN
+ENV BACKEND_TOKEN $BACKEND_TOKEN
+
 # Copy the rest of the source files into the image.
 COPY . .
 # Run the build script.

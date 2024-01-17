@@ -1,4 +1,4 @@
-import { ProfileData } from '@/models/profile'
+import { Profile } from '@/resources/types'
 import { IYamlLoader } from './_common'
 
 export class ProfileLoader {
@@ -10,6 +10,6 @@ export class ProfileLoader {
   }
 
   load = () => {
-    return this.#loader.load<ProfileData>(this.#PROFILE_DATA_PATH)
+    return this.#loader.load<Profile>(this.#PROFILE_DATA_PATH)
   }
 }

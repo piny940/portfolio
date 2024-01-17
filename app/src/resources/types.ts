@@ -27,3 +27,9 @@ export type TechStack = {
   technology: Technology
   proficiency: number
 }
+
+export type Profile = {
+  frontDescription: string
+  qiita: string
+  github: string
+}
