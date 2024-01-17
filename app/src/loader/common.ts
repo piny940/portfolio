@@ -10,6 +10,10 @@ import {
 } from '@/resources/types'
 import { queryGql } from '@/utils/api'
 import { ProfileLoader } from './profile'
+import {
+  sortProjectsByFavorite,
+  sortTechStacksByProficiency,
+} from '@/utils/helpers'
 
 export class FileLoader implements IFileLoader {
   load = (filename: string) => {
@@ -96,6 +100,8 @@ export const loadPortfolioData = async () => {
     techStacks: TechStack[]
     technologies: Technology[]
   }>(portfolioQuery)
+  data.projects = sortProjectsByFavorite(data.projects)
+  data.techStacks = sortTechStacksByProficiency(data.techStacks)
   return {
     ...data,
     profile,
