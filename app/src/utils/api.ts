@@ -1,3 +1,4 @@
+console.log('Backend host:', process.env.BACKEND_HOST)
 export const queryGql = async <T>(query: string) => {
   const response = await fetch(`${process.env.BACKEND_HOST || ''}/v1/query`, {
     method: 'POST',
