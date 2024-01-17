@@ -50,6 +50,9 @@ func (r *projectRepo) ListTags(projectIds []string) ([]*domain.Technology, error
 	if result.Error != nil {
 		return nil, result.Error
 	}
+	if len(projectTechnologyTags) == 0 {
+		return []*domain.Technology{}, nil
+	}
 	technologyIds := make([]string, len(projectTechnologyTags))
 	for i, tag := range projectTechnologyTags {
 		technologyIds[i] = tag.TechnologyID
@@ -68,6 +71,12 @@ func (r *projectRepo) UpdateTags(projectId string, technologyIds []uint) ([]*dom
 	result := r.db.Client.Where("id = ?", projectId).First(&project)
 	if result.Error != nil {
 		return nil, result.Error
+	}
+	if len(technologyIds) == 0 {
+		if err := r.db.Client.Model(&project).Association("Tags").Clear(); err != nil {
+			return nil, err
+		}
+		return []*domain.Technology{}, nil
 	}
 	var technologies []*domain.Technology
 	result = r.db.Client.Find(&technologies, technologyIds)

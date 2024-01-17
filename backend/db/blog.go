@@ -17,6 +17,9 @@ func (*blogRepo) ListTags(blogIds []uint) ([]*domain.Technology, error) {
 	if result.Error != nil {
 		return nil, result.Error
 	}
+	if len(blogTechnologyTags) == 0 {
+		return []*domain.Technology{}, nil
+	}
 	technologyIds := make([]uint, len(blogTechnologyTags))
 	for i, blogTechnologyTag := range blogTechnologyTags {
 		technologyIds[i] = blogTechnologyTag.TechnologyID
@@ -34,6 +37,12 @@ func (r *blogRepo) UpdateTags(blogId uint, technologyIds []uint) ([]*domain.Tech
 	result := r.db.Client.First(&blog, blogId)
 	if result.Error != nil {
 		return nil, result.Error
+	}
+	if len(technologyIds) == 0 {
+		if err := r.db.Client.Model(&blog).Association("Tags").Clear(); err != nil {
+			return nil, err
+		}
+		return []*domain.Technology{}, nil
 	}
 	technologies := []*domain.Technology{}
 	result = r.db.Client.Find(&technologies, technologyIds)
