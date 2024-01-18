@@ -8,10 +8,16 @@ import {
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import { TechTagsFormFields } from './TechTagsEdit'
+import dayjs from 'dayjs'
 
 export const BlogNew = (): JSX.Element => {
   const { handleSubmit, getValues, control } = useForm<BlogInput>({
-    defaultValues: { kind: 0, title: '', url: '' },
+    defaultValues: {
+      kind: 0,
+      title: '',
+      url: '',
+      publishedAt: dayjs().toJSON(),
+    },
   })
   const { getValues: getTagsValues, control: tagsControl } =
     useForm<TechTagsFormFields>({

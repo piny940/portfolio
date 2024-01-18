@@ -6,7 +6,7 @@ import { BlogForm } from './BlogForm'
 import { TechTagsFormFields } from './TechTagsEdit'
 
 export type BlogEditProps = {
-  blog: Pick<Blog, 'id' | 'title' | 'kind' | 'url' | 'tags'>
+  blog: Pick<Blog, 'id' | 'title' | 'kind' | 'url' | 'tags' | 'publishedAt'>
 }
 
 export const BlogEdit = ({ blog }: BlogEditProps): JSX.Element => {
@@ -15,6 +15,7 @@ export const BlogEdit = ({ blog }: BlogEditProps): JSX.Element => {
       title: blog.title,
       kind: blog.kind,
       url: blog.url,
+      publishedAt: blog.publishedAt,
     },
   })
   const { getValues: getTagsValues, control: tagsControl } =
