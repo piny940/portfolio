@@ -44,6 +44,7 @@ export const Blogs = (): JSX.Element => {
             <TableCell>Title</TableCell>
             <TableCell>Url</TableCell>
             <TableCell>Kind</TableCell>
+            <TableCell>PublishedAt</TableCell>
             <TableCell>CreatedAt</TableCell>
             <TableCell>UpdatedAt</TableCell>
             <TableCell>Links</TableCell>
@@ -56,6 +57,7 @@ export const Blogs = (): JSX.Element => {
               <TableCell>{blog.title}</TableCell>
               <TableCell>{blog.url}</TableCell>
               <TableCell>{blogKindLabel[blog.kind as BlogKind]}</TableCell>
+              <TableCell>{dateLabel(blog.publishedAt)}</TableCell>
               <TableCell>{dateLabel(blog.createdAt)}</TableCell>
               <TableCell>{dateLabel(blog.updatedAt)}</TableCell>
               <TableCell

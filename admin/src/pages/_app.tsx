@@ -5,6 +5,8 @@ import Head from 'next/head'
 import { Layout } from '@/layouts/Layout'
 import { Provider } from 'urql'
 import client from '@/graphql/client'
+import { LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 const theme = createTheme({
   palette: {
@@ -25,15 +27,17 @@ const theme = createTheme({
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={theme}>
-      <Head>
-        <meta content="width=device-width,initial-scale=1" name="viewport" />
-      </Head>
-      <CssBaseline />
-      <Provider value={client}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </Provider>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <Head>
+          <meta content="width=device-width,initial-scale=1" name="viewport" />
+        </Head>
+        <CssBaseline />
+        <Provider value={client}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </Provider>
+      </LocalizationProvider>
     </ThemeProvider>
   )
 }

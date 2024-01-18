@@ -12,6 +12,8 @@ import {
 import { allBlogKinds, blogKindLabel } from '../../utils/types'
 import { Control, Controller } from 'react-hook-form'
 import { TechTagsEdit, TechTagsFormFields } from './TechTagsEdit'
+import { DatePicker } from '@mui/x-date-pickers'
+import dayjs from 'dayjs'
 
 export type BlogFormProps = {
   submit: () => void
@@ -81,6 +83,24 @@ export const BlogForm = ({
               helperText={fieldState.error?.message}
               {...field}
             />
+          )}
+        />
+      </Box>
+      <Box>
+        <Controller
+          name="publishedAt"
+          control={control}
+          rules={requiredRule}
+          render={({ field, fieldState }) => (
+            <FormControl fullWidth>
+              <DatePicker
+                label="PublishedAt"
+                {...field}
+                value={dayjs(field.value)}
+                onChange={(value) => field.onChange(value?.toISOString())}
+              />
+              <FormHelperText>{fieldState.error?.message}</FormHelperText>
+            </FormControl>
           )}
         />
       </Box>

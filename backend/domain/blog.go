@@ -11,13 +11,14 @@ const (
 )
 
 type Blog struct {
-	ID        uint          `gorm:"primarykey"`
-	Title     string        `gorm:"type:varchar(255); not null"`
-	Url       string        `gorm:"type:varchar(255); not null"`
-	Kind      BlogKind      `gorm:"not null"`
-	Tags      []*Technology `gorm:"many2many:blog_technology_tags;"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	ID          uint          `gorm:"primarykey"`
+	Title       string        `gorm:"type:varchar(255); not null"`
+	Url         string        `gorm:"type:varchar(255); not null"`
+	Kind        BlogKind      `gorm:"not null"`
+	Tags        []*Technology `gorm:"many2many:blog_technology_tags;"`
+	PublishedAt time.Time
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
 }
 
 type BlogTechnologyTag struct {

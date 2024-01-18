@@ -4,6 +4,7 @@ query getBlogs {
     title
     url
     kind
+    publishedAt
     createdAt
     updatedAt
   }
@@ -14,6 +15,7 @@ query getBlog($id: Uint!) {
     title
     url
     kind
+    publishedAt
     createdAt
     updatedAt
   }
@@ -24,6 +26,7 @@ query getBlogWithTags($id: Uint!) {
     title
     url
     kind
+    publishedAt
     createdAt
     updatedAt
     tags {
@@ -42,6 +45,7 @@ mutation createBlog($input: BlogInput!) {
     title
     url
     kind
+    publishedAt
     createdAt
     updatedAt
   }
@@ -52,6 +56,7 @@ mutation updateBlogWithTags($id: Uint!, $input: BlogInput!, $tags: [Uint!]!) {
     title
     url
     kind
+    publishedAt
     createdAt
     updatedAt
   }
@@ -70,6 +75,7 @@ mutation deleteBlog($id: Uint!) {
     title
     url
     kind
+    publishedAt
     createdAt
     updatedAt
   }

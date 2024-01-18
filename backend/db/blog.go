@@ -58,9 +58,10 @@ func (r *blogRepo) UpdateTags(blogId uint, technologyIds []uint) ([]*domain.Tech
 // Create implements domain.IBlogRepo.
 func (r *blogRepo) Create(input domain.BlogInput) (*domain.Blog, error) {
 	blog := domain.Blog{
-		Title: input.Title,
-		Kind:  domain.BlogKind(input.Kind),
-		Url:   input.URL,
+		Title:       input.Title,
+		Kind:        domain.BlogKind(input.Kind),
+		Url:         input.URL,
+		PublishedAt: input.PublishedAt,
 	}
 	result := r.db.Client.Clauses(clause.Returning{}).Create(&blog)
 	if result.Error != nil {
@@ -108,6 +109,7 @@ func (r *blogRepo) Update(id uint, input domain.BlogInput) (*domain.Blog, error)
 	blog.Title = input.Title
 	blog.Kind = domain.BlogKind(input.Kind)
 	blog.Url = input.URL
+	blog.PublishedAt = input.PublishedAt
 	result = r.db.Client.Clauses(clause.Returning{}).Save(&blog)
 	if result.Error != nil {
 		return nil, result.Error

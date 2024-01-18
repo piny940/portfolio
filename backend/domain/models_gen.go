@@ -2,10 +2,15 @@
 
 package domain
 
+import (
+	"time"
+)
+
 type BlogInput struct {
-	Title string `json:"title"`
-	URL   string `json:"url"`
-	Kind  int    `json:"kind"`
+	Title       string    `json:"title"`
+	URL         string    `json:"url"`
+	Kind        int       `json:"kind"`
+	PublishedAt time.Time `json:"publishedAt"`
 }
 
 type Mutation struct {

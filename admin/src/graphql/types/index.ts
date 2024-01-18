@@ -37,6 +37,7 @@ export type Blog = {
   createdAt: Scalars['Time']['output']
   id: Scalars['Uint']['output']
   kind: Scalars['Int']['output']
+  publishedAt: Scalars['Time']['output']
   tags: Array<Technology>
   title: Scalars['String']['output']
   updatedAt: Scalars['Time']['output']
@@ -45,6 +46,7 @@ export type Blog = {
 
 export type BlogInput = {
   kind: Scalars['Int']['input']
+  publishedAt: Scalars['Time']['input']
   title: Scalars['String']['input']
   url: Scalars['String']['input']
 }
@@ -226,6 +228,7 @@ export type GetBlogsQuery = {
     title: string
     url: string
     kind: number
+    publishedAt: string
     createdAt: string
     updatedAt: string
   }>
@@ -243,6 +246,7 @@ export type GetBlogQuery = {
     title: string
     url: string
     kind: number
+    publishedAt: string
     createdAt: string
     updatedAt: string
   }
@@ -260,6 +264,7 @@ export type GetBlogWithTagsQuery = {
     title: string
     url: string
     kind: number
+    publishedAt: string
     createdAt: string
     updatedAt: string
     tags: Array<{
@@ -286,6 +291,7 @@ export type CreateBlogMutation = {
     title: string
     url: string
     kind: number
+    publishedAt: string
     createdAt: string
     updatedAt: string
   }
@@ -305,6 +311,7 @@ export type UpdateBlogWithTagsMutation = {
     title: string
     url: string
     kind: number
+    publishedAt: string
     createdAt: string
     updatedAt: string
   }
@@ -331,6 +338,7 @@ export type DeleteBlogMutation = {
     title: string
     url: string
     kind: number
+    publishedAt: string
     createdAt: string
     updatedAt: string
   }
@@ -726,6 +734,7 @@ export const GetBlogsDocument = gql`
       title
       url
       kind
+      publishedAt
       createdAt
       updatedAt
     }
@@ -747,6 +756,7 @@ export const GetBlogDocument = gql`
       title
       url
       kind
+      publishedAt
       createdAt
       updatedAt
     }
@@ -768,6 +778,7 @@ export const GetBlogWithTagsDocument = gql`
       title
       url
       kind
+      publishedAt
       createdAt
       updatedAt
       tags {
@@ -797,6 +808,7 @@ export const CreateBlogDocument = gql`
       title
       url
       kind
+      publishedAt
       createdAt
       updatedAt
     }
@@ -815,6 +827,7 @@ export const UpdateBlogWithTagsDocument = gql`
       title
       url
       kind
+      publishedAt
       createdAt
       updatedAt
     }
@@ -842,6 +855,7 @@ export const DeleteBlogDocument = gql`
       title
       url
       kind
+      publishedAt
       createdAt
       updatedAt
     }
