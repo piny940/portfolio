@@ -11,9 +11,7 @@ const query = async (query: string, variables: any) => {
   })
   const json = await response.json()
   if (response.status !== 200) {
-    throw new Error(
-      'error occurred in query: ' + JSON.stringify(json.errors)
-    )
+    throw new Error('error occurred in query: ' + JSON.stringify(json.errors))
   }
   return json
 }

@@ -20,7 +20,7 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
         <Link href="/skills" className="unstyled">
           <h2 className="h1 text-center title-underline">技術スタック</h2>
         </Link>
-        <SkillItems row={2} techStacks={data.techStacks} />
+        <SkillItems row={2} techStacks={data.techStacks.slice(0, 6)} />
         <Link href="/skills" className="h5 text-primary">
           もっと見る
         </Link>
@@ -34,7 +34,7 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
           <h2 className="h1 text-center title-underline">プロジェクト</h2>
         </Link>
         <div className="mt-5">
-          <ProjectItems row={2} projects={data.projects} />
+          <ProjectItems row={2} projects={data.projects.slice(0, 6)} />
         </div>
         <Link href="/projects" className="h5 text-primary">
           <span>もっと見る</span>
@@ -49,7 +49,7 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
           <h2 className="h1 text-center title-underline">ブログ一覧</h2>
         </Link>
         <div className="mt-5 w-100">
-          <BlogItems blogs={data.blogs} />
+          <BlogItems blogs={data.blogs.slice(0, 4)} />
         </div>
         <Link href="/blogs" className="h5 text-primary">
           <span>もっと見る</span>
