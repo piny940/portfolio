@@ -1,73 +1,41 @@
 import { initConfig } from './config'
-import { initOctokit } from './github'
+import { createBlog, getBlogs } from './graphql/query'
+import { Blog, BlogInput } from './graphql/types'
 
 initConfig()
-const owner = process.env.REPOSITORY_OWNER as string
-const repo = process.env.REPOSITORY_NAME as string
-const branchName = process.env.BRANCH_NAME as string
+
+const getQiitaBlogs = async () => {
+  const response = await fetch(
+    'https://qiita.com/api/v2/authenticated_user/items?per_page=100',
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.QIITA_API_TOKEN}`,
+      },
+    }
+  )
+  const json = await response.json()
+  return json
+}
+const filterNewBlogs = (desiredBlogs: BlogInput[], currentBlogs: Blog[]) => {
+  const currentBlogUrls = currentBlogs.map((blog) => blog.url)
+  return desiredBlogs.filter((blog: any) => !currentBlogUrls.includes(blog.url))
+}
 
 const main = async () => {
-  const octokit = await initOctokit()
-  const { data: branchesData } = await octokit.request(
-    'GET /repos/{owner}/{repo}/branches',
-    {
-      owner,
-      repo,
-    }
-  )
-  const masterBranch = branchesData.find((branch) => branch.name === branchName)
-  if (!masterBranch) throw new Error(`Branch ${branchName} not found`)
-
-  const { data: tree } = await octokit.request(
-    'POST /repos/{owner}/{repo}/git/trees',
-    {
-      owner,
-      repo,
-      tree: [
-        {
-          path: 'test.txt',
-          mode: '100644',
-          type: 'blob',
-          content: 'test',
-        },
-      ],
-      base_tree: masterBranch.commit.sha,
-    }
-  )
-  const { data: commit } = await octokit.request(
-    'POST /repos/{owner}/{repo}/git/commits',
-    {
-      owner,
-      repo,
-      message: 'test',
-      tree: tree.sha,
-      parents: [masterBranch.commit.sha],
-    }
-  )
-  console.log(commit)
-  const { data: ref } = await octokit.request(
-    'POST /repos/{owner}/{repo}/git/refs',
-    {
-      owner,
-      repo,
-      ref: `refs/heads/update-blog-${Date.now()}`,
-      sha: commit.sha,
-    }
-  )
-  console.log(ref)
-  const { data: pr } = await octokit.request(
-    'POST /repos/{owner}/{repo}/pulls',
-    {
-      owner,
-      repo,
-      title: 'test',
-      head: ref.ref,
-      base: branchName,
-    }
-  )
-  console.log(pr)
-
-  // console.log(branches)
+  const qiitaBlogs = await getQiitaBlogs()
+  const desiredBlogs: BlogInput[] = qiitaBlogs.map((blog: any) => ({
+    kind: 0, // Qiita
+    publishedAt: blog.created_at,
+    title: blog.title,
+    url: blog.url,
+  }))
+  const currentBlogs = await getBlogs()
+  const newBlogs = filterNewBlogs(desiredBlogs, currentBlogs)
+  const createdBlogs: Blog[] = []
+  for (const blog of newBlogs) {
+    const newBlog = await createBlog(blog)
+    createdBlogs.push(newBlog)
+  }
 }
 
 main()
