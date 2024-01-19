@@ -1,6 +1,8 @@
 name: Build App to Update Data
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "12 4 * * *"
 
 jobs:
   production:
