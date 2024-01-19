@@ -10,6 +10,7 @@ export type Blog = {
   id: number
   title: string
   url: string
+  publishedAt: string
   tags: Technology[]
 }
 export type Project = {
