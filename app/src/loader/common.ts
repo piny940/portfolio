@@ -11,6 +11,7 @@ import {
 import { queryGql } from '@/utils/api'
 import { ProfileLoader } from './profile'
 import {
+  sortBlogsByPublishedAt,
   sortProjectsByFavorite,
   sortTechStacksByProficiency,
 } from '@/utils/helpers'
@@ -44,6 +45,7 @@ query {
     id
     title
     url
+    publishedAt
     tags {
       id
       name
@@ -102,6 +104,7 @@ export const loadPortfolioData = async () => {
   }>(portfolioQuery)
   data.projects = sortProjectsByFavorite(data.projects)
   data.techStacks = sortTechStacksByProficiency(data.techStacks)
+  data.blogs = sortBlogsByPublishedAt(data.blogs)
   return {
     ...data,
     profile,
