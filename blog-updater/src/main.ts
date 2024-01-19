@@ -1,6 +1,7 @@
 import { initConfig } from './config'
 import { createBlog, getBlogs } from './graphql/query'
 import { Blog, BlogInput } from './graphql/types'
+import { sendSlackMessage } from './slack'
 
 initConfig()
 
@@ -36,6 +37,15 @@ const main = async () => {
     const newBlog = await createBlog(blog)
     createdBlogs.push(newBlog)
   }
+  sendSlackMessage(`
+  ${createdBlogs.length} new blogs were created.
+  ${createdBlogs.map((blog) => `{
+    kind: ${blog.kind}
+    title: ${blog.title}
+    url: ${blog.url}
+    publishedAt: ${blog.publishedAt}
+  },
+  `).join('')}`)
 }
 
 main()
