@@ -2,12 +2,14 @@ name: Build App to Update Data
 on:
   workflow_dispatch:
   schedule:
-    - cron: "*/6 * * * *"
+    - cron: "12 4 * * *"
 
 jobs:
   production:
     runs-on: ubuntu-latest
     steps:
+      - name: Get current datetime
+        run: echo "TIMESTAMP=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
       - name: Check out
         uses: actions/checkout@v3
         with:
@@ -30,11 +32,13 @@ jobs:
             BACKEND_HOST=https://portfolio-backend.piny940.com
             BACKEND_TOKEN=${{ secrets.BACKEND_API_TOKEN }}
           tags: |
-            ghcr.io/piny940/portfolio-app:1.0.${{ github.run_number }}
+            ghcr.io/piny940/portfolio-app:1.0.0-${{ env.TIMESTAMP }}
             ghcr.io/piny940/portfolio-app:latest
   staging:
     runs-on: ubuntu-latest
     steps:
+      - name: Get current datetime
+        run: echo "TIMESTAMP=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
       - name: Check out
         uses: actions/checkout@v3
       - name: Login to GitHub Container Registry
@@ -55,4 +59,4 @@ jobs:
             BACKEND_HOST=https://portfolio-backend-staging.piny940.com
             BACKEND_TOKEN=${{ secrets.BACKEND_API_TOKEN }}
           tags: |
-            ghcr.io/piny940/portfolio-app:main-${{ github.sha }}-${{ github.run_number }}
+            ghcr.io/piny940/portfolio-app:main-${{ github.sha }}-${{ env.TIMESTAMP }}
