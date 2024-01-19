@@ -8,5 +8,8 @@ export const queryGql = async <T>(query: string) => {
     body: JSON.stringify({ query }),
   })
   const json = await response.json()
+  if (json.errors) {
+    throw new Error(json.errors)
+  }
   return json.data as T
 }
