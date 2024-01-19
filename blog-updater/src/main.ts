@@ -1,6 +1,11 @@
 import { initConfig } from './config'
-import { createBlog, getBlogs } from './graphql/query'
-import { Blog, BlogInput } from './graphql/types'
+import {
+  createBlog,
+  getBlogs,
+  getTechnologies,
+  updateBlogTags,
+} from './graphql/query'
+import { Blog, BlogInput, Technology } from './graphql/types'
 import { sendSlackMessage } from './slack'
 
 initConfig()
@@ -17,9 +22,49 @@ const getQiitaBlogs = async () => {
   const json = await response.json()
   return json
 }
+const getTags = (qiitaTags: { name: string }[]) => {
+  const tagNames = qiitaTags.map((tag) => tag.name)
+  const map: { [key in string]: string[] } = {
+    'Next.js': ['React.js', 'React', 'Typescript'],
+    React: ['React.js'],
+  }
+  return tagNames.map((tag) => (map[tag] || []).concat([tag])).flat()
+}
+const isSameTag = (tag1: string, tag2: string) => {
+  return tag1.toLowerCase() === tag2.toLowerCase()
+}
+const getTagIds = (
+  qiitaTags: { name: string }[],
+  allTechnologies: Technology[]
+) => {
+  const tags = getTags(qiitaTags)
+  const tagIds: number[] = []
+  for (const tag of tags) {
+    const technology = allTechnologies.find((t) => isSameTag(t.name, tag))
+    if (technology) {
+      tagIds.push(technology.id)
+    }
+  }
+  return tagIds
+}
 const filterNewBlogs = (desiredBlogs: BlogInput[], currentBlogs: Blog[]) => {
   const currentBlogUrls = currentBlogs.map((blog) => blog.url)
   return desiredBlogs.filter((blog: any) => !currentBlogUrls.includes(blog.url))
+}
+const notifyToSlack = (newBlogs: Blog[]) => {
+  sendSlackMessage(`
+  ${newBlogs.length} new blogs were created.
+  ${newBlogs
+    .map(
+      (blog) => `{
+    kind: ${blog.kind}
+    title: ${blog.title}
+    url: ${blog.url}
+    publishedAt: ${blog.publishedAt}
+    tags: ${blog.tags.map((tag) => tag.name).join(', ')},
+  `
+    )
+    .join('')}`)
 }
 
 const main = async () => {
@@ -30,22 +75,24 @@ const main = async () => {
     title: blog.title,
     url: blog.url,
   }))
+  const allTechnologies = await getTechnologies()
+  const urlTagIdsMap: { [key in string]: number[] } = {}
+  for (const blog of qiitaBlogs) {
+    const tagIds = getTagIds(blog.tags, allTechnologies)
+    urlTagIdsMap[blog.url] = tagIds
+  }
   const currentBlogs = await getBlogs()
   const newBlogs = filterNewBlogs(desiredBlogs, currentBlogs)
   const createdBlogs: Blog[] = []
   for (const blog of newBlogs) {
     const newBlog = await createBlog(blog)
-    createdBlogs.push(newBlog)
+    const tags = await updateBlogTags(newBlog.id, urlTagIdsMap[blog.url])
+    createdBlogs.push({
+      ...newBlog,
+      tags,
+    })
   }
-  sendSlackMessage(`
-  ${createdBlogs.length} new blogs were created.
-  ${createdBlogs.map((blog) => `{
-    kind: ${blog.kind}
-    title: ${blog.title}
-    url: ${blog.url}
-    publishedAt: ${blog.publishedAt}
-  },
-  `).join('')}`)
+  notifyToSlack(createdBlogs)
 }
 
 main()

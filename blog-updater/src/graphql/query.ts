@@ -1,4 +1,4 @@
-import { Blog, BlogInput } from './types'
+import { Blog, BlogInput, Technology } from './types'
 
 const query = async (query: string, variables: any) => {
   const response = await fetch(`${process.env.BACKEND_HOST || ''}/v1/query`, {
@@ -32,6 +32,22 @@ export const getBlogs = async () => {
   )
   return data.blogs as Blog[]
 }
+export const getTechnologies = async () => {
+  const { data } = await query(
+    `query getTechnologies {
+    technologies {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
+  }`,
+    {}
+  )
+  return data.technologies as Technology[]
+}
 export const createBlog = async (input: BlogInput) => {
   const { data } = await query(
     `mutation createBlog($input: BlogInput!) {
@@ -48,4 +64,20 @@ export const createBlog = async (input: BlogInput) => {
     { input }
   )
   return data.createBlog as Blog
+}
+export const updateBlogTags = async (id: number, tags: number[]) => {
+  const { data } = await query(
+    `mutation updateBlogTags($id: Uint!, $tags: [Uint!]!) {
+    updateBlogTags(id: $id, tags: $tags) {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
+  }`,
+    { id, tags }
+  )
+  return data.updateBlogTags as Technology[]
 }

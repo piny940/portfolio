@@ -227,6 +227,21 @@ export type GetBlogsQuery = {
   }>
 }
 
+export type GetTechnologiesQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetTechnologiesQuery = {
+  __typename?: 'Query'
+  technologies: Array<{
+    __typename?: 'Technology'
+    id: number
+    name: string
+    logoUrl?: string | null
+    tagColor: string
+    createdAt: string
+    updatedAt: string
+  }>
+}
+
 export type CreateBlogMutationVariables = Exact<{
   input: BlogInput
 }>
@@ -243,4 +258,22 @@ export type CreateBlogMutation = {
     createdAt: string
     updatedAt: string
   }
+}
+
+export type UpdateBlogTagsMutationVariables = Exact<{
+  id: Scalars['Uint']['input']
+  tags: Array<Scalars['Uint']['input']> | Scalars['Uint']['input']
+}>
+
+export type UpdateBlogTagsMutation = {
+  __typename?: 'Mutation'
+  updateBlogTags: Array<{
+    __typename?: 'Technology'
+    id: number
+    name: string
+    logoUrl?: string | null
+    tagColor: string
+    createdAt: string
+    updatedAt: string
+  } | null>
 }
