@@ -33,7 +33,6 @@ USER node
 
 COPY package.json .
 
-COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY --from=build /usr/src/app/out/main.js ./out/main.js
 
 CMD node out/main.js
