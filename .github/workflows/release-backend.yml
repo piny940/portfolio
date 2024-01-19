@@ -11,7 +11,7 @@ jobs:
       - name: Create Release Branch
         run: |
           git switch -c release-backend
-          git push --set-upstream origin release-backend
+          git push --set-upstream -f origin release-backend
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Login to GitHub Container Registry
