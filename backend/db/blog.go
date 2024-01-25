@@ -92,7 +92,7 @@ func (r *blogRepo) Find(id uint) (*domain.Blog, error) {
 
 func (r *blogRepo) List() ([]*domain.Blog, error) {
 	var blogs []*domain.Blog
-	result := r.db.Client.Find(&blogs)
+	result := r.db.Client.Order("published_at DESC").Find(&blogs)
 	if result.Error != nil {
 		return nil, result.Error
 	}
