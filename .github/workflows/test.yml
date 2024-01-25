@@ -31,16 +31,15 @@ jobs:
           key: app-node-v${{ env.NODE_VERSION }}-deps-${{ hashFiles(format('{0}{1}', github.workspace, '/yarn.lock')) }}
       - name: Yarn install
         run: yarn --cwd app install
+      - name: Test
+        run: yarn --cwd app test
       - name: Prettier && ESLint
         run: if yarn --cwd app lint |& grep -E "(error|warn)"; then exit 1; fi
       - name: Yarn test
         run: if yarn --cwd app test |& grep -E "failed"; then exit 1; fi
         env:
-          DB_USER: postgres
-          DB_PASSWORD: postgres
-          DB_HOST: localhost
-          DB_PORT: 5432
-          DB_NAME: portfolio_test
+          BACKEND_TOKEN: 123
+          BACKEND_HOST: http://localhost:8000
 
   blog-updater:
     env:
