@@ -11,7 +11,7 @@ jobs:
       - name: Get current datetime
         run: echo "TIMESTAMP=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
       - name: Check out
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: release-app
       - name: Login to GitHub Container Registry
@@ -40,7 +40,7 @@ jobs:
       - name: Get current datetime
         run: echo "TIMESTAMP=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
       - name: Check out
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
