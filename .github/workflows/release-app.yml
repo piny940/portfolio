@@ -9,7 +9,7 @@ jobs:
       - name: Get current datetime
         run: echo "TIMESTAMP=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
       - name: Check out
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Create Release Branch
         run: |
           git switch -c release-app
