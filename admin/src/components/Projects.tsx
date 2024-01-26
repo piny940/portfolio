@@ -43,6 +43,7 @@ export const Projects = (): JSX.Element => {
             <TableCell>Title</TableCell>
             <TableCell>Description</TableCell>
             <TableCell>IsFavorite</TableCell>
+            <TableCell>Position</TableCell>
             <TableCell>CreatedAt</TableCell>
             <TableCell>UpdatedAt</TableCell>
             <TableCell>Links</TableCell>
@@ -55,6 +56,7 @@ export const Projects = (): JSX.Element => {
               <TableCell>{project.title}</TableCell>
               <TableCell>{project.description}</TableCell>
               <TableCell>{project.isFavorite ? 'true' : 'false'}</TableCell>
+              <TableCell>{project.position}</TableCell>
               <TableCell>{dateLabel(project.createdAt)}</TableCell>
               <TableCell>{dateLabel(project.updatedAt)}</TableCell>
               <TableCell

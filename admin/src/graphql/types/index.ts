@@ -63,6 +63,7 @@ export type Mutation = {
   deleteTechnology: Technology
   updateBlog: Blog
   updateBlogTags: Array<Maybe<Technology>>
+  updateOrder: Array<Project>
   updateProject: Project
   updateProjectTags: Array<Technology>
   updateTechStack: TechStack
@@ -111,6 +112,10 @@ export type MutationUpdateBlogTagsArgs = {
   tags: Array<Scalars['Uint']['input']>
 }
 
+export type MutationUpdateOrderArgs = {
+  input: UpdateOrderInput
+}
+
 export type MutationUpdateProjectArgs = {
   input: ProjectInput
 }
@@ -138,6 +143,7 @@ export type Project = {
   githubLink?: Maybe<Scalars['String']['output']>
   id: Scalars['String']['output']
   isFavorite: Scalars['Boolean']['output']
+  position: Scalars['Int']['output']
   qiitaLink?: Maybe<Scalars['String']['output']>
   tags: Array<Technology>
   title: Scalars['String']['output']
@@ -150,6 +156,7 @@ export type ProjectInput = {
   githubLink?: InputMaybe<Scalars['String']['input']>
   id: Scalars['String']['input']
   isFavorite: Scalars['Boolean']['input']
+  position?: InputMaybe<Scalars['Int']['input']>
   qiitaLink?: InputMaybe<Scalars['String']['input']>
   title: Scalars['String']['input']
 }
@@ -212,6 +219,10 @@ export type TechnologyInput = {
   logoUrl?: InputMaybe<Scalars['String']['input']>
   name: Scalars['String']['input']
   tagColor: Scalars['String']['input']
+}
+
+export type UpdateOrderInput = {
+  ids: Array<Scalars['String']['input']>
 }
 
 export type GetMeQueryVariables = Exact<{ [key: string]: never }>
@@ -372,6 +383,7 @@ export type GetProjectsQuery = {
     title: string
     description: string
     isFavorite: boolean
+    position: number
     appLink?: string | null
     githubLink?: string | null
     qiitaLink?: string | null
@@ -392,6 +404,7 @@ export type GetProjectQuery = {
     title: string
     description: string
     isFavorite: boolean
+    position: number
     appLink?: string | null
     githubLink?: string | null
     qiitaLink?: string | null
@@ -412,6 +425,7 @@ export type GetProjectWithTagsQuery = {
     title: string
     description: string
     isFavorite: boolean
+    position: number
     appLink?: string | null
     githubLink?: string | null
     qiitaLink?: string | null
@@ -441,6 +455,7 @@ export type CreateProjectMutation = {
     title: string
     description: string
     isFavorite: boolean
+    position: number
     appLink?: string | null
     githubLink?: string | null
     qiitaLink?: string | null
@@ -461,6 +476,7 @@ export type UpdateProjectMutation = {
     title: string
     description: string
     isFavorite: boolean
+    position: number
     appLink?: string | null
     githubLink?: string | null
     qiitaLink?: string | null
@@ -483,6 +499,7 @@ export type UpdateProjectWithTagsMutation = {
     title: string
     description: string
     isFavorite: boolean
+    position: number
     appLink?: string | null
     githubLink?: string | null
     qiitaLink?: string | null
@@ -512,6 +529,7 @@ export type DeleteProjectMutation = {
     title: string
     description: string
     isFavorite: boolean
+    position: number
     appLink?: string | null
     githubLink?: string | null
     qiitaLink?: string | null
@@ -893,6 +911,7 @@ export const GetProjectsDocument = gql`
       title
       description
       isFavorite
+      position
       appLink
       githubLink
       qiitaLink
@@ -917,6 +936,7 @@ export const GetProjectDocument = gql`
       title
       description
       isFavorite
+      position
       appLink
       githubLink
       qiitaLink
@@ -941,6 +961,7 @@ export const GetProjectWithTagsDocument = gql`
       title
       description
       isFavorite
+      position
       appLink
       githubLink
       qiitaLink
@@ -973,6 +994,7 @@ export const CreateProjectDocument = gql`
       title
       description
       isFavorite
+      position
       appLink
       githubLink
       qiitaLink
@@ -995,6 +1017,7 @@ export const UpdateProjectDocument = gql`
       title
       description
       isFavorite
+      position
       appLink
       githubLink
       qiitaLink
@@ -1021,6 +1044,7 @@ export const UpdateProjectWithTagsDocument = gql`
       title
       description
       isFavorite
+      position
       appLink
       githubLink
       qiitaLink
@@ -1051,6 +1075,7 @@ export const DeleteProjectDocument = gql`
       title
       description
       isFavorite
+      position
       appLink
       githubLink
       qiitaLink
