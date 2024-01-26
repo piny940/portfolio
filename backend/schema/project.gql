@@ -16,14 +16,13 @@ input ProjectInput {
   title: String!
   description: String!
   isFavorite: Boolean!
-  position: Int!
+  position: Int
   githubLink: String
   qiitaLink: String
   appLink: String
 }
-input ProjectPosition {
-  id: String!
-  position: Int!
+input UpdateOrderInput {
+  ids: [String!]!
 }
 
 extend type Query {
@@ -33,7 +32,7 @@ extend type Query {
 extend type Mutation {
   createProject(input: ProjectInput!): Project!
   updateProject(input: ProjectInput!): Project!
-  updatePositions(input: [ProjectPosition!]!): [Project!]!
+  updateOrder(input: UpdateOrderInput!): [Project!]!
   deleteProject(id: String!): Project!
   updateProjectTags(id: String!, tags: [Uint!]!): [Technology!]!
 }

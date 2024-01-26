@@ -44,7 +44,7 @@ func (p *Project) ToInput() ProjectInput {
 		Title:       p.Title,
 		Description: p.Description,
 		IsFavorite:  p.IsFavorite,
-		Position:    p.Position,
+		Position:    &p.Position,
 		GithubLink:  p.GithubLink,
 		QiitaLink:   p.QiitaLink,
 		AppLink:     p.AppLink,

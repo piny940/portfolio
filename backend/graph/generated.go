@@ -72,7 +72,7 @@ type ComplexityRoot struct {
 		DeleteTechnology  func(childComplexity int, id uint) int
 		UpdateBlog        func(childComplexity int, id uint, input domain.BlogInput) int
 		UpdateBlogTags    func(childComplexity int, id uint, tags []uint) int
-		UpdatePositions   func(childComplexity int, input []*domain.ProjectPosition) int
+		UpdateOrder       func(childComplexity int, input domain.UpdateOrderInput) int
 		UpdateProject     func(childComplexity int, input domain.ProjectInput) int
 		UpdateProjectTags func(childComplexity int, id string, tags []uint) int
 		UpdateTechStack   func(childComplexity int, id uint, input domain.TechStackInput) int
@@ -138,7 +138,7 @@ type MutationResolver interface {
 	UpdateBlogTags(ctx context.Context, id uint, tags []uint) ([]*domain.Technology, error)
 	CreateProject(ctx context.Context, input domain.ProjectInput) (*domain.Project, error)
 	UpdateProject(ctx context.Context, input domain.ProjectInput) (*domain.Project, error)
-	UpdatePositions(ctx context.Context, input []*domain.ProjectPosition) ([]*domain.Project, error)
+	UpdateOrder(ctx context.Context, input domain.UpdateOrderInput) ([]*domain.Project, error)
 	DeleteProject(ctx context.Context, id string) (*domain.Project, error)
 	UpdateProjectTags(ctx context.Context, id string, tags []uint) ([]*domain.Technology, error)
 	CreateTechStack(ctx context.Context, input domain.TechStackInput) (*domain.TechStack, error)
@@ -358,17 +358,17 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.UpdateBlogTags(childComplexity, args["id"].(uint), args["tags"].([]uint)), true
 
-	case "Mutation.updatePositions":
-		if e.complexity.Mutation.UpdatePositions == nil {
+	case "Mutation.updateOrder":
+		if e.complexity.Mutation.UpdateOrder == nil {
 			break
 		}
 
-		args, err := ec.field_Mutation_updatePositions_args(context.TODO(), rawArgs)
+		args, err := ec.field_Mutation_updateOrder_args(context.TODO(), rawArgs)
 		if err != nil {
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdatePositions(childComplexity, args["input"].([]*domain.ProjectPosition)), true
+		return e.complexity.Mutation.UpdateOrder(childComplexity, args["input"].(domain.UpdateOrderInput)), true
 
 	case "Mutation.updateProject":
 		if e.complexity.Mutation.UpdateProject == nil {
@@ -672,9 +672,9 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 	inputUnmarshalMap := graphql.BuildUnmarshalerMap(
 		ec.unmarshalInputBlogInput,
 		ec.unmarshalInputProjectInput,
-		ec.unmarshalInputProjectPosition,
 		ec.unmarshalInputTechStackInput,
 		ec.unmarshalInputTechnologyInput,
+		ec.unmarshalInputUpdateOrderInput,
 	)
 	first := true
 
@@ -822,14 +822,13 @@ input ProjectInput {
   title: String!
   description: String!
   isFavorite: Boolean!
-  position: Int!
+  position: Int
   githubLink: String
   qiitaLink: String
   appLink: String
 }
-input ProjectPosition {
-  id: String!
-  position: Int!
+input UpdateOrderInput {
+  ids: [String!]!
 }
 
 extend type Query {
@@ -839,7 +838,7 @@ extend type Query {
 extend type Mutation {
   createProject(input: ProjectInput!): Project!
   updateProject(input: ProjectInput!): Project!
-  updatePositions(input: [ProjectPosition!]!): [Project!]!
+  updateOrder(input: UpdateOrderInput!): [Project!]!
   deleteProject(id: String!): Project!
   updateProjectTags(id: String!, tags: [Uint!]!): [Technology!]!
 }
@@ -1073,13 +1072,13 @@ func (ec *executionContext) field_Mutation_updateBlog_args(ctx context.Context, 
 	return args, nil
 }
 
-func (ec *executionContext) field_Mutation_updatePositions_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Mutation_updateOrder_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 []*domain.ProjectPosition
+	var arg0 domain.UpdateOrderInput
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalNProjectPosition2ᚕᚖbackendᚋdomainᚐProjectPositionᚄ(ctx, tmp)
+		arg0, err = ec.unmarshalNUpdateOrderInput2backendᚋdomainᚐUpdateOrderInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -2307,8 +2306,8 @@ func (ec *executionContext) fieldContext_Mutation_updateProject(ctx context.Cont
 	return fc, nil
 }
 
-func (ec *executionContext) _Mutation_updatePositions(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_updatePositions(ctx, field)
+func (ec *executionContext) _Mutation_updateOrder(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateOrder(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -2321,7 +2320,7 @@ func (ec *executionContext) _Mutation_updatePositions(ctx context.Context, field
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdatePositions(rctx, fc.Args["input"].([]*domain.ProjectPosition))
+		return ec.resolvers.Mutation().UpdateOrder(rctx, fc.Args["input"].(domain.UpdateOrderInput))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -2338,7 +2337,7 @@ func (ec *executionContext) _Mutation_updatePositions(ctx context.Context, field
 	return ec.marshalNProject2ᚕᚖbackendᚋdomainᚐProjectᚄ(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Mutation_updatePositions(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Mutation_updateOrder(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Mutation",
 		Field:      field,
@@ -2379,7 +2378,7 @@ func (ec *executionContext) fieldContext_Mutation_updatePositions(ctx context.Co
 		}
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_updatePositions_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+	if fc.Args, err = ec.field_Mutation_updateOrder_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -6340,7 +6339,7 @@ func (ec *executionContext) unmarshalInputProjectInput(ctx context.Context, obj 
 			it.IsFavorite = data
 		case "position":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("position"))
-			data, err := ec.unmarshalNInt2int(ctx, v)
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -6366,40 +6365,6 @@ func (ec *executionContext) unmarshalInputProjectInput(ctx context.Context, obj 
 				return it, err
 			}
 			it.AppLink = data
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputProjectPosition(ctx context.Context, obj interface{}) (domain.ProjectPosition, error) {
-	var it domain.ProjectPosition
-	asMap := map[string]interface{}{}
-	for k, v := range obj.(map[string]interface{}) {
-		asMap[k] = v
-	}
-
-	fieldsInOrder := [...]string{"id", "position"}
-	for _, k := range fieldsInOrder {
-		v, ok := asMap[k]
-		if !ok {
-			continue
-		}
-		switch k {
-		case "id":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-			data, err := ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.ID = data
-		case "position":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("position"))
-			data, err := ec.unmarshalNInt2int(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.Position = data
 		}
 	}
 
@@ -6475,6 +6440,33 @@ func (ec *executionContext) unmarshalInputTechnologyInput(ctx context.Context, o
 				return it, err
 			}
 			it.TagColor = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputUpdateOrderInput(ctx context.Context, obj interface{}) (domain.UpdateOrderInput, error) {
+	var it domain.UpdateOrderInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"ids"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "ids":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ids"))
+			data, err := ec.unmarshalNString2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Ids = data
 		}
 	}
 
@@ -6707,9 +6699,9 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "updatePositions":
+		case "updateOrder":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_updatePositions(ctx, field)
+				return ec._Mutation_updateOrder(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -7766,28 +7758,6 @@ func (ec *executionContext) unmarshalNProjectInput2backendᚋdomainᚐProjectInp
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNProjectPosition2ᚕᚖbackendᚋdomainᚐProjectPositionᚄ(ctx context.Context, v interface{}) ([]*domain.ProjectPosition, error) {
-	var vSlice []interface{}
-	if v != nil {
-		vSlice = graphql.CoerceList(v)
-	}
-	var err error
-	res := make([]*domain.ProjectPosition, len(vSlice))
-	for i := range vSlice {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
-		res[i], err = ec.unmarshalNProjectPosition2ᚖbackendᚋdomainᚐProjectPosition(ctx, vSlice[i])
-		if err != nil {
-			return nil, err
-		}
-	}
-	return res, nil
-}
-
-func (ec *executionContext) unmarshalNProjectPosition2ᚖbackendᚋdomainᚐProjectPosition(ctx context.Context, v interface{}) (*domain.ProjectPosition, error) {
-	res, err := ec.unmarshalInputProjectPosition(ctx, v)
-	return &res, graphql.ErrorOnPath(ctx, err)
-}
-
 func (ec *executionContext) unmarshalNString2string(ctx context.Context, v interface{}) (string, error) {
 	res, err := graphql.UnmarshalString(v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -7801,6 +7771,38 @@ func (ec *executionContext) marshalNString2string(ctx context.Context, sel ast.S
 		}
 	}
 	return res
+}
+
+func (ec *executionContext) unmarshalNString2ᚕstringᚄ(ctx context.Context, v interface{}) ([]string, error) {
+	var vSlice []interface{}
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
+	var err error
+	res := make([]string, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNString2string(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) marshalNString2ᚕstringᚄ(ctx context.Context, sel ast.SelectionSet, v []string) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	for i := range v {
+		ret[i] = ec.marshalNString2string(ctx, sel, v[i])
+	}
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
 }
 
 func (ec *executionContext) marshalNTechStack2backendᚋdomainᚐTechStack(ctx context.Context, sel ast.SelectionSet, v domain.TechStack) graphql.Marshaler {
@@ -8027,6 +8029,11 @@ func (ec *executionContext) marshalNUint2ᚕuintᚄ(ctx context.Context, sel ast
 	}
 
 	return ret
+}
+
+func (ec *executionContext) unmarshalNUpdateOrderInput2backendᚋdomainᚐUpdateOrderInput(ctx context.Context, v interface{}) (domain.UpdateOrderInput, error) {
+	res, err := ec.unmarshalInputUpdateOrderInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalN__Directive2githubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐDirective(ctx context.Context, sel ast.SelectionSet, v introspection.Directive) graphql.Marshaler {
@@ -8305,6 +8312,22 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 		return graphql.Null
 	}
 	res := graphql.MarshalBoolean(*v)
+	return res
+}
+
+func (ec *executionContext) unmarshalOInt2ᚖint(ctx context.Context, v interface{}) (*int, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := graphql.UnmarshalInt(v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOInt2ᚖint(ctx context.Context, sel ast.SelectionSet, v *int) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	res := graphql.MarshalInt(*v)
 	return res
 }
 

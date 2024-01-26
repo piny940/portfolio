@@ -98,6 +98,9 @@ func (r *projectRepo) Create(input domain.ProjectInput) (*domain.Project, error)
 		Description: input.Description,
 		IsFavorite:  input.IsFavorite,
 	}
+	if input.Position != nil {
+		project.Position = *input.Position
+	}
 	result := r.db.Client.Clauses(clause.Returning{}).Create(&project)
 	if result.Error != nil {
 		return nil, result.Error
@@ -177,6 +180,9 @@ func (r *projectRepo) Update(input domain.ProjectInput) (*domain.Project, error)
 	project.Title = input.Title
 	project.Description = input.Description
 	project.IsFavorite = input.IsFavorite
+	if input.Position != nil {
+		project.Position = *input.Position
+	}
 	result := r.db.Client.Clauses(clause.Returning{}).Save(&project)
 	if result.Error != nil {
 		return nil, result.Error
