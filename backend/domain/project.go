@@ -9,6 +9,7 @@ type Project struct {
 	Title       string        `gorm:"type:varchar(127); not null"`
 	Description string        `gorm:"type:varchar(255); not null"`
 	IsFavorite  bool          `gorm:"not null"`
+	Position    int           `gorm:"not null; default:0"`
 	Tags        []*Technology `gorm:"many2many:project_technology_tags"`
 	GithubLink  *string       `gorm:"-"`
 	QiitaLink   *string       `gorm:"-"`
@@ -28,10 +29,24 @@ type ProjectTechnologyTag struct {
 
 type IProjectRepo interface {
 	List() ([]*Project, error)
+	ListByIds(ids []string) (map[string]*Project, error)
 	Find(id string) (*Project, error)
 	Create(input ProjectInput) (*Project, error)
 	Update(input ProjectInput) (*Project, error)
 	Delete(id string) (*Project, error)
 	ListTags(projectIds []string) ([]*Technology, error)
 	UpdateTags(projectId string, technologyIds []uint) ([]*Technology, error)
+}
+
+func (p *Project) ToInput() ProjectInput {
+	return ProjectInput{
+		ID:          p.ID,
+		Title:       p.Title,
+		Description: p.Description,
+		IsFavorite:  p.IsFavorite,
+		Position:    p.Position,
+		GithubLink:  p.GithubLink,
+		QiitaLink:   p.QiitaLink,
+		AppLink:     p.AppLink,
+	}
 }

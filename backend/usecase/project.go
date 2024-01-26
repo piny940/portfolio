@@ -7,6 +7,7 @@ type IProjectUsecase interface {
 	Find(id string) (*domain.Project, error)
 	Create(input domain.ProjectInput) (*domain.Project, error)
 	Update(input domain.ProjectInput) (*domain.Project, error)
+	UpdatePositions(input []*domain.ProjectPosition) ([]*domain.Project, error)
 	Delete(id string) (*domain.Project, error)
 	ListTags(projectIds []string) ([]*domain.Technology, error)
 	UpdateTags(projectId string, technologyIds []uint) ([]*domain.Technology, error)
@@ -41,6 +42,28 @@ func (u *projectUsecase) ListTags(projectIds []string) ([]*domain.Technology, er
 
 func (u *projectUsecase) UpdateTags(projectId string, technologyIds []uint) ([]*domain.Technology, error) {
 	return u.repo.UpdateTags(projectId, technologyIds)
+}
+
+func (u *projectUsecase) UpdatePositions(input []*domain.ProjectPosition) ([]*domain.Project, error) {
+	ids := make([]string, len(input))
+	for i, projectPosition := range input {
+		ids[i] = projectPosition.ID
+	}
+	projectsMap, err := u.repo.ListByIds(ids)
+	if err != nil {
+		return nil, err
+	}
+	newProjects := make([]*domain.Project, len(input))
+	for i, projectPosition := range input {
+		projectInput := projectsMap[projectPosition.ID].ToInput()
+		projectInput.Position = projectPosition.Position
+		newProject, err := u.repo.Update(projectInput)
+		if err != nil {
+			return nil, err
+		}
+		newProjects[i] = newProject
+	}
+	return newProjects, nil
 }
 
 func NewProjectUsecase(repo domain.IProjectRepo) IProjectUsecase {

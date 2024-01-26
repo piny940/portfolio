@@ -72,6 +72,7 @@ type ComplexityRoot struct {
 		DeleteTechnology  func(childComplexity int, id uint) int
 		UpdateBlog        func(childComplexity int, id uint, input domain.BlogInput) int
 		UpdateBlogTags    func(childComplexity int, id uint, tags []uint) int
+		UpdatePositions   func(childComplexity int, input []*domain.ProjectPosition) int
 		UpdateProject     func(childComplexity int, input domain.ProjectInput) int
 		UpdateProjectTags func(childComplexity int, id string, tags []uint) int
 		UpdateTechStack   func(childComplexity int, id uint, input domain.TechStackInput) int
@@ -85,6 +86,7 @@ type ComplexityRoot struct {
 		GithubLink  func(childComplexity int) int
 		ID          func(childComplexity int) int
 		IsFavorite  func(childComplexity int) int
+		Position    func(childComplexity int) int
 		QiitaLink   func(childComplexity int) int
 		Tags        func(childComplexity int) int
 		Title       func(childComplexity int) int
@@ -136,6 +138,7 @@ type MutationResolver interface {
 	UpdateBlogTags(ctx context.Context, id uint, tags []uint) ([]*domain.Technology, error)
 	CreateProject(ctx context.Context, input domain.ProjectInput) (*domain.Project, error)
 	UpdateProject(ctx context.Context, input domain.ProjectInput) (*domain.Project, error)
+	UpdatePositions(ctx context.Context, input []*domain.ProjectPosition) ([]*domain.Project, error)
 	DeleteProject(ctx context.Context, id string) (*domain.Project, error)
 	UpdateProjectTags(ctx context.Context, id string, tags []uint) ([]*domain.Technology, error)
 	CreateTechStack(ctx context.Context, input domain.TechStackInput) (*domain.TechStack, error)
@@ -355,6 +358,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.UpdateBlogTags(childComplexity, args["id"].(uint), args["tags"].([]uint)), true
 
+	case "Mutation.updatePositions":
+		if e.complexity.Mutation.UpdatePositions == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updatePositions_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdatePositions(childComplexity, args["input"].([]*domain.ProjectPosition)), true
+
 	case "Mutation.updateProject":
 		if e.complexity.Mutation.UpdateProject == nil {
 			break
@@ -444,6 +459,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Project.IsFavorite(childComplexity), true
+
+	case "Project.position":
+		if e.complexity.Project.Position == nil {
+			break
+		}
+
+		return e.complexity.Project.Position(childComplexity), true
 
 	case "Project.qiitaLink":
 		if e.complexity.Project.QiitaLink == nil {
@@ -650,6 +672,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 	inputUnmarshalMap := graphql.BuildUnmarshalerMap(
 		ec.unmarshalInputBlogInput,
 		ec.unmarshalInputProjectInput,
+		ec.unmarshalInputProjectPosition,
 		ec.unmarshalInputTechStackInput,
 		ec.unmarshalInputTechnologyInput,
 	)
@@ -786,6 +809,7 @@ extend type Mutation {
   title: String!
   description: String!
   isFavorite: Boolean!
+  position: Int!
   githubLink: String
   qiitaLink: String
   appLink: String
@@ -798,9 +822,14 @@ input ProjectInput {
   title: String!
   description: String!
   isFavorite: Boolean!
+  position: Int!
   githubLink: String
   qiitaLink: String
   appLink: String
+}
+input ProjectPosition {
+  id: String!
+  position: Int!
 }
 
 extend type Query {
@@ -810,6 +839,7 @@ extend type Query {
 extend type Mutation {
   createProject(input: ProjectInput!): Project!
   updateProject(input: ProjectInput!): Project!
+  updatePositions(input: [ProjectPosition!]!): [Project!]!
   deleteProject(id: String!): Project!
   updateProjectTags(id: String!, tags: [Uint!]!): [Technology!]!
 }
@@ -1040,6 +1070,21 @@ func (ec *executionContext) field_Mutation_updateBlog_args(ctx context.Context, 
 		}
 	}
 	args["input"] = arg1
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_updatePositions_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 []*domain.ProjectPosition
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNProjectPosition2ᚕᚖbackendᚋdomainᚐProjectPositionᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
 	return args, nil
 }
 
@@ -2151,6 +2196,8 @@ func (ec *executionContext) fieldContext_Mutation_createProject(ctx context.Cont
 				return ec.fieldContext_Project_description(ctx, field)
 			case "isFavorite":
 				return ec.fieldContext_Project_isFavorite(ctx, field)
+			case "position":
+				return ec.fieldContext_Project_position(ctx, field)
 			case "githubLink":
 				return ec.fieldContext_Project_githubLink(ctx, field)
 			case "qiitaLink":
@@ -2228,6 +2275,8 @@ func (ec *executionContext) fieldContext_Mutation_updateProject(ctx context.Cont
 				return ec.fieldContext_Project_description(ctx, field)
 			case "isFavorite":
 				return ec.fieldContext_Project_isFavorite(ctx, field)
+			case "position":
+				return ec.fieldContext_Project_position(ctx, field)
 			case "githubLink":
 				return ec.fieldContext_Project_githubLink(ctx, field)
 			case "qiitaLink":
@@ -2252,6 +2301,85 @@ func (ec *executionContext) fieldContext_Mutation_updateProject(ctx context.Cont
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_updateProject_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updatePositions(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updatePositions(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdatePositions(rctx, fc.Args["input"].([]*domain.ProjectPosition))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*domain.Project)
+	fc.Result = res
+	return ec.marshalNProject2ᚕᚖbackendᚋdomainᚐProjectᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updatePositions(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Project_id(ctx, field)
+			case "title":
+				return ec.fieldContext_Project_title(ctx, field)
+			case "description":
+				return ec.fieldContext_Project_description(ctx, field)
+			case "isFavorite":
+				return ec.fieldContext_Project_isFavorite(ctx, field)
+			case "position":
+				return ec.fieldContext_Project_position(ctx, field)
+			case "githubLink":
+				return ec.fieldContext_Project_githubLink(ctx, field)
+			case "qiitaLink":
+				return ec.fieldContext_Project_qiitaLink(ctx, field)
+			case "appLink":
+				return ec.fieldContext_Project_appLink(ctx, field)
+			case "tags":
+				return ec.fieldContext_Project_tags(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Project_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Project_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Project", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updatePositions_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -2305,6 +2433,8 @@ func (ec *executionContext) fieldContext_Mutation_deleteProject(ctx context.Cont
 				return ec.fieldContext_Project_description(ctx, field)
 			case "isFavorite":
 				return ec.fieldContext_Project_isFavorite(ctx, field)
+			case "position":
+				return ec.fieldContext_Project_position(ctx, field)
 			case "githubLink":
 				return ec.fieldContext_Project_githubLink(ctx, field)
 			case "qiitaLink":
@@ -2782,6 +2912,50 @@ func (ec *executionContext) fieldContext_Project_isFavorite(ctx context.Context,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Project_position(ctx context.Context, field graphql.CollectedField, obj *domain.Project) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Project_position(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Position, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Project_position(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Project",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
 		},
 	}
 	return fc, nil
@@ -3406,6 +3580,8 @@ func (ec *executionContext) fieldContext_Query_projects(ctx context.Context, fie
 				return ec.fieldContext_Project_description(ctx, field)
 			case "isFavorite":
 				return ec.fieldContext_Project_isFavorite(ctx, field)
+			case "position":
+				return ec.fieldContext_Project_position(ctx, field)
 			case "githubLink":
 				return ec.fieldContext_Project_githubLink(ctx, field)
 			case "qiitaLink":
@@ -3472,6 +3648,8 @@ func (ec *executionContext) fieldContext_Query_project(ctx context.Context, fiel
 				return ec.fieldContext_Project_description(ctx, field)
 			case "isFavorite":
 				return ec.fieldContext_Project_isFavorite(ctx, field)
+			case "position":
+				return ec.fieldContext_Project_position(ctx, field)
 			case "githubLink":
 				return ec.fieldContext_Project_githubLink(ctx, field)
 			case "qiitaLink":
@@ -6125,7 +6303,7 @@ func (ec *executionContext) unmarshalInputProjectInput(ctx context.Context, obj 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"id", "title", "description", "isFavorite", "githubLink", "qiitaLink", "appLink"}
+	fieldsInOrder := [...]string{"id", "title", "description", "isFavorite", "position", "githubLink", "qiitaLink", "appLink"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -6160,6 +6338,13 @@ func (ec *executionContext) unmarshalInputProjectInput(ctx context.Context, obj 
 				return it, err
 			}
 			it.IsFavorite = data
+		case "position":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("position"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Position = data
 		case "githubLink":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("githubLink"))
 			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
@@ -6181,6 +6366,40 @@ func (ec *executionContext) unmarshalInputProjectInput(ctx context.Context, obj 
 				return it, err
 			}
 			it.AppLink = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputProjectPosition(ctx context.Context, obj interface{}) (domain.ProjectPosition, error) {
+	var it domain.ProjectPosition
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"id", "position"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "id":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.ID = data
+		case "position":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("position"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Position = data
 		}
 	}
 
@@ -6488,6 +6707,13 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "updatePositions":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updatePositions(ctx, field)
+			})
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
 		case "deleteProject":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_deleteProject(ctx, field)
@@ -6574,6 +6800,11 @@ func (ec *executionContext) _Project(ctx context.Context, sel ast.SelectionSet, 
 			}
 		case "isFavorite":
 			out.Values[i] = ec._Project_isFavorite(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "position":
+			out.Values[i] = ec._Project_position(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				atomic.AddUint32(&out.Invalids, 1)
 			}
@@ -7533,6 +7764,28 @@ func (ec *executionContext) marshalNProject2ᚖbackendᚋdomainᚐProject(ctx co
 func (ec *executionContext) unmarshalNProjectInput2backendᚋdomainᚐProjectInput(ctx context.Context, v interface{}) (domain.ProjectInput, error) {
 	res, err := ec.unmarshalInputProjectInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNProjectPosition2ᚕᚖbackendᚋdomainᚐProjectPositionᚄ(ctx context.Context, v interface{}) ([]*domain.ProjectPosition, error) {
+	var vSlice []interface{}
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
+	var err error
+	res := make([]*domain.ProjectPosition, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNProjectPosition2ᚖbackendᚋdomainᚐProjectPosition(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) unmarshalNProjectPosition2ᚖbackendᚋdomainᚐProjectPosition(ctx context.Context, v interface{}) (*domain.ProjectPosition, error) {
+	res, err := ec.unmarshalInputProjectPosition(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNString2string(ctx context.Context, v interface{}) (string, error) {

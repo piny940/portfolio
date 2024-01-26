@@ -152,6 +152,25 @@ func (r *projectRepo) List() ([]*domain.Project, error) {
 	return projects, nil
 }
 
+func (r *projectRepo) ListByIds(ids []string) (map[string]*domain.Project, error) {
+	var projects []*domain.Project
+	projectsMap := make(map[string]*domain.Project, len(ids))
+	if len(ids) == 0 {
+		return projectsMap, nil
+	}
+	result := r.db.Client.Where("id in ?", ids).Find(&projects)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	if err := r.setLinks(projects); err != nil {
+		return nil, err
+	}
+	for _, project := range projects {
+		projectsMap[project.ID] = project
+	}
+	return projectsMap, nil
+}
+
 func (r *projectRepo) Update(input domain.ProjectInput) (*domain.Project, error) {
 	var project domain.Project
 	r.db.Client.First(&project, "id = ?", input.ID)
