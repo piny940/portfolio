@@ -67,7 +67,9 @@ func (u *projectUsecase) UpdatePositions(input domain.UpdateOrderInput) ([]*doma
 		if err != nil {
 			return nil, err
 		}
-		newProjects[pos] = newProject
+		if pos > 0 {
+			newProjects[pos] = newProject
+		}
 	}
 	return newProjects, nil
 }
