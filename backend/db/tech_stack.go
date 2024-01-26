@@ -46,6 +46,7 @@ func (r *techStackRepo) Create(input domain.TechStackInput) (*domain.TechStack, 
 
 func (r *techStackRepo) Update(id uint, input domain.TechStackInput) (*domain.TechStack, error) {
 	var techStack domain.TechStack
+	r.db.Client.First(&techStack, id)
 	techStack.TechnologyID = input.TechnologyID
 	techStack.Proficiency = input.Proficiency
 	result := r.db.Client.Clauses(clause.Returning{}).Save(&techStack)

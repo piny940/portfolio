@@ -30,7 +30,7 @@ export const TechStackEdit = ({
       input: getValues(),
     })
     if (!data || error) return
-    void router.push('/techStacks')
+    void router.push('/tech_stacks')
   }
 
   return (
