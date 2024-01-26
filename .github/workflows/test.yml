@@ -22,13 +22,13 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION}}
-      - name: cache node_modules
-        id: node_modules_cache_id
-        uses: actions/cache@v2
-        with:
-          path: |
-            node_modules
-          key: app-node-v${{ env.NODE_VERSION }}-deps-${{ github.workspace }}-yarn.lock
+      # - name: cache node_modules
+      #   id: node_modules_cache_id
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: |
+      #       node_modules
+      #     key: app-node-v${{ env.NODE_VERSION }}-deps-${{ github.workspace }}-yarn.lock
       - name: Yarn install
         run: yarn --cwd app install --frozen-lockfile
       - name: Yarn Test
