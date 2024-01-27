@@ -29,6 +29,15 @@ func (r *mutationResolver) UpdateProject(ctx context.Context, input domain.Proje
 	return project, nil
 }
 
+func (r *mutationResolver) UpdateProjectOrder(ctx context.Context, input domain.UpdateProjectOrderInput) ([]*domain.Project, error) {
+	reg := registry.GetRegistry()
+	projects, err := reg.ProjectUsecase().UpdatePositions(input)
+	if err != nil {
+		return nil, err
+	}
+	return projects, nil
+}
+
 func (r *mutationResolver) DeleteProject(ctx context.Context, id string) (*domain.Project, error) {
 	reg := registry.GetRegistry()
 	project, err := reg.ProjectUsecase().Delete(id)

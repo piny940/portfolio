@@ -21,6 +21,7 @@ type ProjectInput struct {
 	Title       string  `json:"title"`
 	Description string  `json:"description"`
 	IsFavorite  bool    `json:"isFavorite"`
+	Position    *int    `json:"position,omitempty"`
 	GithubLink  *string `json:"githubLink,omitempty"`
 	QiitaLink   *string `json:"qiitaLink,omitempty"`
 	AppLink     *string `json:"appLink,omitempty"`
@@ -38,4 +39,8 @@ type TechnologyInput struct {
 	Name     string  `json:"name"`
 	LogoURL  *string `json:"logoUrl,omitempty"`
 	TagColor string  `json:"tagColor"`
+}
+
+type UpdateProjectOrderInput struct {
+	Ids []string `json:"ids"`
 }

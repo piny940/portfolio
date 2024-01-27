@@ -3,6 +3,7 @@ type Project {
   title: String!
   description: String!
   isFavorite: Boolean!
+  position: Int!
   githubLink: String
   qiitaLink: String
   appLink: String
@@ -15,9 +16,13 @@ input ProjectInput {
   title: String!
   description: String!
   isFavorite: Boolean!
+  position: Int
   githubLink: String
   qiitaLink: String
   appLink: String
+}
+input UpdateProjectOrderInput {
+  ids: [String!]!
 }
 
 extend type Query {
@@ -27,6 +32,7 @@ extend type Query {
 extend type Mutation {
   createProject(input: ProjectInput!): Project!
   updateProject(input: ProjectInput!): Project!
+  updateProjectOrder(input: UpdateProjectOrderInput!): [Project!]!
   deleteProject(id: String!): Project!
   updateProjectTags(id: String!, tags: [Uint!]!): [Technology!]!
 }

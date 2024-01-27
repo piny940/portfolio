@@ -98,6 +98,9 @@ func (r *projectRepo) Create(input domain.ProjectInput) (*domain.Project, error)
 		Description: input.Description,
 		IsFavorite:  input.IsFavorite,
 	}
+	if input.Position != nil {
+		project.Position = *input.Position
+	}
 	result := r.db.Client.Clauses(clause.Returning{}).Create(&project)
 	if result.Error != nil {
 		return nil, result.Error
@@ -142,7 +145,7 @@ func (r *projectRepo) Find(id string) (*domain.Project, error) {
 
 func (r *projectRepo) List() ([]*domain.Project, error) {
 	var projects []*domain.Project
-	result := r.db.Client.Find(&projects)
+	result := r.db.Client.Order("is_favorite desc").Order("position asc").Find(&projects)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -152,12 +155,34 @@ func (r *projectRepo) List() ([]*domain.Project, error) {
 	return projects, nil
 }
 
+func (r *projectRepo) ListByIds(ids []string) (map[string]*domain.Project, error) {
+	var projects []*domain.Project
+	projectsMap := make(map[string]*domain.Project, len(ids))
+	if len(ids) == 0 {
+		return projectsMap, nil
+	}
+	result := r.db.Client.Where("id in ?", ids).Find(&projects)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	if err := r.setLinks(projects); err != nil {
+		return nil, err
+	}
+	for _, project := range projects {
+		projectsMap[project.ID] = project
+	}
+	return projectsMap, nil
+}
+
 func (r *projectRepo) Update(input domain.ProjectInput) (*domain.Project, error) {
 	var project domain.Project
 	r.db.Client.First(&project, "id = ?", input.ID)
 	project.Title = input.Title
 	project.Description = input.Description
 	project.IsFavorite = input.IsFavorite
+	if input.Position != nil {
+		project.Position = *input.Position
+	}
 	result := r.db.Client.Clauses(clause.Returning{}).Save(&project)
 	if result.Error != nil {
 		return nil, result.Error
