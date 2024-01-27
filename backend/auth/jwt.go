@@ -8,7 +8,7 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
-const TTL_SEC = 60 * 60 * 24 * 30 // 30 days
+const TTL_SEC = 60 * 60 * 24 * 3 // 3 days
 func CreateJWTToken(userId string) (string, error) {
 	claims := jwt.MapClaims{
 		"userId": userId,
