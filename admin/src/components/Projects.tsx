@@ -49,6 +49,7 @@ export const Projects = (): JSX.Element => {
   const [, deleteProject] = useDeleteProjectMutation()
   const [projects, setProjects] = useState<ProjectType[]>()
   const [, updateProjectOrder] = useUpdateProjectOrderMutation()
+  const [orderChanged, setOrderChanged] = useState(false)
 
   const onDragEnd = useCallback((event: DragEndEvent) => {
     const { active, over } = event
@@ -60,14 +61,24 @@ export const Projects = (): JSX.Element => {
         const newIndex = ids.indexOf(over.id as string)
         return arrayMove(projects, oldIndex, newIndex)
       })
+      setOrderChanged(true)
     }
   }, [])
   const saveOrder = useCallback(async () => {
     if (!projects) return
     const ids = projects.map((project) => project.id)
     const { error } = await updateProjectOrder({ input: { ids } })
-    if (error) console.error(error)
+    if (error) {
+      console.error(error)
+      return
+    }
+    setOrderChanged(false)
   }, [projects, updateProjectOrder])
+  const resetOrder = useCallback(() => {
+    if (!data) return
+    setProjects(data.projects)
+    setOrderChanged(false)
+  }, [data])
 
   useEffect(() => {
     if (!data) return
@@ -83,6 +94,7 @@ export const Projects = (): JSX.Element => {
       </Typography>
       <Box mt={2}>
         <Button
+          disabled={orderChanged}
           component={Link}
           href="/projects/new"
           fullWidth
@@ -92,8 +104,16 @@ export const Projects = (): JSX.Element => {
         </Button>
       </Box>
       <Box mt={2}>
-        <Button variant="outlined" onClick={saveOrder}>
+        <Button disabled={!orderChanged} variant="outlined" onClick={saveOrder}>
           Save Order
+        </Button>
+        <Button
+          sx={{ marginLeft: 1 }}
+          variant="outlined"
+          disabled={!orderChanged}
+          onClick={resetOrder}
+        >
+          Reset Order
         </Button>
       </Box>
       <DndContext
@@ -126,6 +146,7 @@ export const Projects = (): JSX.Element => {
             <TableBody>
               {projects.map((project) => (
                 <ProjectItem
+                  actionsDisabled={orderChanged}
                   key={project.id}
                   project={project}
                   deleteProject={() => {
@@ -144,8 +165,13 @@ export const Projects = (): JSX.Element => {
 type ProjectItemProps = {
   project: ProjectType
   deleteProject: () => void
+  actionsDisabled?: boolean
 }
-const ProjectItem = ({ project, deleteProject }: ProjectItemProps) => {
+const ProjectItem = ({
+  project,
+  deleteProject,
+  actionsDisabled = false,
+}: ProjectItemProps) => {
   const { listeners, setNodeRef, transform, transition, attributes } =
     useSortable({
       id: project.id,
@@ -177,6 +203,7 @@ const ProjectItem = ({ project, deleteProject }: ProjectItemProps) => {
         }}
       >
         <Button
+          disabled={actionsDisabled}
           variant="contained"
           component={Link}
           size="small"
@@ -184,7 +211,12 @@ const ProjectItem = ({ project, deleteProject }: ProjectItemProps) => {
         >
           編集
         </Button>
-        <Button variant="contained" size="small" onClick={deleteProject}>
+        <Button
+          variant="contained"
+          disabled={actionsDisabled}
+          size="small"
+          onClick={deleteProject}
+        >
           削除
         </Button>
       </TableCell>
