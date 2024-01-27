@@ -17,7 +17,7 @@ import {
 } from '@mui/material'
 import Error from 'next/error'
 import Link from 'next/link'
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { dateLabel } from '../../utils/helpers'
 import { CSS } from '@dnd-kit/utilities'
 import DragHandleIcon from '@mui/icons-material/DragHandle'
@@ -50,7 +50,7 @@ export const Projects = (): JSX.Element => {
   const [projects, setProjects] = useState<ProjectType[]>()
   const [, updateProjectOrder] = useUpdateProjectOrderMutation()
 
-  const onDragEnd = (event: DragEndEvent) => {
+  const onDragEnd = useCallback((event: DragEndEvent) => {
     const { active, over } = event
     if (over && active.id !== over.id) {
       setProjects((projects) => {
@@ -61,13 +61,13 @@ export const Projects = (): JSX.Element => {
         return arrayMove(projects, oldIndex, newIndex)
       })
     }
-  }
-  const saveOrder = async () => {
+  }, [])
+  const saveOrder = useCallback(async () => {
     if (!projects) return
     const ids = projects.map((project) => project.id)
     const { error } = await updateProjectOrder({ input: { ids } })
     if (error) console.error(error)
-  }
+  }, [projects, updateProjectOrder])
 
   useEffect(() => {
     if (!data) return
