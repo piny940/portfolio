@@ -2,6 +2,7 @@ import {
   Project,
   useDeleteProjectMutation,
   useGetProjectsQuery,
+  useUpdateProjectOrderMutation,
 } from '@/graphql/types'
 import {
   Box,
@@ -47,6 +48,7 @@ export const Projects = (): JSX.Element => {
   const [{ data, error }] = useGetProjectsQuery({ context })
   const [, deleteProject] = useDeleteProjectMutation()
   const [projects, setProjects] = useState<ProjectType[]>()
+  const [, updateProjectOrder] = useUpdateProjectOrderMutation()
 
   const onDragEnd = (event: DragEndEvent) => {
     const { active, over } = event
@@ -59,6 +61,12 @@ export const Projects = (): JSX.Element => {
         return arrayMove(projects, oldIndex, newIndex)
       })
     }
+  }
+  const saveOrder = async () => {
+    if (!projects) return
+    const ids = projects.map((project) => project.id)
+    const { error } = await updateProjectOrder({ input: { ids } })
+    if (error) console.error(error)
   }
 
   useEffect(() => {
@@ -81,6 +89,11 @@ export const Projects = (): JSX.Element => {
           variant="contained"
         >
           新規作成
+        </Button>
+      </Box>
+      <Box mt={2}>
+        <Button variant="outlined" onClick={saveOrder}>
+          Save Order
         </Button>
       </Box>
       <DndContext

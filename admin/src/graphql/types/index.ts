@@ -63,8 +63,8 @@ export type Mutation = {
   deleteTechnology: Technology
   updateBlog: Blog
   updateBlogTags: Array<Maybe<Technology>>
-  updateOrder: Array<Project>
   updateProject: Project
+  updateProjectOrder: Array<Project>
   updateProjectTags: Array<Technology>
   updateTechStack: TechStack
   updateTechnology: Technology
@@ -112,12 +112,12 @@ export type MutationUpdateBlogTagsArgs = {
   tags: Array<Scalars['Uint']['input']>
 }
 
-export type MutationUpdateOrderArgs = {
-  input: UpdateOrderInput
-}
-
 export type MutationUpdateProjectArgs = {
   input: ProjectInput
+}
+
+export type MutationUpdateProjectOrderArgs = {
+  input: UpdateProjectOrderInput
 }
 
 export type MutationUpdateProjectTagsArgs = {
@@ -221,7 +221,7 @@ export type TechnologyInput = {
   tagColor: Scalars['String']['input']
 }
 
-export type UpdateOrderInput = {
+export type UpdateProjectOrderInput = {
   ids: Array<Scalars['String']['input']>
 }
 
@@ -551,6 +551,27 @@ export type UpdateProjectTagsMutation = {
     name: string
     logoUrl?: string | null
     tagColor: string
+    createdAt: string
+    updatedAt: string
+  }>
+}
+
+export type UpdateProjectOrderMutationVariables = Exact<{
+  input: UpdateProjectOrderInput
+}>
+
+export type UpdateProjectOrderMutation = {
+  __typename?: 'Mutation'
+  updateProjectOrder: Array<{
+    __typename?: 'Project'
+    id: string
+    title: string
+    description: string
+    isFavorite: boolean
+    position: number
+    appLink?: string | null
+    githubLink?: string | null
+    qiitaLink?: string | null
     createdAt: string
     updatedAt: string
   }>
@@ -1109,6 +1130,29 @@ export function useUpdateProjectTagsMutation() {
     UpdateProjectTagsMutation,
     UpdateProjectTagsMutationVariables
   >(UpdateProjectTagsDocument)
+}
+export const UpdateProjectOrderDocument = gql`
+  mutation updateProjectOrder($input: UpdateProjectOrderInput!) {
+    updateProjectOrder(input: $input) {
+      id
+      title
+      description
+      isFavorite
+      position
+      appLink
+      githubLink
+      qiitaLink
+      createdAt
+      updatedAt
+    }
+  }
+`
+
+export function useUpdateProjectOrderMutation() {
+  return Urql.useMutation<
+    UpdateProjectOrderMutation,
+    UpdateProjectOrderMutationVariables
+  >(UpdateProjectOrderDocument)
 }
 export const GetTechStacksDocument = gql`
   query getTechStacks {

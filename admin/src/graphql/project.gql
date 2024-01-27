@@ -126,3 +126,17 @@ mutation updateProjectTags($id: String!, $tags: [Uint!]!) {
     updatedAt
   }
 }
+mutation updateProjectOrder($input: UpdateProjectOrderInput!) {
+  updateProjectOrder(input: $input) {
+    id
+    title
+    description
+    isFavorite
+    position
+    appLink
+    githubLink
+    qiitaLink
+    createdAt
+    updatedAt
+  }
+}
