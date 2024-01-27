@@ -26,7 +26,11 @@ import {
   useSortable,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
-import { DndContext, DragEndEvent } from '@dnd-kit/core'
+import { DndContext, DragEndEvent, closestCenter } from '@dnd-kit/core'
+import {
+  restrictToParentElement,
+  restrictToVerticalAxis,
+} from '@dnd-kit/modifiers'
 
 type ProjectType = Pick<
   Project,
@@ -79,7 +83,15 @@ export const Projects = (): JSX.Element => {
           新規作成
         </Button>
       </Box>
-      <DndContext onDragEnd={onDragEnd}>
+      <DndContext
+        collisionDetection={closestCenter}
+        modifiers={[
+          restrictToVerticalAxis,
+          restrictToParentElement,
+          restrictToParentElement,
+        ]}
+        onDragEnd={onDragEnd}
+      >
         <SortableContext
           strategy={verticalListSortingStrategy}
           items={projects}
