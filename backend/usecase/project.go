@@ -10,7 +10,7 @@ type IProjectUsecase interface {
 	Find(id string) (*domain.Project, error)
 	Create(input domain.ProjectInput) (*domain.Project, error)
 	Update(input domain.ProjectInput) (*domain.Project, error)
-	UpdatePositions(input domain.UpdateOrderInput) ([]*domain.Project, error)
+	UpdatePositions(input domain.UpdateProjectOrderInput) ([]*domain.Project, error)
 	Delete(id string) (*domain.Project, error)
 	ListTags(projectIds []string) ([]*domain.Technology, error)
 	UpdateTags(projectId string, technologyIds []uint) ([]*domain.Technology, error)
@@ -47,7 +47,7 @@ func (u *projectUsecase) UpdateTags(projectId string, technologyIds []uint) ([]*
 	return u.repo.UpdateTags(projectId, technologyIds)
 }
 
-func (u *projectUsecase) UpdatePositions(input domain.UpdateOrderInput) ([]*domain.Project, error) {
+func (u *projectUsecase) UpdatePositions(input domain.UpdateProjectOrderInput) ([]*domain.Project, error) {
 	allProjects, err := u.repo.List()
 	if err != nil {
 		return nil, err

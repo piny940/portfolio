@@ -21,7 +21,7 @@ input ProjectInput {
   qiitaLink: String
   appLink: String
 }
-input UpdateOrderInput {
+input UpdateProjectOrderInput {
   ids: [String!]!
 }
 
@@ -32,7 +32,7 @@ extend type Query {
 extend type Mutation {
   createProject(input: ProjectInput!): Project!
   updateProject(input: ProjectInput!): Project!
-  updateOrder(input: UpdateOrderInput!): [Project!]!
+  updateProjectOrder(input: UpdateProjectOrderInput!): [Project!]!
   deleteProject(id: String!): Project!
   updateProjectTags(id: String!, tags: [Uint!]!): [Technology!]!
 }

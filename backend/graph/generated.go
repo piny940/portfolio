@@ -62,21 +62,21 @@ type ComplexityRoot struct {
 	}
 
 	Mutation struct {
-		CreateBlog        func(childComplexity int, input domain.BlogInput) int
-		CreateProject     func(childComplexity int, input domain.ProjectInput) int
-		CreateTechStack   func(childComplexity int, input domain.TechStackInput) int
-		CreateTechnology  func(childComplexity int, input domain.TechnologyInput) int
-		DeleteBlog        func(childComplexity int, id uint) int
-		DeleteProject     func(childComplexity int, id string) int
-		DeleteTechStack   func(childComplexity int, id uint) int
-		DeleteTechnology  func(childComplexity int, id uint) int
-		UpdateBlog        func(childComplexity int, id uint, input domain.BlogInput) int
-		UpdateBlogTags    func(childComplexity int, id uint, tags []uint) int
-		UpdateOrder       func(childComplexity int, input domain.UpdateOrderInput) int
-		UpdateProject     func(childComplexity int, input domain.ProjectInput) int
-		UpdateProjectTags func(childComplexity int, id string, tags []uint) int
-		UpdateTechStack   func(childComplexity int, id uint, input domain.TechStackInput) int
-		UpdateTechnology  func(childComplexity int, id uint, input domain.TechnologyInput) int
+		CreateBlog         func(childComplexity int, input domain.BlogInput) int
+		CreateProject      func(childComplexity int, input domain.ProjectInput) int
+		CreateTechStack    func(childComplexity int, input domain.TechStackInput) int
+		CreateTechnology   func(childComplexity int, input domain.TechnologyInput) int
+		DeleteBlog         func(childComplexity int, id uint) int
+		DeleteProject      func(childComplexity int, id string) int
+		DeleteTechStack    func(childComplexity int, id uint) int
+		DeleteTechnology   func(childComplexity int, id uint) int
+		UpdateBlog         func(childComplexity int, id uint, input domain.BlogInput) int
+		UpdateBlogTags     func(childComplexity int, id uint, tags []uint) int
+		UpdateProject      func(childComplexity int, input domain.ProjectInput) int
+		UpdateProjectOrder func(childComplexity int, input domain.UpdateProjectOrderInput) int
+		UpdateProjectTags  func(childComplexity int, id string, tags []uint) int
+		UpdateTechStack    func(childComplexity int, id uint, input domain.TechStackInput) int
+		UpdateTechnology   func(childComplexity int, id uint, input domain.TechnologyInput) int
 	}
 
 	Project struct {
@@ -138,7 +138,7 @@ type MutationResolver interface {
 	UpdateBlogTags(ctx context.Context, id uint, tags []uint) ([]*domain.Technology, error)
 	CreateProject(ctx context.Context, input domain.ProjectInput) (*domain.Project, error)
 	UpdateProject(ctx context.Context, input domain.ProjectInput) (*domain.Project, error)
-	UpdateOrder(ctx context.Context, input domain.UpdateOrderInput) ([]*domain.Project, error)
+	UpdateProjectOrder(ctx context.Context, input domain.UpdateProjectOrderInput) ([]*domain.Project, error)
 	DeleteProject(ctx context.Context, id string) (*domain.Project, error)
 	UpdateProjectTags(ctx context.Context, id string, tags []uint) ([]*domain.Technology, error)
 	CreateTechStack(ctx context.Context, input domain.TechStackInput) (*domain.TechStack, error)
@@ -358,18 +358,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.UpdateBlogTags(childComplexity, args["id"].(uint), args["tags"].([]uint)), true
 
-	case "Mutation.updateOrder":
-		if e.complexity.Mutation.UpdateOrder == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_updateOrder_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.UpdateOrder(childComplexity, args["input"].(domain.UpdateOrderInput)), true
-
 	case "Mutation.updateProject":
 		if e.complexity.Mutation.UpdateProject == nil {
 			break
@@ -381,6 +369,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.UpdateProject(childComplexity, args["input"].(domain.ProjectInput)), true
+
+	case "Mutation.updateProjectOrder":
+		if e.complexity.Mutation.UpdateProjectOrder == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateProjectOrder_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateProjectOrder(childComplexity, args["input"].(domain.UpdateProjectOrderInput)), true
 
 	case "Mutation.updateProjectTags":
 		if e.complexity.Mutation.UpdateProjectTags == nil {
@@ -674,7 +674,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputProjectInput,
 		ec.unmarshalInputTechStackInput,
 		ec.unmarshalInputTechnologyInput,
-		ec.unmarshalInputUpdateOrderInput,
+		ec.unmarshalInputUpdateProjectOrderInput,
 	)
 	first := true
 
@@ -827,7 +827,7 @@ input ProjectInput {
   qiitaLink: String
   appLink: String
 }
-input UpdateOrderInput {
+input UpdateProjectOrderInput {
   ids: [String!]!
 }
 
@@ -838,7 +838,7 @@ extend type Query {
 extend type Mutation {
   createProject(input: ProjectInput!): Project!
   updateProject(input: ProjectInput!): Project!
-  updateOrder(input: UpdateOrderInput!): [Project!]!
+  updateProjectOrder(input: UpdateProjectOrderInput!): [Project!]!
   deleteProject(id: String!): Project!
   updateProjectTags(id: String!, tags: [Uint!]!): [Technology!]!
 }
@@ -1072,13 +1072,13 @@ func (ec *executionContext) field_Mutation_updateBlog_args(ctx context.Context, 
 	return args, nil
 }
 
-func (ec *executionContext) field_Mutation_updateOrder_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Mutation_updateProjectOrder_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 domain.UpdateOrderInput
+	var arg0 domain.UpdateProjectOrderInput
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalNUpdateOrderInput2backendᚋdomainᚐUpdateOrderInput(ctx, tmp)
+		arg0, err = ec.unmarshalNUpdateProjectOrderInput2backendᚋdomainᚐUpdateProjectOrderInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -2306,8 +2306,8 @@ func (ec *executionContext) fieldContext_Mutation_updateProject(ctx context.Cont
 	return fc, nil
 }
 
-func (ec *executionContext) _Mutation_updateOrder(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_updateOrder(ctx, field)
+func (ec *executionContext) _Mutation_updateProjectOrder(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateProjectOrder(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -2320,7 +2320,7 @@ func (ec *executionContext) _Mutation_updateOrder(ctx context.Context, field gra
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateOrder(rctx, fc.Args["input"].(domain.UpdateOrderInput))
+		return ec.resolvers.Mutation().UpdateProjectOrder(rctx, fc.Args["input"].(domain.UpdateProjectOrderInput))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -2337,7 +2337,7 @@ func (ec *executionContext) _Mutation_updateOrder(ctx context.Context, field gra
 	return ec.marshalNProject2ᚕᚖbackendᚋdomainᚐProjectᚄ(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Mutation_updateOrder(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Mutation_updateProjectOrder(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Mutation",
 		Field:      field,
@@ -2378,7 +2378,7 @@ func (ec *executionContext) fieldContext_Mutation_updateOrder(ctx context.Contex
 		}
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_updateOrder_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+	if fc.Args, err = ec.field_Mutation_updateProjectOrder_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -6446,8 +6446,8 @@ func (ec *executionContext) unmarshalInputTechnologyInput(ctx context.Context, o
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputUpdateOrderInput(ctx context.Context, obj interface{}) (domain.UpdateOrderInput, error) {
-	var it domain.UpdateOrderInput
+func (ec *executionContext) unmarshalInputUpdateProjectOrderInput(ctx context.Context, obj interface{}) (domain.UpdateProjectOrderInput, error) {
+	var it domain.UpdateProjectOrderInput
 	asMap := map[string]interface{}{}
 	for k, v := range obj.(map[string]interface{}) {
 		asMap[k] = v
@@ -6699,9 +6699,9 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "updateOrder":
+		case "updateProjectOrder":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_updateOrder(ctx, field)
+				return ec._Mutation_updateProjectOrder(ctx, field)
 			})
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
@@ -8031,8 +8031,8 @@ func (ec *executionContext) marshalNUint2ᚕuintᚄ(ctx context.Context, sel ast
 	return ret
 }
 
-func (ec *executionContext) unmarshalNUpdateOrderInput2backendᚋdomainᚐUpdateOrderInput(ctx context.Context, v interface{}) (domain.UpdateOrderInput, error) {
-	res, err := ec.unmarshalInputUpdateOrderInput(ctx, v)
+func (ec *executionContext) unmarshalNUpdateProjectOrderInput2backendᚋdomainᚐUpdateProjectOrderInput(ctx context.Context, v interface{}) (domain.UpdateProjectOrderInput, error) {
+	res, err := ec.unmarshalInputUpdateProjectOrderInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 

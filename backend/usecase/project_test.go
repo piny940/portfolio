@@ -81,7 +81,7 @@ func TestList(t *testing.T) {
 
 func TestUpdateOrder(t *testing.T) {
 	usecase := NewProjectUsecase(&projectRepo{Projects: sampleProjects})
-	usecase.UpdatePositions(domain.UpdateOrderInput{
+	usecase.UpdatePositions(domain.UpdateProjectOrderInput{
 		Ids: []string{"2", "3"},
 	})
 	expected := []*domain.Project{

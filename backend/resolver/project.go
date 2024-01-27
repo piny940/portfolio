@@ -29,7 +29,7 @@ func (r *mutationResolver) UpdateProject(ctx context.Context, input domain.Proje
 	return project, nil
 }
 
-func (r *mutationResolver) UpdateOrder(ctx context.Context, input domain.UpdateOrderInput) ([]*domain.Project, error) {
+func (r *mutationResolver) UpdateProjectOrder(ctx context.Context, input domain.UpdateProjectOrderInput) ([]*domain.Project, error) {
 	reg := registry.GetRegistry()
 	projects, err := reg.ProjectUsecase().UpdatePositions(input)
 	if err != nil {

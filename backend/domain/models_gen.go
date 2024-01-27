@@ -41,6 +41,6 @@ type TechnologyInput struct {
 	TagColor string  `json:"tagColor"`
 }
 
-type UpdateOrderInput struct {
+type UpdateProjectOrderInput struct {
 	Ids []string `json:"ids"`
 }
