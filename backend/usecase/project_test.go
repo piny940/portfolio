@@ -81,10 +81,29 @@ func TestList(t *testing.T) {
 
 func TestUpdateOrder(t *testing.T) {
 	usecase := NewProjectUsecase(&projectRepo{Projects: sampleProjects})
-	usecase.UpdatePositions(domain.UpdateProjectOrderInput{
+	newProjects, err := usecase.UpdatePositions(domain.UpdateProjectOrderInput{
 		Ids: []string{"2", "3"},
 	})
-	expected := []*domain.Project{
+	if err != nil {
+		t.Errorf("should not fail: %s", err)
+	}
+	td.Cmp(t, newProjects, []*domain.Project{
+		{
+			ID:         "2",
+			Position:   1,
+			IsFavorite: true,
+		},
+		{
+			ID:         "3",
+			Position:   2,
+			IsFavorite: false,
+		},
+	})
+	actual, err := usecase.List()
+	if err != nil {
+		t.Errorf("should not fail: %s", err)
+	}
+	td.Cmp(t, actual, []*domain.Project{
 		{
 			ID:         "1",
 			IsFavorite: false,
@@ -100,10 +119,5 @@ func TestUpdateOrder(t *testing.T) {
 			IsFavorite: false,
 			Position:   2,
 		},
-	}
-	actual, err := usecase.List()
-	if err != nil {
-		t.Errorf("should not fail: %s", err)
-	}
-	td.Cmp(t, actual, expected)
+	})
 }
