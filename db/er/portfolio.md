@@ -90,4 +90,31 @@ erDiagram
     timestamp updated_at
   }
 
+  repositories ||--o{ commits: "Commit"
+  commits ||--o{ file_changes: "FileChanges"
+  repositories {
+    bigserial id PK
+    varchar name
+    varchar owner
+    timestamp created_at
+    timestamp updated_at
+  }
+  commits {
+    bigserial id PK
+    varchar sha
+    timestamp committed_at
+    varchar author
+    string[] parents
+    bigint repository_id
+    timestamp created_at
+    timestamp updated_at
+  }
+  file_changes {
+    bigserial id PK
+    varchar filename
+    integer added_count
+    integer removed_count
+    timestamp created_at
+    timestamp updated_at
+  }
 ```
