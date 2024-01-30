@@ -97,15 +97,15 @@ jobs:
             ghcr.io/piny940/portfolio-backend:1.0.${{ github.run_number }}
             ghcr.io/piny940/portfolio-backend:latest
 
-  blog-updater:
+  updater:
     runs-on: ubuntu-latest
     steps:
       - name: Check out
         uses: actions/checkout@v4
       - name: Create Release Branch
         run: |
-          git switch -c release-blog-updater
-          git push --set-upstream -f origin release-blog-updater
+          git switch -c release-updater
+          git push --set-upstream -f origin release-updater
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Login to GitHub Container Registry
@@ -120,11 +120,11 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          context: ./blog-updater
-          file: ./blog-updater/Dockerfile
+          context: ./updater
+          file: ./updater/Dockerfile
           build-args: |
             BACKEND_HOST=https://portfolio-backend.piny940.com
             BACKEND_TOKEN=${{ secrets.BACKEND_API_TOKEN }}
           tags: |
-            ghcr.io/piny940/portfolio-blog-updater:1.0.${{ github.run_number }}
-            ghcr.io/piny940/portfolio-blog-updater:latest
+            ghcr.io/piny940/portfolio-updater:1.0.${{ github.run_number }}
+            ghcr.io/piny940/portfolio-updater:latest

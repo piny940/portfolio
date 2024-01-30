@@ -81,7 +81,7 @@ jobs:
           tags: |
             ghcr.io/piny940/portfolio-admin:main-${{ github.sha }}-${{ github.run_number }}
 
-  blog-updater:
+  updater:
     needs: backend
     runs-on: ubuntu-latest
     steps:
@@ -99,7 +99,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          context: ./blog-updater
-          file: ./blog-updater/Dockerfile
+          context: ./updater
+          file: ./updater/Dockerfile
           tags: |
-            ghcr.io/piny940/portfolio-blog-updater:main-${{ github.sha }}-${{ github.run_number }}
+            ghcr.io/piny940/portfolio-updater:main-${{ github.sha }}-${{ github.run_number }}

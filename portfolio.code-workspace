@@ -7,7 +7,7 @@
       "path": "app"
     },
     {
-      "path": "blog-updater"
+      "path": "updater"
     },
     {
       "path": "backend"

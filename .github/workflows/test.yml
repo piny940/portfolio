@@ -36,7 +36,7 @@ jobs:
       - name: Prettier && ESLint
         run: if yarn --cwd app lint |& grep -E "(error|warn)"; then exit 1; fi
 
-  blog-updater:
+  updater:
     env:
       NODE_VERSION: 20
     runs-on: ubuntu-latest
@@ -51,10 +51,10 @@ jobs:
         with:
           path: |
             node_modules
-          key: blog-updater-node-v${{ env.NODE_VERSION }}-deps-${{ hashFiles(format('{0}{1}', github.workspace, '/yarn.lock')) }}
+          key: updater-node-v${{ env.NODE_VERSION }}-deps-${{ hashFiles(format('{0}{1}', github.workspace, '/yarn.lock')) }}
       - name: Yarn install
-        run: yarn --cwd blog-updater install
+        run: yarn --cwd updater install
       - name: Prettier && ESLint
-        run: if yarn --cwd blog-updater lint |& grep -E "(error|warn)"; then exit 1; fi
+        run: if yarn --cwd updater lint |& grep -E "(error|warn)"; then exit 1; fi
       # - name: Yarn test
-      #   run: if yarn --cwd blog-updater test |& grep -E "failed"; then exit 1; fi
+      #   run: if yarn --cwd updater test |& grep -E "failed"; then exit 1; fi
