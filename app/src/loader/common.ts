@@ -1,5 +1,4 @@
 import { readFileSync } from 'fs'
-import { IFileLoader, IYamlLoader } from './_common'
 import { load } from 'js-yaml'
 import {
   Blog,
@@ -9,24 +8,23 @@ import {
   Technology,
 } from '@/resources/types'
 import { queryGql } from '@/utils/api'
-import { ProfileLoader } from './profile'
 import {
   sortBlogsByPublishedAt,
   sortProjectsByFavorite,
   sortTechStacksByProficiency,
 } from '@/utils/helpers'
 
-export class FileLoader implements IFileLoader {
+export class FileLoader {
   load = (filename: string) => {
     try {
       return readFileSync(filename, 'utf8')
     } catch {
-      return ''
+      return undefined
     }
   }
 }
 
-export class YamlLoader implements IYamlLoader {
+export class YamlLoader {
   #fileLoader: FileLoader
 
   constructor() {
@@ -34,7 +32,7 @@ export class YamlLoader implements IYamlLoader {
   }
 
   load = <T = any>(filename: string): T => {
-    const content = this.#fileLoader.load(filename)
+    const content = this.#fileLoader.load(filename) || ''
     return load(content) as T
   }
 }
@@ -94,14 +92,14 @@ export type PortfolioData = {
   technologies: Technology[]
 }
 export const loadPortfolioData = async () => {
-  const profileLoader = new ProfileLoader(new YamlLoader())
-  const profile = profileLoader.load()
+  const profile = new YamlLoader().load<Profile>('src/data/profile.yml')
   const data = await queryGql<{
     blogs: Blog[]
     projects: Project[]
     techStacks: TechStack[]
     technologies: Technology[]
   }>(portfolioQuery)
+  data.projects = pickContent(data.projects)
   data.projects = sortProjectsByFavorite(data.projects)
   data.techStacks = sortTechStacksByProficiency(data.techStacks)
   data.blogs = sortBlogsByPublishedAt(data.blogs)
@@ -109,4 +107,15 @@ export const loadPortfolioData = async () => {
     ...data,
     profile,
   }
+}
+
+const pickContent = (projects: Project[]) => {
+  return projects.map((project) => {
+    const loader = new FileLoader()
+    const content = loader.load(`src/data/documents/${project.id}.md`) || null
+    return {
+      ...project,
+      blogContent: content,
+    }
+  })
 }

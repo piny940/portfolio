@@ -18,10 +18,11 @@ export type Project = {
   title: string
   description: string
   isFavorite: boolean
-  appLink?: string
-  githubLink?: string
-  qiitaLink?: string
+  appLink: string | null
+  githubLink: string | null
+  qiitaLink: string | null
   tags: Technology[]
+  blogContent: string | null
 }
 export type TechStack = {
   id: number
