@@ -3,6 +3,7 @@ package domain
 import (
 	"fmt"
 	"time"
+	"unicode/utf8"
 )
 
 type Project struct {
@@ -57,13 +58,15 @@ func (e *invalidDescriptionLengthError) Error() string {
 }
 
 func (p ProjectInput) IsTitleValid() error {
-	if 0 < len(p.Title) && len(p.Title) <= 20 {
+	length := utf8.RuneCountInString(p.Title)
+	if 0 < length && length <= 20 {
 		return nil
 	}
 	return &invalidDescriptionLengthError{}
 }
 func (p ProjectInput) IsDescriptionValid() error {
-	if 0 < len(p.Description) && len(p.Description) <= 80 {
+	length := utf8.RuneCountInString(p.Description)
+	if 0 < length && length <= 80 {
 		return nil
 	}
 	return &invalidDescriptionLengthError{}
