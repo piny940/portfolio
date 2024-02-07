@@ -21,8 +21,8 @@ export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
 
 const Project = ({ data }: ProjectProps): JSX.Element => {
   const router = useRouter()
-  const title = router.query.title as string
-  return <ProjectShow title={title} data={data} />
+  const id = router.query.id as string
+  return <ProjectShow id={id} data={data} />
 }
 
 export default Project

@@ -27,6 +27,10 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
   className = '',
 }) => {
   const { theme } = useTheme()
+  const mainLink = useMemo(
+    () => (project.blogContent ? `/projects/${project.id}` : project.qiitaLink),
+    [project]
+  )
   const githubLink = useMemo(() => project.githubLink, [project])
   const projectLink = useMemo(() => project.appLink, [project])
   const qiita = useMemo(() => project.qiitaLink, [project])
@@ -48,8 +52,12 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
           <FavoriteIcon size={42} />
         </FavoriteIconDiv>
       )}
-      {project.qiitaLink ? (
-        <Link className="unstyled" href={project.qiitaLink}>
+      {mainLink ? (
+        <Link
+          className="unstyled"
+          href={mainLink}
+          target={project.blogContent ? '_self' : '_blank'}
+        >
           {renderTitle()}
         </Link>
       ) : (

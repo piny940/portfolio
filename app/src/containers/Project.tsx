@@ -7,26 +7,26 @@ import Link from 'next/link'
 import { useMemo } from 'react'
 
 export type ProjectShowProps = {
-  title: string
+  id: string
   data: {
     projects: Project[]
   }
 }
 
-export const ProjectShow: React.FC<ProjectShowProps> = ({ title, data }) => {
+export const ProjectShow: React.FC<ProjectShowProps> = ({ id, data }) => {
   const project = useMemo(() => {
     const projects = data.projects
-    return projects.find((project) => project.title === title)
-  }, [title, data])
+    return projects.find((project) => project.id === id)
+  }, [id, data])
   const link = useMemo(() => project?.appLink, [project])
   const github = useMemo(() => project?.githubLink, [project])
 
-  if (!project) return <Error statusCode={400} />
+  if (!project?.blogContent) return <Error statusCode={400} />
 
   const paths = [
     { name: 'トップページ', path: '/' },
     { name: 'プロジェクト', path: '/projects' },
-    { name: project.title, path: `/projects/${title}` },
+    { name: project.title, path: `/projects/${id}` },
   ]
 
   return (
@@ -60,7 +60,7 @@ export const ProjectShow: React.FC<ProjectShowProps> = ({ title, data }) => {
           )}
         </ul>
         <div className="markdown pb-5">
-          <MarkdownDisplay content={project.description} />
+          <MarkdownDisplay content={project.blogContent} />
         </div>
       </div>
     </>
