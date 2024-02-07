@@ -59,14 +59,14 @@ func (e *invalidDescriptionLengthError) Error() string {
 
 func (p ProjectInput) IsTitleValid() error {
 	length := utf8.RuneCountInString(p.Title)
-	if 0 < length && length <= 20 {
+	if MIN_TITLE_LENGTH <= length && length <= MAX_TITLE_LENGTH {
 		return nil
 	}
 	return &invalidDescriptionLengthError{}
 }
 func (p ProjectInput) IsDescriptionValid() error {
 	length := utf8.RuneCountInString(p.Description)
-	if 0 < length && length <= 80 {
+	if MIN_DESCRIPTION_LENGTH <= length && length <= MAX_DESCRIPTION_LENGTH {
 		return nil
 	}
 	return &invalidDescriptionLengthError{}
