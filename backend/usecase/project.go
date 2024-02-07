@@ -20,6 +20,12 @@ type projectUsecase struct {
 }
 
 func (u *projectUsecase) Create(input domain.ProjectInput) (*domain.Project, error) {
+	if err := input.IsTitleValid(); err != nil {
+		return nil, err
+	}
+	if err := input.IsDescriptionValid(); err != nil {
+		return nil, err
+	}
 	return u.repo.Create(input)
 }
 
@@ -36,6 +42,12 @@ func (u *projectUsecase) List() ([]*domain.Project, error) {
 }
 
 func (u *projectUsecase) Update(input domain.ProjectInput) (*domain.Project, error) {
+	if err := input.IsTitleValid(); err != nil {
+		return nil, err
+	}
+	if err := input.IsDescriptionValid(); err != nil {
+		return nil, err
+	}
 	return u.repo.Update(input)
 }
 
