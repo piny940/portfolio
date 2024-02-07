@@ -36,6 +36,23 @@ jobs:
       - name: Prettier && ESLint
         run: if yarn --cwd app lint |& grep -E "(error|warn)"; then exit 1; fi
 
+  backend:
+    env:
+      GO_VERSION: 1.21.x
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ env.GO_VERSION }}
+      - name: Install dependencies
+        run: cd backend && go get .
+      - name: Build
+        run: cd backend && go build -v ./...
+      - name: Test with the Go CLI
+        run: cd backend && go test ./...
+
   updater:
     env:
       NODE_VERSION: 20
