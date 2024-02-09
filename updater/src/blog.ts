@@ -49,19 +49,45 @@ const filterNewBlogs = (desiredBlogs: BlogInput[], currentBlogs: Blog[]) => {
   return desiredBlogs.filter((blog: any) => !currentBlogUrls.includes(blog.url))
 }
 const notifyToSlack = (newBlogs: Blog[]) => {
-  sendSlackMessage(`
-  ${newBlogs.length} new blogs were created.
-  ${newBlogs
-    .map(
-      (blog) => `{
-    kind: ${blog.kind}
-    title: ${blog.title}
-    url: ${blog.url}
-    publishedAt: ${blog.publishedAt}
-    tags: ${blog.tags.map((tag) => tag.name).join(', ')},
-  `
-    )
-    .join('')}`)
+  const keyValuePair = (label: string, value: string) => ({
+    type: 'rich_text',
+    elements: [
+      {
+        type: 'rich_text_section',
+        elements: [
+          { type: 'text', text: label, style: { bold: true } },
+          { type: 'text', text: `: ${value}` },
+        ],
+      },
+    ],
+  })
+  sendSlackMessage(
+    newBlogs.map((blog) => ({
+      color: '#36A64F',
+      blocks: [
+        {
+          type: 'section',
+          text: { type: 'mrkdwn', text: `*${blog.title}*` },
+        },
+        {
+          type: 'rich_text',
+          elements: [
+            {
+              type: 'rich_text_section',
+              elements: [
+                { type: 'text', text: 'URL', style: { bold: true } },
+                { type: 'text', text: ': ' },
+                { type: 'link', text: blog.url, url: blog.url },
+              ],
+            },
+          ],
+        },
+        keyValuePair('Kind', blog.kind),
+        keyValuePair('Pubslished At', blog.publishedAt),
+        keyValuePair('Tags', blog.tags.map((tag) => tag.name).join(', ')),
+      ],
+    }))
+  )
 }
 
 export const updateBlogs = async () => {
@@ -89,5 +115,8 @@ export const updateBlogs = async () => {
       tags,
     })
   }
-  notifyToSlack(createdBlogs)
+  if (newBlogs.length > 0) {
+    console.log('new Blog')
+    notifyToSlack(createdBlogs)
+  }
 }
