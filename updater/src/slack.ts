@@ -1,5 +1,5 @@
 export const sendSlackMessage = async (attachments: any) => {
-  if (!process.env.SLACK_CHANNEL_ID) {
+  if (!process.env.SLACK_CHANNEL_ID || process.env.SLACK_CHANNEL_ID === '') {
     console.log('SLACK_CHANNEL_ID is not set')
     return
   }
