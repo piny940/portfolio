@@ -33,6 +33,7 @@ export const Navbar: React.FC = () => {
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbar-collapse-target"
+          aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon"></span>
         </button>

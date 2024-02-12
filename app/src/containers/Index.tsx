@@ -4,6 +4,11 @@ import { Profiles } from '@/components/Portfolio/Profile'
 import Link from 'next/link'
 import BlogItems from '@/components/Portfolio/BlogItems'
 import { PortfolioData } from '@/loader/common'
+import styled from 'styled-components'
+
+const SkillItemsSection = styled.section`
+  max-width: 1000px;
+`
 
 export type IndexProps = {
   data: PortfolioData
@@ -13,7 +18,7 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
   return (
     <div id="index">
       <Profiles className="bg-body" profile={data.profile} />
-      <section
+      <SkillItemsSection
         id="skills"
         className="d-flex flex-column align-items-center container py-5"
       >
@@ -24,7 +29,7 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
         <Link href="/skills" className="h5 text-primary">
           もっと見る
         </Link>
-      </section>
+      </SkillItemsSection>
       <div className="bg-body-tertiary py-2"></div>
       <section
         id="projects"
