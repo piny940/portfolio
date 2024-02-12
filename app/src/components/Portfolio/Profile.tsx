@@ -43,7 +43,12 @@ export const Profiles: React.FC<ProfilesProps> = ({
       }
     >
       <BgDiv className="position-absolute w-100 h-100 d-none d-sm-block">
-        <Image alt="背景画像" src={background} className="w-100 h-100" />
+        <Image
+          priority
+          alt="背景画像"
+          src={background}
+          className="w-100 h-100"
+        />
       </BgDiv>
       <ProfileDiv className="top-middle d-flex flex-column align-items-center position-relative rounded p-3 bg-body">
         <Image
@@ -52,6 +57,7 @@ export const Profiles: React.FC<ProfilesProps> = ({
           width={150}
           height={150}
           className="rounded-circle"
+          priority
         />
         <h1 className="mt-2">Piny940</h1>
         <ul className="list-unstyled mt-2 mb-1 d-flex align-items-center">
@@ -66,7 +72,7 @@ export const Profiles: React.FC<ProfilesProps> = ({
                 width={31}
                 height={31}
                 alt="github-icon"
-                loading="eager"
+                priority
               />
             </Link>
           </li>
@@ -76,7 +82,13 @@ export const Profiles: React.FC<ProfilesProps> = ({
               target="_blank"
               className="unstyled mx-1"
             >
-              <Image src={qiitaIcon} width={31} height={31} alt="qiita-icon" />
+              <Image
+                priority
+                src={qiitaIcon}
+                width={31}
+                height={31}
+                alt="qiita-icon"
+              />
             </Link>
           </li>
         </ul>

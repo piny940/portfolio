@@ -57,7 +57,7 @@ export const Navbar: React.FC = () => {
               </Link>
             </li>
             <li className="nav-item d-lg-none">
-              <a
+              <button
                 type="button"
                 onClick={toggleTheme()}
                 className="nav-link d-flex align-items-center"
@@ -73,7 +73,7 @@ export const Navbar: React.FC = () => {
                     ダークモード
                   </>
                 )}
-              </a>
+              </button>
             </li>
           </ul>
           <div className="nav-item d-none d-lg-block">

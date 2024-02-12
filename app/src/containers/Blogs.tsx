@@ -18,12 +18,11 @@ const Blogs = ({ data }: BlogsProps): JSX.Element => {
   return (
     <>
       <Breadcrumb paths={paths} />
-      <section
-        id="blogs"
-        className="d-flex flex-column align-items-center pb-5 container px-4"
-      >
-        <h1 className="h1 text-center title-underline">ブログ一覧</h1>
-        <div className="mt-4">
+      <section id="blogs" className="pb-5 container">
+        <h1 className="h1 text-center">
+          <span className="title-underline px-1">ブログ一覧</span>
+        </h1>
+        <div className="mt-5">
           <BlogItems blogs={data.blogs} />
         </div>
       </section>
