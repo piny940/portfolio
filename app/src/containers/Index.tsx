@@ -9,6 +9,9 @@ import styled from 'styled-components'
 const SkillItemsSection = styled.section`
   max-width: 1000px;
 `
+const ProjectItemsSection = styled.section`
+  max-width: 1000px;
+`
 
 export type IndexProps = {
   data: PortfolioData
@@ -31,7 +34,7 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
         </Link>
       </SkillItemsSection>
       <div className="bg-body-tertiary py-2"></div>
-      <section
+      <ProjectItemsSection
         id="projects"
         className="d-flex flex-column align-items-center py-5 mx-auto container"
       >
@@ -44,7 +47,7 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
         <Link href="/projects" className="h5 text-primary">
           <span>もっと見る</span>
         </Link>
-      </section>
+      </ProjectItemsSection>
       <div className="bg-body-tertiary py-2"></div>
       <section
         id="blogs"
