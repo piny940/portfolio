@@ -15,7 +15,7 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
       <Profiles className="bg-body" profile={data.profile} />
       <section
         id="skills"
-        className="d-flex flex-column align-items-center w-75 p-5 mx-auto"
+        className="d-flex flex-column align-items-center container py-5"
       >
         <Link href="/skills" className="unstyled">
           <h2 className="h1 text-center title-underline">技術スタック</h2>
@@ -28,7 +28,7 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
       <div className="bg-body-tertiary py-2"></div>
       <section
         id="projects"
-        className="d-flex flex-column align-items-center py-5 w-75 mx-auto px-4"
+        className="d-flex flex-column align-items-center py-5 mx-auto container"
       >
         <Link href="/projects" className="unstyled">
           <h2 className="h1 text-center title-underline">プロジェクト</h2>
@@ -43,7 +43,7 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
       <div className="bg-body-tertiary py-2"></div>
       <section
         id="blogs"
-        className="d-flex flex-column align-items-center mx-auto py-5 px-4 px-lg-5"
+        className="d-flex flex-column align-items-center mx-auto py-5 container"
       >
         <Link href="/blogs" className="unstyled">
           <h2 className="h1 text-center title-underline">ブログ一覧</h2>
