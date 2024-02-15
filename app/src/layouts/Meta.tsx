@@ -50,7 +50,7 @@ const Meta = ({ keyword, noIndex = false }: MetaProps): JSX.Element => {
       />
       <link rel="canonical" href="https://www.piny940.com" />
       {noIndex && (
-        <meta data-test-id={TestID.NO_INDEX} name="robots" content="noindex" />
+        <meta data-testid={TestID.NO_INDEX} name="robots" content="noindex" />
       )}
     </Head>
   )
