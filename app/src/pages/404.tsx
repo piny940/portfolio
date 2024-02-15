@@ -5,7 +5,7 @@ import Link from 'next/link'
 const Custom404: React.FC = () => {
   return (
     <>
-      <Meta />
+      <Meta noIndex />
       <div className="container" data-testid={TestID.CUSTOM404}>
         <h1>ページが見つかりませんでした。(404)</h1>
         <p>

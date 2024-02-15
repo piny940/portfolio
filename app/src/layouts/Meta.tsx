@@ -4,9 +4,10 @@ import { memo, useMemo } from 'react'
 
 export type MetaProps = {
   keyword?: string
+  noIndex?: boolean
 }
 
-const Meta = ({ keyword }: MetaProps): JSX.Element => {
+const Meta = ({ keyword, noIndex = false }: MetaProps): JSX.Element => {
   const { theme } = useTheme()
   const prefix = useMemo(() => (keyword ? `${keyword} | ` : ''), [keyword])
 
@@ -47,6 +48,7 @@ const Meta = ({ keyword }: MetaProps): JSX.Element => {
         href="https://i.gyazo.com/445d44d3c0835cf7766527126daccc52.png"
       />
       <link rel="canonical" href="https://www.piny940.com" />
+      {noIndex && <meta name="robots" content="noindex" />}
     </Head>
   )
 }

@@ -5,7 +5,7 @@ import Link from 'next/link'
 const Custom500: React.FC = () => {
   return (
     <>
-      <Meta />
+      <Meta noIndex />
       <div className="container" data-testid={TestID.CUSTOM500}>
         <h1>サーバーでエラーが発生しました。</h1>
         <p>
