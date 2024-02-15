@@ -59,7 +59,7 @@ export const Profiles: React.FC<ProfilesProps> = ({
           className="rounded-circle"
           priority
         />
-        <h1 className="mt-2">Piny940</h1>
+        <h1 className="mt-2">piny940</h1>
         <ul className="list-unstyled mt-2 mb-1 d-flex align-items-center">
           <li>
             <Link

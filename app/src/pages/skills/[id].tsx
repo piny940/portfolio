@@ -1,4 +1,5 @@
 import Skill from '@/containers/Skill'
+import Meta from '@/layouts/Meta'
 import { PortfolioData, loadPortfolioData } from '@/loader/common'
 import { GetStaticPaths } from 'next'
 import { useRouter } from 'next/router'
@@ -22,7 +23,12 @@ export const getStaticPaths: GetStaticPaths<{ slug: string }> = async () => {
 const SkillPage = ({ data }: SkillProps): JSX.Element => {
   const router = useRouter()
   const id = router.query.id as string
-  return <Skill id={parseInt(id)} data={data} />
+  return (
+    <>
+      <Meta />
+      <Skill id={parseInt(id)} data={data} />
+    </>
+  )
 }
 
 export default SkillPage

@@ -1,4 +1,5 @@
 import Projects from '@/containers/Projects'
+import Meta from '@/layouts/Meta'
 import { PortfolioData, loadPortfolioData } from '@/loader/common'
 
 type ProjectsProps = {
@@ -10,7 +11,12 @@ export const getStaticProps = async (): Promise<{ props: ProjectsProps }> => ({
 })
 
 const ProjectsPage = ({ data }: ProjectsProps): JSX.Element => {
-  return <Projects data={data} />
+  return (
+    <>
+      <Meta />
+      <Projects data={data} />
+    </>
+  )
 }
 
 export default ProjectsPage
