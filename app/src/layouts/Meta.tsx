@@ -1,4 +1,5 @@
 import { useTheme } from '@/context/ThemeProvider'
+import { TestID } from '@/resources/TestID'
 import Head from 'next/head'
 import { memo, useMemo } from 'react'
 
@@ -48,7 +49,9 @@ const Meta = ({ keyword, noIndex = false }: MetaProps): JSX.Element => {
         href="https://i.gyazo.com/445d44d3c0835cf7766527126daccc52.png"
       />
       <link rel="canonical" href="https://www.piny940.com" />
-      {noIndex && <meta name="robots" content="noindex" />}
+      {noIndex && (
+        <meta data-test-id={TestID.NO_INDEX} name="robots" content="noindex" />
+      )}
     </Head>
   )
 }
