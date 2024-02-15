@@ -1,34 +1,37 @@
 import { useTheme } from '@/context/ThemeProvider'
 import Head from 'next/head'
-import { memo } from 'react'
+import { memo, useMemo } from 'react'
 
 export type MetaProps = {
-  title?: string
-  description?: string
+  keyword?: string
 }
 
-const Meta = ({
-  title = 'piny940 ポートフォリオ',
-  description = 'piny940のポートフォリオです。',
-}: MetaProps): JSX.Element => {
+const Meta = ({ keyword }: MetaProps): JSX.Element => {
   const { theme } = useTheme()
+  const prefix = useMemo(() => (keyword ? `${keyword} | ` : ''), [keyword])
 
   return (
     <Head>
-      <title>{title}</title>
+      <title>{prefix + 'piny940 ポートフォリオ'}</title>
       <meta content="text/html; charset=UTF-8" httpEquiv="Content-Type" />
-      <meta content={title} name="keywords" />
+      <meta
+        content={(keyword || '') + ' piny940 ポートフォリオ'}
+        name="keywords"
+      />
       <meta
         name="theme-color"
         content={theme === 'dark' ? '#212529' : '#f8f9fa'}
       />
       <link rel="icon" href="/favicon.ico" />
-      <meta property="og:title" content={title} />
+      <meta property="og:title" content={prefix + 'piny940 ポートフォリオ'} />
       <meta name="author" content="mikan" />
-      <meta name="description" content={description} />
-      <meta property="og:description" content={description} />
+      <meta name="description" content="piny940のポートフォリオです。" />
+      <meta property="og:description" content="piny940のポートフォリオです。" />
       <meta property="og:url" content="https://www.piny940.com" />
-      <meta property="og:site_name" content={title} />
+      <meta
+        property="og:site_name"
+        content={prefix + 'piny940 ポートフォリオ'}
+      />
       <meta property="og:type" content="website" />
       <meta property="og:locale" content="ja_JP" />
       <meta
