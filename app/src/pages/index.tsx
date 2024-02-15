@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 import { Index } from '../containers/Index'
 import { PortfolioData, loadPortfolioData } from '@/loader/common'
+import Meta from '@/layouts/Meta'
 
 type HomeProps = {
   data: PortfolioData
@@ -12,7 +13,12 @@ export const getStaticProps = async (): Promise<{ props: HomeProps }> => {
   }
 }
 const Home: NextPage<HomeProps> = ({ data }) => {
-  return <Index data={data} />
+  return (
+    <>
+      <Meta />
+      <Index data={data} />
+    </>
+  )
 }
 
 export default Home

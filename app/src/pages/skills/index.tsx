@@ -1,4 +1,5 @@
 import Skills from '@/containers/Skills'
+import Meta from '@/layouts/Meta'
 import { PortfolioData, loadPortfolioData } from '@/loader/common'
 
 type SkillsProps = {
@@ -10,7 +11,12 @@ export const getStaticProps = async (): Promise<{ props: SkillsProps }> => ({
 })
 
 const SkillsPage = ({ data }: SkillsProps): JSX.Element => {
-  return <Skills data={data} />
+  return (
+    <>
+      <Meta />
+      <Skills data={data} />
+    </>
+  )
 }
 
 export default SkillsPage

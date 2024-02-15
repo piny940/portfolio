@@ -1,12 +1,12 @@
 import { useTheme } from '@/context/ThemeProvider'
-import HeadBase from 'next/head'
+import Head from 'next/head'
 import { memo } from 'react'
 
-const Head = (): JSX.Element => {
+const Meta = (): JSX.Element => {
   const { theme } = useTheme()
 
   return (
-    <HeadBase>
+    <Head>
       <title>Piny940 ポートフォリオ</title>
       <meta content="text/html; charset=UTF-8" httpEquiv="Content-Type" />
       <meta content="Piny940 ポートフォリオ" name="keywords" />
@@ -36,8 +36,8 @@ const Head = (): JSX.Element => {
         href="https://i.gyazo.com/445d44d3c0835cf7766527126daccc52.png"
       />
       <link rel="canonical" href="https://www.piny940.com" />
-    </HeadBase>
+    </Head>
   )
 }
 
-export default memo(Head)
+export default memo(Meta)
