@@ -1,0 +1,15 @@
+.profile {
+  border-top-width: 10px;
+  border-style: solid;
+  border-image: linear-gradient(
+    to right,
+    rgb(48, 117, 255) 0%,
+    rgb(45, 219, 208) 100%
+  );
+  border-image-slice: 1;
+  max-width: 90%;
+}
+
+.bgWrapper {
+  opacity: 0.3;
+}
