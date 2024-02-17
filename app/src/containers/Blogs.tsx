@@ -16,9 +16,9 @@ const Blogs = ({ data }: BlogsProps): JSX.Element => {
   ]
 
   return (
-    <>
+    <div className="container pt-3">
       <Breadcrumb paths={paths} />
-      <section id="blogs" className="container">
+      <section id="blogs">
         <h1 className="h1 text-center">
           <span className="title-underline px-1">ブログ一覧</span>
         </h1>
@@ -26,7 +26,7 @@ const Blogs = ({ data }: BlogsProps): JSX.Element => {
           <BlogItems blogs={data.blogs} />
         </div>
       </section>
-    </>
+    </div>
   )
 }
 
