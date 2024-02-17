@@ -41,18 +41,14 @@ const Skill = ({ data, id }: SkillProps): JSX.Element => {
       {projects.length > 0 && (
         <section className="py-3">
           <h2>プロジェクト一覧</h2>
-          <div className="d-flex flex-column align-items-center">
-            <ProjectItems projects={projects} />
-          </div>
+          <ProjectItems projects={projects} />
         </section>
       )}
 
       {blogs.length > 0 && (
         <section className="py-3">
           <h2>ブログ一覧</h2>
-          <div className="d-flex flex-column align-items-center">
-            <BlogItems blogs={blogs} />
-          </div>
+          <BlogItems blogs={blogs} />
         </section>
       )}
     </div>
