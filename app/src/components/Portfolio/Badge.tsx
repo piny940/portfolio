@@ -1,10 +1,5 @@
 import { useTheme } from '@/context/ThemeProvider'
-import { CSSProperties, memo } from 'react'
-import styled from 'styled-components'
-
-const BadgeSpan = styled.span`
-  font-size: 17px;
-`
+import { CSSProperties, memo, useMemo } from 'react'
 
 export type BadgeProps = {
   color: string
@@ -13,18 +8,26 @@ export type BadgeProps = {
   testId?: string
 }
 
-const Badge = ({ color, label, size, testId }: BadgeProps): JSX.Element => {
+const Badge = ({
+  color,
+  label,
+  size = 17,
+  testId,
+}: BadgeProps): JSX.Element => {
   const { theme } = useTheme()
 
-  const style: CSSProperties = {
-    filter: theme === 'dark' ? 'brightness(85%)' : 'brightness(100%)',
-    backgroundColor: color,
-    fontSize: `${size}px`,
-  }
+  const style = useMemo(
+    (): CSSProperties => ({
+      filter: theme === 'dark' ? 'brightness(85%)' : 'brightness(100%)',
+      backgroundColor: color,
+      fontSize: `${size}px`,
+    }),
+    [theme, color, size]
+  )
   return (
-    <BadgeSpan data-testid={testId} style={style} className="badge">
+    <span data-testid={testId} style={style} className="badge">
       {label}
-    </BadgeSpan>
+    </span>
   )
 }
 
