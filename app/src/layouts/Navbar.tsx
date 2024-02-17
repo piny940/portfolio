@@ -21,7 +21,7 @@ export const Navbar: React.FC = () => {
         (theme === 'light' ? 'navbar-light bg-light ' : 'navbar-dark bg-dark')
       }
     >
-      <div className="container-fluid px-5">
+      <div className="container">
         <Link
           href="/"
           className="unstyled title fw-bold d-flex align-items-center text-body"
