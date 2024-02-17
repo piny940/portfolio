@@ -16,19 +16,16 @@ const Projects = ({ data }: ProjectsProps): JSX.Element => {
   ]
 
   return (
-    <>
-      <div className="container pt-3">
-        <Breadcrumb paths={paths} />
-        <section id="projects">
-          <h1 className="h1 text-center">
-            <span className="title-underline px-1">プロジェクト</span>
-          </h1>
-          <div className="mt-5">
-            <ProjectItems projects={data.projects} />
-          </div>
-        </section>
-      </div>
-    </>
+    <div className="container pt-3">
+      <Breadcrumb paths={paths} />
+      <section
+        id="projects"
+        className="d-flex align-items-center flex-column row-gap-3 row-gap-md-5"
+      >
+        <h1 className="h1 title-underline px-1">プロジェクト</h1>
+        <ProjectItems projects={data.projects} />
+      </section>
+    </div>
   )
 }
 
