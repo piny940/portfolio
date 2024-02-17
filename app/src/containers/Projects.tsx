@@ -17,15 +17,17 @@ const Projects = ({ data }: ProjectsProps): JSX.Element => {
 
   return (
     <>
-      <Breadcrumb paths={paths} />
-      <section id="projects" className="pb-5 container">
-        <h1 className="h1 text-center">
-          <span className="title-underline px-1">プロジェクト</span>
-        </h1>
-        <div className="mt-5">
-          <ProjectItems projects={data.projects} />
-        </div>
-      </section>
+      <div className="container pt-3">
+        <Breadcrumb paths={paths} />
+        <section id="projects" className="pb-5">
+          <h1 className="h1 text-center">
+            <span className="title-underline px-1">プロジェクト</span>
+          </h1>
+          <div className="mt-5">
+            <ProjectItems projects={data.projects} />
+          </div>
+        </section>
+      </div>
     </>
   )
 }

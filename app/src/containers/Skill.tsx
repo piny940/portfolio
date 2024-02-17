@@ -35,29 +35,27 @@ const Skill = ({ data, id }: SkillProps): JSX.Element => {
   ]
 
   return (
-    <>
+    <div className="container pt-3">
       <Breadcrumb paths={paths} />
-      <div className="px-5">
-        <h1 className="h1 title-underline ps-3">{technology.name}</h1>
-        {projects.length > 0 && (
-          <section className="py-3 px-5">
-            <h2>プロジェクト一覧</h2>
-            <div className="d-flex flex-column align-items-center">
-              <ProjectItems projects={projects} />
-            </div>
-          </section>
-        )}
+      <h1 className="h1 title-underline ps-3">{technology.name}</h1>
+      {projects.length > 0 && (
+        <section className="py-3">
+          <h2>プロジェクト一覧</h2>
+          <div className="d-flex flex-column align-items-center">
+            <ProjectItems projects={projects} />
+          </div>
+        </section>
+      )}
 
-        {blogs.length > 0 && (
-          <section className="py-3 px-5">
-            <h2>ブログ一覧</h2>
-            <div className="d-flex flex-column align-items-center">
-              <BlogItems blogs={blogs} />
-            </div>
-          </section>
-        )}
-      </div>
-    </>
+      {blogs.length > 0 && (
+        <section className="py-3">
+          <h2>ブログ一覧</h2>
+          <div className="d-flex flex-column align-items-center">
+            <BlogItems blogs={blogs} />
+          </div>
+        </section>
+      )}
+    </div>
   )
 }
 
