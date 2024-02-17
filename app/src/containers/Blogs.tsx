@@ -18,7 +18,7 @@ const Blogs = ({ data }: BlogsProps): JSX.Element => {
   return (
     <>
       <Breadcrumb paths={paths} />
-      <section id="blogs" className="pb-5 container">
+      <section id="blogs" className="container">
         <h1 className="h1 text-center">
           <span className="title-underline px-1">ブログ一覧</span>
         </h1>

@@ -59,7 +59,7 @@ export const ProjectShow: React.FC<ProjectShowProps> = ({ id, data }) => {
             </li>
           )}
         </ul>
-        <div className="markdown pb-5">
+        <div className="markdown">
           <MarkdownDisplay content={project.blogContent} />
         </div>
       </div>

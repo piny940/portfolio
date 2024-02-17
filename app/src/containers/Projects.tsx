@@ -19,7 +19,7 @@ const Projects = ({ data }: ProjectsProps): JSX.Element => {
     <>
       <div className="container pt-3">
         <Breadcrumb paths={paths} />
-        <section id="projects" className="pb-5">
+        <section id="projects">
           <h1 className="h1 text-center">
             <span className="title-underline px-1">プロジェクト</span>
           </h1>
