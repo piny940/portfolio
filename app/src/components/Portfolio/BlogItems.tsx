@@ -8,10 +8,10 @@ export type BlogItemsProps = {
 
 const BlogItems = ({ blogs }: BlogItemsProps): JSX.Element => {
   return (
-    <div className="row row-cols-lg-2 align-items-stretch">
+    <div className="row row-cols-1 row-cols-lg-2 g-4">
       {blogs.map((blog) => (
-        <div className="col-lg p-3 mb-3" key={blog.id}>
-          <BlogItem blog={blog} />
+        <div className="col" key={blog.id}>
+          <BlogItem key={blog.id} blog={blog} />
         </div>
       ))}
     </div>
