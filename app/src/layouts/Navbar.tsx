@@ -7,11 +7,10 @@ import { useCallback } from 'react'
 
 export const Navbar: React.FC = () => {
   const { theme, setTheme } = useTheme()
-  const toggleTheme = useCallback(() => {
-    return () => {
-      setTheme(theme === 'light' ? 'dark' : 'light')
-    }
-  }, [theme, setTheme])
+  const toggleTheme = useCallback(
+    () => setTheme(theme === 'light' ? 'dark' : 'light'),
+    [theme, setTheme]
+  )
 
   return (
     <nav
@@ -21,7 +20,7 @@ export const Navbar: React.FC = () => {
         (theme === 'light' ? 'navbar-light bg-light ' : 'navbar-dark bg-dark')
       }
     >
-      <div className="container-fluid px-5">
+      <div className="container">
         <Link
           href="/"
           className="unstyled title fw-bold d-flex align-items-center text-body"
@@ -46,7 +45,7 @@ export const Navbar: React.FC = () => {
               <Link className="nav-link active" href="/skills">
                 技術スタック
               </Link>
-            </li>{' '}
+            </li>
             <li className="nav-item">
               <Link className="nav-link active" href="/projects">
                 プロジェクト
@@ -60,7 +59,7 @@ export const Navbar: React.FC = () => {
             <li className="nav-item d-lg-none">
               <button
                 type="button"
-                onClick={toggleTheme()}
+                onClick={toggleTheme}
                 className="nav-link d-flex align-items-center"
               >
                 {theme === 'light' ? (
@@ -78,7 +77,7 @@ export const Navbar: React.FC = () => {
             </li>
           </ul>
           <div className="nav-item d-none d-lg-block">
-            <ThemeToggler theme={theme} toggleTheme={toggleTheme()} />
+            <ThemeToggler theme={theme} toggleTheme={toggleTheme} />
           </div>
         </div>
       </div>

@@ -10,7 +10,7 @@ export type BreadcrumbProps = {
 
 const Breadcrumb = ({ paths }: BreadcrumbProps): JSX.Element => {
   return (
-    <nav aria-label="breadcrumb" className="mt-3 ms-5">
+    <nav aria-label="breadcrumb">
       <ol className="breadcrumb">
         {paths.slice(0, paths.length - 1).map((path, i) => (
           <li className="breadcrumb-item" key={path.path}>

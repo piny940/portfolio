@@ -16,17 +16,16 @@ const Blogs = ({ data }: BlogsProps): JSX.Element => {
   ]
 
   return (
-    <>
+    <div className="container pt-3">
       <Breadcrumb paths={paths} />
-      <section id="blogs" className="pb-5 container">
-        <h1 className="h1 text-center">
-          <span className="title-underline px-1">ブログ一覧</span>
-        </h1>
-        <div className="mt-5">
-          <BlogItems blogs={data.blogs} />
-        </div>
+      <section
+        id="blogs"
+        className="d-flex flex-column align-items-center row-gap-3 row-gap-md-5"
+      >
+        <h1 className="h1 text-center title-underline px-1">ブログ一覧</h1>
+        <BlogItems blogs={data.blogs} />
       </section>
-    </>
+    </div>
   )
 }
 

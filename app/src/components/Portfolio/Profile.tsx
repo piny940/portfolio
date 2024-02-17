@@ -1,29 +1,13 @@
 import { useTheme } from '@/context/ThemeProvider'
 import Image from 'next/image'
 import Link from 'next/link'
-import styled from 'styled-components'
 import githubWhiteIcon from '../../resources/images/common/github-white.png'
 import githubIcon from '../../resources/images/common/github.png'
 import qiitaIcon from '../../resources/images/common/qiita.png'
 import profileIcon from '../../resources/images/profile/icon.png'
 import background from '../../resources/images/profile/background.png'
 import { Profile } from '@/resources/types'
-
-const BgDiv = styled.div`
-  opacity: 0.3;
-`
-
-const ProfileDiv = styled.div`
-  border-top-width: 10px;
-  border-style: solid;
-  border-image: linear-gradient(
-    to right,
-    rgb(48, 117, 255) 0%,
-    rgb(45, 219, 208) 100%
-  );
-  border-image-slice: 1;
-  max-width: 90%;
-`
+import styles from '@/styles/profile.module.scss'
 
 export type ProfilesProps = {
   className?: string
@@ -42,15 +26,24 @@ export const Profiles: React.FC<ProfilesProps> = ({
         'd-flex flex-column align-items-center position-relative ' + className
       }
     >
-      <BgDiv className="position-absolute w-100 h-100 d-none d-sm-block">
+      <div
+        className={
+          'position-absolute w-100 h-100 d-none d-sm-block ' + styles.bgWrapper
+        }
+      >
         <Image
           priority
           alt="背景画像"
           src={background}
           className="w-100 h-100"
         />
-      </BgDiv>
-      <ProfileDiv className="top-middle d-flex flex-column align-items-center position-relative rounded p-3 bg-body">
+      </div>
+      <div
+        className={
+          'top-middle d-flex flex-column align-items-center position-relative rounded p-3 bg-body ' +
+          styles.profile
+        }
+      >
         <Image
           src={profileIcon}
           alt="icon"
@@ -93,7 +86,7 @@ export const Profiles: React.FC<ProfilesProps> = ({
           </li>
         </ul>
         <p className="mt-3 top-profile">{profile.frontDescription}</p>
-      </ProfileDiv>
+      </div>
     </div>
   )
 }
