@@ -1,13 +1,8 @@
 import { TestID } from '@/resources/TestID'
 import { memo } from 'react'
-import styled from 'styled-components'
 import Link from 'next/link'
 import TechnologyTag from './TechnologyTag'
 import { Blog } from '@/resources/types'
-
-const BlogItemDiv = styled.div`
-  /* max-width: 100%; */
-`
 
 export type BlogItemProps = {
   blog: Blog
@@ -15,7 +10,7 @@ export type BlogItemProps = {
 
 const BlogItem = ({ blog }: BlogItemProps): JSX.Element => {
   return (
-    <BlogItemDiv
+    <div
       data-testid={TestID.BLOG_ITEM}
       className="bg-body p-4 rounded border w-100 h-100"
     >
@@ -29,7 +24,7 @@ const BlogItem = ({ blog }: BlogItemProps): JSX.Element => {
           </li>
         ))}
       </ul>
-    </BlogItemDiv>
+    </div>
   )
 }
 

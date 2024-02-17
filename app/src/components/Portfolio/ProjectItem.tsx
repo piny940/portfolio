@@ -1,4 +1,3 @@
-import styled from 'styled-components'
 import { MaterialIcon } from '../Common/MaterialIcon'
 import Link from 'next/link'
 import { useTheme } from '@/context/ThemeProvider'
@@ -10,12 +9,7 @@ import { useMemo } from 'react'
 import FavoriteIcon from './FavoriteIcon'
 import { TestID } from '@/resources/TestID'
 import { Project } from '@/resources/types'
-
-const FavoriteIconDiv = styled.div`
-  position: absolute;
-  left: -10px;
-  top: -10px;
-`
+import styles from '@/styles/item.module.scss'
 
 export type ProjectItemProps = {
   project: Project
@@ -48,9 +42,9 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
       }
     >
       {project.isFavorite && (
-        <FavoriteIconDiv>
+        <div className={styles.favoriteIcon}>
           <FavoriteIcon size={42} />
-        </FavoriteIconDiv>
+        </div>
       )}
       {mainLink ? (
         <Link

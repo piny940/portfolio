@@ -4,14 +4,7 @@ import { Profiles } from '@/components/Portfolio/Profile'
 import Link from 'next/link'
 import BlogItems from '@/components/Portfolio/BlogItems'
 import { PortfolioData } from '@/loader/common'
-import styled from 'styled-components'
-
-const SkillItemsSection = styled.section`
-  max-width: 1000px;
-`
-const ProjectItemsSection = styled.section`
-  max-width: 1000px;
-`
+import styles from '@/styles/index.module.scss'
 
 export type IndexProps = {
   data: PortfolioData
@@ -21,9 +14,12 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
   return (
     <div id="index">
       <Profiles className="bg-body" profile={data.profile} />
-      <SkillItemsSection
+      <section
         id="skills"
-        className="d-flex flex-column align-items-center container py-5 row-gap-4 row-gap-lg-5"
+        className={
+          'd-flex flex-column align-items-center container py-5 row-gap-4 row-gap-lg-5 ' +
+          styles.skillItemsSection
+        }
       >
         <Link href="/skills" className="unstyled">
           <h2 className="h1 text-center title-underline">技術スタック</h2>
@@ -32,11 +28,14 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
         <Link href="/skills" className="h5 text-primary">
           もっと見る
         </Link>
-      </SkillItemsSection>
+      </section>
       <div className="bg-body-tertiary py-2"></div>
-      <ProjectItemsSection
+      <section
         id="projects"
-        className="d-flex flex-column align-items-center py-5 container row-gap-4 row-gap-lg-5"
+        className={
+          'd-flex flex-column align-items-center py-5 container row-gap-4 row-gap-lg-5 ' +
+          styles.projectItemsSection
+        }
       >
         <Link href="/projects" className="unstyled">
           <h2 className="h1 text-center title-underline">プロジェクト</h2>
@@ -45,7 +44,7 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
         <Link href="/projects" className="h5 text-primary">
           <span>もっと見る</span>
         </Link>
-      </ProjectItemsSection>
+      </section>
       <div className="bg-body-tertiary py-2"></div>
       <section
         id="blogs"
