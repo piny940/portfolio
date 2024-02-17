@@ -49,7 +49,7 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
       <div className="bg-body-tertiary py-2"></div>
       <section
         id="blogs"
-        className="d-flex flex-column align-items-center py-5 container row-gap-4 row-gap-lg-5"
+        className="d-flex flex-column align-items-center pt-5 container row-gap-4 row-gap-lg-5"
       >
         <Link href="/blogs" className="unstyled">
           <h2 className="h1 text-center title-underline">ブログ一覧</h2>
