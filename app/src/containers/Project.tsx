@@ -40,7 +40,7 @@ export const ProjectShow: React.FC<ProjectShowProps> = ({ id, data }) => {
           </li>
         ))}
       </ul>
-      <ul className="list-unstyled links ms-4">
+      <ul className="list-unstyled links ms-1 ms-lg-4">
         {link && (
           <li className="my-2">
             アプリリンク:
