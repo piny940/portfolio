@@ -12,7 +12,7 @@ export const SkillItems: React.FC<SkillsItemsProps> = ({
 }) => {
   return (
     <ul
-      className={`list-unstyled row row-cols-1 row-cols-sm-2 row-cols-md-${row} g-5`}
+      className={`list-unstyled row row-cols-1 row-cols-sm-2 row-cols-md-${row} gy-5`}
     >
       {techStacks.map((techStack) => (
         <li className="col" key={techStack.id}>

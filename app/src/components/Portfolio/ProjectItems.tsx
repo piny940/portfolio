@@ -9,7 +9,7 @@ export type ProjectItemsProps = {
 
 const ProjectItems: React.FC<ProjectItemsProps> = ({ projects, row = 3 }) => {
   return (
-    <div className={`row row-cols-1 row-cols-md-2 row-cols-xl-${row} g-4`}>
+    <div className={`row row-cols-1 row-cols-md-2 row-cols-xl-${row} gy-4`}>
       {projects.map((project) => (
         <div className="col" key={project.title}>
           <ProjectItem project={project} />
