@@ -23,7 +23,7 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
       <Profiles className="bg-body" profile={data.profile} />
       <SkillItemsSection
         id="skills"
-        className="d-flex flex-column align-items-center container py-5"
+        className="d-flex flex-column align-items-center container py-5 row-gap-4 row-gap-lg-5"
       >
         <Link href="/skills" className="unstyled">
           <h2 className="h1 text-center title-underline">技術スタック</h2>
@@ -36,14 +36,12 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
       <div className="bg-body-tertiary py-2"></div>
       <ProjectItemsSection
         id="projects"
-        className="d-flex flex-column align-items-center py-5 mx-auto container"
+        className="d-flex flex-column align-items-center py-5 container row-gap-4 row-gap-lg-5"
       >
         <Link href="/projects" className="unstyled">
           <h2 className="h1 text-center title-underline">プロジェクト</h2>
         </Link>
-        <div className="mt-5">
-          <ProjectItems row={2} projects={data.projects.slice(0, 6)} />
-        </div>
+        <ProjectItems row={2} projects={data.projects.slice(0, 6)} />
         <Link href="/projects" className="h5 text-primary">
           <span>もっと見る</span>
         </Link>
@@ -51,14 +49,12 @@ export const Index = ({ data }: IndexProps): JSX.Element => {
       <div className="bg-body-tertiary py-2"></div>
       <section
         id="blogs"
-        className="d-flex flex-column align-items-center mx-auto py-5 container"
+        className="d-flex flex-column align-items-center py-5 container row-gap-4 row-gap-lg-5"
       >
         <Link href="/blogs" className="unstyled">
           <h2 className="h1 text-center title-underline">ブログ一覧</h2>
         </Link>
-        <div className="mt-5 w-100">
-          <BlogItems blogs={data.blogs.slice(0, 4)} />
-        </div>
+        <BlogItems blogs={data.blogs.slice(0, 4)} />
         <Link href="/blogs" className="h5 text-primary">
           <span>もっと見る</span>
         </Link>
