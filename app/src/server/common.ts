@@ -1,18 +1,13 @@
 import { readFileSync } from 'fs'
 import { load } from 'js-yaml'
-import {
-  Blog,
-  Profile,
-  Project,
-  TechStack,
-  Technology,
-} from '@/resources/types'
-import { queryGql } from '@/utils/api'
+import { Profile } from '@/resources/types'
 import {
   sortBlogsByPublishedAt,
   sortProjectsByFavorite,
   sortTechStacksByProficiency,
 } from '@/utils/helpers'
+import { FetchAllDataQuery, Project, getSdk } from './_types'
+import { GraphQLClient } from 'graphql-request'
 
 export class FileLoader {
   load = (filename: string) => {
@@ -37,68 +32,20 @@ export class YamlLoader {
   }
 }
 
-const portfolioQuery = `
-query {
-  blogs {
-    id
-    title
-    url
-    publishedAt
-    tags {
-      id
-      name
-      tagColor
-      logoUrl
-    }
-  }
-  projects {
-    id
-    title
-    description
-    isFavorite
-    appLink
-    githubLink
-    qiitaLink
-    tags {
-      id
-      name
-      tagColor
-      logoUrl
-    }
-  }
-  techStacks {
-    id
-    technology {
-      id
-      name
-      tagColor
-      logoUrl
-    }
-    proficiency
-  }
-  technologies {
-    id
-    name
-    tagColor
-    logoUrl
-  }
-}
-`
-export type PortfolioData = {
+const sdk = getSdk(
+  new GraphQLClient(`${process.env.BACKEND_HOST || ''}/v1/query`, {
+    headers: {
+      Authorization: `Bearer ${process.env.BACKEND_TOKEN || ''}`,
+    },
+  })
+)
+
+export interface PortfolioData extends FetchAllDataQuery {
   profile: Profile
-  blogs: Blog[]
-  projects: Project[]
-  techStacks: TechStack[]
-  technologies: Technology[]
 }
-export const loadPortfolioData = async () => {
+export const getPortfolioData = async () => {
   const profile = new YamlLoader().load<Profile>('src/data/profile.yml')
-  const data = await queryGql<{
-    blogs: Blog[]
-    projects: Project[]
-    techStacks: TechStack[]
-    technologies: Technology[]
-  }>(portfolioQuery)
+  const data = await sdk.fetchAllData()
   data.projects = pickContent(data.projects)
   data.projects = sortProjectsByFavorite(data.projects)
   data.techStacks = sortTechStacksByProficiency(data.techStacks)

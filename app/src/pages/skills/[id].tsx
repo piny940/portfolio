@@ -1,6 +1,6 @@
 import Skill from '@/containers/Skill'
 import Meta from '@/layouts/Meta'
-import { PortfolioData, loadPortfolioData } from '@/server/common'
+import { PortfolioData, getPortfolioData } from '@/server/common'
 import { useRouter } from 'next/router'
 
 type SkillProps = {
@@ -9,7 +9,7 @@ type SkillProps = {
 
 export const getServerSideProps = async (): Promise<{ props: SkillProps }> => {
   return {
-    props: { data: await loadPortfolioData() },
+    props: { data: await getPortfolioData() },
   }
 }
 

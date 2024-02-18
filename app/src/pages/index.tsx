@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import { Index } from '../containers/Index'
-import { PortfolioData, loadPortfolioData } from '@/server/common'
+import { PortfolioData, getPortfolioData } from '@/server/common'
 import Meta from '@/layouts/Meta'
 
 type HomeProps = {
@@ -9,7 +9,7 @@ type HomeProps = {
 
 export const getServerSideProps = async (): Promise<{ props: HomeProps }> => {
   return {
-    props: { data: await loadPortfolioData() },
+    props: { data: await getPortfolioData() },
   }
 }
 const Home: NextPage<HomeProps> = ({ data }) => {

@@ -1,5 +1,5 @@
+import { GraphQLClient, RequestOptions } from 'graphql-request';
 import gql from 'graphql-tag';
-import * as Urql from 'urql';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -7,7 +7,7 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: 
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+type GraphQLClientRequestHeaders = RequestOptions['requestHeaders'];
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string; }
@@ -312,10 +312,6 @@ export const FetchAllDataDocument = gql`
   }
 }
     `;
-
-export function useFetchAllDataQuery(options?: Omit<Urql.UseQueryArgs<FetchAllDataQueryVariables>, 'query'>) {
-  return Urql.useQuery<FetchAllDataQuery, FetchAllDataQueryVariables>({ query: FetchAllDataDocument, ...options });
-};
 export const FetchBlogsDocument = gql`
     query fetchBlogs {
   blogs {
@@ -337,10 +333,6 @@ export const FetchBlogsDocument = gql`
   }
 }
     `;
-
-export function useFetchBlogsQuery(options?: Omit<Urql.UseQueryArgs<FetchBlogsQueryVariables>, 'query'>) {
-  return Urql.useQuery<FetchBlogsQuery, FetchBlogsQueryVariables>({ query: FetchBlogsDocument, ...options });
-};
 export const FetchProjectsDocument = gql`
     query fetchProjects {
   projects {
@@ -365,10 +357,6 @@ export const FetchProjectsDocument = gql`
   }
 }
     `;
-
-export function useFetchProjectsQuery(options?: Omit<Urql.UseQueryArgs<FetchProjectsQueryVariables>, 'query'>) {
-  return Urql.useQuery<FetchProjectsQuery, FetchProjectsQueryVariables>({ query: FetchProjectsDocument, ...options });
-};
 export const FetchProjectDocument = gql`
     query fetchProject($id: String!) {
   project(id: $id) {
@@ -393,10 +381,6 @@ export const FetchProjectDocument = gql`
   }
 }
     `;
-
-export function useFetchProjectQuery(options: Omit<Urql.UseQueryArgs<FetchProjectQueryVariables>, 'query'>) {
-  return Urql.useQuery<FetchProjectQuery, FetchProjectQueryVariables>({ query: FetchProjectDocument, ...options });
-};
 export const FetchTechStacksDocument = gql`
     query fetchTechStacks {
   techStacks {
@@ -414,6 +398,28 @@ export const FetchTechStacksDocument = gql`
 }
     `;
 
-export function useFetchTechStacksQuery(options?: Omit<Urql.UseQueryArgs<FetchTechStacksQueryVariables>, 'query'>) {
-  return Urql.useQuery<FetchTechStacksQuery, FetchTechStacksQueryVariables>({ query: FetchTechStacksDocument, ...options });
-};
+export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string, variables?: any) => Promise<T>;
+
+
+const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationType, _variables) => action();
+
+export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
+  return {
+    fetchAllData(variables?: FetchAllDataQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<FetchAllDataQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<FetchAllDataQuery>(FetchAllDataDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'fetchAllData', 'query', variables);
+    },
+    fetchBlogs(variables?: FetchBlogsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<FetchBlogsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<FetchBlogsQuery>(FetchBlogsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'fetchBlogs', 'query', variables);
+    },
+    fetchProjects(variables?: FetchProjectsQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<FetchProjectsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<FetchProjectsQuery>(FetchProjectsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'fetchProjects', 'query', variables);
+    },
+    fetchProject(variables: FetchProjectQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<FetchProjectQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<FetchProjectQuery>(FetchProjectDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'fetchProject', 'query', variables);
+    },
+    fetchTechStacks(variables?: FetchTechStacksQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<FetchTechStacksQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<FetchTechStacksQuery>(FetchTechStacksDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'fetchTechStacks', 'query', variables);
+    }
+  };
+}
+export type Sdk = ReturnType<typeof getSdk>;
