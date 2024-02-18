@@ -1,4 +1,4 @@
-query getAllData {
+query fetchAllData {
   blogs {
     id
     title
@@ -49,7 +49,7 @@ query getAllData {
     updatedAt
   }
 }
-query getBlogs {
+query fetchBlogs {
   blogs {
     id
     title
@@ -68,7 +68,7 @@ query getBlogs {
     }
   }
 }
-query getProjects {
+query fetchProjects {
   projects {
     id
     title
@@ -90,7 +90,7 @@ query getProjects {
     }
   }
 }
-query getProject {
+query fetchProject {
   project {
     id
     title
@@ -112,7 +112,7 @@ query getProject {
     }
   }
 }
-query getTechStacks {
+query fetchTechStacks {
   techStacks {
     id
     technologyId
