@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import { Index } from '../containers/Index'
-import { PortfolioData, loadPortfolioData } from '@/loader/common'
+import { PortfolioData, loadPortfolioData } from '@/server/common'
 import Meta from '@/layouts/Meta'
 
 type HomeProps = {

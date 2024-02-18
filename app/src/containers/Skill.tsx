@@ -3,7 +3,7 @@ import Error from 'next/error'
 import ProjectItems from '@/components/Portfolio/ProjectItems'
 import Breadcrumb from '@/components/Common/Breadcrumb'
 import BlogItems from '@/components/Portfolio/BlogItems'
-import { PortfolioData } from '@/loader/common'
+import { PortfolioData } from '@/server/common'
 
 export type SkillProps = {
   data: PortfolioData

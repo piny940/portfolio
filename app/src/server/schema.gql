@@ -1,0 +1,128 @@
+query getAllData {
+  blogs {
+    id
+    title
+    url
+    kind
+    publishedAt
+    createdAt
+    updatedAt
+    tags {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
+  }
+  projects {
+    id
+    title
+    description
+    isFavorite
+    position
+    appLink
+    githubLink
+    qiitaLink
+    createdAt
+    updatedAt
+    tags {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
+  }
+  techStacks {
+    id
+    technologyId
+    technology {
+      id
+      name
+      logoUrl
+    }
+    proficiency
+    createdAt
+    updatedAt
+  }
+}
+query getBlogs {
+  blogs {
+    id
+    title
+    url
+    kind
+    publishedAt
+    createdAt
+    updatedAt
+    tags {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
+  }
+}
+query getProjects {
+  projects {
+    id
+    title
+    description
+    isFavorite
+    position
+    appLink
+    githubLink
+    qiitaLink
+    createdAt
+    updatedAt
+    tags {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
+  }
+}
+query getProject {
+  project {
+    id
+    title
+    description
+    isFavorite
+    position
+    appLink
+    githubLink
+    qiitaLink
+    createdAt
+    updatedAt
+    tags {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
+  }
+}
+query getTechStacks {
+  techStacks {
+    id
+    technologyId
+    technology {
+      id
+      name
+      logoUrl
+    }
+    proficiency
+    createdAt
+    updatedAt
+  }
+}

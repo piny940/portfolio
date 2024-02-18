@@ -3,7 +3,7 @@ import ProjectItems from '../components/Portfolio/ProjectItems'
 import { Profiles } from '@/components/Portfolio/Profile'
 import Link from 'next/link'
 import BlogItems from '@/components/Portfolio/BlogItems'
-import { PortfolioData } from '@/loader/common'
+import { PortfolioData } from '@/server/common'
 import styles from '@/styles/index.module.scss'
 
 export type IndexProps = {

@@ -1,6 +1,6 @@
 import { ProjectShow } from '@/containers/Project'
 import Meta from '@/layouts/Meta'
-import { PortfolioData, loadPortfolioData } from '@/loader/common'
+import { PortfolioData, loadPortfolioData } from '@/server/common'
 import { useRouter } from 'next/router'
 
 type ProjectProps = {

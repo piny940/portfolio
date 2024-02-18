@@ -1,4 +1,4 @@
-import { PortfolioData } from '@/loader/common'
+import { PortfolioData } from '@/server/common'
 import { Blog, Project, TechStack, Technology } from '@/resources/types'
 import React from 'react'
 import { Mock } from 'ts-mockery'

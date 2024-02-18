@@ -1,6 +1,6 @@
 import Projects from '@/containers/Projects'
 import Meta from '@/layouts/Meta'
-import { PortfolioData, loadPortfolioData } from '@/loader/common'
+import { PortfolioData, loadPortfolioData } from '@/server/common'
 
 type ProjectsProps = {
   data: PortfolioData
