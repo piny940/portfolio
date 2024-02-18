@@ -6,7 +6,6 @@ const config: CodegenConfig = {
   documents: 'src/**/*.gql',
   generates: {
     'src/server/_types.ts': {
-      preset: 'client',
       plugins: ['typescript', 'typescript-operations', 'typescript-urql'],
       config: {
         strictScalars: true,

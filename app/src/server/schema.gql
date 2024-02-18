@@ -90,8 +90,8 @@ query fetchProjects {
     }
   }
 }
-query fetchProject {
-  project {
+query fetchProject($id: String!) {
+  project(id: $id) {
     id
     title
     description
