@@ -7,7 +7,7 @@ type HomeProps = {
   data: PortfolioData
 }
 
-export const getStaticProps = async (): Promise<{ props: HomeProps }> => {
+export const getServerSideProps = async (): Promise<{ props: HomeProps }> => {
   return {
     props: { data: await loadPortfolioData() },
   }

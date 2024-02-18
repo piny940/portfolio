@@ -6,7 +6,9 @@ type SkillsProps = {
   data: PortfolioData
 }
 
-export const getStaticProps = async (): Promise<{ props: SkillsProps }> => ({
+export const getServerSideProps = async (): Promise<{
+  props: SkillsProps
+}> => ({
   props: { data: await loadPortfolioData() },
 })
 
