@@ -43,6 +43,9 @@ query fetchAllData {
       id
       name
       logoUrl
+      tagColor
+      createdAt
+      updatedAt
     }
     proficiency
     createdAt
