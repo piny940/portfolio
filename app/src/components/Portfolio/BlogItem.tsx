@@ -2,7 +2,7 @@ import { TestID } from '@/resources/TestID'
 import { memo } from 'react'
 import Link from 'next/link'
 import TechnologyTag from './TechnologyTag'
-import { Blog } from '@/resources/types'
+import { Blog } from '@/server/_types'
 
 export type BlogItemProps = {
   blog: Blog

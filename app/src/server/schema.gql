@@ -1,0 +1,181 @@
+query fetchAllData {
+  blogs {
+    id
+    title
+    url
+    kind
+    publishedAt
+    createdAt
+    updatedAt
+    tags {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
+  }
+  projects {
+    id
+    title
+    description
+    isFavorite
+    position
+    appLink
+    githubLink
+    qiitaLink
+    createdAt
+    updatedAt
+    tags {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
+  }
+  techStacks {
+    id
+    technologyId
+    technology {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
+    proficiency
+    createdAt
+    updatedAt
+  }
+}
+query fetchBlogs {
+  blogs {
+    id
+    title
+    url
+    kind
+    publishedAt
+    createdAt
+    updatedAt
+    tags {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
+  }
+}
+query fetchProjects {
+  projects {
+    id
+    title
+    description
+    isFavorite
+    position
+    appLink
+    githubLink
+    qiitaLink
+    createdAt
+    updatedAt
+    tags {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
+  }
+}
+query fetchProject($id: String!) {
+  project(id: $id) {
+    id
+    title
+    description
+    isFavorite
+    position
+    appLink
+    githubLink
+    qiitaLink
+    createdAt
+    updatedAt
+    tags {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
+  }
+}
+query fetchTechStacks {
+  techStacks {
+    id
+    technologyId
+    technology {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
+    proficiency
+    createdAt
+    updatedAt
+  }
+}
+query fetchTechnology($id: Uint!) {
+  projects {
+    id
+    title
+    description
+    isFavorite
+    position
+    appLink
+    githubLink
+    qiitaLink
+    createdAt
+    updatedAt
+    tags {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
+  }
+  blogs {
+    id
+    title
+    url
+    kind
+    publishedAt
+    createdAt
+    updatedAt
+    tags {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
+  }
+  technology(id: $id) {
+    id
+    name
+    logoUrl
+    tagColor
+    createdAt
+    updatedAt
+  }
+}

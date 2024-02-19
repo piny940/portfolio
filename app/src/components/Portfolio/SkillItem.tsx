@@ -2,7 +2,7 @@ import { PieItem } from '../Common/PieItem'
 import Image from 'next/image'
 import Link from 'next/link'
 import { TestID } from '@/resources/TestID'
-import { TechStack } from '@/resources/types'
+import { TechStack } from '@/server/_types'
 
 export type SkillItemProps = {
   techStack: TechStack

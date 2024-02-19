@@ -1,20 +1,37 @@
-import Skills from '@/containers/Skills'
+import Breadcrumb from '@/components/Common/Breadcrumb'
+import { SkillItems } from '@/components/Portfolio/SkillItems'
 import Meta from '@/layouts/Meta'
-import { PortfolioData, loadPortfolioData } from '@/loader/common'
+import { TechStack } from '@/server/_types'
+import { sdk } from '@/server/api'
+import { GetServerSideProps } from 'next'
 
 type SkillsProps = {
-  data: PortfolioData
+  techStacks: TechStack[]
 }
 
-export const getStaticProps = async (): Promise<{ props: SkillsProps }> => ({
-  props: { data: await loadPortfolioData() },
+export const getServerSideProps: GetServerSideProps<
+  SkillsProps
+> = async () => ({
+  props: {
+    techStacks: (await sdk.fetchTechStacks()).techStacks,
+  },
 })
 
-const SkillsPage = ({ data }: SkillsProps): JSX.Element => {
+const SkillsPage = ({ techStacks }: SkillsProps): JSX.Element => {
+  const paths = [
+    { name: 'トップページ', path: '/' },
+    { name: '技術スタック', path: '/skills' },
+  ]
   return (
     <>
       <Meta />
-      <Skills data={data} />
+      <div className="container pt-3">
+        <Breadcrumb paths={paths} />
+        <div className="d-flex align-items-center flex-column row-gap-3 row-gap-md-5">
+          <h1 className="h1 text-center title-underline">技術スタック</h1>
+          <SkillItems techStacks={techStacks} />
+        </div>
+      </div>
     </>
   )
 }

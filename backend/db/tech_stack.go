@@ -16,7 +16,7 @@ func NewTechStackRepo(db *DB) domain.ITechStackRepo {
 
 func (r *techStackRepo) List() ([]*domain.TechStack, error) {
 	var techStacks []*domain.TechStack
-	result := r.db.Client.Find(&techStacks)
+	result := r.db.Client.Order("proficiency desc").Find(&techStacks)
 	if result.Error != nil {
 		return nil, result.Error
 	}
