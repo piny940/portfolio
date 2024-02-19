@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import { Index } from '../containers/Index'
-import { PortfolioData, getPortfolioData } from '@/server/common'
 import Meta from '@/layouts/Meta'
+import { PortfolioData, getPortfolioData } from '@/server/api'
 
 type HomeProps = {
   data: PortfolioData
