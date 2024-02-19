@@ -1,5 +1,5 @@
 import { SkillItem } from '@/components/Portfolio/SkillItem'
-import { TechStack } from '@/resources/types'
+import { TechStack } from '@/server/_types'
 
 export type SkillsItemsProps = {
   techStacks: TechStack[]

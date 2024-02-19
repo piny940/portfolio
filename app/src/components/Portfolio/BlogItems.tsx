@@ -1,4 +1,4 @@
-import { Blog } from '@/resources/types'
+import { Blog } from '@/server/_types'
 import BlogItem from './BlogItem'
 import { memo } from 'react'
 

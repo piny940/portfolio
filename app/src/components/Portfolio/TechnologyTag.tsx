@@ -2,7 +2,7 @@ import Badge from './Badge'
 import { TestID } from '@/resources/TestID'
 import { memo } from 'react'
 import Link from 'next/link'
-import { Technology } from '@/resources/types'
+import { Technology } from '@/server/_types'
 
 export type TechnologyTagProps = {
   technology: Technology
