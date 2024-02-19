@@ -258,6 +258,13 @@ export type FetchTechStacksQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type FetchTechStacksQuery = { __typename?: 'Query', techStacks: Array<{ __typename?: 'TechStack', id: number, technologyId: number, proficiency: number, createdAt: string, updatedAt: string, technology: { __typename?: 'Technology', id: number, name: string, logoUrl?: string | null } }> };
 
+export type FetchTechStackQueryVariables = Exact<{
+  id: Scalars['Uint']['input'];
+}>;
+
+
+export type FetchTechStackQuery = { __typename?: 'Query', techStack: { __typename?: 'TechStack', id: number, technologyId: number, proficiency: number, createdAt: string, updatedAt: string, technology: { __typename?: 'Technology', id: number, name: string, logoUrl?: string | null } }, projects: Array<{ __typename?: 'Project', id: string, title: string, description: string, isFavorite: boolean, position: number, appLink?: string | null, githubLink?: string | null, qiitaLink?: string | null, createdAt: string, updatedAt: string, tags: Array<{ __typename?: 'Technology', id: number, name: string, logoUrl?: string | null, tagColor: string, createdAt: string, updatedAt: string }> }>, blogs: Array<{ __typename?: 'Blog', id: number, title: string, url: string, kind: number, publishedAt: string, createdAt: string, updatedAt: string, tags: Array<{ __typename?: 'Technology', id: number, name: string, logoUrl?: string | null, tagColor: string, createdAt: string, updatedAt: string }> }> };
+
 
 export const FetchAllDataDocument = gql`
     query fetchAllData {
@@ -397,6 +404,59 @@ export const FetchTechStacksDocument = gql`
   }
 }
     `;
+export const FetchTechStackDocument = gql`
+    query fetchTechStack($id: Uint!) {
+  techStack(id: $id) {
+    id
+    technologyId
+    technology {
+      id
+      name
+      logoUrl
+    }
+    proficiency
+    createdAt
+    updatedAt
+  }
+  projects {
+    id
+    title
+    description
+    isFavorite
+    position
+    appLink
+    githubLink
+    qiitaLink
+    createdAt
+    updatedAt
+    tags {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
+  }
+  blogs {
+    id
+    title
+    url
+    kind
+    publishedAt
+    createdAt
+    updatedAt
+    tags {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
+  }
+}
+    `;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string, variables?: any) => Promise<T>;
 
@@ -419,6 +479,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     fetchTechStacks(variables?: FetchTechStacksQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<FetchTechStacksQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<FetchTechStacksQuery>(FetchTechStacksDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'fetchTechStacks', 'query', variables);
+    },
+    fetchTechStack(variables: FetchTechStackQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<FetchTechStackQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<FetchTechStackQuery>(FetchTechStackDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'fetchTechStack', 'query', variables);
     }
   };
 }

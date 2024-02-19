@@ -126,3 +126,54 @@ query fetchTechStacks {
     updatedAt
   }
 }
+query fetchTechStack($id: Uint!) {
+  techStack(id: $id) {
+    id
+    technologyId
+    technology {
+      id
+      name
+      logoUrl
+    }
+    proficiency
+    createdAt
+    updatedAt
+  }
+  projects {
+    id
+    title
+    description
+    isFavorite
+    position
+    appLink
+    githubLink
+    qiitaLink
+    createdAt
+    updatedAt
+    tags {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
+  }
+  blogs {
+    id
+    title
+    url
+    kind
+    publishedAt
+    createdAt
+    updatedAt
+    tags {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
+  }
+}
