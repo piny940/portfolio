@@ -6,18 +6,13 @@ import githubIcon from '../../resources/images/common/github.png'
 import qiitaIcon from '../../resources/images/common/qiita.png'
 import profileIcon from '../../resources/images/profile/icon.png'
 import background from '../../resources/images/profile/background.png'
-import { Profile } from '@/resources/types'
 import styles from '@/styles/profile.module.scss'
 
 export type ProfilesProps = {
   className?: string
-  profile: Profile
 }
 
-export const Profiles: React.FC<ProfilesProps> = ({
-  className = '',
-  profile,
-}) => {
+export const Profiles: React.FC<ProfilesProps> = ({ className = '' }) => {
   const { theme } = useTheme()
 
   return (
@@ -57,7 +52,7 @@ export const Profiles: React.FC<ProfilesProps> = ({
           <li>
             <Link
               target="_blank"
-              href={profile.github}
+              href="https://github.com/piny940"
               className="unstyled mx-1"
             >
               <Image
@@ -71,7 +66,7 @@ export const Profiles: React.FC<ProfilesProps> = ({
           </li>
           <li>
             <Link
-              href={profile.qiita}
+              href="https://qiita.com/piny940"
               target="_blank"
               className="unstyled mx-1"
             >
@@ -85,7 +80,9 @@ export const Profiles: React.FC<ProfilesProps> = ({
             </Link>
           </li>
         </ul>
-        <p className="mt-3 top-profile">{profile.frontDescription}</p>
+        <p className="mt-3 top-profile">
+          大学進学と共にプログラミングの勉強を始め、主にRails・Reactを用いてインターン/個人の趣味開発でwebアプリの開発を行っています。
+        </p>
       </div>
     </div>
   )

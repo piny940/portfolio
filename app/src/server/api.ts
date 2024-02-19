@@ -1,7 +1,7 @@
 import { GraphQLClient } from 'graphql-request'
 import { FetchAllDataQuery, Project, getSdk } from './_types'
 import { Profile } from '@/resources/types'
-import { FileLoader, YamlLoader } from './common'
+import { FileLoader, YamlLoader } from './loader'
 import {
   sortBlogsByPublishedAt,
   sortProjectsByFavorite,
@@ -33,8 +33,11 @@ export const getPortfolioData = async () => {
 }
 export const getProjects = async () => {
   const data = await sdk.fetchProjects()
-  console.log(data)
   return sortProjectsByFavorite(pickContent(data.projects))
+}
+export const getProject = async (id: string) => {
+  const data = await sdk.fetchProject({ id })
+  return pickContent([data.project])[0]
 }
 
 const pickContent = (projects: Project[]) => {
