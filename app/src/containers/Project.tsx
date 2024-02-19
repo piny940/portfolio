@@ -1,7 +1,7 @@
 import Breadcrumb from '@/components/Common/Breadcrumb'
 import { MarkdownDisplay } from '@/components/Common/MarkdownDisplay'
 import TechnologyTag from '@/components/Portfolio/TechnologyTag'
-import { Project } from '@/resources/types'
+import { Project } from '@/server/_types'
 import Error from 'next/error'
 import Link from 'next/link'
 import { useMemo } from 'react'

@@ -8,22 +8,24 @@ import qiitaIcon from '../../resources/images/common/qiita.png'
 import { useMemo } from 'react'
 import FavoriteIcon from './FavoriteIcon'
 import { TestID } from '@/resources/TestID'
-import { Project } from '@/resources/types'
 import styles from '@/styles/item.module.scss'
+import { Project } from '@/server/_types'
 
 export type ProjectItemProps = {
   project: Project
+  hasBlog: boolean
   className?: string
 }
 
 export const ProjectItem: React.FC<ProjectItemProps> = ({
   project,
+  hasBlog,
   className = '',
 }) => {
   const { theme } = useTheme()
   const mainLink = useMemo(
-    () => (project.blogContent ? `/projects/${project.id}` : project.qiitaLink),
-    [project]
+    () => (hasBlog ? `/projects/${project.id}` : project.qiitaLink),
+    [project, hasBlog]
   )
   const githubLink = useMemo(() => project.githubLink, [project])
   const projectLink = useMemo(() => project.appLink, [project])
@@ -50,7 +52,7 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
         <Link
           className="unstyled"
           href={mainLink}
-          target={project.blogContent ? '_self' : '_blank'}
+          target={hasBlog ? '_self' : '_blank'}
         >
           {renderTitle()}
         </Link>
