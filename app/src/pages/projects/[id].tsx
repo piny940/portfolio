@@ -3,7 +3,7 @@ import { MarkdownDisplay } from '@/components/Common/MarkdownDisplay'
 import TechnologyTag from '@/components/Portfolio/TechnologyTag'
 import Meta from '@/layouts/Meta'
 import { Project } from '@/server/_types'
-import { getProject } from '@/server/api'
+import { sdk } from '@/server/api'
 import { getBlogContent } from '@/server/loader'
 import { GetServerSideProps } from 'next'
 import Link from 'next/link'
@@ -19,7 +19,7 @@ export const getServerSideProps: GetServerSideProps<ProjectProps> = async ({
 }) => {
   const id = query.id as string
   const blogContent = getBlogContent(id)
-  const project = await getProject(id)
+  const project = (await sdk.fetchProject({ id })).project
   if (!project || !blogContent) return { notFound: true }
   return {
     props: { project, blogContent },

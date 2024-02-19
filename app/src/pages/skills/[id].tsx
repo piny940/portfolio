@@ -1,25 +1,72 @@
-import Skill from '@/containers/Skill'
+import Breadcrumb from '@/components/Common/Breadcrumb'
+import BlogItems from '@/components/Portfolio/BlogItems'
+import ProjectItems from '@/components/Portfolio/ProjectItems'
 import Meta from '@/layouts/Meta'
-import { PortfolioData, getPortfolioData } from '@/server/common'
-import { useRouter } from 'next/router'
+import { Blog, Project, Technology } from '@/server/_types'
+import { sdk } from '@/server/api'
+import { getProjectIdsWithBlog } from '@/server/loader'
+import { GetServerSideProps } from 'next'
 
 type SkillProps = {
-  data: PortfolioData
+  projects: Project[]
+  projectIdsWithBlog: string[]
+  blogs: Blog[]
+  technology: Technology
 }
 
-export const getServerSideProps = async (): Promise<{ props: SkillProps }> => {
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+  const id = parseInt(query.id as string)
+  const data = await sdk.fetchTechnology({ id })
+  const projects = data.projects.filter((project) =>
+    project.tags.map((tag) => tag.id).includes(id)
+  )
+  const blogs = data.blogs.filter((blog) =>
+    blog.tags.map((tag) => tag.id).includes(id)
+  )
   return {
-    props: { data: await getPortfolioData() },
+    props: {
+      projects,
+      projectIdsWithBlog: getProjectIdsWithBlog(),
+      blogs,
+      technology: data.technology,
+    },
   }
 }
 
-const SkillPage = ({ data }: SkillProps): JSX.Element => {
-  const router = useRouter()
-  const id = router.query.id as string
+const SkillPage = ({
+  technology,
+  projects,
+  blogs,
+  projectIdsWithBlog,
+}: SkillProps): JSX.Element => {
+  const paths = [
+    { name: 'トップページ', path: '/' },
+    { name: '技術スタック', path: '/skills' },
+    { name: technology.name, path: `/skills/${technology.id}` },
+  ]
   return (
     <>
       <Meta />
-      <Skill id={parseInt(id)} data={data} />
+      <div className="container pt-3">
+        <Breadcrumb paths={paths} />
+        <h1 className="h1 title-underline ps-3">{technology.name}</h1>
+        {projects.length > 0 && (
+          <section className="py-3">
+            <h2>プロジェクト一覧</h2>
+            <ProjectItems
+              projectIdsWithBlog={projectIdsWithBlog}
+              projects={projects}
+            />
+          </section>
+        )}
+
+        {blogs.length > 0 && (
+          <section className="py-3">
+            <h2>ブログ一覧</h2>
+            <BlogItems blogs={blogs} />
+          </section>
+        )}
+      </div>
     </>
   )
 }

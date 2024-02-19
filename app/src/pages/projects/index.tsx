@@ -2,19 +2,20 @@ import Breadcrumb from '@/components/Common/Breadcrumb'
 import ProjectItems from '@/components/Portfolio/ProjectItems'
 import Meta from '@/layouts/Meta'
 import { Project } from '@/server/_types'
-import { getProjects } from '@/server/api'
+import { sdk } from '@/server/api'
 import { getProjectIdsWithBlog } from '@/server/loader'
+import { GetServerSideProps } from 'next'
 
 type ProjectsProps = {
   projects: Project[]
   projectIdsWithBlog: string[]
 }
 
-export const getServerSideProps = async (): Promise<{
-  props: ProjectsProps
-}> => ({
+export const getServerSideProps: GetServerSideProps<
+  ProjectsProps
+> = async () => ({
   props: {
-    projects: await getProjects(),
+    projects: (await sdk.fetchProjects()).projects,
     projectIdsWithBlog: getProjectIdsWithBlog(),
   },
 })

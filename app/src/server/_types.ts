@@ -256,14 +256,14 @@ export type FetchProjectQuery = { __typename?: 'Query', project: { __typename?: 
 export type FetchTechStacksQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FetchTechStacksQuery = { __typename?: 'Query', techStacks: Array<{ __typename?: 'TechStack', id: number, technologyId: number, proficiency: number, createdAt: string, updatedAt: string, technology: { __typename?: 'Technology', id: number, name: string, logoUrl?: string | null } }> };
+export type FetchTechStacksQuery = { __typename?: 'Query', techStacks: Array<{ __typename?: 'TechStack', id: number, technologyId: number, proficiency: number, createdAt: string, updatedAt: string, technology: { __typename?: 'Technology', id: number, name: string, logoUrl?: string | null, tagColor: string, createdAt: string, updatedAt: string } }> };
 
-export type FetchTechStackQueryVariables = Exact<{
+export type FetchTechnologyQueryVariables = Exact<{
   id: Scalars['Uint']['input'];
 }>;
 
 
-export type FetchTechStackQuery = { __typename?: 'Query', techStack: { __typename?: 'TechStack', id: number, technologyId: number, proficiency: number, createdAt: string, updatedAt: string, technology: { __typename?: 'Technology', id: number, name: string, logoUrl?: string | null } }, projects: Array<{ __typename?: 'Project', id: string, title: string, description: string, isFavorite: boolean, position: number, appLink?: string | null, githubLink?: string | null, qiitaLink?: string | null, createdAt: string, updatedAt: string, tags: Array<{ __typename?: 'Technology', id: number, name: string, logoUrl?: string | null, tagColor: string, createdAt: string, updatedAt: string }> }>, blogs: Array<{ __typename?: 'Blog', id: number, title: string, url: string, kind: number, publishedAt: string, createdAt: string, updatedAt: string, tags: Array<{ __typename?: 'Technology', id: number, name: string, logoUrl?: string | null, tagColor: string, createdAt: string, updatedAt: string }> }> };
+export type FetchTechnologyQuery = { __typename?: 'Query', projects: Array<{ __typename?: 'Project', id: string, title: string, description: string, isFavorite: boolean, position: number, appLink?: string | null, githubLink?: string | null, qiitaLink?: string | null, createdAt: string, updatedAt: string, tags: Array<{ __typename?: 'Technology', id: number, name: string, logoUrl?: string | null, tagColor: string, createdAt: string, updatedAt: string }> }>, blogs: Array<{ __typename?: 'Blog', id: number, title: string, url: string, kind: number, publishedAt: string, createdAt: string, updatedAt: string, tags: Array<{ __typename?: 'Technology', id: number, name: string, logoUrl?: string | null, tagColor: string, createdAt: string, updatedAt: string }> }>, technology: { __typename?: 'Technology', id: number, name: string, logoUrl?: string | null, tagColor: string, createdAt: string, updatedAt: string } };
 
 
 export const FetchAllDataDocument = gql`
@@ -400,6 +400,9 @@ export const FetchTechStacksDocument = gql`
       id
       name
       logoUrl
+      tagColor
+      createdAt
+      updatedAt
     }
     proficiency
     createdAt
@@ -407,20 +410,8 @@ export const FetchTechStacksDocument = gql`
   }
 }
     `;
-export const FetchTechStackDocument = gql`
-    query fetchTechStack($id: Uint!) {
-  techStack(id: $id) {
-    id
-    technologyId
-    technology {
-      id
-      name
-      logoUrl
-    }
-    proficiency
-    createdAt
-    updatedAt
-  }
+export const FetchTechnologyDocument = gql`
+    query fetchTechnology($id: Uint!) {
   projects {
     id
     title
@@ -458,6 +449,14 @@ export const FetchTechStackDocument = gql`
       updatedAt
     }
   }
+  technology(id: $id) {
+    id
+    name
+    logoUrl
+    tagColor
+    createdAt
+    updatedAt
+  }
 }
     `;
 
@@ -483,8 +482,8 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     fetchTechStacks(variables?: FetchTechStacksQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<FetchTechStacksQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<FetchTechStacksQuery>(FetchTechStacksDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'fetchTechStacks', 'query', variables);
     },
-    fetchTechStack(variables: FetchTechStackQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<FetchTechStackQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<FetchTechStackQuery>(FetchTechStackDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'fetchTechStack', 'query', variables);
+    fetchTechnology(variables: FetchTechnologyQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<FetchTechnologyQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<FetchTechnologyQuery>(FetchTechnologyDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'fetchTechnology', 'query', variables);
     }
   };
 }

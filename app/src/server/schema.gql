@@ -123,25 +123,16 @@ query fetchTechStacks {
       id
       name
       logoUrl
+      tagColor
+      createdAt
+      updatedAt
     }
     proficiency
     createdAt
     updatedAt
   }
 }
-query fetchTechStack($id: Uint!) {
-  techStack(id: $id) {
-    id
-    technologyId
-    technology {
-      id
-      name
-      logoUrl
-    }
-    proficiency
-    createdAt
-    updatedAt
-  }
+query fetchTechnology($id: Uint!) {
   projects {
     id
     title
@@ -178,5 +169,13 @@ query fetchTechStack($id: Uint!) {
       createdAt
       updatedAt
     }
+  }
+  technology(id: $id) {
+    id
+    name
+    logoUrl
+    tagColor
+    createdAt
+    updatedAt
   }
 }

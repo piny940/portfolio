@@ -1,6 +1,6 @@
-import type { NextPage } from 'next'
+import type { GetServerSideProps, NextPage } from 'next'
 import Meta from '@/layouts/Meta'
-import { getPortfolioData } from '@/server/api'
+import { sdk } from '@/server/api'
 import { Profiles } from '@/components/Portfolio/Profile'
 import styles from '@/styles/index.module.scss'
 import Link from 'next/link'
@@ -17,8 +17,8 @@ type HomeProps = {
   techStacks: TechStack[]
 }
 
-export const getServerSideProps = async (): Promise<{ props: HomeProps }> => {
-  const data = await getPortfolioData()
+export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
+  const data = await sdk.fetchAllData()
   return {
     props: {
       projects: data.projects,
