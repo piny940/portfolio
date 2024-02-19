@@ -3,17 +3,6 @@ on: [push]
 
 jobs:
   app:
-    services:
-      postgres:
-        image: postgres:15.1-alpine
-        ports:
-          - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-        env:
-          POSTGRES_HOST_AUTH_METHOD: trust
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: portfolio_test
     env:
       NODE_VERSION: 20
     runs-on: ubuntu-latest
@@ -35,6 +24,8 @@ jobs:
         run: yarn --cwd app test
       - name: Prettier && ESLint
         run: if yarn --cwd app lint |& grep -E "(error|warn)"; then exit 1; fi
+      - name: Build Test
+        run: yarn --cwd app build
 
   backend:
     env:
@@ -73,5 +64,7 @@ jobs:
         run: yarn --cwd updater install
       - name: Prettier && ESLint
         run: if yarn --cwd updater lint |& grep -E "(error|warn)"; then exit 1; fi
+      - name: Yarn Build
+        run: yarn --cwd updater build
       # - name: Yarn test
       #   run: if yarn --cwd updater test |& grep -E "failed"; then exit 1; fi
