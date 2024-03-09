@@ -24,14 +24,14 @@ const useTheme = () => useContext(ThemeContext)
 
 interface ThemeProviderProps {
   children: ReactNode
-  initialTheme: Theme
+  initialTheme?: Theme
 }
 
 const ThemeProvider: React.FC<ThemeProviderProps> = ({
   children,
   initialTheme,
 }) => {
-  const [theme, setTheme] = useState<Theme>(initialTheme)
+  const [theme, setTheme] = useState<Theme>(initialTheme ?? 'light')
 
   const value: ThemeContextInterface = {
     theme,
