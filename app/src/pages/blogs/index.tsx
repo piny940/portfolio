@@ -3,13 +3,21 @@ import BlogItems from '@/components/Portfolio/BlogItems'
 import Meta from '@/layouts/Meta'
 import { Blog } from '@/server/_types'
 import { sdk } from '@/server/api'
+import { PageProps } from '../_app'
+import { getThemeFromCookie } from '@/server/helper'
+import { GetServerSideProps } from 'next'
 
-type BlogsProps = {
+interface BlogsProps extends PageProps {
   blogs: Blog[]
 }
 
-export const getServerSideProps = async (): Promise<{ props: BlogsProps }> => ({
-  props: { blogs: (await sdk.fetchBlogs()).blogs },
+export const getServerSideProps: GetServerSideProps<BlogsProps> = async (
+  ctx
+) => ({
+  props: {
+    blogs: (await sdk.fetchBlogs()).blogs,
+    initialTheme: getThemeFromCookie(ctx),
+  },
 })
 
 const BlogsPage = ({ blogs }: BlogsProps): JSX.Element => {

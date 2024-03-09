@@ -8,21 +8,23 @@ import { getBlogContent } from '@/server/loader'
 import { GetServerSideProps } from 'next'
 import Link from 'next/link'
 import { useMemo } from 'react'
+import { PageProps } from '../_app'
+import { getThemeFromCookie } from '@/server/helper'
 
-type ProjectProps = {
+interface ProjectProps extends PageProps {
   project: Project
   blogContent: string
 }
 
-export const getServerSideProps: GetServerSideProps<ProjectProps> = async ({
-  query,
-}) => {
-  const id = query.id as string
+export const getServerSideProps: GetServerSideProps<ProjectProps> = async (
+  ctx
+) => {
+  const id = ctx.query.id as string
   const blogContent = getBlogContent(id)
   const project = (await sdk.fetchProject({ id })).project
   if (!project || !blogContent) return { notFound: true }
   return {
-    props: { project, blogContent },
+    props: { project, blogContent, initialTheme: getThemeFromCookie(ctx) },
   }
 }
 

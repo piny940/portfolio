@@ -6,16 +6,20 @@ import { Blog, Project, Technology } from '@/server/_types'
 import { sdk } from '@/server/api'
 import { getProjectIdsWithBlog } from '@/server/loader'
 import { GetServerSideProps } from 'next'
+import { PageProps } from '../_app'
+import { getThemeFromCookie } from '@/server/helper'
 
-type SkillProps = {
+interface SkillProps extends PageProps {
   projects: Project[]
   projectIdsWithBlog: string[]
   blogs: Blog[]
   technology: Technology
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const id = parseInt(query.id as string)
+export const getServerSideProps: GetServerSideProps<SkillProps> = async (
+  ctx
+) => {
+  const id = parseInt(ctx.query.id as string)
   const data = await sdk.fetchTechnology({ id })
   const projects = data.projects.filter((project) =>
     project.tags.map((tag) => tag.id).includes(id)
@@ -29,6 +33,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       projectIdsWithBlog: getProjectIdsWithBlog(),
       blogs,
       technology: data.technology,
+      initialTheme: getThemeFromCookie(ctx),
     },
   }
 }

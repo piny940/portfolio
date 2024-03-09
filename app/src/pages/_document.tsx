@@ -1,8 +1,20 @@
-import { Head, Html, Main, NextScript } from 'next/document'
+import { Theme } from '@/resources/types'
+import { IncomingMessage } from 'http'
+import Document, {
+  DocumentContext,
+  DocumentInitialProps,
+  Head,
+  Html,
+  Main,
+  NextScript,
+} from 'next/document'
 
-function Document() {
+interface MyDocumentProps extends DocumentInitialProps {
+  initialTheme: Theme
+}
+function MyDocument({ initialTheme }: MyDocumentProps) {
   return (
-    <Html className="bg-body text-body" lang="ja">
+    <Html className="bg-body text-body" data-bs-theme={initialTheme} lang="ja">
       <Head>
         <link
           href="https://fonts.googleapis.com/icon?family=Material+Icons"
@@ -24,5 +36,18 @@ function Document() {
     </Html>
   )
 }
+MyDocument.getInitialProps = async (
+  ctx: DocumentContext
+): Promise<MyDocumentProps> => {
+  const initialProps = await Document.getInitialProps(ctx)
+  const req = ctx.req as IncomingMessage & {
+    cookies: Partial<{
+      [key in string]: string
+    }>
+  }
+  const initialTheme = (req?.cookies?.theme ?? 'light') as Theme
 
-export default Document
+  return { ...initialProps, initialTheme }
+}
+
+export default MyDocument

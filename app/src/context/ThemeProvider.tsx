@@ -6,7 +6,7 @@ import {
   useState,
 } from 'react'
 import { Theme } from '../resources/types'
-import { fromStorage, toStorage } from '@/utils/storage'
+import { toCookie } from '@/utils/storage'
 
 interface ThemeContextInterface {
   theme: Theme
@@ -24,28 +24,23 @@ const useTheme = () => useContext(ThemeContext)
 
 interface ThemeProviderProps {
   children: ReactNode
+  initialTheme: Theme
 }
 
-const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const [theme, setTheme] = useState<Theme>('light')
-
-  const _setTheme = (theme: Theme) => {
-    toStorage('theme', theme)
-    setTheme(theme)
-  }
+const ThemeProvider: React.FC<ThemeProviderProps> = ({
+  children,
+  initialTheme,
+}) => {
+  const [theme, setTheme] = useState<Theme>(initialTheme)
 
   const value: ThemeContextInterface = {
     theme,
-    setTheme: _setTheme,
+    setTheme,
   }
 
   useEffect(() => {
-    const defaultTheme = fromStorage('theme') as Theme | undefined
-    if (defaultTheme) setTheme(defaultTheme)
-  }, [])
-
-  useEffect(() => {
     document.querySelector('html')?.setAttribute('data-bs-theme', theme)
+    toCookie('theme', theme)
   }, [theme])
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
