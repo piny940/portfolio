@@ -9,18 +9,23 @@ import ProjectItems from '@/components/Portfolio/ProjectItems'
 import BlogItems from '@/components/Portfolio/BlogItems'
 import { Blog, Project, TechStack } from '@/server/_types'
 import { getProjectIdsWithBlog } from '@/server/loader'
+import { PageProps } from './_app'
+import { getThemeFromCookie } from '@/server/helper'
 
-type HomeProps = {
+interface HomeProps extends PageProps {
   projects: Project[]
   projectIdsWithBlog: string[]
   blogs: Blog[]
   techStacks: TechStack[]
 }
 
-export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
+export const getServerSideProps: GetServerSideProps<HomeProps> = async (
+  ctx
+) => {
   const data = await sdk.fetchAllData()
   return {
     props: {
+      initialTheme: getThemeFromCookie(ctx),
       projects: data.projects,
       projectIdsWithBlog: getProjectIdsWithBlog(),
       blogs: data.blogs,

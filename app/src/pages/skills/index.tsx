@@ -4,15 +4,18 @@ import Meta from '@/layouts/Meta'
 import { TechStack } from '@/server/_types'
 import { sdk } from '@/server/api'
 import { GetServerSideProps } from 'next'
+import { PageProps } from '../_app'
+import { getThemeFromCookie } from '@/server/helper'
 
-type SkillsProps = {
+interface SkillsProps extends PageProps {
   techStacks: TechStack[]
 }
 
-export const getServerSideProps: GetServerSideProps<
-  SkillsProps
-> = async () => ({
+export const getServerSideProps: GetServerSideProps<SkillsProps> = async (
+  ctx
+) => ({
   props: {
+    initialTheme: getThemeFromCookie(ctx),
     techStacks: (await sdk.fetchTechStacks()).techStacks,
   },
 })

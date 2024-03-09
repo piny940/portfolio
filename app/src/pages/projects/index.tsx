@@ -5,18 +5,21 @@ import { Project } from '@/server/_types'
 import { sdk } from '@/server/api'
 import { getProjectIdsWithBlog } from '@/server/loader'
 import { GetServerSideProps } from 'next'
+import { PageProps } from '../_app'
+import { getThemeFromCookie } from '@/server/helper'
 
-type ProjectsProps = {
+interface ProjectsProps extends PageProps {
   projects: Project[]
   projectIdsWithBlog: string[]
 }
 
-export const getServerSideProps: GetServerSideProps<
-  ProjectsProps
-> = async () => ({
+export const getServerSideProps: GetServerSideProps<ProjectsProps> = async (
+  ctx
+) => ({
   props: {
     projects: (await sdk.fetchProjects()).projects,
     projectIdsWithBlog: getProjectIdsWithBlog(),
+    initialTheme: getThemeFromCookie(ctx),
   },
 })
 
