@@ -16,7 +16,6 @@ func newBlogTagLoader(reg registry.IRegistry) IBlogTagLoader {
 
 func getBlogTagsFunc(reg registry.IRegistry) dataloader.BatchFunc[uint, []*domain.BlogTag] {
 	return func(ctx context.Context, blogIds []uint) []*dataloader.Result[[]*domain.BlogTag] {
-		idToIndex := mapIdToIndex(blogIds)
 		results := make([]*dataloader.Result[[]*domain.BlogTag], len(blogIds))
 		blogTags, err := reg.BlogUsecase().ListTags(blogIds)
 		if err != nil {
@@ -30,9 +29,12 @@ func getBlogTagsFunc(reg registry.IRegistry) dataloader.BatchFunc[uint, []*domai
 		for _, tag := range blogTags {
 			tagsByBlogId[tag.BlogID] = append(tagsByBlogId[tag.BlogID], tag)
 		}
-		for blogId, tags := range tagsByBlogId {
-			idx := idToIndex[blogId]
-			results[idx] = &dataloader.Result[[]*domain.BlogTag]{Data: tags}
+		for i, blogId := range blogIds {
+			tags, ok := tagsByBlogId[blogId]
+			if !ok {
+				tags = []*domain.BlogTag{}
+			}
+			results[i] = &dataloader.Result[[]*domain.BlogTag]{Data: tags}
 		}
 		return results
 	}

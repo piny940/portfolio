@@ -15,7 +15,6 @@ func (r *blogResolver) Kind(ctx context.Context, obj *domain.Blog) (int, error) 
 }
 
 func (r *blogResolver) Tags(ctx context.Context, obj *domain.Blog) ([]*domain.BlogTag, error) {
-	// tags, err := r.Reg.BlogUsecase().ListTags([]uint{obj.ID})
 	tags, err := r.Loaders.BlogTagLoader.Load(ctx, obj.ID)()
 	if err != nil {
 		return nil, err

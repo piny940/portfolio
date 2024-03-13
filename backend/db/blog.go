@@ -28,21 +28,23 @@ func (*blogRepo) ListTags(blogIds []uint) ([]*domain.BlogTag, error) {
 		return nil, result.Error
 	}
 	technologyIds := make([]uint, len(blogTechnologyTags))
-	blogIdByTechId := make(map[uint]uint, len(blogTechnologyTags))
 	for i, blogTechnologyTag := range blogTechnologyTags {
 		technologyIds[i] = blogTechnologyTag.TechnologyID
-		blogIdByTechId[blogTechnologyTag.TechnologyID] = blogTechnologyTag.BlogID
 	}
 	technologies := []*domain.Technology{}
 	result = db.Client.Where("id IN ?", technologyIds).Find(&technologies)
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	blogTags := []*domain.BlogTag{}
+	technologiesById := make(map[uint]*domain.Technology, len(technologies))
 	for _, tech := range technologies {
+		technologiesById[tech.ID] = tech
+	}
+	blogTags := []*domain.BlogTag{}
+	for _, blogTechTag := range blogTechnologyTags {
 		blogTags = append(blogTags, &domain.BlogTag{
-			BlogID:     blogIdByTechId[tech.ID],
-			Technology: *tech,
+			BlogID:     blogTechTag.BlogID,
+			Technology: *technologiesById[blogTechTag.TechnologyID],
 		})
 	}
 	return blogTags, nil
