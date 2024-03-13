@@ -41,8 +41,8 @@ func (*blogRepo) ListTags(blogIds []uint) ([]*domain.BlogTag, error) {
 	blogTags := []*domain.BlogTag{}
 	for _, tech := range technologies {
 		blogTags = append(blogTags, &domain.BlogTag{
-			BlogId:     blogIdByTechId[tech.ID],
-			Technology: tech,
+			BlogID:     blogIdByTechId[tech.ID],
+			Technology: *tech,
 		})
 	}
 	return blogTags, nil
@@ -70,7 +70,7 @@ func (r *blogRepo) UpdateTags(blogId uint, technologyIds []uint) ([]*domain.Blog
 	}
 	blogTags := make([]*domain.BlogTag, len(technologies))
 	for i, tech := range technologies {
-		blogTags[i] = &domain.BlogTag{Technology: tech, BlogId: blogId}
+		blogTags[i] = &domain.BlogTag{Technology: *tech, BlogID: blogId}
 	}
 	return blogTags, nil
 }

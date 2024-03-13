@@ -1,10 +1,13 @@
 package loader
 
 type Loaders struct {
+	BlogTagLoader IBlogTagLoader
 }
 
 func NewLoaders() *Loaders {
-	return &Loaders{}
+	return &Loaders{
+		BlogTagLoader: newBlogTagLoader(),
+	}
 }
 
 func mapIdToIndex(ids []uint) map[uint]int {

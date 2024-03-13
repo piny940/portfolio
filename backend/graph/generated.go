@@ -62,7 +62,7 @@ type ComplexityRoot struct {
 	}
 
 	BlogTag struct {
-		BlogId    func(childComplexity int) int
+		BlogID    func(childComplexity int) int
 		CreatedAt func(childComplexity int) int
 		ID        func(childComplexity int) int
 		LogoURL   func(childComplexity int) int
@@ -259,11 +259,11 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		return e.complexity.Blog.Url(childComplexity), true
 
 	case "BlogTag.blogId":
-		if e.complexity.BlogTag.BlogId == nil {
+		if e.complexity.BlogTag.BlogID == nil {
 			break
 		}
 
-		return e.complexity.BlogTag.BlogId(childComplexity), true
+		return e.complexity.BlogTag.BlogID(childComplexity), true
 
 	case "BlogTag.createdAt":
 		if e.complexity.BlogTag.CreatedAt == nil {
@@ -1805,7 +1805,7 @@ func (ec *executionContext) _BlogTag_blogId(ctx context.Context, field graphql.C
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.BlogId, nil
+		return obj.BlogID, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)

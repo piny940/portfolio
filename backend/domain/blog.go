@@ -21,8 +21,8 @@ type Blog struct {
 	UpdatedAt   time.Time
 }
 type BlogTag struct {
-	*Technology
-	BlogId uint
+	Technology
+	BlogID uint
 }
 
 type IBlogRepo interface {

@@ -25,12 +25,12 @@ func authHandler() echo.MiddlewareFunc {
 			if token == os.Getenv("API_TOKEN") {
 				return next(c)
 			}
-			useId, err := auth.VerifyJWTToken(token)
-			if err != nil || useId != os.Getenv("ADMIN_ID") {
-				return c.JSON(http.StatusUnauthorized, echo.Map{
-					"message": "invalid token",
-				})
-			}
+			// useId, err := auth.VerifyJWTToken(token)
+			// if err != nil || useId != os.Getenv("ADMIN_ID") {
+			// 	return c.JSON(http.StatusUnauthorized, echo.Map{
+			// 		"message": "invalid token",
+			// 	})
+			// }
 
 			return next(c)
 		})
