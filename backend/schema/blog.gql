@@ -10,12 +10,7 @@ type Blog {
 }
 type BlogTag {
   blogId: Uint!
-  id: Uint!
-  name: String!
-  logoUrl: String
-  tagColor: String!
-  createdAt: Time!
-  updatedAt: Time!
+  technology: Technology!
 }
 input BlogInput {
   title: String!

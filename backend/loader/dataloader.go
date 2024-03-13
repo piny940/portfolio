@@ -1,12 +1,14 @@
 package loader
 
+import "backend/registry"
+
 type Loaders struct {
 	BlogTagLoader IBlogTagLoader
 }
 
-func NewLoaders() *Loaders {
+func NewLoaders(reg registry.IRegistry) *Loaders {
 	return &Loaders{
-		BlogTagLoader: newBlogTagLoader(),
+		BlogTagLoader: newBlogTagLoader(reg),
 	}
 }
 
