@@ -7,13 +7,11 @@ package resolver
 import (
 	"backend/domain"
 	"backend/graph"
-	"backend/registry"
 	"context"
 )
 
 func (r *mutationResolver) CreateTechStack(ctx context.Context, input domain.TechStackInput) (*domain.TechStack, error) {
-	reg := registry.GetRegistry()
-	techStack, err := reg.TechStackUsecase().Create(input)
+	techStack, err := r.Reg.TechStackUsecase().Create(input)
 	if err != nil {
 		return nil, err
 	}
@@ -21,8 +19,7 @@ func (r *mutationResolver) CreateTechStack(ctx context.Context, input domain.Tec
 }
 
 func (r *mutationResolver) UpdateTechStack(ctx context.Context, id uint, input domain.TechStackInput) (*domain.TechStack, error) {
-	reg := registry.GetRegistry()
-	techStack, err := reg.TechStackUsecase().Update(id, input)
+	techStack, err := r.Reg.TechStackUsecase().Update(id, input)
 	if err != nil {
 		return nil, err
 	}
@@ -30,8 +27,7 @@ func (r *mutationResolver) UpdateTechStack(ctx context.Context, id uint, input d
 }
 
 func (r *mutationResolver) DeleteTechStack(ctx context.Context, id uint) (*domain.TechStack, error) {
-	reg := registry.GetRegistry()
-	techStack, err := reg.TechStackUsecase().Delete(id)
+	techStack, err := r.Reg.TechStackUsecase().Delete(id)
 	if err != nil {
 		return nil, err
 	}
@@ -39,8 +35,7 @@ func (r *mutationResolver) DeleteTechStack(ctx context.Context, id uint) (*domai
 }
 
 func (r *queryResolver) TechStacks(ctx context.Context) ([]*domain.TechStack, error) {
-	reg := registry.GetRegistry()
-	techStacks, err := reg.TechStackUsecase().List()
+	techStacks, err := r.Reg.TechStackUsecase().List()
 	if err != nil {
 		return nil, err
 	}
@@ -48,8 +43,7 @@ func (r *queryResolver) TechStacks(ctx context.Context) ([]*domain.TechStack, er
 }
 
 func (r *queryResolver) TechStack(ctx context.Context, id uint) (*domain.TechStack, error) {
-	reg := registry.GetRegistry()
-	techStack, err := reg.TechStackUsecase().Find(id)
+	techStack, err := r.Reg.TechStackUsecase().Find(id)
 	if err != nil {
 		return nil, err
 	}
@@ -57,8 +51,7 @@ func (r *queryResolver) TechStack(ctx context.Context, id uint) (*domain.TechSta
 }
 
 func (r *techStackResolver) Technology(ctx context.Context, obj *domain.TechStack) (*domain.Technology, error) {
-	reg := registry.GetRegistry()
-	technology, err := reg.TechnologyUsecase().Find(obj.TechnologyID)
+	technology, err := r.Reg.TechnologyUsecase().Find(obj.TechnologyID)
 	if err != nil {
 		return nil, err
 	}

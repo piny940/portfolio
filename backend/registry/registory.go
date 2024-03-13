@@ -8,6 +8,12 @@ import (
 type registry struct {
 	db *db.DB
 }
+type IRegistry interface {
+	ProjectUsecase() usecase.IProjectUsecase
+	BlogUsecase() usecase.IBlogUsecase
+	TechnologyUsecase() usecase.ITechnologyUsecase
+	TechStackUsecase() usecase.ITechStackUsecase
+}
 
 var reg *registry
 
@@ -15,7 +21,7 @@ func Init(db *db.DB) {
 	reg = &registry{db: db}
 }
 
-func GetRegistry() *registry {
+func GetRegistry() IRegistry {
 	return reg
 }
 

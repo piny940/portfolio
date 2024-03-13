@@ -7,13 +7,11 @@ package resolver
 import (
 	"backend/domain"
 	"backend/graph"
-	"backend/registry"
 	"context"
 )
 
 func (r *mutationResolver) CreateTechnology(ctx context.Context, input domain.TechnologyInput) (*domain.Technology, error) {
-	reg := registry.GetRegistry()
-	technology, err := reg.TechnologyUsecase().Create(input)
+	technology, err := r.Reg.TechnologyUsecase().Create(input)
 	if err != nil {
 		return nil, err
 	}
@@ -21,8 +19,7 @@ func (r *mutationResolver) CreateTechnology(ctx context.Context, input domain.Te
 }
 
 func (r *mutationResolver) UpdateTechnology(ctx context.Context, id uint, input domain.TechnologyInput) (*domain.Technology, error) {
-	reg := registry.GetRegistry()
-	technology, err := reg.TechnologyUsecase().Update(id, input)
+	technology, err := r.Reg.TechnologyUsecase().Update(id, input)
 	if err != nil {
 		return nil, err
 	}
@@ -30,8 +27,7 @@ func (r *mutationResolver) UpdateTechnology(ctx context.Context, id uint, input 
 }
 
 func (r *mutationResolver) DeleteTechnology(ctx context.Context, id uint) (*domain.Technology, error) {
-	reg := registry.GetRegistry()
-	technology, err := reg.TechnologyUsecase().Delete(id)
+	technology, err := r.Reg.TechnologyUsecase().Delete(id)
 	if err != nil {
 		return nil, err
 	}
@@ -39,8 +35,7 @@ func (r *mutationResolver) DeleteTechnology(ctx context.Context, id uint) (*doma
 }
 
 func (r *queryResolver) Technologies(ctx context.Context) ([]*domain.Technology, error) {
-	reg := registry.GetRegistry()
-	technologies, err := reg.TechnologyUsecase().List()
+	technologies, err := r.Reg.TechnologyUsecase().List()
 	if err != nil {
 		return nil, err
 	}
@@ -48,8 +43,7 @@ func (r *queryResolver) Technologies(ctx context.Context) ([]*domain.Technology,
 }
 
 func (r *queryResolver) Technology(ctx context.Context, id uint) (*domain.Technology, error) {
-	reg := registry.GetRegistry()
-	technology, err := reg.TechnologyUsecase().Find(id)
+	technology, err := r.Reg.TechnologyUsecase().Find(id)
 	if err != nil {
 		return nil, err
 	}

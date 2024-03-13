@@ -1,6 +1,9 @@
 package resolver
 
-import "backend/loader"
+import (
+	"backend/loader"
+	"backend/registry"
+)
 
 //go:generate go run github.com/99designs/gqlgen generate
 
@@ -10,4 +13,5 @@ import "backend/loader"
 
 type Resolver struct {
 	*loader.Loaders
+	Reg registry.IRegistry
 }

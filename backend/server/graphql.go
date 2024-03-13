@@ -3,6 +3,7 @@ package server
 import (
 	"backend/graph"
 	"backend/loader"
+	"backend/registry"
 	"backend/resolver"
 	"context"
 
@@ -17,6 +18,7 @@ func graphqlHandler() echo.HandlerFunc {
 			graph.Config{
 				Resolvers: &resolver.Resolver{
 					Loaders: loader.NewLoaders(),
+					Reg:     registry.GetRegistry(),
 				},
 			},
 		),
