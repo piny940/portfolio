@@ -20,15 +20,6 @@ type Project struct {
 	UpdatedAt   time.Time
 }
 
-type ProjectTechnologyTag struct {
-	ProjectID    string     `gorm:"primary_key"`
-	Project      Project    `gorm:"constraint:OnDelete:CASCADE;"`
-	TechnologyID string     `gorm:"primary_key"`
-	Technology   Technology `gorm:"constraint:OnDelete:CASCADE;"`
-	CreatedAt    time.Time
-	UpdatedAt    time.Time
-}
-
 type IProjectRepo interface {
 	List() ([]*Project, error)
 	ListByIds(ids []string) (map[string]*Project, error)
