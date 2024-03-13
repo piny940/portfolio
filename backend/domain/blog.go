@@ -20,6 +20,10 @@ type Blog struct {
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 }
+type BlogTag struct {
+	*Technology
+	BlogId uint
+}
 
 type IBlogRepo interface {
 	List() ([]*Blog, error)
@@ -27,6 +31,6 @@ type IBlogRepo interface {
 	Create(input BlogInput) (*Blog, error)
 	Update(id uint, input BlogInput) (*Blog, error)
 	Delete(id uint) (*Blog, error)
-	ListTags(blogIds []uint) ([]*Technology, error)
-	UpdateTags(blogId uint, technologyIds []uint) ([]*Technology, error)
+	ListTags(blogIds []uint) ([]*BlogTag, error)
+	UpdateTags(blogId uint, technologyIds []uint) ([]*BlogTag, error)
 }

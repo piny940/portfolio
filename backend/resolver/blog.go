@@ -15,7 +15,7 @@ func (r *blogResolver) Kind(ctx context.Context, obj *domain.Blog) (int, error) 
 	return int(obj.Kind), nil
 }
 
-func (r *blogResolver) Tags(ctx context.Context, obj *domain.Blog) ([]*domain.Technology, error) {
+func (r *blogResolver) Tags(ctx context.Context, obj *domain.Blog) ([]*domain.BlogTag, error) {
 	tags, err := r.Reg.BlogUsecase().ListTags([]uint{obj.ID})
 	if err != nil {
 		return nil, err
@@ -47,7 +47,7 @@ func (r *mutationResolver) DeleteBlog(ctx context.Context, id uint) (*domain.Blo
 	return blog, nil
 }
 
-func (r *mutationResolver) UpdateBlogTags(ctx context.Context, id uint, tags []uint) ([]*domain.Technology, error) {
+func (r *mutationResolver) UpdateBlogTags(ctx context.Context, id uint, tags []uint) ([]*domain.BlogTag, error) {
 	reg := registry.GetRegistry()
 	technologies, err := reg.BlogUsecase().UpdateTags(id, tags)
 	if err != nil {

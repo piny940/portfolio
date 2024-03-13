@@ -61,6 +61,16 @@ type ComplexityRoot struct {
 		Url         func(childComplexity int) int
 	}
 
+	BlogTag struct {
+		BlogId    func(childComplexity int) int
+		CreatedAt func(childComplexity int) int
+		ID        func(childComplexity int) int
+		LogoURL   func(childComplexity int) int
+		Name      func(childComplexity int) int
+		TagColor  func(childComplexity int) int
+		UpdatedAt func(childComplexity int) int
+	}
+
 	Mutation struct {
 		CreateBlog         func(childComplexity int, input domain.BlogInput) int
 		CreateProject      func(childComplexity int, input domain.ProjectInput) int
@@ -91,6 +101,16 @@ type ComplexityRoot struct {
 		Tags        func(childComplexity int) int
 		Title       func(childComplexity int) int
 		UpdatedAt   func(childComplexity int) int
+	}
+
+	ProjectTag struct {
+		CreatedAt func(childComplexity int) int
+		ID        func(childComplexity int) int
+		LogoURL   func(childComplexity int) int
+		Name      func(childComplexity int) int
+		ProjectID func(childComplexity int) int
+		TagColor  func(childComplexity int) int
+		UpdatedAt func(childComplexity int) int
 	}
 
 	Query struct {
@@ -126,7 +146,7 @@ type ComplexityRoot struct {
 
 type BlogResolver interface {
 	Kind(ctx context.Context, obj *domain.Blog) (int, error)
-	Tags(ctx context.Context, obj *domain.Blog) ([]*domain.Technology, error)
+	Tags(ctx context.Context, obj *domain.Blog) ([]*domain.BlogTag, error)
 }
 type MutationResolver interface {
 	CreateTechnology(ctx context.Context, input domain.TechnologyInput) (*domain.Technology, error)
@@ -135,7 +155,7 @@ type MutationResolver interface {
 	CreateBlog(ctx context.Context, input domain.BlogInput) (*domain.Blog, error)
 	UpdateBlog(ctx context.Context, id uint, input domain.BlogInput) (*domain.Blog, error)
 	DeleteBlog(ctx context.Context, id uint) (*domain.Blog, error)
-	UpdateBlogTags(ctx context.Context, id uint, tags []uint) ([]*domain.Technology, error)
+	UpdateBlogTags(ctx context.Context, id uint, tags []uint) ([]*domain.BlogTag, error)
 	CreateProject(ctx context.Context, input domain.ProjectInput) (*domain.Project, error)
 	UpdateProject(ctx context.Context, input domain.ProjectInput) (*domain.Project, error)
 	UpdateProjectOrder(ctx context.Context, input domain.UpdateProjectOrderInput) ([]*domain.Project, error)
@@ -237,6 +257,55 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Blog.Url(childComplexity), true
+
+	case "BlogTag.blogId":
+		if e.complexity.BlogTag.BlogId == nil {
+			break
+		}
+
+		return e.complexity.BlogTag.BlogId(childComplexity), true
+
+	case "BlogTag.createdAt":
+		if e.complexity.BlogTag.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.BlogTag.CreatedAt(childComplexity), true
+
+	case "BlogTag.id":
+		if e.complexity.BlogTag.ID == nil {
+			break
+		}
+
+		return e.complexity.BlogTag.ID(childComplexity), true
+
+	case "BlogTag.logoUrl":
+		if e.complexity.BlogTag.LogoURL == nil {
+			break
+		}
+
+		return e.complexity.BlogTag.LogoURL(childComplexity), true
+
+	case "BlogTag.name":
+		if e.complexity.BlogTag.Name == nil {
+			break
+		}
+
+		return e.complexity.BlogTag.Name(childComplexity), true
+
+	case "BlogTag.tagColor":
+		if e.complexity.BlogTag.TagColor == nil {
+			break
+		}
+
+		return e.complexity.BlogTag.TagColor(childComplexity), true
+
+	case "BlogTag.updatedAt":
+		if e.complexity.BlogTag.UpdatedAt == nil {
+			break
+		}
+
+		return e.complexity.BlogTag.UpdatedAt(childComplexity), true
 
 	case "Mutation.createBlog":
 		if e.complexity.Mutation.CreateBlog == nil {
@@ -494,6 +563,55 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Project.UpdatedAt(childComplexity), true
+
+	case "ProjectTag.createdAt":
+		if e.complexity.ProjectTag.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.ProjectTag.CreatedAt(childComplexity), true
+
+	case "ProjectTag.id":
+		if e.complexity.ProjectTag.ID == nil {
+			break
+		}
+
+		return e.complexity.ProjectTag.ID(childComplexity), true
+
+	case "ProjectTag.logoUrl":
+		if e.complexity.ProjectTag.LogoURL == nil {
+			break
+		}
+
+		return e.complexity.ProjectTag.LogoURL(childComplexity), true
+
+	case "ProjectTag.name":
+		if e.complexity.ProjectTag.Name == nil {
+			break
+		}
+
+		return e.complexity.ProjectTag.Name(childComplexity), true
+
+	case "ProjectTag.projectId":
+		if e.complexity.ProjectTag.ProjectID == nil {
+			break
+		}
+
+		return e.complexity.ProjectTag.ProjectID(childComplexity), true
+
+	case "ProjectTag.tagColor":
+		if e.complexity.ProjectTag.TagColor == nil {
+			break
+		}
+
+		return e.complexity.ProjectTag.TagColor(childComplexity), true
+
+	case "ProjectTag.updatedAt":
+		if e.complexity.ProjectTag.UpdatedAt == nil {
+			break
+		}
+
+		return e.complexity.ProjectTag.UpdatedAt(childComplexity), true
 
 	case "Query.blog":
 		if e.complexity.Query.Blog == nil {
@@ -781,8 +899,17 @@ var sources = []*ast.Source{
   title: String!
   url: String!
   kind: Int!
-  tags: [Technology!]!
+  tags: [BlogTag!]!
   publishedAt: Time!
+  createdAt: Time!
+  updatedAt: Time!
+}
+type BlogTag {
+  blogId: Uint!
+  id: Uint!
+  name: String!
+  logoUrl: String
+  tagColor: String!
   createdAt: Time!
   updatedAt: Time!
 }
@@ -801,7 +928,7 @@ extend type Mutation {
   createBlog(input: BlogInput!): Blog!
   updateBlog(id: Uint!, input: BlogInput!): Blog!
   deleteBlog(id: Uint!): Blog!
-  updateBlogTags(id: Uint!, tags: [Uint!]!): [Technology]!
+  updateBlogTags(id: Uint!, tags: [Uint!]!): [BlogTag]!
 }
 `, BuiltIn: false},
 	{Name: "../schema/project.gql", Input: `type Project {
@@ -814,6 +941,15 @@ extend type Mutation {
   qiitaLink: String
   appLink: String
   tags: [Technology!]!
+  createdAt: Time!
+  updatedAt: Time!
+}
+type ProjectTag {
+  projectId: Uint!
+  id: Uint!
+  name: String!
+  logoUrl: String
+  tagColor: String!
   createdAt: Time!
   updatedAt: Time!
 }
@@ -1489,9 +1625,9 @@ func (ec *executionContext) _Blog_tags(ctx context.Context, field graphql.Collec
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*domain.Technology)
+	res := resTmp.([]*domain.BlogTag)
 	fc.Result = res
-	return ec.marshalNTechnology2ᚕᚖbackendᚋdomainᚐTechnologyᚄ(ctx, field.Selections, res)
+	return ec.marshalNBlogTag2ᚕᚖbackendᚋdomainᚐBlogTagᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Blog_tags(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1502,20 +1638,22 @@ func (ec *executionContext) fieldContext_Blog_tags(ctx context.Context, field gr
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
+			case "blogId":
+				return ec.fieldContext_BlogTag_blogId(ctx, field)
 			case "id":
-				return ec.fieldContext_Technology_id(ctx, field)
+				return ec.fieldContext_BlogTag_id(ctx, field)
 			case "name":
-				return ec.fieldContext_Technology_name(ctx, field)
+				return ec.fieldContext_BlogTag_name(ctx, field)
 			case "logoUrl":
-				return ec.fieldContext_Technology_logoUrl(ctx, field)
+				return ec.fieldContext_BlogTag_logoUrl(ctx, field)
 			case "tagColor":
-				return ec.fieldContext_Technology_tagColor(ctx, field)
+				return ec.fieldContext_BlogTag_tagColor(ctx, field)
 			case "createdAt":
-				return ec.fieldContext_Technology_createdAt(ctx, field)
+				return ec.fieldContext_BlogTag_createdAt(ctx, field)
 			case "updatedAt":
-				return ec.fieldContext_Technology_updatedAt(ctx, field)
+				return ec.fieldContext_BlogTag_updatedAt(ctx, field)
 			}
-			return nil, fmt.Errorf("no field named %q was found under type Technology", field.Name)
+			return nil, fmt.Errorf("no field named %q was found under type BlogTag", field.Name)
 		},
 	}
 	return fc, nil
@@ -1643,6 +1781,311 @@ func (ec *executionContext) _Blog_updatedAt(ctx context.Context, field graphql.C
 func (ec *executionContext) fieldContext_Blog_updatedAt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Blog",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _BlogTag_blogId(ctx context.Context, field graphql.CollectedField, obj *domain.BlogTag) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_BlogTag_blogId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.BlogId, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(uint)
+	fc.Result = res
+	return ec.marshalNUint2uint(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_BlogTag_blogId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "BlogTag",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Uint does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _BlogTag_id(ctx context.Context, field graphql.CollectedField, obj *domain.BlogTag) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_BlogTag_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(uint)
+	fc.Result = res
+	return ec.marshalNUint2uint(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_BlogTag_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "BlogTag",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Uint does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _BlogTag_name(ctx context.Context, field graphql.CollectedField, obj *domain.BlogTag) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_BlogTag_name(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_BlogTag_name(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "BlogTag",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _BlogTag_logoUrl(ctx context.Context, field graphql.CollectedField, obj *domain.BlogTag) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_BlogTag_logoUrl(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.LogoURL, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_BlogTag_logoUrl(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "BlogTag",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _BlogTag_tagColor(ctx context.Context, field graphql.CollectedField, obj *domain.BlogTag) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_BlogTag_tagColor(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TagColor, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_BlogTag_tagColor(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "BlogTag",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _BlogTag_createdAt(ctx context.Context, field graphql.CollectedField, obj *domain.BlogTag) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_BlogTag_createdAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_BlogTag_createdAt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "BlogTag",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _BlogTag_updatedAt(ctx context.Context, field graphql.CollectedField, obj *domain.BlogTag) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_BlogTag_updatedAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_BlogTag_updatedAt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "BlogTag",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -2105,9 +2548,9 @@ func (ec *executionContext) _Mutation_updateBlogTags(ctx context.Context, field 
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*domain.Technology)
+	res := resTmp.([]*domain.BlogTag)
 	fc.Result = res
-	return ec.marshalNTechnology2ᚕᚖbackendᚋdomainᚐTechnology(ctx, field.Selections, res)
+	return ec.marshalNBlogTag2ᚕᚖbackendᚋdomainᚐBlogTag(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateBlogTags(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -2118,20 +2561,22 @@ func (ec *executionContext) fieldContext_Mutation_updateBlogTags(ctx context.Con
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
+			case "blogId":
+				return ec.fieldContext_BlogTag_blogId(ctx, field)
 			case "id":
-				return ec.fieldContext_Technology_id(ctx, field)
+				return ec.fieldContext_BlogTag_id(ctx, field)
 			case "name":
-				return ec.fieldContext_Technology_name(ctx, field)
+				return ec.fieldContext_BlogTag_name(ctx, field)
 			case "logoUrl":
-				return ec.fieldContext_Technology_logoUrl(ctx, field)
+				return ec.fieldContext_BlogTag_logoUrl(ctx, field)
 			case "tagColor":
-				return ec.fieldContext_Technology_tagColor(ctx, field)
+				return ec.fieldContext_BlogTag_tagColor(ctx, field)
 			case "createdAt":
-				return ec.fieldContext_Technology_createdAt(ctx, field)
+				return ec.fieldContext_BlogTag_createdAt(ctx, field)
 			case "updatedAt":
-				return ec.fieldContext_Technology_updatedAt(ctx, field)
+				return ec.fieldContext_BlogTag_updatedAt(ctx, field)
 			}
-			return nil, fmt.Errorf("no field named %q was found under type Technology", field.Name)
+			return nil, fmt.Errorf("no field named %q was found under type BlogTag", field.Name)
 		},
 	}
 	defer func() {
@@ -3219,6 +3664,311 @@ func (ec *executionContext) _Project_updatedAt(ctx context.Context, field graphq
 func (ec *executionContext) fieldContext_Project_updatedAt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Project",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ProjectTag_projectId(ctx context.Context, field graphql.CollectedField, obj *domain.ProjectTag) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ProjectTag_projectId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ProjectID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(uint)
+	fc.Result = res
+	return ec.marshalNUint2uint(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ProjectTag_projectId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ProjectTag",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Uint does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ProjectTag_id(ctx context.Context, field graphql.CollectedField, obj *domain.ProjectTag) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ProjectTag_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(uint)
+	fc.Result = res
+	return ec.marshalNUint2uint(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ProjectTag_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ProjectTag",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Uint does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ProjectTag_name(ctx context.Context, field graphql.CollectedField, obj *domain.ProjectTag) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ProjectTag_name(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ProjectTag_name(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ProjectTag",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ProjectTag_logoUrl(ctx context.Context, field graphql.CollectedField, obj *domain.ProjectTag) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ProjectTag_logoUrl(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.LogoURL, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ProjectTag_logoUrl(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ProjectTag",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ProjectTag_tagColor(ctx context.Context, field graphql.CollectedField, obj *domain.ProjectTag) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ProjectTag_tagColor(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TagColor, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ProjectTag_tagColor(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ProjectTag",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ProjectTag_createdAt(ctx context.Context, field graphql.CollectedField, obj *domain.ProjectTag) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ProjectTag_createdAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ProjectTag_createdAt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ProjectTag",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ProjectTag_updatedAt(ctx context.Context, field graphql.CollectedField, obj *domain.ProjectTag) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ProjectTag_updatedAt(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ProjectTag_updatedAt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ProjectTag",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -6617,6 +7367,72 @@ func (ec *executionContext) _Blog(ctx context.Context, sel ast.SelectionSet, obj
 	return out
 }
 
+var blogTagImplementors = []string{"BlogTag"}
+
+func (ec *executionContext) _BlogTag(ctx context.Context, sel ast.SelectionSet, obj *domain.BlogTag) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, blogTagImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("BlogTag")
+		case "blogId":
+			out.Values[i] = ec._BlogTag_blogId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "id":
+			out.Values[i] = ec._BlogTag_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "name":
+			out.Values[i] = ec._BlogTag_name(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "logoUrl":
+			out.Values[i] = ec._BlogTag_logoUrl(ctx, field, obj)
+		case "tagColor":
+			out.Values[i] = ec._BlogTag_tagColor(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createdAt":
+			out.Values[i] = ec._BlogTag_createdAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updatedAt":
+			out.Values[i] = ec._BlogTag_updatedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var mutationImplementors = []string{"Mutation"}
 
 func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet) graphql.Marshaler {
@@ -6851,6 +7667,72 @@ func (ec *executionContext) _Project(ctx context.Context, sel ast.SelectionSet, 
 			out.Values[i] = ec._Project_updatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				atomic.AddUint32(&out.Invalids, 1)
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var projectTagImplementors = []string{"ProjectTag"}
+
+func (ec *executionContext) _ProjectTag(ctx context.Context, sel ast.SelectionSet, obj *domain.ProjectTag) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, projectTagImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("ProjectTag")
+		case "projectId":
+			out.Values[i] = ec._ProjectTag_projectId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "id":
+			out.Values[i] = ec._ProjectTag_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "name":
+			out.Values[i] = ec._ProjectTag_name(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "logoUrl":
+			out.Values[i] = ec._ProjectTag_logoUrl(ctx, field, obj)
+		case "tagColor":
+			out.Values[i] = ec._ProjectTag_tagColor(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "createdAt":
+			out.Values[i] = ec._ProjectTag_createdAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "updatedAt":
+			out.Values[i] = ec._ProjectTag_updatedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
 			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
@@ -7665,6 +8547,98 @@ func (ec *executionContext) unmarshalNBlogInput2backendᚋdomainᚐBlogInput(ctx
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) marshalNBlogTag2ᚕᚖbackendᚋdomainᚐBlogTag(ctx context.Context, sel ast.SelectionSet, v []*domain.BlogTag) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalOBlogTag2ᚖbackendᚋdomainᚐBlogTag(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	return ret
+}
+
+func (ec *executionContext) marshalNBlogTag2ᚕᚖbackendᚋdomainᚐBlogTagᚄ(ctx context.Context, sel ast.SelectionSet, v []*domain.BlogTag) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNBlogTag2ᚖbackendᚋdomainᚐBlogTag(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNBlogTag2ᚖbackendᚋdomainᚐBlogTag(ctx context.Context, sel ast.SelectionSet, v *domain.BlogTag) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._BlogTag(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNBoolean2bool(ctx context.Context, v interface{}) (bool, error) {
 	res, err := graphql.UnmarshalBoolean(v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -7870,44 +8844,6 @@ func (ec *executionContext) unmarshalNTechStackInput2backendᚋdomainᚐTechStac
 
 func (ec *executionContext) marshalNTechnology2backendᚋdomainᚐTechnology(ctx context.Context, sel ast.SelectionSet, v domain.Technology) graphql.Marshaler {
 	return ec._Technology(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNTechnology2ᚕᚖbackendᚋdomainᚐTechnology(ctx context.Context, sel ast.SelectionSet, v []*domain.Technology) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalOTechnology2ᚖbackendᚋdomainᚐTechnology(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-
-	return ret
 }
 
 func (ec *executionContext) marshalNTechnology2ᚕᚖbackendᚋdomainᚐTechnologyᚄ(ctx context.Context, sel ast.SelectionSet, v []*domain.Technology) graphql.Marshaler {
@@ -8289,6 +9225,13 @@ func (ec *executionContext) marshalN__TypeKind2string(ctx context.Context, sel a
 	return res
 }
 
+func (ec *executionContext) marshalOBlogTag2ᚖbackendᚋdomainᚐBlogTag(ctx context.Context, sel ast.SelectionSet, v *domain.BlogTag) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._BlogTag(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalOBoolean2bool(ctx context.Context, v interface{}) (bool, error) {
 	res, err := graphql.UnmarshalBoolean(v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -8345,13 +9288,6 @@ func (ec *executionContext) marshalOString2ᚖstring(ctx context.Context, sel as
 	}
 	res := graphql.MarshalString(*v)
 	return res
-}
-
-func (ec *executionContext) marshalOTechnology2ᚖbackendᚋdomainᚐTechnology(ctx context.Context, sel ast.SelectionSet, v *domain.Technology) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	return ec._Technology(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalO__EnumValue2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐEnumValueᚄ(ctx context.Context, sel ast.SelectionSet, v []introspection.EnumValue) graphql.Marshaler {

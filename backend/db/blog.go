@@ -21,28 +21,34 @@ type BlogTechnologyTag struct {
 }
 
 // ListTags implements domain.IBlogRepo.
-func (*blogRepo) ListTags(blogIds []uint) ([]*domain.Technology, error) {
+func (*blogRepo) ListTags(blogIds []uint) ([]*domain.BlogTag, error) {
 	blogTechnologyTags := []*BlogTechnologyTag{}
 	result := db.Client.Where("blog_id IN ?", blogIds).Find(&blogTechnologyTags)
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	if len(blogTechnologyTags) == 0 {
-		return []*domain.Technology{}, nil
-	}
 	technologyIds := make([]uint, len(blogTechnologyTags))
+	blogIdByTechId := make(map[uint]uint, len(blogTechnologyTags))
 	for i, blogTechnologyTag := range blogTechnologyTags {
 		technologyIds[i] = blogTechnologyTag.TechnologyID
+		blogIdByTechId[blogTechnologyTag.TechnologyID] = blogTechnologyTag.BlogID
 	}
 	technologies := []*domain.Technology{}
-	result = db.Client.Find(&technologies, technologyIds)
+	result = db.Client.Where("id IN ?", technologyIds).Find(&technologies)
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	return technologies, nil
+	blogTags := []*domain.BlogTag{}
+	for _, tech := range technologies {
+		blogTags = append(blogTags, &domain.BlogTag{
+			BlogId:     blogIdByTechId[tech.ID],
+			Technology: tech,
+		})
+	}
+	return blogTags, nil
 }
 
-func (r *blogRepo) UpdateTags(blogId uint, technologyIds []uint) ([]*domain.Technology, error) {
+func (r *blogRepo) UpdateTags(blogId uint, technologyIds []uint) ([]*domain.BlogTag, error) {
 	var blog domain.Blog
 	result := r.db.Client.First(&blog, blogId)
 	if result.Error != nil {
@@ -52,7 +58,7 @@ func (r *blogRepo) UpdateTags(blogId uint, technologyIds []uint) ([]*domain.Tech
 		if err := r.db.Client.Model(&blog).Association("Tags").Clear(); err != nil {
 			return nil, err
 		}
-		return []*domain.Technology{}, nil
+		return []*domain.BlogTag{}, nil
 	}
 	technologies := []*domain.Technology{}
 	result = r.db.Client.Find(&technologies, technologyIds)
@@ -62,7 +68,11 @@ func (r *blogRepo) UpdateTags(blogId uint, technologyIds []uint) ([]*domain.Tech
 	if err := r.db.Client.Model(&blog).Association("Tags").Replace(technologies); err != nil {
 		return nil, err
 	}
-	return technologies, nil
+	blogTags := make([]*domain.BlogTag, len(technologies))
+	for i, tech := range technologies {
+		blogTags[i] = &domain.BlogTag{Technology: tech, BlogId: blogId}
+	}
+	return blogTags, nil
 }
 
 // Create implements domain.IBlogRepo.
