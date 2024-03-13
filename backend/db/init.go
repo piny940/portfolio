@@ -27,7 +27,7 @@ func Init() {
 		&domain.Project{},
 		&domain.Blog{},
 		&domain.Technology{},
-		&domain.BlogTechnologyTag{},
+		&BlogTechnologyTag{},
 		&domain.ProjectTechnologyTag{},
 		&ProjectLink{},
 		&domain.TechStack{},
@@ -43,7 +43,7 @@ func GetDB() *DB {
 }
 
 func (db *DB) Migrate() {
-	if err := db.Client.SetupJoinTable(&domain.Blog{}, "Tags", &domain.BlogTechnologyTag{}); err != nil {
+	if err := db.Client.SetupJoinTable(&domain.Blog{}, "Tags", &BlogTechnologyTag{}); err != nil {
 		panic(err)
 	}
 	if err := db.Client.SetupJoinTable(&domain.Project{}, "Tags", &domain.ProjectTechnologyTag{}); err != nil {
@@ -61,10 +61,10 @@ func (db *DB) Migrate() {
 	if err := db.Client.Migrator().CreateConstraint(&domain.ProjectTechnologyTag{}, "fk_project_technology_tags_project"); err != nil {
 		panic(err)
 	}
-	if err := db.Client.Migrator().DropConstraint(&domain.BlogTechnologyTag{}, "fk_blog_technology_tags_blog"); err != nil {
+	if err := db.Client.Migrator().DropConstraint(&BlogTechnologyTag{}, "fk_blog_technology_tags_blog"); err != nil {
 		panic(err)
 	}
-	if err := db.Client.Migrator().CreateConstraint(&domain.BlogTechnologyTag{}, "fk_blog_technology_tags_blog"); err != nil {
+	if err := db.Client.Migrator().CreateConstraint(&BlogTechnologyTag{}, "fk_blog_technology_tags_blog"); err != nil {
 		panic(err)
 	}
 }

@@ -2,6 +2,7 @@ package db
 
 import (
 	"backend/domain"
+	"time"
 
 	"gorm.io/gorm/clause"
 )
@@ -10,9 +11,18 @@ type blogRepo struct {
 	db *DB
 }
 
+type BlogTechnologyTag struct {
+	BlogID       uint              `gorm:"primary_key"`
+	Blog         domain.Blog       `gorm:"constraint:OnDelete:CASCADE;"`
+	TechnologyID uint              `gorm:"primary_key"`
+	Technology   domain.Technology `gorm:"constraint:OnDelete:CASCADE;"`
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
+}
+
 // ListTags implements domain.IBlogRepo.
 func (*blogRepo) ListTags(blogIds []uint) ([]*domain.Technology, error) {
-	blogTechnologyTags := []*domain.BlogTechnologyTag{}
+	blogTechnologyTags := []*BlogTechnologyTag{}
 	result := db.Client.Where("blog_id IN ?", blogIds).Find(&blogTechnologyTags)
 	if result.Error != nil {
 		return nil, result.Error

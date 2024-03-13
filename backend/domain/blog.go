@@ -21,15 +21,6 @@ type Blog struct {
 	UpdatedAt   time.Time
 }
 
-type BlogTechnologyTag struct {
-	BlogID       uint       `gorm:"primary_key"`
-	Blog         Blog       `gorm:"constraint:OnDelete:CASCADE;"`
-	TechnologyID uint       `gorm:"primary_key"`
-	Technology   Technology `gorm:"constraint:OnDelete:CASCADE;"`
-	CreatedAt    time.Time
-	UpdatedAt    time.Time
-}
-
 type IBlogRepo interface {
 	List() ([]*Blog, error)
 	Find(id uint) (*Blog, error)
