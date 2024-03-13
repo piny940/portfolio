@@ -91,7 +91,46 @@ func newRegistry() registry.IRegistry {
 	return regMock{}
 }
 
-func TestGetBlogTags(t *testing.T) {
+func TestGetBlogTagsEmpty(t *testing.T) {
+	reg := newRegistry()
+	getBlogTags := getBlogTagsFunc(reg)
+	actual := getBlogTags(context.Background(), []uint{})
+	expected := []*dataloader.Result[[]*domain.BlogTag]{}
+	td.Cmp(t, actual, expected)
+}
+
+func TestGetBlogTagsSingle(t *testing.T) {
+	reg := newRegistry()
+	getBlogTags := getBlogTagsFunc(reg)
+	actual := getBlogTags(context.Background(), []uint{0})
+	expected := []*dataloader.Result[[]*domain.BlogTag]{
+		{Data: tagsByBlogId[0]},
+	}
+	td.Cmp(t, actual, expected)
+}
+
+func TestGetBlogTagsEmptyTag(t *testing.T) {
+	reg := newRegistry()
+	getBlogTags := getBlogTagsFunc(reg)
+	actual := getBlogTags(context.Background(), []uint{1})
+	expected := []*dataloader.Result[[]*domain.BlogTag]{
+		{Data: tagsByBlogId[1]},
+	}
+	td.Cmp(t, actual, expected)
+}
+
+func TestBlogTagsOrder(t *testing.T) {
+	reg := newRegistry()
+	getBlogTags := getBlogTagsFunc(reg)
+	actual := getBlogTags(context.Background(), []uint{2, 3, 0})
+	expected := []*dataloader.Result[[]*domain.BlogTag]{
+		{Data: tagsByBlogId[2]},
+		{Data: tagsByBlogId[3]},
+		{Data: tagsByBlogId[0]},
+	}
+	td.Cmp(t, actual, expected)
+}
+func TestGetBlogTagsComplex(t *testing.T) {
 	reg := newRegistry()
 	getBlogTags := getBlogTagsFunc(reg)
 	actual := getBlogTags(context.Background(), []uint{3, 0, 1})
