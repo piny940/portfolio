@@ -14,10 +14,6 @@ const config: CodegenConfig = {
         },
         withHooks: true,
       },
-      hooks: {
-        afterOneFileWrite:
-          'npx prettier --write src/graphql/types/index.ts && npx eslint . --fix',
-      },
     },
   },
 }

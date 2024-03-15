@@ -30,12 +30,15 @@ query getBlogWithTags($id: Uint!) {
     createdAt
     updatedAt
     tags {
-      id
-      name
-      logoUrl
-      tagColor
-      createdAt
-      updatedAt
+      blogId
+      technology {
+        id
+        name
+        logoUrl
+        tagColor
+        createdAt
+        updatedAt
+      }
     }
   }
 }
@@ -61,12 +64,15 @@ mutation updateBlogWithTags($id: Uint!, $input: BlogInput!, $tags: [Uint!]!) {
     updatedAt
   }
   updateBlogTags(id: $id, tags: $tags) {
-    id
-    name
-    logoUrl
-    tagColor
-    createdAt
-    updatedAt
+    blogId
+    technology {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
   }
 }
 mutation deleteBlog($id: Uint!) {
@@ -82,11 +88,14 @@ mutation deleteBlog($id: Uint!) {
 }
 mutation updateBlogTags($id: Uint!, $tags: [Uint!]!) {
   updateBlogTags(id: $id, tags: $tags) {
-    id
-    name
-    logoUrl
-    tagColor
-    createdAt
-    updatedAt
+    blogId
+    technology {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
   }
 }
