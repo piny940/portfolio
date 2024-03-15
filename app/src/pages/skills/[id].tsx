@@ -25,7 +25,7 @@ export const getServerSideProps: GetServerSideProps<SkillProps> = async (
     project.tags.map((tag) => tag.id).includes(id)
   )
   const blogs = data.blogs.filter((blog) =>
-    blog.tags.map((tag) => tag.id).includes(id)
+    blog.tags.map((tag) => tag.technology.id).includes(id)
   )
   return {
     props: {

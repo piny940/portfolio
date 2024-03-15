@@ -11,9 +11,10 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
   [SubKey in K]: Maybe<T[SubKey]>
 }
-export type MakeEmpty<T extends Record<string, unknown>, K extends keyof T> = {
-  [_ in K]?: never
-}
+export type MakeEmpty<
+  T extends Record<string, unknown>,
+  K extends keyof T,
+> = { [_ in K]?: never }
 export type Incremental<T> =
   | T
   | {
@@ -37,7 +38,7 @@ export type Blog = {
   id: Scalars['Uint']['output']
   kind: Scalars['Int']['output']
   publishedAt: Scalars['Time']['output']
-  tags: Technology[]
+  tags: BlogTag[]
   title: Scalars['String']['output']
   updatedAt: Scalars['Time']['output']
   url: Scalars['String']['output']
@@ -48,6 +49,12 @@ export type BlogInput = {
   publishedAt: Scalars['Time']['input']
   title: Scalars['String']['input']
   url: Scalars['String']['input']
+}
+
+export type BlogTag = {
+  __typename?: 'BlogTag'
+  blogId: Scalars['Uint']['output']
+  technology: Technology
 }
 
 export type Mutation = {
@@ -61,7 +68,7 @@ export type Mutation = {
   deleteTechStack: TechStack
   deleteTechnology: Technology
   updateBlog: Blog
-  updateBlogTags: Array<Maybe<Technology>>
+  updateBlogTags: Array<Maybe<BlogTag>>
   updateProject: Project
   updateProjectOrder: Project[]
   updateProjectTags: Technology[]
@@ -160,6 +167,17 @@ export type ProjectInput = {
   title: Scalars['String']['input']
 }
 
+export type ProjectTag = {
+  __typename?: 'ProjectTag'
+  createdAt: Scalars['Time']['output']
+  id: Scalars['Uint']['output']
+  logoUrl?: Maybe<Scalars['String']['output']>
+  name: Scalars['String']['output']
+  projectId: Scalars['Uint']['output']
+  tagColor: Scalars['String']['output']
+  updatedAt: Scalars['Time']['output']
+}
+
 export type Query = {
   __typename?: 'Query'
   blog: Blog
@@ -238,13 +256,17 @@ export type FetchAllDataQuery = {
     createdAt: string
     updatedAt: string
     tags: Array<{
-      __typename?: 'Technology'
-      id: number
-      name: string
-      logoUrl?: string | null
-      tagColor: string
-      createdAt: string
-      updatedAt: string
+      __typename?: 'BlogTag'
+      blogId: number
+      technology: {
+        __typename?: 'Technology'
+        id: number
+        name: string
+        logoUrl?: string | null
+        tagColor: string
+        createdAt: string
+        updatedAt: string
+      }
     }>
   }>
   projects: Array<{
@@ -302,13 +324,17 @@ export type FetchBlogsQuery = {
     createdAt: string
     updatedAt: string
     tags: Array<{
-      __typename?: 'Technology'
-      id: number
-      name: string
-      logoUrl?: string | null
-      tagColor: string
-      createdAt: string
-      updatedAt: string
+      __typename?: 'BlogTag'
+      blogId: number
+      technology: {
+        __typename?: 'Technology'
+        id: number
+        name: string
+        logoUrl?: string | null
+        tagColor: string
+        createdAt: string
+        updatedAt: string
+      }
     }>
   }>
 }
@@ -432,13 +458,17 @@ export type FetchTechnologyQuery = {
     createdAt: string
     updatedAt: string
     tags: Array<{
-      __typename?: 'Technology'
-      id: number
-      name: string
-      logoUrl?: string | null
-      tagColor: string
-      createdAt: string
-      updatedAt: string
+      __typename?: 'BlogTag'
+      blogId: number
+      technology: {
+        __typename?: 'Technology'
+        id: number
+        name: string
+        logoUrl?: string | null
+        tagColor: string
+        createdAt: string
+        updatedAt: string
+      }
     }>
   }>
   technology: {
@@ -463,12 +493,15 @@ export const FetchAllDataDocument = gql`
       createdAt
       updatedAt
       tags {
-        id
-        name
-        logoUrl
-        tagColor
-        createdAt
-        updatedAt
+        blogId
+        technology {
+          id
+          name
+          logoUrl
+          tagColor
+          createdAt
+          updatedAt
+        }
       }
     }
     projects {
@@ -519,12 +552,15 @@ export const FetchBlogsDocument = gql`
       createdAt
       updatedAt
       tags {
-        id
-        name
-        logoUrl
-        tagColor
-        createdAt
-        updatedAt
+        blogId
+        technology {
+          id
+          name
+          logoUrl
+          tagColor
+          createdAt
+          updatedAt
+        }
       }
     }
   }
@@ -627,12 +663,15 @@ export const FetchTechnologyDocument = gql`
       createdAt
       updatedAt
       tags {
-        id
-        name
-        logoUrl
-        tagColor
-        createdAt
-        updatedAt
+        blogId
+        technology {
+          id
+          name
+          logoUrl
+          tagColor
+          createdAt
+          updatedAt
+        }
       }
     }
     technology(id: $id) {
@@ -671,14 +710,10 @@ export function getSdk(
     ): Promise<FetchAllDataQuery> {
       return await withWrapper(
         async (wrappedRequestHeaders) =>
-          await client.request<FetchAllDataQuery>(
-            FetchAllDataDocument,
-            variables,
-            {
-              ...requestHeaders,
-              ...wrappedRequestHeaders,
-            }
-          ),
+          await client.request<FetchAllDataQuery>(FetchAllDataDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
         'fetchAllData',
         'query',
         variables
@@ -705,14 +740,10 @@ export function getSdk(
     ): Promise<FetchProjectsQuery> {
       return await withWrapper(
         async (wrappedRequestHeaders) =>
-          await client.request<FetchProjectsQuery>(
-            FetchProjectsDocument,
-            variables,
-            {
-              ...requestHeaders,
-              ...wrappedRequestHeaders,
-            }
-          ),
+          await client.request<FetchProjectsQuery>(FetchProjectsDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
         'fetchProjects',
         'query',
         variables
@@ -724,14 +755,10 @@ export function getSdk(
     ): Promise<FetchProjectQuery> {
       return await withWrapper(
         async (wrappedRequestHeaders) =>
-          await client.request<FetchProjectQuery>(
-            FetchProjectDocument,
-            variables,
-            {
-              ...requestHeaders,
-              ...wrappedRequestHeaders,
-            }
-          ),
+          await client.request<FetchProjectQuery>(FetchProjectDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
         'fetchProject',
         'query',
         variables
