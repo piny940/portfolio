@@ -11,7 +11,10 @@ import (
 type IBlogTagLoader dataloader.Interface[uint, []*domain.BlogTag]
 
 func newBlogTagLoader(reg registry.IRegistry) IBlogTagLoader {
-	return dataloader.NewBatchedLoader(getBlogTagsFunc(reg))
+	return dataloader.NewBatchedLoader(
+		getBlogTagsFunc(reg),
+		dataloader.WithClearCacheOnBatch[uint, []*domain.BlogTag](),
+	)
 }
 
 func getBlogTagsFunc(reg registry.IRegistry) dataloader.BatchFunc[uint, []*domain.BlogTag] {
