@@ -95,16 +95,16 @@ func newRegistry() registry.IRegistry {
 
 func TestGetBlogTagsEmpty(t *testing.T) {
 	reg := newRegistry()
-	getBlogTags := getBlogTagsFunc(reg)
-	actual := getBlogTags(context.Background(), []uint{})
+	blogLoader := &blogLoader{reg}
+	actual := blogLoader.BlogTagsBatch(context.Background(), []uint{})
 	expected := []*dataloader.Result[[]*domain.BlogTag]{}
 	td.Cmp(t, actual, expected)
 }
 
 func TestGetBlogTagsSingle(t *testing.T) {
 	reg := newRegistry()
-	getBlogTags := getBlogTagsFunc(reg)
-	actual := getBlogTags(context.Background(), []uint{0})
+	blogLoader := &blogLoader{reg}
+	actual := blogLoader.BlogTagsBatch(context.Background(), []uint{0})
 	expected := []*dataloader.Result[[]*domain.BlogTag]{
 		{Data: tagsByBlogId[0]},
 	}
@@ -113,8 +113,8 @@ func TestGetBlogTagsSingle(t *testing.T) {
 
 func TestGetBlogTagsEmptyTag(t *testing.T) {
 	reg := newRegistry()
-	getBlogTags := getBlogTagsFunc(reg)
-	actual := getBlogTags(context.Background(), []uint{1})
+	blogLoader := &blogLoader{reg}
+	actual := blogLoader.BlogTagsBatch(context.Background(), []uint{1})
 	expected := []*dataloader.Result[[]*domain.BlogTag]{
 		{Data: tagsByBlogId[1]},
 	}
@@ -123,8 +123,8 @@ func TestGetBlogTagsEmptyTag(t *testing.T) {
 
 func TestBlogTagsOrder(t *testing.T) {
 	reg := newRegistry()
-	getBlogTags := getBlogTagsFunc(reg)
-	actual := getBlogTags(context.Background(), []uint{2, 3, 0})
+	blogLoader := &blogLoader{reg}
+	actual := blogLoader.BlogTagsBatch(context.Background(), []uint{2, 3, 0})
 	expected := []*dataloader.Result[[]*domain.BlogTag]{
 		{Data: tagsByBlogId[2]},
 		{Data: tagsByBlogId[3]},
@@ -134,8 +134,8 @@ func TestBlogTagsOrder(t *testing.T) {
 }
 func TestGetBlogTagsComplex(t *testing.T) {
 	reg := newRegistry()
-	getBlogTags := getBlogTagsFunc(reg)
-	actual := getBlogTags(context.Background(), []uint{3, 0, 1})
+	blogLoader := &blogLoader{reg}
+	actual := blogLoader.BlogTagsBatch(context.Background(), []uint{3, 0, 1})
 	expected := []*dataloader.Result[[]*domain.BlogTag]{
 		{Data: tagsByBlogId[3]},
 		{Data: tagsByBlogId[0]},
