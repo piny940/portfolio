@@ -27,6 +27,16 @@ type ProjectInput struct {
 	AppLink     *string `json:"appLink,omitempty"`
 }
 
+type ProjectTag struct {
+	ProjectID uint      `json:"projectId"`
+	ID        uint      `json:"id"`
+	Name      string    `json:"name"`
+	LogoURL   *string   `json:"logoUrl,omitempty"`
+	TagColor  string    `json:"tagColor"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
+}
+
 type Query struct {
 }
 

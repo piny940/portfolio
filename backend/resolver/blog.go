@@ -7,7 +7,6 @@ package resolver
 import (
 	"backend/domain"
 	"backend/graph"
-	"backend/registry"
 	"context"
 )
 
@@ -15,8 +14,8 @@ func (r *blogResolver) Kind(ctx context.Context, obj *domain.Blog) (int, error) 
 	return int(obj.Kind), nil
 }
 
-func (r *blogResolver) Tags(ctx context.Context, obj *domain.Blog) ([]*domain.Technology, error) {
-	tags, err := r.Reg.BlogUsecase().ListTags([]uint{obj.ID})
+func (r *blogResolver) Tags(ctx context.Context, obj *domain.Blog) ([]*domain.BlogTag, error) {
+	tags, err := r.Loaders.BlogTagLoader.Load(ctx, obj.ID)()
 	if err != nil {
 		return nil, err
 	}
@@ -47,9 +46,8 @@ func (r *mutationResolver) DeleteBlog(ctx context.Context, id uint) (*domain.Blo
 	return blog, nil
 }
 
-func (r *mutationResolver) UpdateBlogTags(ctx context.Context, id uint, tags []uint) ([]*domain.Technology, error) {
-	reg := registry.GetRegistry()
-	technologies, err := reg.BlogUsecase().UpdateTags(id, tags)
+func (r *mutationResolver) UpdateBlogTags(ctx context.Context, id uint, tags []uint) ([]*domain.BlogTag, error) {
+	technologies, err := r.Reg.BlogUsecase().UpdateTags(id, tags)
 	if err != nil {
 		return nil, err
 	}

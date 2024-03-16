@@ -19,8 +19,8 @@ const BlogItem = ({ blog }: BlogItemProps): JSX.Element => {
       </Link>
       <ul className="list-unstyled mt-2 mb-1 d-flex flex-wrap">
         {blog.tags.map((tag) => (
-          <li className="me-2 mt-1" key={tag.id}>
-            <TechnologyTag technology={tag} size={17} />
+          <li className="me-2 mt-1" key={tag.technology.id}>
+            <TechnologyTag technology={tag.technology} size={17} />
           </li>
         ))}
       </ul>

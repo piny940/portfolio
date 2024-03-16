@@ -13,12 +13,13 @@ import (
 )
 
 func graphqlHandler() echo.HandlerFunc {
+	reg := registry.GetRegistry()
 	graphql := handler.NewDefaultServer(
 		graph.NewExecutableSchema(
 			graph.Config{
 				Resolvers: &resolver.Resolver{
-					Loaders: loader.NewLoaders(),
-					Reg:     registry.GetRegistry(),
+					Loaders: loader.NewLoaders(reg),
+					Reg:     reg,
 				},
 			},
 		),

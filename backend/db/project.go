@@ -28,6 +28,15 @@ type ProjectLink struct {
 	UpdatedAt time.Time       `gorm:"type:timestamp; not null;"`
 }
 
+type ProjectTechnologyTag struct {
+	ProjectID    string            `gorm:"primary_key"`
+	Project      domain.Project    `gorm:"constraint:OnDelete:CASCADE;"`
+	TechnologyID string            `gorm:"primary_key"`
+	Technology   domain.Technology `gorm:"constraint:OnDelete:CASCADE;"`
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
+}
+
 func NewProjectRepo(db *DB) domain.IProjectRepo {
 	return &projectRepo{db: db}
 }
@@ -47,7 +56,7 @@ func (r *projectRepo) GetLinksByProjectIds(projectIds []string) (map[string][]*P
 
 // ListTags implements domain.IProjectRepo.
 func (r *projectRepo) ListTags(projectIds []string) ([]*domain.Technology, error) {
-	var projectTechnologyTags []*domain.ProjectTechnologyTag
+	var projectTechnologyTags []*ProjectTechnologyTag
 	result := r.db.Client.Where("project_id in ?", projectIds).Find(&projectTechnologyTags)
 	if result.Error != nil {
 		return nil, result.Error

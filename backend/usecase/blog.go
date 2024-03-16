@@ -8,8 +8,8 @@ type IBlogUsecase interface {
 	Create(input domain.BlogInput) (*domain.Blog, error)
 	Update(id uint, input domain.BlogInput) (*domain.Blog, error)
 	Delete(id uint) (*domain.Blog, error)
-	ListTags(blogIds []uint) ([]*domain.Technology, error)
-	UpdateTags(blogId uint, technologyIds []uint) ([]*domain.Technology, error)
+	ListTags(blogIds []uint) ([]*domain.BlogTag, error)
+	UpdateTags(blogId uint, technologyIds []uint) ([]*domain.BlogTag, error)
 }
 type blogUsecase struct {
 	repo domain.IBlogRepo
@@ -40,10 +40,10 @@ func (u *blogUsecase) Update(id uint, input domain.BlogInput) (*domain.Blog, err
 	return u.repo.Update(id, input)
 }
 
-func (u *blogUsecase) ListTags(blogIds []uint) ([]*domain.Technology, error) {
+func (u *blogUsecase) ListTags(blogIds []uint) ([]*domain.BlogTag, error) {
 	return u.repo.ListTags(blogIds)
 }
-func (u *blogUsecase) UpdateTags(blogId uint, technologyIds []uint) ([]*domain.Technology, error) {
+func (u *blogUsecase) UpdateTags(blogId uint, technologyIds []uint) ([]*domain.BlogTag, error) {
 	return u.repo.UpdateTags(blogId, technologyIds)
 }
 

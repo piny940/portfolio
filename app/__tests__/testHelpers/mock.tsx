@@ -60,18 +60,49 @@ export const blogs = [
     title: 'Blog1',
     id: 0,
     url: 'https://example.com',
-    tags: [technologies[0], technologies[1]],
+    tags: [
+      {
+        blogId: 0,
+        technology: technologies[0],
+      },
+      {
+        blogId: 0,
+        technology: technologies[1],
+      },
+    ],
   }),
   Mock.from<Blog>({
     title: 'Blog2',
     id: 1,
     url: 'https://example.com',
-    tags: [technologies[0], technologies[2]],
+    tags: [
+      {
+        blogId: 1,
+        technology: technologies[0],
+      },
+      {
+        blogId: 1,
+        technology: technologies[2],
+      },
+    ],
   }),
   Mock.from<Blog>({
     title: 'Blog3',
     id: 2,
     url: 'https://example.com',
-    tags: [technologies[0], technologies[1], technologies[2]],
+    tags: [
+      {
+        blogId: 2,
+        technology: technologies[0],
+      },
+      {
+        blogId: 2,
+        technology: technologies[1],
+      },
+      {
+        blogId: 2,
+        technology: technologies[2],
+      },
+    ],
   }),
 ]

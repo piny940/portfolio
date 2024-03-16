@@ -8,12 +8,15 @@ query fetchAllData {
     createdAt
     updatedAt
     tags {
-      id
-      name
-      logoUrl
-      tagColor
-      createdAt
-      updatedAt
+      blogId
+      technology {
+        id
+        name
+        logoUrl
+        tagColor
+        createdAt
+        updatedAt
+      }
     }
   }
   projects {
@@ -62,12 +65,15 @@ query fetchBlogs {
     createdAt
     updatedAt
     tags {
-      id
-      name
-      logoUrl
-      tagColor
-      createdAt
-      updatedAt
+      blogId
+      technology {
+        id
+        name
+        logoUrl
+        tagColor
+        createdAt
+        updatedAt
+      }
     }
   }
 }
@@ -162,12 +168,15 @@ query fetchTechnology($id: Uint!) {
     createdAt
     updatedAt
     tags {
-      id
-      name
-      logoUrl
-      tagColor
-      createdAt
-      updatedAt
+      blogId
+      technology {
+        id
+        name
+        logoUrl
+        tagColor
+        createdAt
+        updatedAt
+      }
     }
   }
   technology(id: $id) {

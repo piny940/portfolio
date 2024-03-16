@@ -20,7 +20,7 @@ export const BlogEdit = ({ blog }: BlogEditProps): JSX.Element => {
   })
   const { getValues: getTagsValues, control: tagsControl } =
     useForm<TechTagsFormFields>({
-      defaultValues: { tags: blog.tags },
+      defaultValues: { tags: blog.tags.map((t) => t.technology) },
     })
   const [, updateBlog] = useUpdateBlogWithTagsMutation()
   const router = useRouter()

@@ -11,6 +11,15 @@ type Project {
   createdAt: Time!
   updatedAt: Time!
 }
+type ProjectTag {
+  projectId: Uint!
+  id: Uint!
+  name: String!
+  logoUrl: String
+  tagColor: String!
+  createdAt: Time!
+  updatedAt: Time!
+}
 input ProjectInput {
   id: String!
   title: String!

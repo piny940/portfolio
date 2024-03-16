@@ -3,10 +3,14 @@ type Blog {
   title: String!
   url: String!
   kind: Int!
-  tags: [Technology!]!
+  tags: [BlogTag!]!
   publishedAt: Time!
   createdAt: Time!
   updatedAt: Time!
+}
+type BlogTag {
+  blogId: Uint!
+  technology: Technology!
 }
 input BlogInput {
   title: String!
@@ -23,5 +27,5 @@ extend type Mutation {
   createBlog(input: BlogInput!): Blog!
   updateBlog(id: Uint!, input: BlogInput!): Blog!
   deleteBlog(id: Uint!): Blog!
-  updateBlogTags(id: Uint!, tags: [Uint!]!): [Technology]!
+  updateBlogTags(id: Uint!, tags: [Uint!]!): [BlogTag]!
 }
