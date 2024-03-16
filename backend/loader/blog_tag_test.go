@@ -41,41 +41,43 @@ var tagsByBlogId = map[uint][]*domain.BlogTag{
 	},
 }
 
-type blogRepo struct{}
+type blogUsecase struct{}
 
-func newBlogRepo() domain.IBlogRepo {
-	return &blogRepo{}
-}
-func (r *blogRepo) List() ([]*domain.Blog, error) {
-	return sampleBlogs, nil
-}
-func (r *blogRepo) Find(id uint) (*domain.Blog, error) {
+func (b *blogUsecase) Create(input domain.BlogInput) (*domain.Blog, error) {
 	panic("unimplemented")
 }
-func (r *blogRepo) Create(input domain.BlogInput) (*domain.Blog, error) {
+
+func (b *blogUsecase) Delete(id uint) (*domain.Blog, error) {
 	panic("unimplemented")
 }
-func (r *blogRepo) Update(id uint, input domain.BlogInput) (*domain.Blog, error) {
+
+func (b *blogUsecase) Find(id uint) (*domain.Blog, error) {
 	panic("unimplemented")
 }
-func (r *blogRepo) Delete(id uint) (*domain.Blog, error) {
+
+func (b *blogUsecase) List() ([]*domain.Blog, error) {
 	panic("unimplemented")
 }
-func (r *blogRepo) ListTags(blogIds []uint) ([]*domain.BlogTag, error) {
+
+func (b *blogUsecase) Update(id uint, input domain.BlogInput) (*domain.Blog, error) {
+	panic("unimplemented")
+}
+func (b *blogUsecase) ListTags(blogIds []uint) ([]*domain.BlogTag, error) {
 	blogTags := make([]*domain.BlogTag, 0)
 	for _, blogId := range blogIds {
 		blogTags = append(blogTags, tagsByBlogId[blogId]...)
 	}
 	return blogTags, nil
 }
-func (r *blogRepo) UpdateTags(blogId uint, technologyIds []uint) ([]*domain.BlogTag, error) {
+
+func (b *blogUsecase) UpdateTags(blogId uint, technologyIds []uint) ([]*domain.BlogTag, error) {
 	panic("unimplemented")
 }
 
 type regMock struct{}
 
 func (r regMock) BlogUsecase() usecase.IBlogUsecase {
-	return usecase.NewBlogUsecase(newBlogRepo())
+	return &blogUsecase{}
 }
 func (r regMock) ProjectUsecase() usecase.IProjectUsecase {
 	panic("unimplemented")
