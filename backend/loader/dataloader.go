@@ -8,15 +8,21 @@ import (
 )
 
 type Loaders struct {
-	BlogTagLoader IBlogTagLoader
+	BlogTagLoader    IBlogTagLoader
+	ProjectTagLoader IProjectTagLoader
 }
 
 func NewLoaders(reg registry.IRegistry) *Loaders {
 	blogLoader := &blogLoader{reg}
+	projectLoader := &projectLoader{reg}
 	return &Loaders{
 		BlogTagLoader: dataloader.NewBatchedLoader(
 			blogLoader.blogTagsBatch,
 			dataloader.WithClearCacheOnBatch[uint, []*domain.BlogTag](),
+		),
+		ProjectTagLoader: dataloader.NewBatchedLoader(
+			projectLoader.projectTagsBatch,
+			dataloader.WithClearCacheOnBatch[string, []*domain.ProjectTag](),
 		),
 	}
 }
