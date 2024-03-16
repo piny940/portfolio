@@ -14,7 +14,7 @@ type blogLoader struct {
 
 type IBlogTagLoader dataloader.Interface[uint, []*domain.BlogTag]
 
-func (b *blogLoader) BlogTagsBatch(ctx context.Context, blogIds []uint) []*dataloader.Result[[]*domain.BlogTag] {
+func (b *blogLoader) blogTagsBatch(ctx context.Context, blogIds []uint) []*dataloader.Result[[]*domain.BlogTag] {
 	results := make([]*dataloader.Result[[]*domain.BlogTag], len(blogIds))
 	blogTags, err := b.reg.BlogUsecase().ListTags(blogIds)
 	if err != nil {

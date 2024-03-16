@@ -15,7 +15,7 @@ func NewLoaders(reg registry.IRegistry) *Loaders {
 	blogLoader := &blogLoader{reg}
 	return &Loaders{
 		BlogTagLoader: dataloader.NewBatchedLoader(
-			blogLoader.BlogTagsBatch,
+			blogLoader.blogTagsBatch,
 			dataloader.WithClearCacheOnBatch[uint, []*domain.BlogTag](),
 		),
 	}
