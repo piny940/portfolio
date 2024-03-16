@@ -7,18 +7,13 @@ type Project {
   githubLink: String
   qiitaLink: String
   appLink: String
-  tags: [Technology!]!
+  tags: [ProjectTag!]!
   createdAt: Time!
   updatedAt: Time!
 }
 type ProjectTag {
-  projectId: Uint!
-  id: Uint!
-  name: String!
-  logoUrl: String
-  tagColor: String!
-  createdAt: Time!
-  updatedAt: Time!
+  projectId: String!
+  technology: Technology!
 }
 input ProjectInput {
   id: String!
@@ -43,5 +38,5 @@ extend type Mutation {
   updateProject(input: ProjectInput!): Project!
   updateProjectOrder(input: UpdateProjectOrderInput!): [Project!]!
   deleteProject(id: String!): Project!
-  updateProjectTags(id: String!, tags: [Uint!]!): [Technology!]!
+  updateProjectTags(id: String!, tags: [Uint!]!): [ProjectTag!]!
 }

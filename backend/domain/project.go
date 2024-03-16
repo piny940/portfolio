@@ -20,6 +20,11 @@ type Project struct {
 	UpdatedAt   time.Time
 }
 
+type ProjectTag struct {
+	ProjectID  string      `json:"projectId"`
+	Technology *Technology `json:"technology"`
+}
+
 type IProjectRepo interface {
 	List() ([]*Project, error)
 	ListByIds(ids []string) (map[string]*Project, error)
@@ -27,8 +32,8 @@ type IProjectRepo interface {
 	Create(input ProjectInput) (*Project, error)
 	Update(input ProjectInput) (*Project, error)
 	Delete(id string) (*Project, error)
-	ListTags(projectIds []string) ([]*Technology, error)
-	UpdateTags(projectId string, technologyIds []uint) ([]*Technology, error)
+	ListTags(projectIds []string) ([]*ProjectTag, error)
+	UpdateTags(projectId string, technologyIds []uint) ([]*ProjectTag, error)
 }
 
 const (

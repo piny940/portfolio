@@ -8,6 +8,7 @@ import (
 	"backend/domain"
 	"backend/graph"
 	"context"
+	"fmt"
 )
 
 func (r *mutationResolver) CreateProject(ctx context.Context, input domain.ProjectInput) (*domain.Project, error) {
@@ -42,7 +43,7 @@ func (r *mutationResolver) DeleteProject(ctx context.Context, id string) (*domai
 	return project, nil
 }
 
-func (r *mutationResolver) UpdateProjectTags(ctx context.Context, id string, tags []uint) ([]*domain.Technology, error) {
+func (r *mutationResolver) UpdateProjectTags(ctx context.Context, id string, tags []uint) ([]*domain.ProjectTag, error) {
 	technologies, err := r.Reg.ProjectUsecase().UpdateTags(id, tags)
 	if err != nil {
 		return nil, err
@@ -50,12 +51,16 @@ func (r *mutationResolver) UpdateProjectTags(ctx context.Context, id string, tag
 	return technologies, nil
 }
 
-func (r *projectResolver) Tags(ctx context.Context, obj *domain.Project) ([]*domain.Technology, error) {
+func (r *projectResolver) Tags(ctx context.Context, obj *domain.Project) ([]*domain.ProjectTag, error) {
 	technologies, err := r.Reg.ProjectUsecase().ListTags([]string{obj.ID})
 	if err != nil {
 		return nil, err
 	}
 	return technologies, nil
+}
+
+func (r *projectTagResolver) ProjectID(ctx context.Context, obj *domain.ProjectTag) (string, error) {
+	panic(fmt.Errorf("not implemented: ProjectID - projectId"))
 }
 
 func (r *queryResolver) Projects(ctx context.Context) ([]*domain.Project, error) {
@@ -76,4 +81,7 @@ func (r *queryResolver) Project(ctx context.Context, id string) (*domain.Project
 
 func (r *Resolver) Project() graph.ProjectResolver { return &projectResolver{r} }
 
+func (r *Resolver) ProjectTag() graph.ProjectTagResolver { return &projectTagResolver{r} }
+
 type projectResolver struct{ *Resolver }
+type projectTagResolver struct{ *Resolver }

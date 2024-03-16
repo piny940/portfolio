@@ -12,8 +12,8 @@ type IProjectUsecase interface {
 	Update(input domain.ProjectInput) (*domain.Project, error)
 	UpdatePositions(input domain.UpdateProjectOrderInput) ([]*domain.Project, error)
 	Delete(id string) (*domain.Project, error)
-	ListTags(projectIds []string) ([]*domain.Technology, error)
-	UpdateTags(projectId string, technologyIds []uint) ([]*domain.Technology, error)
+	ListTags(projectIds []string) ([]*domain.ProjectTag, error)
+	UpdateTags(projectId string, technologyIds []uint) ([]*domain.ProjectTag, error)
 }
 type projectUsecase struct {
 	repo domain.IProjectRepo
@@ -51,11 +51,11 @@ func (u *projectUsecase) Update(input domain.ProjectInput) (*domain.Project, err
 	return u.repo.Update(input)
 }
 
-func (u *projectUsecase) ListTags(projectIds []string) ([]*domain.Technology, error) {
+func (u *projectUsecase) ListTags(projectIds []string) ([]*domain.ProjectTag, error) {
 	return u.repo.ListTags(projectIds)
 }
 
-func (u *projectUsecase) UpdateTags(projectId string, technologyIds []uint) ([]*domain.Technology, error) {
+func (u *projectUsecase) UpdateTags(projectId string, technologyIds []uint) ([]*domain.ProjectTag, error) {
 	return u.repo.UpdateTags(projectId, technologyIds)
 }
 
