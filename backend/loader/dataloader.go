@@ -13,8 +13,8 @@ type Loaders struct {
 }
 
 func NewLoaders(reg registry.IRegistry) *Loaders {
-	blogLoader := &blogLoader{reg}
-	projectLoader := &projectLoader{reg}
+	blogLoader := &blogLoader{reg.BlogUsecase()}
+	projectLoader := &projectLoader{reg.ProjectUsecase()}
 	return &Loaders{
 		BlogTagLoader: dataloader.NewBatchedLoader(
 			blogLoader.blogTagsBatch,

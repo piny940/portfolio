@@ -2,8 +2,6 @@ package loader
 
 import (
 	"backend/domain"
-	"backend/registry"
-	"backend/usecase"
 	"context"
 	"testing"
 
@@ -11,7 +9,7 @@ import (
 	"github.com/maxatome/go-testdeep/td"
 )
 
-var sampleTechnologies = []*domain.Technology{
+var sampleBlogTechnologies = []*domain.Technology{
 	{ID: 0, Name: "tech0"},
 	{ID: 1, Name: "tech1"},
 	{ID: 2, Name: "tech2"},
@@ -26,22 +24,26 @@ var sampleBlogs = []*domain.Blog{
 }
 var tagsByBlogId = map[uint][]*domain.BlogTag{
 	0: {
-		{Technology: *sampleTechnologies[0], BlogID: 0},
+		{Technology: *sampleBlogTechnologies[0], BlogID: 0},
 	},
 	1: {},
 	2: {
-		{Technology: *sampleTechnologies[0], BlogID: 2},
-		{Technology: *sampleTechnologies[1], BlogID: 2},
-		{Technology: *sampleTechnologies[2], BlogID: 2},
-		{Technology: *sampleTechnologies[3], BlogID: 2},
+		{Technology: *sampleBlogTechnologies[0], BlogID: 2},
+		{Technology: *sampleBlogTechnologies[1], BlogID: 2},
+		{Technology: *sampleBlogTechnologies[2], BlogID: 2},
+		{Technology: *sampleBlogTechnologies[3], BlogID: 2},
 	},
 	3: {
-		{Technology: *sampleTechnologies[2], BlogID: 3},
-		{Technology: *sampleTechnologies[3], BlogID: 3},
+		{Technology: *sampleBlogTechnologies[2], BlogID: 3},
+		{Technology: *sampleBlogTechnologies[3], BlogID: 3},
 	},
 }
 
-type blogUsecase struct{}
+type blogUsecase struct {
+	Technologies []*domain.Technology
+	Blogs        []*domain.Blog
+	TagsByBlogId map[uint][]*domain.BlogTag
+}
 
 func (b *blogUsecase) Create(input domain.BlogInput) (*domain.Blog, error) {
 	panic("unimplemented")
@@ -74,36 +76,25 @@ func (b *blogUsecase) UpdateTags(blogId uint, technologyIds []uint) ([]*domain.B
 	panic("unimplemented")
 }
 
-type regMock struct{}
-
-func (r regMock) BlogUsecase() usecase.IBlogUsecase {
-	return &blogUsecase{}
-}
-func (r regMock) ProjectUsecase() usecase.IProjectUsecase {
-	panic("unimplemented")
-}
-func (r regMock) TechStackUsecase() usecase.ITechStackUsecase {
-	panic("unimplemented")
-}
-func (r regMock) TechnologyUsecase() usecase.ITechnologyUsecase {
-	panic("unimplemented")
-}
-
-func newRegistry() registry.IRegistry {
-	return regMock{}
-}
-
 func TestGetBlogTagsEmpty(t *testing.T) {
-	reg := newRegistry()
-	blogLoader := &blogLoader{reg}
+	uc := &blogUsecase{
+		Technologies: sampleBlogTechnologies,
+		Blogs:        sampleBlogs,
+		TagsByBlogId: tagsByBlogId,
+	}
+	blogLoader := &blogLoader{uc: uc}
 	actual := blogLoader.blogTagsBatch(context.Background(), []uint{})
 	expected := []*dataloader.Result[[]*domain.BlogTag]{}
 	td.Cmp(t, actual, expected)
 }
 
 func TestGetBlogTagsSingle(t *testing.T) {
-	reg := newRegistry()
-	blogLoader := &blogLoader{reg}
+	uc := &blogUsecase{
+		Technologies: sampleBlogTechnologies,
+		Blogs:        sampleBlogs,
+		TagsByBlogId: tagsByBlogId,
+	}
+	blogLoader := &blogLoader{uc: uc}
 	actual := blogLoader.blogTagsBatch(context.Background(), []uint{0})
 	expected := []*dataloader.Result[[]*domain.BlogTag]{
 		{Data: tagsByBlogId[0]},
@@ -112,8 +103,12 @@ func TestGetBlogTagsSingle(t *testing.T) {
 }
 
 func TestGetBlogTagsEmptyTag(t *testing.T) {
-	reg := newRegistry()
-	blogLoader := &blogLoader{reg}
+	uc := &blogUsecase{
+		Technologies: sampleBlogTechnologies,
+		Blogs:        sampleBlogs,
+		TagsByBlogId: tagsByBlogId,
+	}
+	blogLoader := &blogLoader{uc: uc}
 	actual := blogLoader.blogTagsBatch(context.Background(), []uint{1})
 	expected := []*dataloader.Result[[]*domain.BlogTag]{
 		{Data: tagsByBlogId[1]},
@@ -122,8 +117,12 @@ func TestGetBlogTagsEmptyTag(t *testing.T) {
 }
 
 func TestBlogTagsOrder(t *testing.T) {
-	reg := newRegistry()
-	blogLoader := &blogLoader{reg}
+	uc := &blogUsecase{
+		Technologies: sampleBlogTechnologies,
+		Blogs:        sampleBlogs,
+		TagsByBlogId: tagsByBlogId,
+	}
+	blogLoader := &blogLoader{uc: uc}
 	actual := blogLoader.blogTagsBatch(context.Background(), []uint{2, 3, 0})
 	expected := []*dataloader.Result[[]*domain.BlogTag]{
 		{Data: tagsByBlogId[2]},
@@ -133,8 +132,12 @@ func TestBlogTagsOrder(t *testing.T) {
 	td.Cmp(t, actual, expected)
 }
 func TestGetBlogTagsComplex(t *testing.T) {
-	reg := newRegistry()
-	blogLoader := &blogLoader{reg}
+	uc := &blogUsecase{
+		Technologies: sampleBlogTechnologies,
+		Blogs:        sampleBlogs,
+		TagsByBlogId: tagsByBlogId,
+	}
+	blogLoader := &blogLoader{uc: uc}
 	actual := blogLoader.blogTagsBatch(context.Background(), []uint{3, 0, 1})
 	expected := []*dataloader.Result[[]*domain.BlogTag]{
 		{Data: tagsByBlogId[3]},

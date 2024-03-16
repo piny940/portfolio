@@ -2,21 +2,21 @@ package loader
 
 import (
 	"backend/domain"
-	"backend/registry"
+	"backend/usecase"
 	"context"
 
 	dataloader "github.com/graph-gophers/dataloader/v7"
 )
 
 type projectLoader struct {
-	reg registry.IRegistry
+	uc usecase.IProjectUsecase
 }
 
 type IProjectTagLoader dataloader.Interface[string, []*domain.ProjectTag]
 
 func (p *projectLoader) projectTagsBatch(_ context.Context, projectIds []string) []*dataloader.Result[[]*domain.ProjectTag] {
 	results := make([]*dataloader.Result[[]*domain.ProjectTag], len(projectIds))
-	projectTags, err := p.reg.ProjectUsecase().ListTags(projectIds)
+	projectTags, err := p.uc.ListTags(projectIds)
 	if err != nil {
 		for i := range results {
 			results[i] = &dataloader.Result[[]*domain.ProjectTag]{Error: err}
