@@ -51,11 +51,11 @@ func (r *mutationResolver) UpdateProjectTags(ctx context.Context, id string, tag
 }
 
 func (r *projectResolver) Tags(ctx context.Context, obj *domain.Project) ([]*domain.ProjectTag, error) {
-	technologies, err := r.Reg.ProjectUsecase().ListTags([]string{obj.ID})
+	tags, err := r.Loaders.ProjectTagLoader.Load(ctx, obj.ID)()
 	if err != nil {
 		return nil, err
 	}
-	return technologies, nil
+	return tags, nil
 }
 
 func (r *queryResolver) Projects(ctx context.Context) ([]*domain.Project, error) {
