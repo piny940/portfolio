@@ -42,7 +42,6 @@ type ResolverRoot interface {
 	Blog() BlogResolver
 	Mutation() MutationResolver
 	Project() ProjectResolver
-	ProjectTag() ProjectTagResolver
 	Query() QueryResolver
 	TechStack() TechStackResolver
 }
@@ -158,9 +157,6 @@ type MutationResolver interface {
 }
 type ProjectResolver interface {
 	Tags(ctx context.Context, obj *domain.Project) ([]*domain.ProjectTag, error)
-}
-type ProjectTagResolver interface {
-	ProjectID(ctx context.Context, obj *domain.ProjectTag) (string, error)
 }
 type QueryResolver interface {
 	Technologies(ctx context.Context) ([]*domain.Technology, error)
@@ -3363,7 +3359,7 @@ func (ec *executionContext) _ProjectTag_projectId(ctx context.Context, field gra
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.ProjectTag().ProjectID(rctx, obj)
+		return obj.ProjectID, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3384,8 +3380,8 @@ func (ec *executionContext) fieldContext_ProjectTag_projectId(ctx context.Contex
 	fc = &graphql.FieldContext{
 		Object:     "ProjectTag",
 		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
+		IsMethod:   false,
+		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type String does not have child fields")
 		},
@@ -7153,45 +7149,14 @@ func (ec *executionContext) _ProjectTag(ctx context.Context, sel ast.SelectionSe
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("ProjectTag")
 		case "projectId":
-			field := field
-
-			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._ProjectTag_projectId(ctx, field, obj)
-				if res == graphql.Null {
-					atomic.AddUint32(&fs.Invalids, 1)
-				}
-				return res
+			out.Values[i] = ec._ProjectTag_projectId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
 			}
-
-			if field.Deferrable != nil {
-				dfs, ok := deferred[field.Deferrable.Label]
-				di := 0
-				if ok {
-					dfs.AddField(field)
-					di = len(dfs.Values) - 1
-				} else {
-					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
-					deferred[field.Deferrable.Label] = dfs
-				}
-				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
-					return innerFunc(ctx, dfs)
-				})
-
-				// don't run the out.Concurrently() call below
-				out.Values[i] = graphql.Null
-				continue
-			}
-
-			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "technology":
 			out.Values[i] = ec._ProjectTag_technology(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&out.Invalids, 1)
+				out.Invalids++
 			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))

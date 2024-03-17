@@ -45,9 +45,9 @@ const ProjectShow = ({ project, blogContent }: ProjectProps): JSX.Element => {
         <Breadcrumb paths={paths} />
         <h1 className="title-underline ps-2">{project.title}</h1>
         <ul className="list-unstyled d-flex mx-lg-4 flex-wrap">
-          {project.tags.map((tech) => (
-            <li key={tech.id} className="m-1">
-              <TechnologyTag technology={tech} size={15} />
+          {project.tags.map((tag) => (
+            <li key={tag.technology.id} className="m-1">
+              <TechnologyTag technology={tag.technology} size={15} />
             </li>
           ))}
         </ul>

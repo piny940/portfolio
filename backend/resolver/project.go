@@ -8,7 +8,6 @@ import (
 	"backend/domain"
 	"backend/graph"
 	"context"
-	"fmt"
 )
 
 func (r *mutationResolver) CreateProject(ctx context.Context, input domain.ProjectInput) (*domain.Project, error) {
@@ -59,10 +58,6 @@ func (r *projectResolver) Tags(ctx context.Context, obj *domain.Project) ([]*dom
 	return technologies, nil
 }
 
-func (r *projectTagResolver) ProjectID(ctx context.Context, obj *domain.ProjectTag) (string, error) {
-	panic(fmt.Errorf("not implemented: ProjectID - projectId"))
-}
-
 func (r *queryResolver) Projects(ctx context.Context) ([]*domain.Project, error) {
 	projects, err := r.Reg.ProjectUsecase().List()
 	if err != nil {
@@ -81,7 +76,4 @@ func (r *queryResolver) Project(ctx context.Context, id string) (*domain.Project
 
 func (r *Resolver) Project() graph.ProjectResolver { return &projectResolver{r} }
 
-func (r *Resolver) ProjectTag() graph.ProjectTagResolver { return &projectTagResolver{r} }
-
 type projectResolver struct{ *Resolver }
-type projectTagResolver struct{ *Resolver }
