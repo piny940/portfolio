@@ -26,15 +26,21 @@ export const technologies: Technology[] = [
 ]
 export const projects = [
   Mock.from<Project>({
-    tags: [technologies[0], technologies[1]],
+    tags: [
+      { projectId: 'project1', technology: technologies[0] },
+      { projectId: 'project1', technology: technologies[1] },
+    ],
     title: 'project1',
   }),
   Mock.from<Project>({
-    tags: [technologies[1], technologies[2]],
+    tags: [
+      { projectId: 'project2', technology: technologies[1] },
+      { projectId: 'project2', technology: technologies[2] },
+    ],
     title: 'project2',
   }),
   Mock.from<Project>({
-    tags: [technologies[1]],
+    tags: [{ projectId: 'project3', technology: technologies[1] }],
     title: 'project3',
   }),
 ]
