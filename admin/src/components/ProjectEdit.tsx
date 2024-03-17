@@ -37,7 +37,7 @@ export const ProjectEdit = ({ project }: ProjectEditProps): JSX.Element => {
   })
   const { getValues: getTagsValues, control: tagsControl } =
     useForm<TechTagsFormFields>({
-      defaultValues: { tags: project.tags },
+      defaultValues: { tags: project.tags.map((t) => t.technology) },
     })
   const [, updateProject] = useUpdateProjectWithTagsMutation()
   const router = useRouter()
