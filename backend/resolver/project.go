@@ -42,7 +42,7 @@ func (r *mutationResolver) DeleteProject(ctx context.Context, id string) (*domai
 	return project, nil
 }
 
-func (r *mutationResolver) UpdateProjectTags(ctx context.Context, id string, tags []uint) ([]*domain.Technology, error) {
+func (r *mutationResolver) UpdateProjectTags(ctx context.Context, id string, tags []uint) ([]*domain.ProjectTag, error) {
 	technologies, err := r.Reg.ProjectUsecase().UpdateTags(id, tags)
 	if err != nil {
 		return nil, err
@@ -50,12 +50,12 @@ func (r *mutationResolver) UpdateProjectTags(ctx context.Context, id string, tag
 	return technologies, nil
 }
 
-func (r *projectResolver) Tags(ctx context.Context, obj *domain.Project) ([]*domain.Technology, error) {
-	technologies, err := r.Reg.ProjectUsecase().ListTags([]string{obj.ID})
+func (r *projectResolver) Tags(ctx context.Context, obj *domain.Project) ([]*domain.ProjectTag, error) {
+	tags, err := r.Loaders.ProjectTagLoader.Load(ctx, obj.ID)()
 	if err != nil {
 		return nil, err
 	}
-	return technologies, nil
+	return tags, nil
 }
 
 func (r *queryResolver) Projects(ctx context.Context) ([]*domain.Project, error) {

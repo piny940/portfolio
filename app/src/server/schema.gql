@@ -31,12 +31,15 @@ query fetchAllData {
     createdAt
     updatedAt
     tags {
-      id
-      name
-      logoUrl
-      tagColor
-      createdAt
-      updatedAt
+      projectId
+      technology {
+        id
+        name
+        logoUrl
+        tagColor
+        createdAt
+        updatedAt
+      }
     }
   }
   techStacks {
@@ -90,12 +93,15 @@ query fetchProjects {
     createdAt
     updatedAt
     tags {
-      id
-      name
-      logoUrl
-      tagColor
-      createdAt
-      updatedAt
+      projectId
+      technology {
+        id
+        name
+        logoUrl
+        tagColor
+        createdAt
+        updatedAt
+      }
     }
   }
 }
@@ -112,12 +118,15 @@ query fetchProject($id: String!) {
     createdAt
     updatedAt
     tags {
-      id
-      name
-      logoUrl
-      tagColor
-      createdAt
-      updatedAt
+      projectId
+      technology {
+        id
+        name
+        logoUrl
+        tagColor
+        createdAt
+        updatedAt
+      }
     }
   }
 }
@@ -151,12 +160,15 @@ query fetchTechnology($id: Uint!) {
     createdAt
     updatedAt
     tags {
-      id
-      name
-      logoUrl
-      tagColor
-      createdAt
-      updatedAt
+      projectId
+      technology {
+        id
+        name
+        logoUrl
+        tagColor
+        createdAt
+        updatedAt
+      }
     }
   }
   blogs {

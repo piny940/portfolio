@@ -35,7 +35,7 @@ func (repo *projectRepo) ListByIds(ids []string) (map[string]*domain.Project, er
 	}
 	return projects, nil
 }
-func (repo *projectRepo) ListTags(projectIds []string) ([]*domain.Technology, error) {
+func (repo *projectRepo) ListTags(projectIds []string) ([]*domain.ProjectTag, error) {
 	panic("list tags unimplemented")
 }
 func (repo *projectRepo) Update(input domain.ProjectInput) (*domain.Project, error) {
@@ -48,7 +48,7 @@ func (repo *projectRepo) Update(input domain.ProjectInput) (*domain.Project, err
 	}
 	return nil, fmt.Errorf("project not found")
 }
-func (repo *projectRepo) UpdateTags(projectId string, technologyIds []uint) ([]*domain.Technology, error) {
+func (repo *projectRepo) UpdateTags(projectId string, technologyIds []uint) ([]*domain.ProjectTag, error) {
 	panic("update tags unimplemented")
 }
 

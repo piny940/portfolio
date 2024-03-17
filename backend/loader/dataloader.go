@@ -1,14 +1,29 @@
 package loader
 
-import "backend/registry"
+import (
+	"backend/domain"
+	"backend/registry"
+
+	"github.com/graph-gophers/dataloader/v7"
+)
 
 type Loaders struct {
-	BlogTagLoader IBlogTagLoader
+	BlogTagLoader    IBlogTagLoader
+	ProjectTagLoader IProjectTagLoader
 }
 
 func NewLoaders(reg registry.IRegistry) *Loaders {
+	blogLoader := &blogLoader{reg.BlogUsecase()}
+	projectLoader := &projectLoader{reg.ProjectUsecase()}
 	return &Loaders{
-		BlogTagLoader: newBlogTagLoader(reg),
+		BlogTagLoader: dataloader.NewBatchedLoader(
+			blogLoader.blogTagsBatch,
+			dataloader.WithClearCacheOnBatch[uint, []*domain.BlogTag](),
+		),
+		ProjectTagLoader: dataloader.NewBatchedLoader(
+			projectLoader.projectTagsBatch,
+			dataloader.WithClearCacheOnBatch[string, []*domain.ProjectTag](),
+		),
 	}
 }
 

@@ -39,12 +39,15 @@ query getProjectWithTags($id: String!) {
     createdAt
     updatedAt
     tags {
-      id
-      name
-      logoUrl
-      tagColor
-      createdAt
-      updatedAt
+      projectId
+      technology {
+        id
+        name
+        logoUrl
+        tagColor
+        createdAt
+        updatedAt
+      }
     }
   }
 }
@@ -94,12 +97,15 @@ mutation updateProjectWithTags(
     updatedAt
   }
   updateProjectTags(id: $id, tags: $tags) {
-    id
-    name
-    logoUrl
-    tagColor
-    createdAt
-    updatedAt
+    projectId
+    technology {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
   }
 }
 mutation deleteProject($id: String!) {
@@ -118,12 +124,15 @@ mutation deleteProject($id: String!) {
 }
 mutation updateProjectTags($id: String!, $tags: [Uint!]!) {
   updateProjectTags(id: $id, tags: $tags) {
-    id
-    name
-    logoUrl
-    tagColor
-    createdAt
-    updatedAt
+    projectId
+    technology {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
   }
 }
 mutation updateProjectOrder($input: UpdateProjectOrderInput!) {

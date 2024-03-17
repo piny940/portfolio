@@ -99,13 +99,8 @@ type ComplexityRoot struct {
 	}
 
 	ProjectTag struct {
-		CreatedAt func(childComplexity int) int
-		ID        func(childComplexity int) int
-		LogoURL   func(childComplexity int) int
-		Name      func(childComplexity int) int
-		ProjectID func(childComplexity int) int
-		TagColor  func(childComplexity int) int
-		UpdatedAt func(childComplexity int) int
+		ProjectID  func(childComplexity int) int
+		Technology func(childComplexity int) int
 	}
 
 	Query struct {
@@ -155,13 +150,13 @@ type MutationResolver interface {
 	UpdateProject(ctx context.Context, input domain.ProjectInput) (*domain.Project, error)
 	UpdateProjectOrder(ctx context.Context, input domain.UpdateProjectOrderInput) ([]*domain.Project, error)
 	DeleteProject(ctx context.Context, id string) (*domain.Project, error)
-	UpdateProjectTags(ctx context.Context, id string, tags []uint) ([]*domain.Technology, error)
+	UpdateProjectTags(ctx context.Context, id string, tags []uint) ([]*domain.ProjectTag, error)
 	CreateTechStack(ctx context.Context, input domain.TechStackInput) (*domain.TechStack, error)
 	UpdateTechStack(ctx context.Context, id uint, input domain.TechStackInput) (*domain.TechStack, error)
 	DeleteTechStack(ctx context.Context, id uint) (*domain.TechStack, error)
 }
 type ProjectResolver interface {
-	Tags(ctx context.Context, obj *domain.Project) ([]*domain.Technology, error)
+	Tags(ctx context.Context, obj *domain.Project) ([]*domain.ProjectTag, error)
 }
 type QueryResolver interface {
 	Technologies(ctx context.Context) ([]*domain.Technology, error)
@@ -524,34 +519,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Project.UpdatedAt(childComplexity), true
 
-	case "ProjectTag.createdAt":
-		if e.complexity.ProjectTag.CreatedAt == nil {
-			break
-		}
-
-		return e.complexity.ProjectTag.CreatedAt(childComplexity), true
-
-	case "ProjectTag.id":
-		if e.complexity.ProjectTag.ID == nil {
-			break
-		}
-
-		return e.complexity.ProjectTag.ID(childComplexity), true
-
-	case "ProjectTag.logoUrl":
-		if e.complexity.ProjectTag.LogoURL == nil {
-			break
-		}
-
-		return e.complexity.ProjectTag.LogoURL(childComplexity), true
-
-	case "ProjectTag.name":
-		if e.complexity.ProjectTag.Name == nil {
-			break
-		}
-
-		return e.complexity.ProjectTag.Name(childComplexity), true
-
 	case "ProjectTag.projectId":
 		if e.complexity.ProjectTag.ProjectID == nil {
 			break
@@ -559,19 +526,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.ProjectTag.ProjectID(childComplexity), true
 
-	case "ProjectTag.tagColor":
-		if e.complexity.ProjectTag.TagColor == nil {
+	case "ProjectTag.technology":
+		if e.complexity.ProjectTag.Technology == nil {
 			break
 		}
 
-		return e.complexity.ProjectTag.TagColor(childComplexity), true
-
-	case "ProjectTag.updatedAt":
-		if e.complexity.ProjectTag.UpdatedAt == nil {
-			break
-		}
-
-		return e.complexity.ProjectTag.UpdatedAt(childComplexity), true
+		return e.complexity.ProjectTag.Technology(childComplexity), true
 
 	case "Query.blog":
 		if e.complexity.Query.Blog == nil {
@@ -895,18 +855,13 @@ extend type Mutation {
   githubLink: String
   qiitaLink: String
   appLink: String
-  tags: [Technology!]!
+  tags: [ProjectTag!]!
   createdAt: Time!
   updatedAt: Time!
 }
 type ProjectTag {
-  projectId: Uint!
-  id: Uint!
-  name: String!
-  logoUrl: String
-  tagColor: String!
-  createdAt: Time!
-  updatedAt: Time!
+  projectId: String!
+  technology: Technology!
 }
 input ProjectInput {
   id: String!
@@ -931,7 +886,7 @@ extend type Mutation {
   updateProject(input: ProjectInput!): Project!
   updateProjectOrder(input: UpdateProjectOrderInput!): [Project!]!
   deleteProject(id: String!): Project!
-  updateProjectTags(id: String!, tags: [Uint!]!): [Technology!]!
+  updateProjectTags(id: String!, tags: [Uint!]!): [ProjectTag!]!
 }
 `, BuiltIn: false},
 	{Name: "../schema/schema.gql", Input: `scalar Uint
@@ -2667,9 +2622,9 @@ func (ec *executionContext) _Mutation_updateProjectTags(ctx context.Context, fie
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*domain.Technology)
+	res := resTmp.([]*domain.ProjectTag)
 	fc.Result = res
-	return ec.marshalNTechnology2ᚕᚖbackendᚋdomainᚐTechnologyᚄ(ctx, field.Selections, res)
+	return ec.marshalNProjectTag2ᚕᚖbackendᚋdomainᚐProjectTagᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateProjectTags(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -2680,20 +2635,12 @@ func (ec *executionContext) fieldContext_Mutation_updateProjectTags(ctx context.
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
-			case "id":
-				return ec.fieldContext_Technology_id(ctx, field)
-			case "name":
-				return ec.fieldContext_Technology_name(ctx, field)
-			case "logoUrl":
-				return ec.fieldContext_Technology_logoUrl(ctx, field)
-			case "tagColor":
-				return ec.fieldContext_Technology_tagColor(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Technology_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_Technology_updatedAt(ctx, field)
+			case "projectId":
+				return ec.fieldContext_ProjectTag_projectId(ctx, field)
+			case "technology":
+				return ec.fieldContext_ProjectTag_technology(ctx, field)
 			}
-			return nil, fmt.Errorf("no field named %q was found under type Technology", field.Name)
+			return nil, fmt.Errorf("no field named %q was found under type ProjectTag", field.Name)
 		},
 	}
 	defer func() {
@@ -3286,9 +3233,9 @@ func (ec *executionContext) _Project_tags(ctx context.Context, field graphql.Col
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*domain.Technology)
+	res := resTmp.([]*domain.ProjectTag)
 	fc.Result = res
-	return ec.marshalNTechnology2ᚕᚖbackendᚋdomainᚐTechnologyᚄ(ctx, field.Selections, res)
+	return ec.marshalNProjectTag2ᚕᚖbackendᚋdomainᚐProjectTagᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Project_tags(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -3299,20 +3246,12 @@ func (ec *executionContext) fieldContext_Project_tags(ctx context.Context, field
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
-			case "id":
-				return ec.fieldContext_Technology_id(ctx, field)
-			case "name":
-				return ec.fieldContext_Technology_name(ctx, field)
-			case "logoUrl":
-				return ec.fieldContext_Technology_logoUrl(ctx, field)
-			case "tagColor":
-				return ec.fieldContext_Technology_tagColor(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Technology_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_Technology_updatedAt(ctx, field)
+			case "projectId":
+				return ec.fieldContext_ProjectTag_projectId(ctx, field)
+			case "technology":
+				return ec.fieldContext_ProjectTag_technology(ctx, field)
 			}
-			return nil, fmt.Errorf("no field named %q was found under type Technology", field.Name)
+			return nil, fmt.Errorf("no field named %q was found under type ProjectTag", field.Name)
 		},
 	}
 	return fc, nil
@@ -3432,9 +3371,9 @@ func (ec *executionContext) _ProjectTag_projectId(ctx context.Context, field gra
 		}
 		return graphql.Null
 	}
-	res := resTmp.(uint)
+	res := resTmp.(string)
 	fc.Result = res
-	return ec.marshalNUint2uint(ctx, field.Selections, res)
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_ProjectTag_projectId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -3444,102 +3383,14 @@ func (ec *executionContext) fieldContext_ProjectTag_projectId(ctx context.Contex
 		IsMethod:   false,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Uint does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _ProjectTag_id(ctx context.Context, field graphql.CollectedField, obj *domain.ProjectTag) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_ProjectTag_id(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(uint)
-	fc.Result = res
-	return ec.marshalNUint2uint(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_ProjectTag_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "ProjectTag",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Uint does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _ProjectTag_name(ctx context.Context, field graphql.CollectedField, obj *domain.ProjectTag) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_ProjectTag_name(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_ProjectTag_name(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "ProjectTag",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
 }
 
-func (ec *executionContext) _ProjectTag_logoUrl(ctx context.Context, field graphql.CollectedField, obj *domain.ProjectTag) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_ProjectTag_logoUrl(ctx, field)
+func (ec *executionContext) _ProjectTag_technology(ctx context.Context, field graphql.CollectedField, obj *domain.ProjectTag) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ProjectTag_technology(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -3552,48 +3403,7 @@ func (ec *executionContext) _ProjectTag_logoUrl(ctx context.Context, field graph
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.LogoURL, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_ProjectTag_logoUrl(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "ProjectTag",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _ProjectTag_tagColor(ctx context.Context, field graphql.CollectedField, obj *domain.ProjectTag) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_ProjectTag_tagColor(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.TagColor, nil
+		return obj.Technology, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3605,107 +3415,33 @@ func (ec *executionContext) _ProjectTag_tagColor(ctx context.Context, field grap
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(*domain.Technology)
 	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return ec.marshalNTechnology2ᚖbackendᚋdomainᚐTechnology(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_ProjectTag_tagColor(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_ProjectTag_technology(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "ProjectTag",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _ProjectTag_createdAt(ctx context.Context, field graphql.CollectedField, obj *domain.ProjectTag) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_ProjectTag_createdAt(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.CreatedAt, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(time.Time)
-	fc.Result = res
-	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_ProjectTag_createdAt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "ProjectTag",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Time does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _ProjectTag_updatedAt(ctx context.Context, field graphql.CollectedField, obj *domain.ProjectTag) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_ProjectTag_updatedAt(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.UpdatedAt, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(time.Time)
-	fc.Result = res
-	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_ProjectTag_updatedAt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "ProjectTag",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Time does not have child fields")
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Technology_id(ctx, field)
+			case "name":
+				return ec.fieldContext_Technology_name(ctx, field)
+			case "logoUrl":
+				return ec.fieldContext_Technology_logoUrl(ctx, field)
+			case "tagColor":
+				return ec.fieldContext_Technology_tagColor(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Technology_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Technology_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Technology", field.Name)
 		},
 	}
 	return fc, nil
@@ -7417,30 +7153,8 @@ func (ec *executionContext) _ProjectTag(ctx context.Context, sel ast.SelectionSe
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
-		case "id":
-			out.Values[i] = ec._ProjectTag_id(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "name":
-			out.Values[i] = ec._ProjectTag_name(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "logoUrl":
-			out.Values[i] = ec._ProjectTag_logoUrl(ctx, field, obj)
-		case "tagColor":
-			out.Values[i] = ec._ProjectTag_tagColor(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "createdAt":
-			out.Values[i] = ec._ProjectTag_createdAt(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
-		case "updatedAt":
-			out.Values[i] = ec._ProjectTag_updatedAt(ctx, field, obj)
+		case "technology":
+			out.Values[i] = ec._ProjectTag_technology(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -8440,6 +8154,60 @@ func (ec *executionContext) marshalNProject2ᚖbackendᚋdomainᚐProject(ctx co
 func (ec *executionContext) unmarshalNProjectInput2backendᚋdomainᚐProjectInput(ctx context.Context, v interface{}) (domain.ProjectInput, error) {
 	res, err := ec.unmarshalInputProjectInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNProjectTag2ᚕᚖbackendᚋdomainᚐProjectTagᚄ(ctx context.Context, sel ast.SelectionSet, v []*domain.ProjectTag) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNProjectTag2ᚖbackendᚋdomainᚐProjectTag(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNProjectTag2ᚖbackendᚋdomainᚐProjectTag(ctx context.Context, sel ast.SelectionSet, v *domain.ProjectTag) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._ProjectTag(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalNString2string(ctx context.Context, v interface{}) (string, error) {

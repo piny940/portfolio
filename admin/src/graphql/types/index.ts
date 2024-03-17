@@ -58,7 +58,7 @@ export type Mutation = {
   updateBlogTags: Array<Maybe<BlogTag>>;
   updateProject: Project;
   updateProjectOrder: Array<Project>;
-  updateProjectTags: Array<Technology>;
+  updateProjectTags: Array<ProjectTag>;
   updateTechStack: TechStack;
   updateTechnology: Technology;
 };
@@ -153,7 +153,7 @@ export type Project = {
   isFavorite: Scalars['Boolean']['output'];
   position: Scalars['Int']['output'];
   qiitaLink?: Maybe<Scalars['String']['output']>;
-  tags: Array<Technology>;
+  tags: Array<ProjectTag>;
   title: Scalars['String']['output'];
   updatedAt: Scalars['Time']['output'];
 };
@@ -171,13 +171,8 @@ export type ProjectInput = {
 
 export type ProjectTag = {
   __typename?: 'ProjectTag';
-  createdAt: Scalars['Time']['output'];
-  id: Scalars['Uint']['output'];
-  logoUrl?: Maybe<Scalars['String']['output']>;
-  name: Scalars['String']['output'];
-  projectId: Scalars['Uint']['output'];
-  tagColor: Scalars['String']['output'];
-  updatedAt: Scalars['Time']['output'];
+  projectId: Scalars['String']['output'];
+  technology: Technology;
 };
 
 export type Query = {
@@ -320,7 +315,7 @@ export type GetProjectWithTagsQueryVariables = Exact<{
 }>;
 
 
-export type GetProjectWithTagsQuery = { __typename?: 'Query', project: { __typename?: 'Project', id: string, title: string, description: string, isFavorite: boolean, position: number, appLink?: string | null, githubLink?: string | null, qiitaLink?: string | null, createdAt: string, updatedAt: string, tags: Array<{ __typename?: 'Technology', id: number, name: string, logoUrl?: string | null, tagColor: string, createdAt: string, updatedAt: string }> } };
+export type GetProjectWithTagsQuery = { __typename?: 'Query', project: { __typename?: 'Project', id: string, title: string, description: string, isFavorite: boolean, position: number, appLink?: string | null, githubLink?: string | null, qiitaLink?: string | null, createdAt: string, updatedAt: string, tags: Array<{ __typename?: 'ProjectTag', projectId: string, technology: { __typename?: 'Technology', id: number, name: string, logoUrl?: string | null, tagColor: string, createdAt: string, updatedAt: string } }> } };
 
 export type CreateProjectMutationVariables = Exact<{
   input: ProjectInput;
@@ -343,7 +338,7 @@ export type UpdateProjectWithTagsMutationVariables = Exact<{
 }>;
 
 
-export type UpdateProjectWithTagsMutation = { __typename?: 'Mutation', updateProject: { __typename?: 'Project', id: string, title: string, description: string, isFavorite: boolean, position: number, appLink?: string | null, githubLink?: string | null, qiitaLink?: string | null, createdAt: string, updatedAt: string }, updateProjectTags: Array<{ __typename?: 'Technology', id: number, name: string, logoUrl?: string | null, tagColor: string, createdAt: string, updatedAt: string }> };
+export type UpdateProjectWithTagsMutation = { __typename?: 'Mutation', updateProject: { __typename?: 'Project', id: string, title: string, description: string, isFavorite: boolean, position: number, appLink?: string | null, githubLink?: string | null, qiitaLink?: string | null, createdAt: string, updatedAt: string }, updateProjectTags: Array<{ __typename?: 'ProjectTag', projectId: string, technology: { __typename?: 'Technology', id: number, name: string, logoUrl?: string | null, tagColor: string, createdAt: string, updatedAt: string } }> };
 
 export type DeleteProjectMutationVariables = Exact<{
   id: Scalars['String']['input'];
@@ -358,7 +353,7 @@ export type UpdateProjectTagsMutationVariables = Exact<{
 }>;
 
 
-export type UpdateProjectTagsMutation = { __typename?: 'Mutation', updateProjectTags: Array<{ __typename?: 'Technology', id: number, name: string, logoUrl?: string | null, tagColor: string, createdAt: string, updatedAt: string }> };
+export type UpdateProjectTagsMutation = { __typename?: 'Mutation', updateProjectTags: Array<{ __typename?: 'ProjectTag', projectId: string, technology: { __typename?: 'Technology', id: number, name: string, logoUrl?: string | null, tagColor: string, createdAt: string, updatedAt: string } }> };
 
 export type UpdateProjectOrderMutationVariables = Exact<{
   input: UpdateProjectOrderInput;
@@ -642,12 +637,15 @@ export const GetProjectWithTagsDocument = gql`
     createdAt
     updatedAt
     tags {
-      id
-      name
-      logoUrl
-      tagColor
-      createdAt
-      updatedAt
+      projectId
+      technology {
+        id
+        name
+        logoUrl
+        tagColor
+        createdAt
+        updatedAt
+      }
     }
   }
 }
@@ -711,12 +709,15 @@ export const UpdateProjectWithTagsDocument = gql`
     updatedAt
   }
   updateProjectTags(id: $id, tags: $tags) {
-    id
-    name
-    logoUrl
-    tagColor
-    createdAt
-    updatedAt
+    projectId
+    technology {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
   }
 }
     `;
@@ -747,12 +748,15 @@ export function useDeleteProjectMutation() {
 export const UpdateProjectTagsDocument = gql`
     mutation updateProjectTags($id: String!, $tags: [Uint!]!) {
   updateProjectTags(id: $id, tags: $tags) {
-    id
-    name
-    logoUrl
-    tagColor
-    createdAt
-    updatedAt
+    projectId
+    technology {
+      id
+      name
+      logoUrl
+      tagColor
+      createdAt
+      updatedAt
+    }
   }
 }
     `;

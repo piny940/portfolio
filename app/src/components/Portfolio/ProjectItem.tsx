@@ -94,7 +94,7 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
       <div className="d-flex flex-column align-items-center mt-1">
         <h4 className="small text-muted fw-normal p-0 m-0">使用技術</h4>
         <p className="small text-muted text-center">
-          {project.tags.map((tech) => tech.name).join(', ')}
+          {project.tags.map((tag) => tag.technology.name).join(', ')}
         </p>
       </div>
       <p className="">{project.description}</p>

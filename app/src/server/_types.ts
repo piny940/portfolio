@@ -71,7 +71,7 @@ export type Mutation = {
   updateBlogTags: Array<Maybe<BlogTag>>
   updateProject: Project
   updateProjectOrder: Project[]
-  updateProjectTags: Technology[]
+  updateProjectTags: ProjectTag[]
   updateTechStack: TechStack
   updateTechnology: Technology
 }
@@ -151,7 +151,7 @@ export type Project = {
   isFavorite: Scalars['Boolean']['output']
   position: Scalars['Int']['output']
   qiitaLink?: Maybe<Scalars['String']['output']>
-  tags: Technology[]
+  tags: ProjectTag[]
   title: Scalars['String']['output']
   updatedAt: Scalars['Time']['output']
 }
@@ -169,13 +169,8 @@ export type ProjectInput = {
 
 export type ProjectTag = {
   __typename?: 'ProjectTag'
-  createdAt: Scalars['Time']['output']
-  id: Scalars['Uint']['output']
-  logoUrl?: Maybe<Scalars['String']['output']>
-  name: Scalars['String']['output']
-  projectId: Scalars['Uint']['output']
-  tagColor: Scalars['String']['output']
-  updatedAt: Scalars['Time']['output']
+  projectId: Scalars['String']['output']
+  technology: Technology
 }
 
 export type Query = {
@@ -282,13 +277,17 @@ export type FetchAllDataQuery = {
     createdAt: string
     updatedAt: string
     tags: Array<{
-      __typename?: 'Technology'
-      id: number
-      name: string
-      logoUrl?: string | null
-      tagColor: string
-      createdAt: string
-      updatedAt: string
+      __typename?: 'ProjectTag'
+      projectId: string
+      technology: {
+        __typename?: 'Technology'
+        id: number
+        name: string
+        logoUrl?: string | null
+        tagColor: string
+        createdAt: string
+        updatedAt: string
+      }
     }>
   }>
   techStacks: Array<{
@@ -356,13 +355,17 @@ export type FetchProjectsQuery = {
     createdAt: string
     updatedAt: string
     tags: Array<{
-      __typename?: 'Technology'
-      id: number
-      name: string
-      logoUrl?: string | null
-      tagColor: string
-      createdAt: string
-      updatedAt: string
+      __typename?: 'ProjectTag'
+      projectId: string
+      technology: {
+        __typename?: 'Technology'
+        id: number
+        name: string
+        logoUrl?: string | null
+        tagColor: string
+        createdAt: string
+        updatedAt: string
+      }
     }>
   }>
 }
@@ -386,13 +389,17 @@ export type FetchProjectQuery = {
     createdAt: string
     updatedAt: string
     tags: Array<{
-      __typename?: 'Technology'
-      id: number
-      name: string
-      logoUrl?: string | null
-      tagColor: string
-      createdAt: string
-      updatedAt: string
+      __typename?: 'ProjectTag'
+      projectId: string
+      technology: {
+        __typename?: 'Technology'
+        id: number
+        name: string
+        logoUrl?: string | null
+        tagColor: string
+        createdAt: string
+        updatedAt: string
+      }
     }>
   }
 }
@@ -439,13 +446,17 @@ export type FetchTechnologyQuery = {
     createdAt: string
     updatedAt: string
     tags: Array<{
-      __typename?: 'Technology'
-      id: number
-      name: string
-      logoUrl?: string | null
-      tagColor: string
-      createdAt: string
-      updatedAt: string
+      __typename?: 'ProjectTag'
+      projectId: string
+      technology: {
+        __typename?: 'Technology'
+        id: number
+        name: string
+        logoUrl?: string | null
+        tagColor: string
+        createdAt: string
+        updatedAt: string
+      }
     }>
   }>
   blogs: Array<{
@@ -516,12 +527,15 @@ export const FetchAllDataDocument = gql`
       createdAt
       updatedAt
       tags {
-        id
-        name
-        logoUrl
-        tagColor
-        createdAt
-        updatedAt
+        projectId
+        technology {
+          id
+          name
+          logoUrl
+          tagColor
+          createdAt
+          updatedAt
+        }
       }
     }
     techStacks {
@@ -579,12 +593,15 @@ export const FetchProjectsDocument = gql`
       createdAt
       updatedAt
       tags {
-        id
-        name
-        logoUrl
-        tagColor
-        createdAt
-        updatedAt
+        projectId
+        technology {
+          id
+          name
+          logoUrl
+          tagColor
+          createdAt
+          updatedAt
+        }
       }
     }
   }
@@ -603,12 +620,15 @@ export const FetchProjectDocument = gql`
       createdAt
       updatedAt
       tags {
-        id
-        name
-        logoUrl
-        tagColor
-        createdAt
-        updatedAt
+        projectId
+        technology {
+          id
+          name
+          logoUrl
+          tagColor
+          createdAt
+          updatedAt
+        }
       }
     }
   }
@@ -646,12 +666,15 @@ export const FetchTechnologyDocument = gql`
       createdAt
       updatedAt
       tags {
-        id
-        name
-        logoUrl
-        tagColor
-        createdAt
-        updatedAt
+        projectId
+        technology {
+          id
+          name
+          logoUrl
+          tagColor
+          createdAt
+          updatedAt
+        }
       }
     }
     blogs {

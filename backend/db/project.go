@@ -31,7 +31,7 @@ type ProjectLink struct {
 type ProjectTechnologyTag struct {
 	ProjectID    string            `gorm:"primary_key"`
 	Project      domain.Project    `gorm:"constraint:OnDelete:CASCADE;"`
-	TechnologyID string            `gorm:"primary_key"`
+	TechnologyID uint              `gorm:"primary_key"`
 	Technology   domain.Technology `gorm:"constraint:OnDelete:CASCADE;"`
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
@@ -55,29 +55,37 @@ func (r *projectRepo) GetLinksByProjectIds(projectIds []string) (map[string][]*P
 }
 
 // ListTags implements domain.IProjectRepo.
-func (r *projectRepo) ListTags(projectIds []string) ([]*domain.Technology, error) {
+func (r *projectRepo) ListTags(projectIds []string) ([]*domain.ProjectTag, error) {
 	var projectTechnologyTags []*ProjectTechnologyTag
 	result := r.db.Client.Where("project_id in ?", projectIds).Find(&projectTechnologyTags)
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	if len(projectTechnologyTags) == 0 {
-		return []*domain.Technology{}, nil
-	}
-	technologyIds := make([]string, len(projectTechnologyTags))
+	technologyIds := make([]uint, len(projectTechnologyTags))
 	for i, tag := range projectTechnologyTags {
 		technologyIds[i] = tag.TechnologyID
 	}
 	var technologies []*domain.Technology
-	result = r.db.Client.Find(&technologies, technologyIds)
+	result = r.db.Client.Where("id in ?", technologyIds).Find(&technologies)
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	return technologies, nil
+	technologiesById := make(map[uint]*domain.Technology, len(technologies))
+	for _, tech := range technologies {
+		technologiesById[tech.ID] = tech
+	}
+	projectTags := make([]*domain.ProjectTag, len(projectTechnologyTags))
+	for i, projectTechTag := range projectTechnologyTags {
+		projectTags[i] = &domain.ProjectTag{
+			ProjectID:  projectTechTag.ProjectID,
+			Technology: technologiesById[projectTechTag.TechnologyID],
+		}
+	}
+	return projectTags, nil
 }
 
 // UpdateTags implements domain.IProjectRepo.
-func (r *projectRepo) UpdateTags(projectId string, technologyIds []uint) ([]*domain.Technology, error) {
+func (r *projectRepo) UpdateTags(projectId string, technologyIds []uint) ([]*domain.ProjectTag, error) {
 	var project domain.Project
 	result := r.db.Client.Where("id = ?", projectId).First(&project)
 	if result.Error != nil {
@@ -87,7 +95,7 @@ func (r *projectRepo) UpdateTags(projectId string, technologyIds []uint) ([]*dom
 		if err := r.db.Client.Model(&project).Association("Tags").Clear(); err != nil {
 			return nil, err
 		}
-		return []*domain.Technology{}, nil
+		return []*domain.ProjectTag{}, nil
 	}
 	var technologies []*domain.Technology
 	result = r.db.Client.Find(&technologies, technologyIds)
@@ -97,7 +105,11 @@ func (r *projectRepo) UpdateTags(projectId string, technologyIds []uint) ([]*dom
 	if err := r.db.Client.Model(&project).Association("Tags").Replace(&technologies); err != nil {
 		return nil, err
 	}
-	return technologies, nil
+	projectTags := make([]*domain.ProjectTag, len(technologies))
+	for i, tech := range technologies {
+		projectTags[i] = &domain.ProjectTag{Technology: tech, ProjectID: projectId}
+	}
+	return projectTags, nil
 }
 
 func (r *projectRepo) Create(input domain.ProjectInput) (*domain.Project, error) {
