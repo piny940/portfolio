@@ -10,11 +10,13 @@ import (
 type Loaders struct {
 	BlogTagLoader    IBlogTagLoader
 	ProjectTagLoader IProjectTagLoader
+	TechnologyLoader ITechnologyLoader
 }
 
 func NewLoaders(reg registry.IRegistry) *Loaders {
 	blogLoader := &blogLoader{reg.BlogUsecase()}
 	projectLoader := &projectLoader{reg.ProjectUsecase()}
+	technologyLoader := &technologyLoader{reg.TechnologyUsecase()}
 	return &Loaders{
 		BlogTagLoader: dataloader.NewBatchedLoader(
 			blogLoader.blogTagsBatch,
@@ -23,6 +25,10 @@ func NewLoaders(reg registry.IRegistry) *Loaders {
 		ProjectTagLoader: dataloader.NewBatchedLoader(
 			projectLoader.projectTagsBatch,
 			dataloader.WithClearCacheOnBatch[string, []*domain.ProjectTag](),
+		),
+		TechnologyLoader: dataloader.NewBatchedLoader(
+			technologyLoader.TechnologyBatch,
+			dataloader.WithClearCacheOnBatch[uint, *domain.Technology](),
 		),
 	}
 }

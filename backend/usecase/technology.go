@@ -5,6 +5,7 @@ import "backend/domain"
 type ITechnologyUsecase interface {
 	List() ([]*domain.Technology, error)
 	Find(id uint) (*domain.Technology, error)
+	FindAll(ids []uint) ([]*domain.Technology, error)
 	Create(input domain.TechnologyInput) (*domain.Technology, error)
 	Update(id uint, input domain.TechnologyInput) (*domain.Technology, error)
 	Delete(id uint) (*domain.Technology, error)
@@ -27,6 +28,10 @@ func (u *technologyUsecase) Delete(id uint) (*domain.Technology, error) {
 // Find implements ITechnologyUsecase.
 func (u *technologyUsecase) Find(id uint) (*domain.Technology, error) {
 	return u.Repo.Find(id)
+}
+
+func (u *technologyUsecase) FindAll(ids []uint) ([]*domain.Technology, error) {
+	return u.Repo.FindAll(ids)
 }
 
 // List implements ITechnologyUsecase.
