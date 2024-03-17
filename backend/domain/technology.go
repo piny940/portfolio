@@ -14,6 +14,7 @@ type Technology struct {
 type ITechnologyRepo interface {
 	List() ([]*Technology, error)
 	Find(id uint) (*Technology, error)
+	FindAll(ids []uint) ([]*Technology, error)
 	Create(input TechnologyInput) (*Technology, error)
 	Update(id uint, input TechnologyInput) (*Technology, error)
 	Delete(id uint) (*Technology, error)

@@ -51,7 +51,7 @@ func (r *queryResolver) TechStack(ctx context.Context, id uint) (*domain.TechSta
 }
 
 func (r *techStackResolver) Technology(ctx context.Context, obj *domain.TechStack) (*domain.Technology, error) {
-	technology, err := r.Reg.TechnologyUsecase().Find(obj.TechnologyID)
+	technology, err := r.Loaders.TechnologyLoader.Load(ctx, obj.TechnologyID)()
 	if err != nil {
 		return nil, err
 	}

@@ -44,6 +44,15 @@ func (r *technologyRepo) Find(id uint) (*domain.Technology, error) {
 	return &technology, nil
 }
 
+func (r *technologyRepo) FindAll(ids []uint) ([]*domain.Technology, error) {
+	var technologies []*domain.Technology
+	result := r.db.Client.Where("id in ?", ids).Find(&technologies)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return technologies, nil
+}
+
 // List implements domain.ITechnologyRepo.
 func (r *technologyRepo) List() ([]*domain.Technology, error) {
 	var technologies []*domain.Technology
