@@ -59,7 +59,6 @@ services:
       - 54040:3080
       - 54050:4080
     depends_on:
-      - backend
       - app
       - admin
 
