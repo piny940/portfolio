@@ -1,0 +1,67 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: portfolio-backend
+    container_name: portfolio-backend
+    depends_on:
+      - db
+    env_file:
+      - ./backend/.env
+
+  app:
+    container_name: portfolio-app
+    image: portfolio-app
+    env_file:
+      - ./app/.env
+    build:
+      args:
+        - BACKEND_HOST=http://backend:8080
+      context: ./app
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - backend
+
+  admin:
+    container_name: portfolio-admin
+    image: portfolio-admin
+    env_file:
+      - ./admin/.env
+    build:
+      args:
+        - BACKEND_HOST=http://backend:8080
+      context: ./admin
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - backend
+
+  db:
+    image: postgres:15.1-alpine
+    restart: always
+    container_name: portfolio-backend
+    volumes:
+      - database:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: portfolio_production
+
+  nginx:
+    container_name: portfolio-nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 54040:3080
+      - 54050:4080
+    depends_on:
+      - backend
+      - app
+      - admin
+
+volumes:
+  database:
