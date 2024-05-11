@@ -10,15 +10,26 @@ import (
 	"gorm.io/gorm"
 )
 
+var gormClient *gorm.DB
+
 func TestMain(m *testing.M) {
 	err := godotenv.Load("../.env.test")
 	if err != nil {
 		panic(err)
 	}
 	initDB()
-	defer db.Client.Rollback()
 	code := m.Run()
 	os.Exit(code)
+}
+
+func setup(t *testing.T) {
+	t.Helper()
+	t.Cleanup(teardown)
+	tx := gormClient.Begin()
+	db = &DB{Client: tx.Debug()}
+}
+func teardown() {
+	db.Client.Rollback()
 }
 
 func initDB() {
@@ -29,6 +40,5 @@ func initDB() {
 	if err != nil {
 		panic(err)
 	}
-	tx := client.Begin()
-	db = &DB{Client: tx.Debug()}
+	gormClient = client
 }

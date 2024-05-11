@@ -23,6 +23,7 @@ var projectF = factory.NewFactory(
 })
 
 func TestCreateProject(t *testing.T) {
+	setup(t)
 	tt := map[string]*domain.ProjectInput{
 		"Position not null": {ID: "Project1", Position: &defaultPosition},
 		"Position null":     {ID: "Project2", IsFavorite: false},
@@ -49,6 +50,7 @@ func TestCreateProject(t *testing.T) {
 }
 
 func TestListProjects(t *testing.T) {
+	setup(t)
 	length := 2
 	repo := NewProjectRepo(db)
 	projects := make([]*domain.ProjectInput, length)
