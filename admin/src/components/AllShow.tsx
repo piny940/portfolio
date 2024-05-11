@@ -2,10 +2,18 @@ import { useGetAllQuery } from '@/graphql/types'
 import { Button, Typography } from '@mui/material'
 import { ContentCopy as CopyIcon } from '@mui/icons-material'
 import Error from 'next/error'
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
+import Link from 'next/link'
+import { Box } from '@mui/system'
 
 export const AllShow = (): JSX.Element => {
-  const [{ data, error }] = useGetAllQuery()
+  const context = useMemo(
+    () => ({
+      additionalTypenames: ['Project', 'Blog', 'TechStack', 'Technology'],
+    }),
+    []
+  )
+  const [{ data, error }] = useGetAllQuery({ context })
   const [copied, setCopied] = useState(false)
 
   const copyToClipboard = useCallback(async () => {
@@ -17,7 +25,12 @@ export const AllShow = (): JSX.Element => {
   if (error) return <Error statusCode={400} />
   if (!data) return <>loading...</>
   return (
-    <div>
+    <Box>
+      <Box mt={2}>
+        <Button component={Link} href="/all/new" fullWidth variant="contained">
+          新規作成
+        </Button>
+      </Box>
       <pre>
         <Button
           sx={{
@@ -37,6 +50,6 @@ export const AllShow = (): JSX.Element => {
         </Button>
         {JSON.stringify(data, null, 2)}
       </pre>
-    </div>
+    </Box>
   )
 }
