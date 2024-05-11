@@ -47,3 +47,22 @@ func TestCreateProject(t *testing.T) {
 		})
 	}
 }
+
+func TestListProjects(t *testing.T) {
+	length := 2
+	repo := NewProjectRepo(db)
+	projects := make([]*domain.ProjectInput, length)
+	for i := 0; i < length; i++ {
+		project := projectF.MustCreate().(*domain.ProjectInput)
+		projects[i] = project
+	}
+	repo.Create(*projects[0])
+	repo.Create(*projects[1])
+	actual, err := repo.List()
+	if err != nil {
+		t.Errorf("failed to list projects: %v", err)
+	}
+	if len(actual) != 2 {
+		t.Errorf("expected 2 projects, got %d", len(actual))
+	}
+}
