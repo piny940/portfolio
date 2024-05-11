@@ -14,6 +14,9 @@ const Home: NextPage = () => {
       <List>
         {data?.me ? (
           <>
+            <ListItemButton component={Link} href="/all">
+              <ListItemText primary="All" />
+            </ListItemButton>
             <ListItemButton component={Link} href="/blogs">
               <ListItemText primary="Blogs" />
             </ListItemButton>

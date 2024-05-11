@@ -243,6 +243,11 @@ export type UpdateProjectOrderInput = {
   ids: Array<Scalars['String']['input']>;
 };
 
+export type GetAllQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllQuery = { __typename?: 'Query', blogs: Array<{ __typename?: 'Blog', id: number, title: string, url: string, kind: number, publishedAt: string, createdAt: string, updatedAt: string, tags: Array<{ __typename?: 'BlogTag', blogId: number, technology: { __typename?: 'Technology', id: number } }> }>, projects: Array<{ __typename?: 'Project', id: string, title: string, description: string, isFavorite: boolean, position: number, githubLink?: string | null, qiitaLink?: string | null, appLink?: string | null, createdAt: string, updatedAt: string, tags: Array<{ __typename?: 'ProjectTag', projectId: string, technology: { __typename?: 'Technology', id: number } }> }>, technologies: Array<{ __typename?: 'Technology', id: number, name: string, logoUrl?: string | null, tagColor: string, createdAt: string, updatedAt: string }>, techStacks: Array<{ __typename?: 'TechStack', id: number, proficiency: number, technologyId: number, createdAt: string, updatedAt: string }> };
+
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -431,6 +436,62 @@ export type DeleteTechnologyMutationVariables = Exact<{
 export type DeleteTechnologyMutation = { __typename?: 'Mutation', deleteTechnology: { __typename?: 'Technology', id: number, name: string, logoUrl?: string | null, tagColor: string, createdAt: string, updatedAt: string } };
 
 
+export const GetAllDocument = gql`
+    query getAll {
+  blogs {
+    id
+    title
+    url
+    kind
+    publishedAt
+    createdAt
+    updatedAt
+    tags {
+      blogId
+      technology {
+        id
+      }
+    }
+  }
+  projects {
+    id
+    title
+    description
+    isFavorite
+    position
+    githubLink
+    qiitaLink
+    appLink
+    createdAt
+    updatedAt
+    tags {
+      projectId
+      technology {
+        id
+      }
+    }
+  }
+  technologies {
+    id
+    name
+    logoUrl
+    tagColor
+    createdAt
+    updatedAt
+  }
+  techStacks {
+    id
+    proficiency
+    technologyId
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+export function useGetAllQuery(options?: Omit<Urql.UseQueryArgs<GetAllQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetAllQuery, GetAllQueryVariables>({ query: GetAllDocument, ...options });
+};
 export const GetMeDocument = gql`
     query getMe {
   me

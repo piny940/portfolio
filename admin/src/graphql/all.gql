@@ -1,0 +1,50 @@
+query getAll {
+  blogs {
+    id
+    title
+    url
+    kind
+    publishedAt
+    createdAt
+    updatedAt
+    tags {
+      blogId
+      technology {
+        id
+      }
+    }
+  }
+  projects {
+    id
+    title
+    description
+    isFavorite
+    position
+    githubLink
+    qiitaLink
+    appLink
+    createdAt
+    updatedAt
+    tags {
+      projectId
+      technology {
+        id
+      }
+    }
+  }
+  technologies {
+    id
+    name
+    logoUrl
+    tagColor
+    createdAt
+    updatedAt
+  }
+  techStacks {
+    id
+    proficiency
+    technologyId
+    createdAt
+    updatedAt
+  }
+}
