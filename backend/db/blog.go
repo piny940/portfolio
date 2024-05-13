@@ -116,7 +116,7 @@ func (r *blogRepo) Find(id uint) (*domain.Blog, error) {
 	return &blog, nil
 }
 
-func (r *blogRepo) List() ([]*domain.Blog, error) {
+func (r *blogRepo) List(opt *domain.ListOpt) ([]*domain.Blog, error) {
 	var blogs []*domain.Blog
 	result := r.db.Client.Order("published_at DESC").Find(&blogs)
 	if result.Error != nil {

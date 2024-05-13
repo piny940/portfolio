@@ -55,7 +55,7 @@ func TestCreateBlog(t *testing.T) {
 	}
 }
 
-func TestListBlogs(t *testing.T) {
+func TestListBlogsOrder(t *testing.T) {
 	setup(t)
 	length := 3
 	repo := NewBlogRepo(db)
@@ -72,12 +72,50 @@ func TestListBlogs(t *testing.T) {
 		}
 		blogs[i] = newBlog
 	}
-	actual, err := repo.List()
+	actual, err := repo.List(&domain.ListOpt{})
 	if err != nil {
 		t.Errorf("failed to list blogs: %v", err)
 	}
 	orderedBlogs := []*domain.Blog{blogs[2], blogs[0], blogs[1]}
 	td.Cmp(t, actual, orderedBlogs)
+}
+
+func TestListBlogsLimit(t *testing.T) {
+	setup(t)
+	repo := NewBlogRepo(db)
+	blogs := make([]*domain.Blog, 0)
+	for i := 0; i < 10; i++ {
+		blog := blogF.MustCreate().(*domain.BlogInput)
+		newBlog, err := repo.Create(*blog)
+		if err != nil {
+			t.Errorf("failed to create blog: %v", err)
+		}
+		blogs = append(blogs, newBlog)
+	}
+	actual, err := repo.List(&domain.ListOpt{Limit: 5})
+	if err != nil {
+		t.Errorf("failed to list blogs: %v", err)
+	}
+	td.Cmp(t, actual, blogs[:5])
+}
+
+func TestListBlogsOffset(t *testing.T) {
+	setup(t)
+	repo := NewBlogRepo(db)
+	blogs := make([]*domain.Blog, 0)
+	for i := 0; i < 15; i++ {
+		blog := blogF.MustCreate().(*domain.BlogInput)
+		newBlog, err := repo.Create(*blog)
+		if err != nil {
+			t.Errorf("failed to create blog: %v", err)
+		}
+		blogs = append(blogs, newBlog)
+	}
+	actual, err := repo.List(&domain.ListOpt{Offset: 5, Limit: 5})
+	if err != nil {
+		t.Errorf("failed to list blogs: %v", err)
+	}
+	td.Cmp(t, actual, blogs[5:10])
 }
 
 func TestListBlogTagsComplex(t *testing.T) {
