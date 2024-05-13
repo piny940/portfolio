@@ -13,15 +13,17 @@ export type ProcessingModalProps = {
   errors: string[]
   title: string
   open: boolean
+  onClose: () => void
 }
 export const ProcessingModal = ({
   progress,
   errors,
   title,
   open,
+  onClose,
 }: ProcessingModalProps): JSX.Element => {
   return (
-    <Dialog maxWidth="xl" open={open}>
+    <Dialog onClose={onClose} maxWidth="xl" open={open}>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent sx={{ width: '50vw' }}>
         <LinearProgressWithLabel value={progress} />

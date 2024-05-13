@@ -21,7 +21,7 @@ type AllInput = {
 }
 export const AllNew = (): JSX.Element => {
   const requiredRule = { required: 'このフィールドは必須です。' }
-  const [isSending, setIsSending] = useState(false)
+  const [dialogOpen, setDialogOpen] = useState(false)
   const [message, setMessage] = useState('')
   const [errors, setErrors] = useState<string[]>([])
   const [progress, setProgress] = useState(0)
@@ -58,7 +58,7 @@ export const AllNew = (): JSX.Element => {
     const allCount =
       blogs.length + projects.length + techStacks.length + technologies.length
     let count = 0
-    setIsSending(true)
+    setDialogOpen(true)
     setProgress(0)
     setErrors([])
     console.log('technologies: ', technologies)
@@ -137,7 +137,6 @@ export const AllNew = (): JSX.Element => {
       count++
       setProgress((count / allCount) * 100)
     }
-    setIsSending(false)
   }
 
   return (
@@ -177,7 +176,8 @@ export const AllNew = (): JSX.Element => {
         </Box>
       </Box>
       <ProcessingModal
-        open={isSending}
+        open={dialogOpen}
+        onClose={() => setDialogOpen(false)}
         title="Sending..."
         errors={errors}
         progress={progress}
