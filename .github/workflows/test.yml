@@ -28,11 +28,35 @@ jobs:
         run: yarn --cwd app build
 
   backend:
+    services:
+      postgres:
+        image: postgres:15.1-alpine
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        env:
+          POSTGRES_HOST_AUTH_METHOD: trust
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: portfolio_test
     env:
       GO_VERSION: 1.21.x
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Set Env
+        run: |
+          echo "DB_USER=postgres" >> $GITHUB_ENV
+          echo "DB_PASSWORD=postgres" >> $GITHUB_ENV
+          echo "DB_HOST=localhost" >> $GITHUB_ENV
+          echo "DB_PORT=5432" >> $GITHUB_ENV
+          echo "DB_NAME=portfolio_test" >> $GITHUB_ENV
+          echo "DB_SSLMODE=disable" >> $GITHUB_ENV
+      - name: Setup PostgreSQL
+        run: |
+          for file in db/migrations/*.sql; do
+            psql -h $DB_HOST -U $DB_USER -d $DB_NAME -f $file
+          done
       - name: Setup Go
         uses: actions/setup-go@v4
         with:

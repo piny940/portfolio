@@ -63,3 +63,13 @@ $main: rgb(25, 97, 206);
   );
   border-image-slice: 1;
 }
+pre {
+  position: relative;
+  margin: 1em 0;
+  padding: 1em;
+  border-radius: 5px;
+  background: #25292f;
+  color: #fff;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}

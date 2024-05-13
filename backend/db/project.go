@@ -86,30 +86,34 @@ func (r *projectRepo) ListTags(projectIds []string) ([]*domain.ProjectTag, error
 
 // UpdateTags implements domain.IProjectRepo.
 func (r *projectRepo) UpdateTags(projectId string, technologyIds []uint) ([]*domain.ProjectTag, error) {
-	var project domain.Project
-	result := r.db.Client.Where("id = ?", projectId).First(&project)
+	existing := make([]*ProjectTechnologyTag, 0)
+	result := r.db.Client.Where("project_id = ?", projectId).Find(&existing)
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	if len(technologyIds) == 0 {
-		if err := r.db.Client.Model(&project).Association("Tags").Clear(); err != nil {
-			return nil, err
+	actual := make([]uint, len(existing))
+	for i, tag := range existing {
+		actual[i] = tag.TechnologyID
+	}
+	toCreate, toDelete := diff(actual, technologyIds)
+
+	// Delete
+	result = r.db.Client.Where("project_id = ? and technology_id in ?", projectId, toDelete).Delete(&ProjectTechnologyTag{})
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	// Create
+	for _, id := range toCreate {
+		new := ProjectTechnologyTag{
+			ProjectID:    projectId,
+			TechnologyID: id,
 		}
-		return []*domain.ProjectTag{}, nil
+		result = r.db.Client.Create(&new)
+		if result.Error != nil {
+			return nil, result.Error
+		}
 	}
-	var technologies []*domain.Technology
-	result = r.db.Client.Find(&technologies, technologyIds)
-	if result.Error != nil {
-		return nil, result.Error
-	}
-	if err := r.db.Client.Model(&project).Association("Tags").Replace(&technologies); err != nil {
-		return nil, err
-	}
-	projectTags := make([]*domain.ProjectTag, len(technologies))
-	for i, tech := range technologies {
-		projectTags[i] = &domain.ProjectTag{Technology: tech, ProjectID: projectId}
-	}
-	return projectTags, nil
+	return []*domain.ProjectTag{}, nil
 }
 
 func (r *projectRepo) Create(input domain.ProjectInput) (*domain.Project, error) {
@@ -118,6 +122,7 @@ func (r *projectRepo) Create(input domain.ProjectInput) (*domain.Project, error)
 		Title:       input.Title,
 		Description: input.Description,
 		IsFavorite:  input.IsFavorite,
+		Position:    0,
 	}
 	if input.Position != nil {
 		project.Position = *input.Position

@@ -15,6 +15,7 @@ erDiagram
     varchar title
     varchar url
     integer kind "記事種類"
+    timestamp published_at
     timestamp created_at
     timestamp updated_at
   }
@@ -64,6 +65,7 @@ erDiagram
     varchar title
     varchar description
     boolean is_favorite
+    integer position
     timestamp created_at
     timestamp updated_at
   }

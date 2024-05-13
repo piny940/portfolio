@@ -51,30 +51,34 @@ func (*blogRepo) ListTags(blogIds []uint) ([]*domain.BlogTag, error) {
 }
 
 func (r *blogRepo) UpdateTags(blogId uint, technologyIds []uint) ([]*domain.BlogTag, error) {
-	var blog domain.Blog
-	result := r.db.Client.First(&blog, blogId)
+	existing := make([]*BlogTechnologyTag, 0)
+	result := r.db.Client.Where("blog_id = ?", blogId).Find(&existing)
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	if len(technologyIds) == 0 {
-		if err := r.db.Client.Model(&blog).Association("Tags").Clear(); err != nil {
-			return nil, err
+	actual := make([]uint, len(existing))
+	for i, tag := range existing {
+		actual[i] = tag.TechnologyID
+	}
+	toCreate, toDelete := diff(actual, technologyIds)
+
+	// Delete
+	result = r.db.Client.Where("blog_id = ? and technology_id in ?", blogId, toDelete).Delete(&BlogTechnologyTag{})
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	// Create
+	for _, id := range toCreate {
+		new := BlogTechnologyTag{
+			BlogID:       blogId,
+			TechnologyID: id,
 		}
-		return []*domain.BlogTag{}, nil
+		result = r.db.Client.Create(&new)
+		if result.Error != nil {
+			return nil, result.Error
+		}
 	}
-	technologies := []*domain.Technology{}
-	result = r.db.Client.Find(&technologies, technologyIds)
-	if result.Error != nil {
-		return nil, result.Error
-	}
-	if err := r.db.Client.Model(&blog).Association("Tags").Replace(technologies); err != nil {
-		return nil, err
-	}
-	blogTags := make([]*domain.BlogTag, len(technologies))
-	for i, tech := range technologies {
-		blogTags[i] = &domain.BlogTag{Technology: *tech, BlogID: blogId}
-	}
-	return blogTags, nil
+	return []*domain.BlogTag{}, nil
 }
 
 // Create implements domain.IBlogRepo.
