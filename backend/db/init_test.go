@@ -12,7 +12,7 @@ var gormClient *gorm.DB
 
 func TestMain(m *testing.M) {
 	err := godotenv.Load("../.env.test")
-	if err != nil {
+	if err != nil && !os.IsNotExist(err) {
 		panic(err)
 	}
 	Init()
