@@ -96,7 +96,7 @@ func (r *projectRepo) UpdateTags(projectId string, technologyIds []uint) ([]*dom
 		actual[i] = tag.TechnologyID
 	}
 	toCreate, toDelete := diff(actual, technologyIds)
-	
+
 	// Delete
 	result = r.db.Client.Where("project_id = ? and technology_id in ?", projectId, toDelete).Delete(&ProjectTechnologyTag{})
 	if result.Error != nil {
@@ -122,7 +122,7 @@ func (r *projectRepo) Create(input domain.ProjectInput) (*domain.Project, error)
 		Title:       input.Title,
 		Description: input.Description,
 		IsFavorite:  input.IsFavorite,
-		Position: 0,
+		Position:    0,
 	}
 	if input.Position != nil {
 		project.Position = *input.Position
