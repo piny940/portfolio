@@ -57,7 +57,6 @@ func TestCreateProject(t *testing.T) {
 			}
 			var actual domain.Project
 			result := db.Client.First(&actual, "id = ?", project.ID)
-			fmt.Println(actual)
 			if result.Error != nil || actual.ID != project.ID {
 				t.Errorf("project not found: %v", result.Error)
 			}
@@ -112,7 +111,6 @@ func TestListProjectTagsComplex(t *testing.T) {
 	}
 	var count int
 	db.Client.Raw("select count(*) from project_technology_tags").Scan(&count)
-	fmt.Println("count: ", count)
 	tags, err := pRepo.ListTags([]string{projects[0].ID, projects[1].ID})
 	if err != nil {
 		t.Errorf("should not fail: %v", err)

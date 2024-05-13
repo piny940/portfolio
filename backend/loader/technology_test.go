@@ -4,7 +4,6 @@ import (
 	"backend/domain"
 	"backend/usecase"
 	"context"
-	"fmt"
 	"testing"
 
 	"github.com/graph-gophers/dataloader/v7"
@@ -38,7 +37,6 @@ func (t *technologyUsecase) FindAll(ids []uint) ([]*domain.Technology, error) {
 		allTechsById[tech.ID] = tech
 	}
 	for i, id := range ids {
-		fmt.Println(len(techs), len(techs)-i-1)
 		// 順序はidsとは異なるようにする
 		techs[len(techs)-i-1] = allTechsById[id]
 	}
