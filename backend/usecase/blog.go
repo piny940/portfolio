@@ -3,7 +3,7 @@ package usecase
 import "backend/domain"
 
 type IBlogUsecase interface {
-	List() ([]*domain.Blog, error)
+	List(opt *domain.ListOpt) ([]*domain.Blog, error)
 	Find(id uint) (*domain.Blog, error)
 	Create(input domain.BlogInput) (*domain.Blog, error)
 	Update(id uint, input domain.BlogInput) (*domain.Blog, error)
@@ -31,8 +31,8 @@ func (u *blogUsecase) Find(id uint) (*domain.Blog, error) {
 }
 
 // List implements IBlogUsecase.
-func (u *blogUsecase) List() ([]*domain.Blog, error) {
-	return u.repo.List()
+func (u *blogUsecase) List(opt *domain.ListOpt) ([]*domain.Blog, error) {
+	return u.repo.List(opt)
 }
 
 // Update implements IBlogUsecase.

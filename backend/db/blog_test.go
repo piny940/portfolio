@@ -72,7 +72,7 @@ func TestListBlogsOrder(t *testing.T) {
 		}
 		blogs[i] = newBlog
 	}
-	actual, err := repo.List(&domain.ListOpt{})
+	actual, err := repo.List(nil)
 	if err != nil {
 		t.Errorf("failed to list blogs: %v", err)
 	}

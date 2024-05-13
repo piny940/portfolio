@@ -13,6 +13,11 @@ type BlogInput struct {
 	PublishedAt time.Time `json:"publishedAt"`
 }
 
+type ListOpt struct {
+	Limit  int `json:"limit"`
+	Offset int `json:"offset"`
+}
+
 type Mutation struct {
 }
 

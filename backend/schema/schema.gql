@@ -1,2 +1,7 @@
 scalar Uint
 scalar Time
+
+input ListOpt {
+  limit: Int!
+  offset: Int!
+}

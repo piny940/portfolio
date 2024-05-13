@@ -118,7 +118,11 @@ func (r *blogRepo) Find(id uint) (*domain.Blog, error) {
 
 func (r *blogRepo) List(opt *domain.ListOpt) ([]*domain.Blog, error) {
 	var blogs []*domain.Blog
-	result := r.db.Client.Order("published_at DESC").Find(&blogs)
+	scope := r.db.Client.Order("published_at DESC")
+	if opt != nil {
+		scope = scope.Offset(opt.Offset).Limit(opt.Limit)
+	}
+	result := scope.Find(&blogs)
 	if result.Error != nil {
 		return nil, result.Error
 	}

@@ -105,7 +105,7 @@ type ComplexityRoot struct {
 
 	Query struct {
 		Blog         func(childComplexity int, id uint) int
-		Blogs        func(childComplexity int) int
+		Blogs        func(childComplexity int, opt *domain.ListOpt) int
 		Me           func(childComplexity int) int
 		Project      func(childComplexity int, id string) int
 		Projects     func(childComplexity int) int
@@ -162,7 +162,7 @@ type QueryResolver interface {
 	Technologies(ctx context.Context) ([]*domain.Technology, error)
 	Technology(ctx context.Context, id uint) (*domain.Technology, error)
 	Me(ctx context.Context) (*string, error)
-	Blogs(ctx context.Context) ([]*domain.Blog, error)
+	Blogs(ctx context.Context, opt *domain.ListOpt) ([]*domain.Blog, error)
 	Blog(ctx context.Context, id uint) (*domain.Blog, error)
 	Projects(ctx context.Context) ([]*domain.Project, error)
 	Project(ctx context.Context, id string) (*domain.Project, error)
@@ -550,7 +550,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			break
 		}
 
-		return e.complexity.Query.Blogs(childComplexity), true
+		args, err := ec.field_Query_blogs_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.Blogs(childComplexity, args["opt"].(*domain.ListOpt)), true
 
 	case "Query.me":
 		if e.complexity.Query.Me == nil {
@@ -709,6 +714,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 	ec := executionContext{rc, e, 0, 0, make(chan graphql.DeferredResult)}
 	inputUnmarshalMap := graphql.BuildUnmarshalerMap(
 		ec.unmarshalInputBlogInput,
+		ec.unmarshalInputListOpt,
 		ec.unmarshalInputProjectInput,
 		ec.unmarshalInputTechStackInput,
 		ec.unmarshalInputTechnologyInput,
@@ -836,7 +842,7 @@ input BlogInput {
 }
 
 extend type Query {
-  blogs: [Blog!]!
+  blogs(opt: ListOpt): [Blog!]!
   blog(id: Uint!): Blog!
 }
 extend type Mutation {
@@ -891,6 +897,11 @@ extend type Mutation {
 `, BuiltIn: false},
 	{Name: "../schema/schema.gql", Input: `scalar Uint
 scalar Time
+
+input ListOpt {
+  limit: Int!
+  offset: Int!
+}
 `, BuiltIn: false},
 	{Name: "../schema/tech_stacks.gql", Input: `type TechStack {
   id: Uint!
@@ -1247,6 +1258,21 @@ func (ec *executionContext) field_Query_blog_args(ctx context.Context, rawArgs m
 		}
 	}
 	args["id"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_blogs_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 *domain.ListOpt
+	if tmp, ok := rawArgs["opt"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("opt"))
+		arg0, err = ec.unmarshalOListOpt2ᚖbackendᚋdomainᚐListOpt(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["opt"] = arg0
 	return args, nil
 }
 
@@ -3629,7 +3655,7 @@ func (ec *executionContext) _Query_blogs(ctx context.Context, field graphql.Coll
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Blogs(rctx)
+		return ec.resolvers.Query().Blogs(rctx, fc.Args["opt"].(*domain.ListOpt))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3673,6 +3699,17 @@ func (ec *executionContext) fieldContext_Query_blogs(ctx context.Context, field 
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Blog", field.Name)
 		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_blogs_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
 	}
 	return fc, nil
 }
@@ -6513,6 +6550,40 @@ func (ec *executionContext) unmarshalInputBlogInput(ctx context.Context, obj int
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputListOpt(ctx context.Context, obj interface{}) (domain.ListOpt, error) {
+	var it domain.ListOpt
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"limit", "offset"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "limit":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("limit"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Limit = data
+		case "offset":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("offset"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Offset = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputProjectInput(ctx context.Context, obj interface{}) (domain.ProjectInput, error) {
 	var it domain.ProjectInput
 	asMap := map[string]interface{}{}
@@ -8750,6 +8821,14 @@ func (ec *executionContext) marshalOInt2ᚖint(ctx context.Context, sel ast.Sele
 	}
 	res := graphql.MarshalInt(*v)
 	return res
+}
+
+func (ec *executionContext) unmarshalOListOpt2ᚖbackendᚋdomainᚐListOpt(ctx context.Context, v interface{}) (*domain.ListOpt, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputListOpt(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalOString2ᚖstring(ctx context.Context, v interface{}) (*string, error) {

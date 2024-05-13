@@ -20,7 +20,7 @@ input BlogInput {
 }
 
 extend type Query {
-  blogs: [Blog!]!
+  blogs(opt: ListOpt): [Blog!]!
   blog(id: Uint!): Blog!
 }
 extend type Mutation {
