@@ -54,12 +54,12 @@ func (r *mutationResolver) UpdateBlogTags(ctx context.Context, id uint, tags []u
 	return technologies, nil
 }
 
-func (r *queryResolver) Blogs(ctx context.Context, opt *domain.ListOpt) ([]*domain.Blog, error) {
-	blogs, err := r.Reg.BlogUsecase().List(opt)
+func (r *queryResolver) Blogs(ctx context.Context, opt *domain.ListOpt) (*domain.BlogConnection, error) {
+	connection, err := r.Reg.BlogUsecase().List(opt)
 	if err != nil {
 		return nil, err
 	}
-	return blogs, nil
+	return connection, nil
 }
 
 func (r *queryResolver) Blog(ctx context.Context, id uint) (*domain.Blog, error) {

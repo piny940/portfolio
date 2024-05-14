@@ -210,3 +210,20 @@ func TestUpdateBlogTags(t *testing.T) {
 		}
 	})
 }
+
+func TestBlogCount(t *testing.T) {
+	setup(t)
+	repo := NewBlogRepo(db)
+	length := 5
+	for i := 0; i < length; i++ {
+		blog := blogF.MustCreate().(*domain.BlogInput)
+		repo.Create(*blog)
+	}
+	count, err := repo.TotalCount()
+	if err != nil {
+		t.Errorf("should not fail: %v", err)
+	}
+	if count != int64(length) {
+		t.Errorf("expected %d, got %d", length, count)
+	}
+}

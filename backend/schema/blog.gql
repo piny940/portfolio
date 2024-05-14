@@ -12,6 +12,10 @@ type BlogTag {
   blogId: Uint!
   technology: Technology!
 }
+type BlogConnection {
+  items: [Blog!]!
+  totalCount: Int64!
+}
 input BlogInput {
   title: String!
   url: String!
@@ -20,7 +24,7 @@ input BlogInput {
 }
 
 extend type Query {
-  blogs(opt: ListOpt): [Blog!]!
+  blogs(opt: ListOpt): BlogConnection!
   blog(id: Uint!): Blog!
 }
 extend type Mutation {

@@ -57,7 +57,7 @@ func (b *blogUsecase) Find(id uint) (*domain.Blog, error) {
 	panic("unimplemented")
 }
 
-func (b *blogUsecase) List(opt *domain.ListOpt) ([]*domain.Blog, error) {
+func (b *blogUsecase) List(opt *domain.ListOpt) (*domain.BlogConnection, error) {
 	panic("unimplemented")
 }
 

@@ -6,6 +6,11 @@ import (
 	"time"
 )
 
+type BlogConnection struct {
+	Items      []*Blog `json:"items"`
+	TotalCount int64   `json:"totalCount"`
+}
+
 type BlogInput struct {
 	Title       string    `json:"title"`
 	URL         string    `json:"url"`

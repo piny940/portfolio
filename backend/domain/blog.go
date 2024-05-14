@@ -33,4 +33,5 @@ type IBlogRepo interface {
 	Delete(id uint) (*Blog, error)
 	ListTags(blogIds []uint) ([]*BlogTag, error)
 	UpdateTags(blogId uint, technologyIds []uint) ([]*BlogTag, error)
+	TotalCount() (int64, error)
 }

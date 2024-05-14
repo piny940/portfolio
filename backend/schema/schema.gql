@@ -1,4 +1,5 @@
 scalar Uint
+scalar Int64
 scalar Time
 
 input ListOpt {

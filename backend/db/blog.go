@@ -147,6 +147,15 @@ func (r *blogRepo) Update(id uint, input domain.BlogInput) (*domain.Blog, error)
 	return &blog, nil
 }
 
+func (r *blogRepo) TotalCount() (int64, error) {
+	var count int64
+	result := r.db.Client.Model(&domain.Blog{}).Count(&count)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+	return count, nil
+}
+
 func NewBlogRepo(db *DB) domain.IBlogRepo {
 	return &blogRepo{db: db}
 }
