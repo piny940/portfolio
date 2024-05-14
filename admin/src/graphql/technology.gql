@@ -1,4 +1,4 @@
-fragment TechnologyFragment on Technology {
+fragment Technology on Technology {
   id
   name
   logoUrl
@@ -8,26 +8,26 @@ fragment TechnologyFragment on Technology {
 }
 query getTechnologies {
   technologies {
-    ...TechnologyFragment
+    ...Technology
   }
 }
 query getTechnology($id: Uint!) {
   technology(id: $id) {
-    ...TechnologyFragment
+    ...Technology
   }
 }
 mutation createTechnology($input: TechnologyInput!) {
   createTechnology(input: $input) {
-    ...TechnologyFragment
+    ...Technology
   }
 }
 mutation updateTechnology($id: Uint!, $input: TechnologyInput!) {
   updateTechnology(id: $id, input: $input) {
-    ...TechnologyFragment
+    ...Technology
   }
 }
 mutation deleteTechnology($id: Uint!) {
   deleteTechnology(id: $id) {
-    ...TechnologyFragment
+    ...Technology
   }
 }

@@ -326,7 +326,7 @@ export type UpdateBlogTagsMutationVariables = Exact<{
 
 export type UpdateBlogTagsMutation = { __typename?: 'Mutation', updateBlogTags: Array<{ __typename?: 'BlogTag', blogId: number, technology: { __typename?: 'Technology', id: number, name: string, logoUrl?: string | null, tagColor: string, createdAt: string, updatedAt: string } } | null> };
 
-export type ProjectFragmentFragment = { __typename?: 'Project', id: string, title: string, description: string, isFavorite: boolean, position: number, appLink?: string | null, githubLink?: string | null, qiitaLink?: string | null, createdAt: string, updatedAt: string };
+export type ProjectFragment = { __typename?: 'Project', id: string, title: string, description: string, isFavorite: boolean, position: number, appLink?: string | null, githubLink?: string | null, qiitaLink?: string | null, createdAt: string, updatedAt: string };
 
 export type ProjectTagFragment = { __typename?: 'ProjectTag', projectId: string, technology: { __typename?: 'Technology', id: number, name: string, logoUrl?: string | null, tagColor: string, createdAt: string, updatedAt: string } };
 
@@ -394,7 +394,7 @@ export type UpdateProjectOrderMutationVariables = Exact<{
 
 export type UpdateProjectOrderMutation = { __typename?: 'Mutation', updateProjectOrder: Array<{ __typename?: 'Project', id: string, title: string, description: string, isFavorite: boolean, position: number, appLink?: string | null, githubLink?: string | null, qiitaLink?: string | null, createdAt: string, updatedAt: string }> };
 
-export type TechStackFragmentFragment = { __typename?: 'TechStack', id: number, technologyId: number, proficiency: number, createdAt: string, updatedAt: string };
+export type TechStackFragment = { __typename?: 'TechStack', id: number, technologyId: number, proficiency: number, createdAt: string, updatedAt: string };
 
 export type GetTechStacksQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -430,7 +430,7 @@ export type DeleteTechStackMutationVariables = Exact<{
 
 export type DeleteTechStackMutation = { __typename?: 'Mutation', deleteTechStack: { __typename?: 'TechStack', id: number, technologyId: number, proficiency: number, createdAt: string, updatedAt: string } };
 
-export type TechnologyFragmentFragment = { __typename?: 'Technology', id: number, name: string, logoUrl?: string | null, tagColor: string, createdAt: string, updatedAt: string };
+export type TechnologyFragment = { __typename?: 'Technology', id: number, name: string, logoUrl?: string | null, tagColor: string, createdAt: string, updatedAt: string };
 
 export type GetTechnologiesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -477,8 +477,8 @@ export const BlogFragmentDoc = gql`
   updatedAt
 }
     `;
-export const TechnologyFragmentFragmentDoc = gql`
-    fragment TechnologyFragment on Technology {
+export const TechnologyFragmentDoc = gql`
+    fragment Technology on Technology {
   id
   name
   logoUrl
@@ -491,12 +491,12 @@ export const BlogTagFragmentDoc = gql`
     fragment BlogTag on BlogTag {
   blogId
   technology {
-    ...TechnologyFragment
+    ...Technology
   }
 }
-    ${TechnologyFragmentFragmentDoc}`;
-export const ProjectFragmentFragmentDoc = gql`
-    fragment ProjectFragment on Project {
+    ${TechnologyFragmentDoc}`;
+export const ProjectFragmentDoc = gql`
+    fragment Project on Project {
   id
   title
   description
@@ -513,12 +513,12 @@ export const ProjectTagFragmentDoc = gql`
     fragment ProjectTag on ProjectTag {
   projectId
   technology {
-    ...TechnologyFragment
+    ...Technology
   }
 }
-    ${TechnologyFragmentFragmentDoc}`;
-export const TechStackFragmentFragmentDoc = gql`
-    fragment TechStackFragment on TechStack {
+    ${TechnologyFragmentDoc}`;
+export const TechStackFragmentDoc = gql`
+    fragment TechStack on TechStack {
   id
   technologyId
   proficiency
@@ -679,10 +679,10 @@ export function useUpdateBlogTagsMutation() {
 export const GetProjectsDocument = gql`
     query getProjects {
   projects {
-    ...ProjectFragment
+    ...Project
   }
 }
-    ${ProjectFragmentFragmentDoc}`;
+    ${ProjectFragmentDoc}`;
 
 export function useGetProjectsQuery(options?: Omit<Urql.UseQueryArgs<GetProjectsQueryVariables>, 'query'>) {
   return Urql.useQuery<GetProjectsQuery, GetProjectsQueryVariables>({ query: GetProjectsDocument, ...options });
@@ -690,10 +690,10 @@ export function useGetProjectsQuery(options?: Omit<Urql.UseQueryArgs<GetProjects
 export const GetProjectDocument = gql`
     query getProject($id: String!) {
   project(id: $id) {
-    ...ProjectFragment
+    ...Project
   }
 }
-    ${ProjectFragmentFragmentDoc}`;
+    ${ProjectFragmentDoc}`;
 
 export function useGetProjectQuery(options: Omit<Urql.UseQueryArgs<GetProjectQueryVariables>, 'query'>) {
   return Urql.useQuery<GetProjectQuery, GetProjectQueryVariables>({ query: GetProjectDocument, ...options });
@@ -701,13 +701,13 @@ export function useGetProjectQuery(options: Omit<Urql.UseQueryArgs<GetProjectQue
 export const GetProjectWithTagsDocument = gql`
     query getProjectWithTags($id: String!) {
   project(id: $id) {
-    ...ProjectFragment
+    ...Project
     tags {
       ...ProjectTag
     }
   }
 }
-    ${ProjectFragmentFragmentDoc}
+    ${ProjectFragmentDoc}
 ${ProjectTagFragmentDoc}`;
 
 export function useGetProjectWithTagsQuery(options: Omit<Urql.UseQueryArgs<GetProjectWithTagsQueryVariables>, 'query'>) {
@@ -716,10 +716,10 @@ export function useGetProjectWithTagsQuery(options: Omit<Urql.UseQueryArgs<GetPr
 export const CreateProjectDocument = gql`
     mutation createProject($input: ProjectInput!) {
   createProject(input: $input) {
-    ...ProjectFragment
+    ...Project
   }
 }
-    ${ProjectFragmentFragmentDoc}`;
+    ${ProjectFragmentDoc}`;
 
 export function useCreateProjectMutation() {
   return Urql.useMutation<CreateProjectMutation, CreateProjectMutationVariables>(CreateProjectDocument);
@@ -727,10 +727,10 @@ export function useCreateProjectMutation() {
 export const UpdateProjectDocument = gql`
     mutation updateProject($input: ProjectInput!) {
   updateProject(input: $input) {
-    ...ProjectFragment
+    ...Project
   }
 }
-    ${ProjectFragmentFragmentDoc}`;
+    ${ProjectFragmentDoc}`;
 
 export function useUpdateProjectMutation() {
   return Urql.useMutation<UpdateProjectMutation, UpdateProjectMutationVariables>(UpdateProjectDocument);
@@ -738,13 +738,13 @@ export function useUpdateProjectMutation() {
 export const UpdateProjectWithTagsDocument = gql`
     mutation updateProjectWithTags($id: String!, $input: ProjectInput!, $tags: [Uint!]!) {
   updateProject(input: $input) {
-    ...ProjectFragment
+    ...Project
   }
   updateProjectTags(id: $id, tags: $tags) {
     ...ProjectTag
   }
 }
-    ${ProjectFragmentFragmentDoc}
+    ${ProjectFragmentDoc}
 ${ProjectTagFragmentDoc}`;
 
 export function useUpdateProjectWithTagsMutation() {
@@ -753,10 +753,10 @@ export function useUpdateProjectWithTagsMutation() {
 export const DeleteProjectDocument = gql`
     mutation deleteProject($id: String!) {
   deleteProject(id: $id) {
-    ...ProjectFragment
+    ...Project
   }
 }
-    ${ProjectFragmentFragmentDoc}`;
+    ${ProjectFragmentDoc}`;
 
 export function useDeleteProjectMutation() {
   return Urql.useMutation<DeleteProjectMutation, DeleteProjectMutationVariables>(DeleteProjectDocument);
@@ -775,10 +775,10 @@ export function useUpdateProjectTagsMutation() {
 export const UpdateProjectOrderDocument = gql`
     mutation updateProjectOrder($input: UpdateProjectOrderInput!) {
   updateProjectOrder(input: $input) {
-    ...ProjectFragment
+    ...Project
   }
 }
-    ${ProjectFragmentFragmentDoc}`;
+    ${ProjectFragmentDoc}`;
 
 export function useUpdateProjectOrderMutation() {
   return Urql.useMutation<UpdateProjectOrderMutation, UpdateProjectOrderMutationVariables>(UpdateProjectOrderDocument);
@@ -786,7 +786,7 @@ export function useUpdateProjectOrderMutation() {
 export const GetTechStacksDocument = gql`
     query getTechStacks {
   techStacks {
-    ...TechStackFragment
+    ...TechStack
     technology {
       id
       name
@@ -794,7 +794,7 @@ export const GetTechStacksDocument = gql`
     }
   }
 }
-    ${TechStackFragmentFragmentDoc}`;
+    ${TechStackFragmentDoc}`;
 
 export function useGetTechStacksQuery(options?: Omit<Urql.UseQueryArgs<GetTechStacksQueryVariables>, 'query'>) {
   return Urql.useQuery<GetTechStacksQuery, GetTechStacksQueryVariables>({ query: GetTechStacksDocument, ...options });
@@ -802,7 +802,7 @@ export function useGetTechStacksQuery(options?: Omit<Urql.UseQueryArgs<GetTechSt
 export const GetTechStackDocument = gql`
     query getTechStack($id: Uint!) {
   techStack(id: $id) {
-    ...TechStackFragment
+    ...TechStack
     technology {
       id
       name
@@ -810,7 +810,7 @@ export const GetTechStackDocument = gql`
     }
   }
 }
-    ${TechStackFragmentFragmentDoc}`;
+    ${TechStackFragmentDoc}`;
 
 export function useGetTechStackQuery(options: Omit<Urql.UseQueryArgs<GetTechStackQueryVariables>, 'query'>) {
   return Urql.useQuery<GetTechStackQuery, GetTechStackQueryVariables>({ query: GetTechStackDocument, ...options });
@@ -818,10 +818,10 @@ export function useGetTechStackQuery(options: Omit<Urql.UseQueryArgs<GetTechStac
 export const CreateTechStackDocument = gql`
     mutation createTechStack($input: TechStackInput!) {
   createTechStack(input: $input) {
-    ...TechStackFragment
+    ...TechStack
   }
 }
-    ${TechStackFragmentFragmentDoc}`;
+    ${TechStackFragmentDoc}`;
 
 export function useCreateTechStackMutation() {
   return Urql.useMutation<CreateTechStackMutation, CreateTechStackMutationVariables>(CreateTechStackDocument);
@@ -829,10 +829,10 @@ export function useCreateTechStackMutation() {
 export const UpdateTechStackDocument = gql`
     mutation updateTechStack($id: Uint!, $input: TechStackInput!) {
   updateTechStack(id: $id, input: $input) {
-    ...TechStackFragment
+    ...TechStack
   }
 }
-    ${TechStackFragmentFragmentDoc}`;
+    ${TechStackFragmentDoc}`;
 
 export function useUpdateTechStackMutation() {
   return Urql.useMutation<UpdateTechStackMutation, UpdateTechStackMutationVariables>(UpdateTechStackDocument);
@@ -840,10 +840,10 @@ export function useUpdateTechStackMutation() {
 export const DeleteTechStackDocument = gql`
     mutation deleteTechStack($id: Uint!) {
   deleteTechStack(id: $id) {
-    ...TechStackFragment
+    ...TechStack
   }
 }
-    ${TechStackFragmentFragmentDoc}`;
+    ${TechStackFragmentDoc}`;
 
 export function useDeleteTechStackMutation() {
   return Urql.useMutation<DeleteTechStackMutation, DeleteTechStackMutationVariables>(DeleteTechStackDocument);
@@ -851,10 +851,10 @@ export function useDeleteTechStackMutation() {
 export const GetTechnologiesDocument = gql`
     query getTechnologies {
   technologies {
-    ...TechnologyFragment
+    ...Technology
   }
 }
-    ${TechnologyFragmentFragmentDoc}`;
+    ${TechnologyFragmentDoc}`;
 
 export function useGetTechnologiesQuery(options?: Omit<Urql.UseQueryArgs<GetTechnologiesQueryVariables>, 'query'>) {
   return Urql.useQuery<GetTechnologiesQuery, GetTechnologiesQueryVariables>({ query: GetTechnologiesDocument, ...options });
@@ -862,10 +862,10 @@ export function useGetTechnologiesQuery(options?: Omit<Urql.UseQueryArgs<GetTech
 export const GetTechnologyDocument = gql`
     query getTechnology($id: Uint!) {
   technology(id: $id) {
-    ...TechnologyFragment
+    ...Technology
   }
 }
-    ${TechnologyFragmentFragmentDoc}`;
+    ${TechnologyFragmentDoc}`;
 
 export function useGetTechnologyQuery(options: Omit<Urql.UseQueryArgs<GetTechnologyQueryVariables>, 'query'>) {
   return Urql.useQuery<GetTechnologyQuery, GetTechnologyQueryVariables>({ query: GetTechnologyDocument, ...options });
@@ -873,10 +873,10 @@ export function useGetTechnologyQuery(options: Omit<Urql.UseQueryArgs<GetTechnol
 export const CreateTechnologyDocument = gql`
     mutation createTechnology($input: TechnologyInput!) {
   createTechnology(input: $input) {
-    ...TechnologyFragment
+    ...Technology
   }
 }
-    ${TechnologyFragmentFragmentDoc}`;
+    ${TechnologyFragmentDoc}`;
 
 export function useCreateTechnologyMutation() {
   return Urql.useMutation<CreateTechnologyMutation, CreateTechnologyMutationVariables>(CreateTechnologyDocument);
@@ -884,10 +884,10 @@ export function useCreateTechnologyMutation() {
 export const UpdateTechnologyDocument = gql`
     mutation updateTechnology($id: Uint!, $input: TechnologyInput!) {
   updateTechnology(id: $id, input: $input) {
-    ...TechnologyFragment
+    ...Technology
   }
 }
-    ${TechnologyFragmentFragmentDoc}`;
+    ${TechnologyFragmentDoc}`;
 
 export function useUpdateTechnologyMutation() {
   return Urql.useMutation<UpdateTechnologyMutation, UpdateTechnologyMutationVariables>(UpdateTechnologyDocument);
@@ -895,10 +895,10 @@ export function useUpdateTechnologyMutation() {
 export const DeleteTechnologyDocument = gql`
     mutation deleteTechnology($id: Uint!) {
   deleteTechnology(id: $id) {
-    ...TechnologyFragment
+    ...Technology
   }
 }
-    ${TechnologyFragmentFragmentDoc}`;
+    ${TechnologyFragmentDoc}`;
 
 export function useDeleteTechnologyMutation() {
   return Urql.useMutation<DeleteTechnologyMutation, DeleteTechnologyMutationVariables>(DeleteTechnologyDocument);

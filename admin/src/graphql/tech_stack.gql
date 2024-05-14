@@ -1,4 +1,4 @@
-fragment TechStackFragment on TechStack {
+fragment TechStack on TechStack {
   id
   technologyId
   proficiency
@@ -7,7 +7,7 @@ fragment TechStackFragment on TechStack {
 }
 query getTechStacks {
   techStacks {
-    ...TechStackFragment
+    ...TechStack
     technology {
       id
       name
@@ -18,7 +18,7 @@ query getTechStacks {
 
 query getTechStack($id: Uint!) {
   techStack(id: $id) {
-    ...TechStackFragment
+    ...TechStack
     technology {
       id
       name
@@ -29,18 +29,18 @@ query getTechStack($id: Uint!) {
 
 mutation createTechStack($input: TechStackInput!) {
   createTechStack(input: $input) {
-    ...TechStackFragment
+    ...TechStack
   }
 }
 
 mutation updateTechStack($id: Uint!, $input: TechStackInput!) {
   updateTechStack(id: $id, input: $input) {
-    ...TechStackFragment
+    ...TechStack
   }
 }
 
 mutation deleteTechStack($id: Uint!) {
   deleteTechStack(id: $id) {
-    ...TechStackFragment
+    ...TechStack
   }
 }

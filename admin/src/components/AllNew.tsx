@@ -51,7 +51,7 @@ export const AllNew = (): JSX.Element => {
       return
     }
     if (!data) return
-    const blogs = (data.blogs || []) as Blog[]
+    const blogs = (data.blogs.items || []) as Blog[]
     const projects = (data.projects || []) as Project[]
     const techStacks = (data.techStacks || []) as TechStack[]
     const technologies = (data.technologies || []) as Technology[]

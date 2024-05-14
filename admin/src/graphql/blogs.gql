@@ -10,7 +10,7 @@ fragment Blog on Blog {
 fragment BlogTag on BlogTag {
   blogId
   technology {
-    ...TechnologyFragment
+    ...Technology
   }
 }
 query getBlogs($opt: ListOpt) {
