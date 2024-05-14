@@ -1,50 +1,33 @@
+fragment Technology on Technology {
+  id
+  name
+  logoUrl
+  tagColor
+  createdAt
+  updatedAt
+}
 query getTechnologies {
   technologies {
-    id
-    name
-    logoUrl
-    tagColor
-    createdAt
-    updatedAt
+    ...Technology
   }
 }
 query getTechnology($id: Uint!) {
   technology(id: $id) {
-    id
-    name
-    logoUrl
-    tagColor
-    createdAt
-    updatedAt
+    ...Technology
   }
 }
 mutation createTechnology($input: TechnologyInput!) {
   createTechnology(input: $input) {
-    id
-    name
-    logoUrl
-    tagColor
-    createdAt
-    updatedAt
+    ...Technology
   }
 }
 mutation updateTechnology($id: Uint!, $input: TechnologyInput!) {
   updateTechnology(id: $id, input: $input) {
-    id
-    name
-    logoUrl
-    tagColor
-    createdAt
-    updatedAt
+    ...Technology
   }
 }
 mutation deleteTechnology($id: Uint!) {
   deleteTechnology(id: $id) {
-    id
-    name
-    logoUrl
-    tagColor
-    createdAt
-    updatedAt
+    ...Technology
   }
 }

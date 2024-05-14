@@ -7,6 +7,12 @@ fragment Blog on Blog {
   createdAt
   updatedAt
 }
+fragment BlogTag on BlogTag {
+  blogId
+  technology {
+    ...Technology
+  }
+}
 query getBlogs($opt: ListOpt) {
   blogs(opt: $opt) {
     items {
@@ -24,15 +30,7 @@ query getBlogWithTags($id: Uint!) {
   blog(id: $id) {
     ...Blog
     tags {
-      blogId
-      technology {
-        id
-        name
-        logoUrl
-        tagColor
-        createdAt
-        updatedAt
-      }
+      ...BlogTag
     }
   }
 }
@@ -46,15 +44,7 @@ mutation updateBlogWithTags($id: Uint!, $input: BlogInput!, $tags: [Uint!]!) {
     ...Blog
   }
   updateBlogTags(id: $id, tags: $tags) {
-    blogId
-    technology {
-      id
-      name
-      logoUrl
-      tagColor
-      createdAt
-      updatedAt
-    }
+    ...BlogTag
   }
 }
 mutation deleteBlog($id: Uint!) {
@@ -64,14 +54,6 @@ mutation deleteBlog($id: Uint!) {
 }
 mutation updateBlogTags($id: Uint!, $tags: [Uint!]!) {
   updateBlogTags(id: $id, tags: $tags) {
-    blogId
-    technology {
-      id
-      name
-      logoUrl
-      tagColor
-      createdAt
-      updatedAt
-    }
+    ...BlogTag
   }
 }

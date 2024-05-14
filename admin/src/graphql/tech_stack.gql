@@ -1,59 +1,46 @@
+fragment TechStack on TechStack {
+  id
+  technologyId
+  proficiency
+  createdAt
+  updatedAt
+}
 query getTechStacks {
   techStacks {
-    id
-    technologyId
+    ...TechStack
     technology {
       id
       name
       logoUrl
     }
-    proficiency
-    createdAt
-    updatedAt
   }
 }
 
 query getTechStack($id: Uint!) {
   techStack(id: $id) {
-    id
-    technologyId
+    ...TechStack
     technology {
       id
       name
       logoUrl
     }
-    proficiency
-    createdAt
-    updatedAt
   }
 }
 
 mutation createTechStack($input: TechStackInput!) {
   createTechStack(input: $input) {
-    id
-    technologyId
-    proficiency
-    createdAt
-    updatedAt
+    ...TechStack
   }
 }
 
 mutation updateTechStack($id: Uint!, $input: TechStackInput!) {
   updateTechStack(id: $id, input: $input) {
-    id
-    technologyId
-    proficiency
-    createdAt
-    updatedAt
+    ...TechStack
   }
 }
 
 mutation deleteTechStack($id: Uint!) {
   deleteTechStack(id: $id) {
-    id
-    technologyId
-    proficiency
-    createdAt
-    updatedAt
+    ...TechStack
   }
 }

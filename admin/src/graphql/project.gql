@@ -1,82 +1,47 @@
+fragment Project on Project {
+  id
+  title
+  description
+  isFavorite
+  position
+  appLink
+  githubLink
+  qiitaLink
+  createdAt
+  updatedAt
+}
+fragment ProjectTag on ProjectTag {
+  projectId
+  technology {
+    ...Technology
+  }
+}
 query getProjects {
   projects {
-    id
-    title
-    description
-    isFavorite
-    position
-    appLink
-    githubLink
-    qiitaLink
-    createdAt
-    updatedAt
+    ...Project
   }
 }
 query getProject($id: String!) {
   project(id: $id) {
-    id
-    title
-    description
-    isFavorite
-    position
-    appLink
-    githubLink
-    qiitaLink
-    createdAt
-    updatedAt
+    ...Project
   }
 }
 query getProjectWithTags($id: String!) {
   project(id: $id) {
-    id
-    title
-    description
-    isFavorite
-    position
-    appLink
-    githubLink
-    qiitaLink
-    createdAt
-    updatedAt
+    ...Project
     tags {
-      projectId
-      technology {
-        id
-        name
-        logoUrl
-        tagColor
-        createdAt
-        updatedAt
-      }
+      ...ProjectTag
     }
   }
 }
 mutation createProject($input: ProjectInput!) {
   createProject(input: $input) {
-    id
-    title
-    description
-    isFavorite
-    position
-    appLink
-    githubLink
-    qiitaLink
-    createdAt
-    updatedAt
+    ...Project
   }
 }
 mutation updateProject($input: ProjectInput!) {
   updateProject(input: $input) {
-    id
-    title
-    description
-    isFavorite
-    position
-    appLink
-    githubLink
-    qiitaLink
-    createdAt
-    updatedAt
+    ...Project
   }
 }
 mutation updateProjectWithTags(
@@ -85,67 +50,24 @@ mutation updateProjectWithTags(
   $tags: [Uint!]!
 ) {
   updateProject(input: $input) {
-    id
-    title
-    description
-    isFavorite
-    position
-    appLink
-    githubLink
-    qiitaLink
-    createdAt
-    updatedAt
+    ...Project
   }
   updateProjectTags(id: $id, tags: $tags) {
-    projectId
-    technology {
-      id
-      name
-      logoUrl
-      tagColor
-      createdAt
-      updatedAt
-    }
+    ...ProjectTag
   }
 }
 mutation deleteProject($id: String!) {
   deleteProject(id: $id) {
-    id
-    title
-    description
-    isFavorite
-    position
-    appLink
-    githubLink
-    qiitaLink
-    createdAt
-    updatedAt
+    ...Project
   }
 }
 mutation updateProjectTags($id: String!, $tags: [Uint!]!) {
   updateProjectTags(id: $id, tags: $tags) {
-    projectId
-    technology {
-      id
-      name
-      logoUrl
-      tagColor
-      createdAt
-      updatedAt
-    }
+    ...ProjectTag
   }
 }
 mutation updateProjectOrder($input: UpdateProjectOrderInput!) {
   updateProjectOrder(input: $input) {
-    id
-    title
-    description
-    isFavorite
-    position
-    appLink
-    githubLink
-    qiitaLink
-    createdAt
-    updatedAt
+    ...Project
   }
 }
