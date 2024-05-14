@@ -1,132 +1,94 @@
+fragment Blog on Blog {
+  id
+  title
+  url
+  kind
+  publishedAt
+  createdAt
+  updatedAt
+}
+fragment Project on Project {
+  id
+  title
+  description
+  isFavorite
+  position
+  appLink
+  githubLink
+  qiitaLink
+  createdAt
+  updatedAt
+}
+fragment Technology on Technology {
+  id
+  name
+  logoUrl
+  tagColor
+  createdAt
+  updatedAt
+}
+fragment BlogTag on BlogTag {
+  blogId
+  technology {
+    ...Technology
+  }
+}
+fragment ProjectTag on ProjectTag {
+  projectId
+  technology {
+    ...Technology
+  }
+}
 query fetchAllData {
   blogs {
-    id
-    title
-    url
-    kind
-    publishedAt
-    createdAt
-    updatedAt
-    tags {
-      blogId
-      technology {
-        id
-        name
-        logoUrl
-        tagColor
-        createdAt
-        updatedAt
+    items {
+      ...Blog
+      tags {
+        ...BlogTag
       }
     }
   }
   projects {
-    id
-    title
-    description
-    isFavorite
-    position
-    appLink
-    githubLink
-    qiitaLink
-    createdAt
-    updatedAt
+    ...Project
     tags {
-      projectId
-      technology {
-        id
-        name
-        logoUrl
-        tagColor
-        createdAt
-        updatedAt
-      }
+      ...ProjectTag
     }
   }
   techStacks {
     id
     technologyId
     technology {
-      id
-      name
-      logoUrl
-      tagColor
-      createdAt
-      updatedAt
+      ...Technology
     }
     proficiency
     createdAt
     updatedAt
   }
 }
-query fetchBlogs {
-  blogs {
-    id
-    title
-    url
-    kind
-    publishedAt
-    createdAt
-    updatedAt
-    tags {
-      blogId
-      technology {
-        id
-        name
-        logoUrl
-        tagColor
-        createdAt
-        updatedAt
+query fetchBlogs($opt: ListOpt) {
+  blogs(opt: $opt) {
+    items {
+      ...Blog
+      tags {
+        ...BlogTag
       }
     }
+    totalCount
   }
 }
 query fetchProjects {
   projects {
-    id
-    title
-    description
-    isFavorite
-    position
-    appLink
-    githubLink
-    qiitaLink
-    createdAt
-    updatedAt
+    ...Project
     tags {
-      projectId
-      technology {
-        id
-        name
-        logoUrl
-        tagColor
-        createdAt
-        updatedAt
-      }
+      ...ProjectTag
     }
   }
 }
 query fetchProject($id: String!) {
   project(id: $id) {
-    id
-    title
-    description
-    isFavorite
-    position
-    appLink
-    githubLink
-    qiitaLink
-    createdAt
-    updatedAt
+    ...Project
     tags {
-      projectId
-      technology {
-        id
-        name
-        logoUrl
-        tagColor
-        createdAt
-        updatedAt
-      }
+      ...ProjectTag
     }
   }
 }
@@ -135,12 +97,7 @@ query fetchTechStacks {
     id
     technologyId
     technology {
-      id
-      name
-      logoUrl
-      tagColor
-      createdAt
-      updatedAt
+      ...Technology
     }
     proficiency
     createdAt
@@ -149,54 +106,20 @@ query fetchTechStacks {
 }
 query fetchTechnology($id: Uint!) {
   projects {
-    id
-    title
-    description
-    isFavorite
-    position
-    appLink
-    githubLink
-    qiitaLink
-    createdAt
-    updatedAt
+    ...Project
     tags {
-      projectId
-      technology {
-        id
-        name
-        logoUrl
-        tagColor
-        createdAt
-        updatedAt
-      }
+      ...ProjectTag
     }
   }
   blogs {
-    id
-    title
-    url
-    kind
-    publishedAt
-    createdAt
-    updatedAt
-    tags {
-      blogId
-      technology {
-        id
-        name
-        logoUrl
-        tagColor
-        createdAt
-        updatedAt
+    items {
+      ...Blog
+      tags {
+        ...BlogTag
       }
     }
   }
   technology(id: $id) {
-    id
-    name
-    logoUrl
-    tagColor
-    createdAt
-    updatedAt
+    ...Technology
   }
 }

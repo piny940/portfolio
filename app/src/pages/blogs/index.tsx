@@ -15,7 +15,7 @@ export const getServerSideProps: GetServerSideProps<BlogsProps> = async (
   ctx
 ) => ({
   props: {
-    blogs: (await sdk.fetchBlogs()).blogs,
+    blogs: (await sdk.fetchBlogs()).blogs.items,
     initialTheme: getThemeFromCookie(ctx),
   },
 })

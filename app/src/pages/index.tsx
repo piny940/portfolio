@@ -28,7 +28,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (
       initialTheme: getThemeFromCookie(ctx),
       projects: data.projects,
       projectIdsWithBlog: getProjectIdsWithBlog(),
-      blogs: data.blogs,
+      blogs: data.blogs.items,
       techStacks: data.techStacks,
     },
   }
