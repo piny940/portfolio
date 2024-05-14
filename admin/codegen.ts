@@ -10,6 +10,7 @@ const config: CodegenConfig = {
         strictScalars: true,
         scalars: {
           Time: 'string',
+          Int64: 'number',
           Uint: 'number',
         },
         withHooks: true,

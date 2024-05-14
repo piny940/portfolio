@@ -61,6 +61,11 @@ type ComplexityRoot struct {
 		Url         func(childComplexity int) int
 	}
 
+	BlogConnection struct {
+		Items      func(childComplexity int) int
+		TotalCount func(childComplexity int) int
+	}
+
 	BlogTag struct {
 		BlogID     func(childComplexity int) int
 		Technology func(childComplexity int) int
@@ -105,7 +110,7 @@ type ComplexityRoot struct {
 
 	Query struct {
 		Blog         func(childComplexity int, id uint) int
-		Blogs        func(childComplexity int) int
+		Blogs        func(childComplexity int, opt *domain.ListOpt) int
 		Me           func(childComplexity int) int
 		Project      func(childComplexity int, id string) int
 		Projects     func(childComplexity int) int
@@ -162,7 +167,7 @@ type QueryResolver interface {
 	Technologies(ctx context.Context) ([]*domain.Technology, error)
 	Technology(ctx context.Context, id uint) (*domain.Technology, error)
 	Me(ctx context.Context) (*string, error)
-	Blogs(ctx context.Context) ([]*domain.Blog, error)
+	Blogs(ctx context.Context, opt *domain.ListOpt) (*domain.BlogConnection, error)
 	Blog(ctx context.Context, id uint) (*domain.Blog, error)
 	Projects(ctx context.Context) ([]*domain.Project, error)
 	Project(ctx context.Context, id string) (*domain.Project, error)
@@ -247,6 +252,20 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Blog.Url(childComplexity), true
+
+	case "BlogConnection.items":
+		if e.complexity.BlogConnection.Items == nil {
+			break
+		}
+
+		return e.complexity.BlogConnection.Items(childComplexity), true
+
+	case "BlogConnection.totalCount":
+		if e.complexity.BlogConnection.TotalCount == nil {
+			break
+		}
+
+		return e.complexity.BlogConnection.TotalCount(childComplexity), true
 
 	case "BlogTag.blogId":
 		if e.complexity.BlogTag.BlogID == nil {
@@ -550,7 +569,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			break
 		}
 
-		return e.complexity.Query.Blogs(childComplexity), true
+		args, err := ec.field_Query_blogs_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.Blogs(childComplexity, args["opt"].(*domain.ListOpt)), true
 
 	case "Query.me":
 		if e.complexity.Query.Me == nil {
@@ -709,6 +733,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 	ec := executionContext{rc, e, 0, 0, make(chan graphql.DeferredResult)}
 	inputUnmarshalMap := graphql.BuildUnmarshalerMap(
 		ec.unmarshalInputBlogInput,
+		ec.unmarshalInputListOpt,
 		ec.unmarshalInputProjectInput,
 		ec.unmarshalInputTechStackInput,
 		ec.unmarshalInputTechnologyInput,
@@ -828,6 +853,10 @@ type BlogTag {
   blogId: Uint!
   technology: Technology!
 }
+type BlogConnection {
+  items: [Blog!]!
+  totalCount: Int64!
+}
 input BlogInput {
   title: String!
   url: String!
@@ -836,7 +865,7 @@ input BlogInput {
 }
 
 extend type Query {
-  blogs: [Blog!]!
+  blogs(opt: ListOpt): BlogConnection!
   blog(id: Uint!): Blog!
 }
 extend type Mutation {
@@ -890,7 +919,13 @@ extend type Mutation {
 }
 `, BuiltIn: false},
 	{Name: "../schema/schema.gql", Input: `scalar Uint
+scalar Int64
 scalar Time
+
+input ListOpt {
+  limit: Int!
+  offset: Int!
+}
 `, BuiltIn: false},
 	{Name: "../schema/tech_stacks.gql", Input: `type TechStack {
   id: Uint!
@@ -1247,6 +1282,21 @@ func (ec *executionContext) field_Query_blog_args(ctx context.Context, rawArgs m
 		}
 	}
 	args["id"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_blogs_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 *domain.ListOpt
+	if tmp, ok := rawArgs["opt"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("opt"))
+		arg0, err = ec.unmarshalOListOpt2ᚖbackendᚋdomainᚐListOpt(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["opt"] = arg0
 	return args, nil
 }
 
@@ -1686,6 +1736,112 @@ func (ec *executionContext) fieldContext_Blog_updatedAt(ctx context.Context, fie
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _BlogConnection_items(ctx context.Context, field graphql.CollectedField, obj *domain.BlogConnection) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_BlogConnection_items(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Items, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*domain.Blog)
+	fc.Result = res
+	return ec.marshalNBlog2ᚕᚖbackendᚋdomainᚐBlogᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_BlogConnection_items(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "BlogConnection",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Blog_id(ctx, field)
+			case "title":
+				return ec.fieldContext_Blog_title(ctx, field)
+			case "url":
+				return ec.fieldContext_Blog_url(ctx, field)
+			case "kind":
+				return ec.fieldContext_Blog_kind(ctx, field)
+			case "tags":
+				return ec.fieldContext_Blog_tags(ctx, field)
+			case "publishedAt":
+				return ec.fieldContext_Blog_publishedAt(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Blog_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Blog_updatedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Blog", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _BlogConnection_totalCount(ctx context.Context, field graphql.CollectedField, obj *domain.BlogConnection) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_BlogConnection_totalCount(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TotalCount, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int64)
+	fc.Result = res
+	return ec.marshalNInt642int64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_BlogConnection_totalCount(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "BlogConnection",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int64 does not have child fields")
 		},
 	}
 	return fc, nil
@@ -3629,7 +3785,7 @@ func (ec *executionContext) _Query_blogs(ctx context.Context, field graphql.Coll
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Blogs(rctx)
+		return ec.resolvers.Query().Blogs(rctx, fc.Args["opt"].(*domain.ListOpt))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3641,9 +3797,9 @@ func (ec *executionContext) _Query_blogs(ctx context.Context, field graphql.Coll
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*domain.Blog)
+	res := resTmp.(*domain.BlogConnection)
 	fc.Result = res
-	return ec.marshalNBlog2ᚕᚖbackendᚋdomainᚐBlogᚄ(ctx, field.Selections, res)
+	return ec.marshalNBlogConnection2ᚖbackendᚋdomainᚐBlogConnection(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Query_blogs(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -3654,25 +3810,24 @@ func (ec *executionContext) fieldContext_Query_blogs(ctx context.Context, field 
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
-			case "id":
-				return ec.fieldContext_Blog_id(ctx, field)
-			case "title":
-				return ec.fieldContext_Blog_title(ctx, field)
-			case "url":
-				return ec.fieldContext_Blog_url(ctx, field)
-			case "kind":
-				return ec.fieldContext_Blog_kind(ctx, field)
-			case "tags":
-				return ec.fieldContext_Blog_tags(ctx, field)
-			case "publishedAt":
-				return ec.fieldContext_Blog_publishedAt(ctx, field)
-			case "createdAt":
-				return ec.fieldContext_Blog_createdAt(ctx, field)
-			case "updatedAt":
-				return ec.fieldContext_Blog_updatedAt(ctx, field)
+			case "items":
+				return ec.fieldContext_BlogConnection_items(ctx, field)
+			case "totalCount":
+				return ec.fieldContext_BlogConnection_totalCount(ctx, field)
 			}
-			return nil, fmt.Errorf("no field named %q was found under type Blog", field.Name)
+			return nil, fmt.Errorf("no field named %q was found under type BlogConnection", field.Name)
 		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_blogs_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
 	}
 	return fc, nil
 }
@@ -6513,6 +6668,40 @@ func (ec *executionContext) unmarshalInputBlogInput(ctx context.Context, obj int
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputListOpt(ctx context.Context, obj interface{}) (domain.ListOpt, error) {
+	var it domain.ListOpt
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"limit", "offset"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "limit":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("limit"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Limit = data
+		case "offset":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("offset"))
+			data, err := ec.unmarshalNInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Offset = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputProjectInput(ctx context.Context, obj interface{}) (domain.ProjectInput, error) {
 	var it domain.ProjectInput
 	asMap := map[string]interface{}{}
@@ -6811,6 +7000,50 @@ func (ec *executionContext) _Blog(ctx context.Context, sel ast.SelectionSet, obj
 			out.Values[i] = ec._Blog_updatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				atomic.AddUint32(&out.Invalids, 1)
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
+var blogConnectionImplementors = []string{"BlogConnection"}
+
+func (ec *executionContext) _BlogConnection(ctx context.Context, sel ast.SelectionSet, obj *domain.BlogConnection) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, blogConnectionImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("BlogConnection")
+		case "items":
+			out.Values[i] = ec._BlogConnection_items(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "totalCount":
+			out.Values[i] = ec._BlogConnection_totalCount(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
 			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
@@ -7966,6 +8199,20 @@ func (ec *executionContext) marshalNBlog2ᚖbackendᚋdomainᚐBlog(ctx context.
 	return ec._Blog(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNBlogConnection2backendᚋdomainᚐBlogConnection(ctx context.Context, sel ast.SelectionSet, v domain.BlogConnection) graphql.Marshaler {
+	return ec._BlogConnection(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNBlogConnection2ᚖbackendᚋdomainᚐBlogConnection(ctx context.Context, sel ast.SelectionSet, v *domain.BlogConnection) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._BlogConnection(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNBlogInput2backendᚋdomainᚐBlogInput(ctx context.Context, v interface{}) (domain.BlogInput, error) {
 	res, err := ec.unmarshalInputBlogInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -8085,6 +8332,21 @@ func (ec *executionContext) unmarshalNInt2int(ctx context.Context, v interface{}
 
 func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.SelectionSet, v int) graphql.Marshaler {
 	res := graphql.MarshalInt(v)
+	if res == graphql.Null {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+	}
+	return res
+}
+
+func (ec *executionContext) unmarshalNInt642int64(ctx context.Context, v interface{}) (int64, error) {
+	res, err := graphql.UnmarshalInt64(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNInt642int64(ctx context.Context, sel ast.SelectionSet, v int64) graphql.Marshaler {
+	res := graphql.MarshalInt64(v)
 	if res == graphql.Null {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
@@ -8750,6 +9012,14 @@ func (ec *executionContext) marshalOInt2ᚖint(ctx context.Context, sel ast.Sele
 	}
 	res := graphql.MarshalInt(*v)
 	return res
+}
+
+func (ec *executionContext) unmarshalOListOpt2ᚖbackendᚋdomainᚐListOpt(ctx context.Context, v interface{}) (*domain.ListOpt, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputListOpt(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalOString2ᚖstring(ctx context.Context, v interface{}) (*string, error) {

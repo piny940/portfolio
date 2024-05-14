@@ -6,11 +6,21 @@ import (
 	"time"
 )
 
+type BlogConnection struct {
+	Items      []*Blog `json:"items"`
+	TotalCount int64   `json:"totalCount"`
+}
+
 type BlogInput struct {
 	Title       string    `json:"title"`
 	URL         string    `json:"url"`
 	Kind        int       `json:"kind"`
 	PublishedAt time.Time `json:"publishedAt"`
+}
+
+type ListOpt struct {
+	Limit  int `json:"limit"`
+	Offset int `json:"offset"`
 }
 
 type Mutation struct {

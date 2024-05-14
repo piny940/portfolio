@@ -26,11 +26,12 @@ type BlogTag struct {
 }
 
 type IBlogRepo interface {
-	List() ([]*Blog, error)
+	List(opt *ListOpt) ([]*Blog, error)
 	Find(id uint) (*Blog, error)
 	Create(input BlogInput) (*Blog, error)
 	Update(id uint, input BlogInput) (*Blog, error)
 	Delete(id uint) (*Blog, error)
 	ListTags(blogIds []uint) ([]*BlogTag, error)
 	UpdateTags(blogId uint, technologyIds []uint) ([]*BlogTag, error)
+	TotalCount() (int64, error)
 }

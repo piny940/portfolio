@@ -19,18 +19,20 @@ export const getBlogs = async () => {
   const { data } = await query(
     `query getBlogs {
     blogs {
-      id
-      title
-      url
-      kind
-      publishedAt
-      createdAt
-      updatedAt
+      items {
+        id
+        title
+        url
+        kind
+        publishedAt
+        createdAt
+        updatedAt
+      }
     }
   }`,
     {}
   )
-  return data.blogs as Blog[]
+  return data.blogs.items as Blog[]
 }
 export const getTechnologies = async () => {
   const { data } = await query(
@@ -69,12 +71,15 @@ export const updateBlogTags = async (id: number, tags: number[]) => {
   const { data } = await query(
     `mutation updateBlogTags($id: Uint!, $tags: [Uint!]!) {
     updateBlogTags(id: $id, tags: $tags) {
-      id
-      name
-      logoUrl
-      tagColor
-      createdAt
-      updatedAt
+      blogId
+      technology {
+        id
+        name
+        logoUrl
+        tagColor
+        createdAt
+        updatedAt
+      }
     }
   }`,
     { id, tags }

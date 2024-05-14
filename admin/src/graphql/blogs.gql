@@ -1,34 +1,28 @@
-query getBlogs {
-  blogs {
-    id
-    title
-    url
-    kind
-    publishedAt
-    createdAt
-    updatedAt
+fragment Blog on Blog {
+  id
+  title
+  url
+  kind
+  publishedAt
+  createdAt
+  updatedAt
+}
+query getBlogs($opt: ListOpt) {
+  blogs(opt: $opt) {
+    items {
+      ...Blog
+    }
+    totalCount
   }
 }
 query getBlog($id: Uint!) {
   blog(id: $id) {
-    id
-    title
-    url
-    kind
-    publishedAt
-    createdAt
-    updatedAt
+    ...Blog
   }
 }
 query getBlogWithTags($id: Uint!) {
   blog(id: $id) {
-    id
-    title
-    url
-    kind
-    publishedAt
-    createdAt
-    updatedAt
+    ...Blog
     tags {
       blogId
       technology {
@@ -44,24 +38,12 @@ query getBlogWithTags($id: Uint!) {
 }
 mutation createBlog($input: BlogInput!) {
   createBlog(input: $input) {
-    id
-    title
-    url
-    kind
-    publishedAt
-    createdAt
-    updatedAt
+    ...Blog
   }
 }
 mutation updateBlogWithTags($id: Uint!, $input: BlogInput!, $tags: [Uint!]!) {
   updateBlog(id: $id, input: $input) {
-    id
-    title
-    url
-    kind
-    publishedAt
-    createdAt
-    updatedAt
+    ...Blog
   }
   updateBlogTags(id: $id, tags: $tags) {
     blogId
@@ -77,13 +59,7 @@ mutation updateBlogWithTags($id: Uint!, $input: BlogInput!, $tags: [Uint!]!) {
 }
 mutation deleteBlog($id: Uint!) {
   deleteBlog(id: $id) {
-    id
-    title
-    url
-    kind
-    publishedAt
-    createdAt
-    updatedAt
+    ...Blog
   }
 }
 mutation updateBlogTags($id: Uint!, $tags: [Uint!]!) {
