@@ -19,18 +19,20 @@ export const getBlogs = async () => {
   const { data } = await query(
     `query getBlogs {
     blogs {
-      id
-      title
-      url
-      kind
-      publishedAt
-      createdAt
-      updatedAt
+      items {
+        id
+        title
+        url
+        kind
+        publishedAt
+        createdAt
+        updatedAt
+      }
     }
   }`,
     {}
   )
-  return data.blogs as Blog[]
+  return data.blogs.items as Blog[]
 }
 export const getTechnologies = async () => {
   const { data } = await query(
