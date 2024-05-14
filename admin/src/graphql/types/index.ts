@@ -15,6 +15,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  Int64: { input: number; output: number; }
   Time: { input: string; output: string; }
   Uint: { input: number; output: number; }
 };
@@ -29,6 +30,12 @@ export type Blog = {
   title: Scalars['String']['output'];
   updatedAt: Scalars['Time']['output'];
   url: Scalars['String']['output'];
+};
+
+export type BlogConnection = {
+  __typename?: 'BlogConnection';
+  items: Array<Blog>;
+  totalCount: Scalars['Int64']['output'];
 };
 
 export type BlogInput = {
@@ -183,7 +190,7 @@ export type ProjectTag = {
 export type Query = {
   __typename?: 'Query';
   blog: Blog;
-  blogs: Array<Blog>;
+  blogs: BlogConnection;
   me?: Maybe<Scalars['String']['output']>;
   project: Project;
   projects: Array<Project>;
@@ -256,19 +263,21 @@ export type UpdateProjectOrderInput = {
 export type GetAllQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllQuery = { __typename?: 'Query', blogs: Array<{ __typename?: 'Blog', id: number, title: string, url: string, kind: number, publishedAt: string, createdAt: string, updatedAt: string, tags: Array<{ __typename?: 'BlogTag', blogId: number, technology: { __typename?: 'Technology', id: number } }> }>, projects: Array<{ __typename?: 'Project', id: string, title: string, description: string, isFavorite: boolean, position: number, githubLink?: string | null, qiitaLink?: string | null, appLink?: string | null, createdAt: string, updatedAt: string, tags: Array<{ __typename?: 'ProjectTag', projectId: string, technology: { __typename?: 'Technology', id: number } }> }>, technologies: Array<{ __typename?: 'Technology', id: number, name: string, logoUrl?: string | null, tagColor: string, createdAt: string, updatedAt: string }>, techStacks: Array<{ __typename?: 'TechStack', id: number, proficiency: number, technologyId: number, createdAt: string, updatedAt: string }> };
+export type GetAllQuery = { __typename?: 'Query', blogs: { __typename?: 'BlogConnection', totalCount: number, items: Array<{ __typename?: 'Blog', id: number, title: string, url: string, kind: number, publishedAt: string, createdAt: string, updatedAt: string, tags: Array<{ __typename?: 'BlogTag', blogId: number, technology: { __typename?: 'Technology', id: number } }> }> }, projects: Array<{ __typename?: 'Project', id: string, title: string, description: string, isFavorite: boolean, position: number, githubLink?: string | null, qiitaLink?: string | null, appLink?: string | null, createdAt: string, updatedAt: string, tags: Array<{ __typename?: 'ProjectTag', projectId: string, technology: { __typename?: 'Technology', id: number } }> }>, technologies: Array<{ __typename?: 'Technology', id: number, name: string, logoUrl?: string | null, tagColor: string, createdAt: string, updatedAt: string }>, techStacks: Array<{ __typename?: 'TechStack', id: number, proficiency: number, technologyId: number, createdAt: string, updatedAt: string }> };
 
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetMeQuery = { __typename?: 'Query', me?: string | null };
 
+export type BlogFragment = { __typename?: 'Blog', id: number, title: string, url: string, kind: number, publishedAt: string, createdAt: string, updatedAt: string };
+
 export type GetBlogsQueryVariables = Exact<{
   opt?: InputMaybe<ListOpt>;
 }>;
 
 
-export type GetBlogsQuery = { __typename?: 'Query', blogs: Array<{ __typename?: 'Blog', id: number, title: string, url: string, kind: number, publishedAt: string, createdAt: string, updatedAt: string }> };
+export type GetBlogsQuery = { __typename?: 'Query', blogs: { __typename?: 'BlogConnection', totalCount: number, items: Array<{ __typename?: 'Blog', id: number, title: string, url: string, kind: number, publishedAt: string, createdAt: string, updatedAt: string }> } };
 
 export type GetBlogQueryVariables = Exact<{
   id: Scalars['Uint']['input'];
@@ -447,23 +456,30 @@ export type DeleteTechnologyMutationVariables = Exact<{
 
 export type DeleteTechnologyMutation = { __typename?: 'Mutation', deleteTechnology: { __typename?: 'Technology', id: number, name: string, logoUrl?: string | null, tagColor: string, createdAt: string, updatedAt: string } };
 
-
+export const BlogFragmentDoc = gql`
+    fragment Blog on Blog {
+  id
+  title
+  url
+  kind
+  publishedAt
+  createdAt
+  updatedAt
+}
+    `;
 export const GetAllDocument = gql`
     query getAll {
   blogs {
-    id
-    title
-    url
-    kind
-    publishedAt
-    createdAt
-    updatedAt
-    tags {
-      blogId
-      technology {
-        id
+    items {
+      ...Blog
+      tags {
+        blogId
+        technology {
+          id
+        }
       }
     }
+    totalCount
   }
   projects {
     id
@@ -499,7 +515,7 @@ export const GetAllDocument = gql`
     updatedAt
   }
 }
-    `;
+    ${BlogFragmentDoc}`;
 
 export function useGetAllQuery(options?: Omit<Urql.UseQueryArgs<GetAllQueryVariables>, 'query'>) {
   return Urql.useQuery<GetAllQuery, GetAllQueryVariables>({ query: GetAllDocument, ...options });
@@ -516,16 +532,13 @@ export function useGetMeQuery(options?: Omit<Urql.UseQueryArgs<GetMeQueryVariabl
 export const GetBlogsDocument = gql`
     query getBlogs($opt: ListOpt) {
   blogs(opt: $opt) {
-    id
-    title
-    url
-    kind
-    publishedAt
-    createdAt
-    updatedAt
+    items {
+      ...Blog
+    }
+    totalCount
   }
 }
-    `;
+    ${BlogFragmentDoc}`;
 
 export function useGetBlogsQuery(options?: Omit<Urql.UseQueryArgs<GetBlogsQueryVariables>, 'query'>) {
   return Urql.useQuery<GetBlogsQuery, GetBlogsQueryVariables>({ query: GetBlogsDocument, ...options });
@@ -533,16 +546,10 @@ export function useGetBlogsQuery(options?: Omit<Urql.UseQueryArgs<GetBlogsQueryV
 export const GetBlogDocument = gql`
     query getBlog($id: Uint!) {
   blog(id: $id) {
-    id
-    title
-    url
-    kind
-    publishedAt
-    createdAt
-    updatedAt
+    ...Blog
   }
 }
-    `;
+    ${BlogFragmentDoc}`;
 
 export function useGetBlogQuery(options: Omit<Urql.UseQueryArgs<GetBlogQueryVariables>, 'query'>) {
   return Urql.useQuery<GetBlogQuery, GetBlogQueryVariables>({ query: GetBlogDocument, ...options });
@@ -550,13 +557,7 @@ export function useGetBlogQuery(options: Omit<Urql.UseQueryArgs<GetBlogQueryVari
 export const GetBlogWithTagsDocument = gql`
     query getBlogWithTags($id: Uint!) {
   blog(id: $id) {
-    id
-    title
-    url
-    kind
-    publishedAt
-    createdAt
-    updatedAt
+    ...Blog
     tags {
       blogId
       technology {
@@ -570,7 +571,7 @@ export const GetBlogWithTagsDocument = gql`
     }
   }
 }
-    `;
+    ${BlogFragmentDoc}`;
 
 export function useGetBlogWithTagsQuery(options: Omit<Urql.UseQueryArgs<GetBlogWithTagsQueryVariables>, 'query'>) {
   return Urql.useQuery<GetBlogWithTagsQuery, GetBlogWithTagsQueryVariables>({ query: GetBlogWithTagsDocument, ...options });
@@ -578,16 +579,10 @@ export function useGetBlogWithTagsQuery(options: Omit<Urql.UseQueryArgs<GetBlogW
 export const CreateBlogDocument = gql`
     mutation createBlog($input: BlogInput!) {
   createBlog(input: $input) {
-    id
-    title
-    url
-    kind
-    publishedAt
-    createdAt
-    updatedAt
+    ...Blog
   }
 }
-    `;
+    ${BlogFragmentDoc}`;
 
 export function useCreateBlogMutation() {
   return Urql.useMutation<CreateBlogMutation, CreateBlogMutationVariables>(CreateBlogDocument);
@@ -595,13 +590,7 @@ export function useCreateBlogMutation() {
 export const UpdateBlogWithTagsDocument = gql`
     mutation updateBlogWithTags($id: Uint!, $input: BlogInput!, $tags: [Uint!]!) {
   updateBlog(id: $id, input: $input) {
-    id
-    title
-    url
-    kind
-    publishedAt
-    createdAt
-    updatedAt
+    ...Blog
   }
   updateBlogTags(id: $id, tags: $tags) {
     blogId
@@ -615,7 +604,7 @@ export const UpdateBlogWithTagsDocument = gql`
     }
   }
 }
-    `;
+    ${BlogFragmentDoc}`;
 
 export function useUpdateBlogWithTagsMutation() {
   return Urql.useMutation<UpdateBlogWithTagsMutation, UpdateBlogWithTagsMutationVariables>(UpdateBlogWithTagsDocument);
@@ -623,16 +612,10 @@ export function useUpdateBlogWithTagsMutation() {
 export const DeleteBlogDocument = gql`
     mutation deleteBlog($id: Uint!) {
   deleteBlog(id: $id) {
-    id
-    title
-    url
-    kind
-    publishedAt
-    createdAt
-    updatedAt
+    ...Blog
   }
 }
-    `;
+    ${BlogFragmentDoc}`;
 
 export function useDeleteBlogMutation() {
   return Urql.useMutation<DeleteBlogMutation, DeleteBlogMutationVariables>(DeleteBlogDocument);

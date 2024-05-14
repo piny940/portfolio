@@ -1,18 +1,15 @@
 query getAll {
   blogs {
-    id
-    title
-    url
-    kind
-    publishedAt
-    createdAt
-    updatedAt
-    tags {
-      blogId
-      technology {
-        id
+    items {
+      ...Blog
+      tags {
+        blogId
+        technology {
+          id
+        }
       }
     }
+    totalCount
   }
   projects {
     id
