@@ -71,12 +71,15 @@ export const updateBlogTags = async (id: number, tags: number[]) => {
   const { data } = await query(
     `mutation updateBlogTags($id: Uint!, $tags: [Uint!]!) {
     updateBlogTags(id: $id, tags: $tags) {
-      id
-      name
-      logoUrl
-      tagColor
-      createdAt
-      updatedAt
+      blogId
+      technology {
+        id
+        name
+        logoUrl
+        tagColor
+        createdAt
+        updatedAt
+      }
     }
   }`,
     { id, tags }
