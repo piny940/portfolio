@@ -1,5 +1,5 @@
-query getBlogs {
-  blogs {
+query getBlogs($opt: ListOpt) {
+  blogs(opt: $opt) {
     id
     title
     url

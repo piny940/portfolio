@@ -44,6 +44,11 @@ export type BlogTag = {
   technology: Technology;
 };
 
+export type ListOpt = {
+  limit: Scalars['Int']['input'];
+  offset: Scalars['Int']['input'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createBlog: Blog;
@@ -194,6 +199,11 @@ export type QueryBlogArgs = {
 };
 
 
+export type QueryBlogsArgs = {
+  opt?: InputMaybe<ListOpt>;
+};
+
+
 export type QueryProjectArgs = {
   id: Scalars['String']['input'];
 };
@@ -253,7 +263,9 @@ export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetMeQuery = { __typename?: 'Query', me?: string | null };
 
-export type GetBlogsQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetBlogsQueryVariables = Exact<{
+  opt?: InputMaybe<ListOpt>;
+}>;
 
 
 export type GetBlogsQuery = { __typename?: 'Query', blogs: Array<{ __typename?: 'Blog', id: number, title: string, url: string, kind: number, publishedAt: string, createdAt: string, updatedAt: string }> };
@@ -502,8 +514,8 @@ export function useGetMeQuery(options?: Omit<Urql.UseQueryArgs<GetMeQueryVariabl
   return Urql.useQuery<GetMeQuery, GetMeQueryVariables>({ query: GetMeDocument, ...options });
 };
 export const GetBlogsDocument = gql`
-    query getBlogs {
-  blogs {
+    query getBlogs($opt: ListOpt) {
+  blogs(opt: $opt) {
     id
     title
     url

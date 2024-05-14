@@ -2,6 +2,7 @@ import { useDeleteBlogMutation, useGetBlogsQuery } from '@/graphql/types'
 import {
   Box,
   Button,
+  Pagination,
   Table,
   TableBody,
   TableCell,
@@ -11,14 +12,37 @@ import {
 } from '@mui/material'
 import Error from 'next/error'
 import Link from 'next/link'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { BlogKind, blogKindLabel } from '../../utils/types'
 import { dateLabel } from '../../utils/helpers'
+import { useRouter } from 'next/router'
 
 export const Blogs = (): JSX.Element => {
+  const LIMIT = 20
   const context = useMemo(() => ({ additionalTypenames: ['Blog'] }), [])
-  const [{ data, error }] = useGetBlogsQuery({ context })
   const [, deleteBlog] = useDeleteBlogMutation()
+  const router = useRouter()
+  const page = useMemo(() => {
+    const page = router.query.page
+    if (typeof page === 'string') {
+      return parseInt(page)
+    }
+    return 1
+  }, [router.query.page])
+  const [{ data, error }] = useGetBlogsQuery({
+    context,
+    variables: { opt: { limit: LIMIT, offset: LIMIT * (page - 1) } },
+  })
+
+  const changePage = useCallback(
+    (page: number) => {
+      void router.push({
+        pathname: router.pathname,
+        query: { ...router.query, page },
+      })
+    },
+    [router]
+  )
 
   if (error) return <Error statusCode={400} />
   if (!data) return <>loading...</>
@@ -89,6 +113,11 @@ export const Blogs = (): JSX.Element => {
           ))}
         </TableBody>
       </Table>
+      <Pagination
+        count={10}
+        page={page}
+        onChange={(_, page) => changePage(page)}
+      />
     </Box>
   )
 }
