@@ -16,6 +16,7 @@ import { useCallback, useMemo } from 'react'
 import { BlogKind, blogKindLabel } from '../../utils/types'
 import { dateLabel } from '../../utils/helpers'
 import { useRouter } from 'next/router'
+import { Stack } from '@mui/system'
 
 export const Blogs = (): JSX.Element => {
   const LIMIT = 20
@@ -75,15 +76,15 @@ export const Blogs = (): JSX.Element => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.blogs.map((blog) => (
+          {data.blogs.items.map((blog) => (
             <TableRow key={blog.id}>
               <TableCell>{blog.id}</TableCell>
               <TableCell>{blog.title}</TableCell>
               <TableCell>{blog.url}</TableCell>
               <TableCell>{blogKindLabel[blog.kind as BlogKind]}</TableCell>
-              <TableCell>{dateLabel(blog.publishedAt)}</TableCell>
-              <TableCell>{dateLabel(blog.createdAt)}</TableCell>
-              <TableCell>{dateLabel(blog.updatedAt)}</TableCell>
+              <TableCell>{dateLabel(blog.publishedAt as string)}</TableCell>
+              <TableCell>{dateLabel(blog.createdAt as string)}</TableCell>
+              <TableCell>{dateLabel(blog.updatedAt as string)}</TableCell>
               <TableCell
                 sx={{
                   '> * + *': {
@@ -113,11 +114,13 @@ export const Blogs = (): JSX.Element => {
           ))}
         </TableBody>
       </Table>
-      <Pagination
-        count={10}
-        page={page}
-        onChange={(_, page) => changePage(page)}
-      />
+      <Stack mt={2} alignItems="center">
+        <Pagination
+          count={Math.ceil(data.blogs.totalCount / LIMIT)}
+          page={page}
+          onChange={(_, page) => changePage(page)}
+        />
+      </Stack>
     </Box>
   )
 }
