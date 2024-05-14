@@ -3,7 +3,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    image: portfolio-back
+    image: ghcr.io/piny940/portfolio-backend:latest
     container_name: portfolio-back
     depends_on:
       - db
@@ -12,7 +12,7 @@ services:
 
   app:
     container_name: portfolio-app
-    image: portfolio-app
+    image: ghcr.io/piny940/portfolio-app:latest
     env_file:
       - ./app/.env
     build:
@@ -25,7 +25,7 @@ services:
       - backend
 
   admin:
-    container_name: portfolio-admin
+    container_name: ghcr.io/piny940/portfolio-admin:latest
     image: portfolio-admin
     env_file:
       - ./admin/.env
@@ -41,7 +41,7 @@ services:
   db:
     image: postgres:15.1-alpine
     restart: always
-    container_name: portfolio-backend
+    container_name: portfolio-db
     volumes:
       - database:/var/lib/postgresql/data
     environment:
