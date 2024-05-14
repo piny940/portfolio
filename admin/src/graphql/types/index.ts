@@ -263,7 +263,7 @@ export type UpdateProjectOrderInput = {
 export type GetAllQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllQuery = { __typename?: 'Query', blogs: { __typename?: 'BlogConnection', totalCount: number, items: Array<{ __typename?: 'Blog', id: number, title: string, url: string, kind: number, publishedAt: string, createdAt: string, updatedAt: string, tags: Array<{ __typename?: 'BlogTag', blogId: number, technology: { __typename?: 'Technology', id: number } }> }> }, projects: Array<{ __typename?: 'Project', id: string, title: string, description: string, isFavorite: boolean, position: number, githubLink?: string | null, qiitaLink?: string | null, appLink?: string | null, createdAt: string, updatedAt: string, tags: Array<{ __typename?: 'ProjectTag', projectId: string, technology: { __typename?: 'Technology', id: number } }> }>, technologies: Array<{ __typename?: 'Technology', id: number, name: string, logoUrl?: string | null, tagColor: string, createdAt: string, updatedAt: string }>, techStacks: Array<{ __typename?: 'TechStack', id: number, proficiency: number, technologyId: number, createdAt: string, updatedAt: string }> };
+export type GetAllQuery = { __typename?: 'Query', blogs: { __typename?: 'BlogConnection', totalCount: number, items: Array<{ __typename?: 'Blog', id: number, title: string, url: string, kind: number, publishedAt: string, createdAt: string, updatedAt: string, tags: Array<{ __typename?: 'BlogTag', blogId: number, technology: { __typename?: 'Technology', id: number, name: string } }> }> }, projects: Array<{ __typename?: 'Project', id: string, title: string, description: string, isFavorite: boolean, position: number, githubLink?: string | null, qiitaLink?: string | null, appLink?: string | null, createdAt: string, updatedAt: string, tags: Array<{ __typename?: 'ProjectTag', projectId: string, technology: { __typename?: 'Technology', id: number, name: string } }> }>, technologies: Array<{ __typename?: 'Technology', id: number, name: string, logoUrl?: string | null, tagColor: string, createdAt: string, updatedAt: string }>, techStacks: Array<{ __typename?: 'TechStack', id: number, proficiency: number, technologyId: number, createdAt: string, updatedAt: string, technology: { __typename?: 'Technology', id: number, name: string } }> };
 
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -535,6 +535,7 @@ export const GetAllDocument = gql`
         blogId
         technology {
           id
+          name
         }
       }
     }
@@ -555,6 +556,7 @@ export const GetAllDocument = gql`
       projectId
       technology {
         id
+        name
       }
     }
   }
@@ -572,6 +574,10 @@ export const GetAllDocument = gql`
     technologyId
     createdAt
     updatedAt
+    technology {
+      id
+      name
+    }
   }
 }
     ${BlogFragmentDoc}`;
