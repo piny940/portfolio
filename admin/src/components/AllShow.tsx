@@ -1,4 +1,4 @@
-import { useGetAllQuery } from '@/graphql/types'
+import { Blog, BlogFragment, useGetAllQuery } from '@/graphql/types'
 import { Button, Typography } from '@mui/material'
 import { ContentCopy as CopyIcon } from '@mui/icons-material'
 import Error from 'next/error'
@@ -21,6 +21,15 @@ export const AllShow = (): JSX.Element => {
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }, [data])
+
+  const allData: { blogs: BlogFragment[]; projects: ProjectFragment[] } =
+    useMemo(
+      () => ({
+        blogs: data?.blogs.items || [],
+        projects: data?.projects || [],
+      }),
+      [data]
+    )
 
   if (error) return <Error statusCode={400} />
   if (!data) return <>loading...</>
@@ -48,7 +57,7 @@ export const AllShow = (): JSX.Element => {
           )}
           <CopyIcon />
         </Button>
-        {JSON.stringify(data, null, 2)}
+        {JSON.stringify(allData, null, 2)}
       </pre>
     </Box>
   )
