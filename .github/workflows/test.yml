@@ -52,6 +52,7 @@ jobs:
           echo "DB_PORT=5432" >> $GITHUB_ENV
           echo "DB_NAME=portfolio_test" >> $GITHUB_ENV
           echo "DB_SSLMODE=disable" >> $GITHUB_ENV
+          echo "DB_TRY_LIMIT=1" >> $GITHUB_ENV
       - name: Setup PostgreSQL
         run: |
           for file in db/migrations/*.sql; do
