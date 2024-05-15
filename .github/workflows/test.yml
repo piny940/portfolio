@@ -68,6 +68,32 @@ jobs:
       - name: Test with the Go CLI
         run: cd backend && go test ./...
 
+  admin:
+    env:
+      NODE_VERSION: 20
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION}}
+      - name: cache node_modules
+        id: node_modules_cache_id
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+          key: admin-node-v${{ env.NODE_VERSION }}-deps-${{ github.workspace }}-yarn.lock
+      - name: Yarn install
+        run: yarn --cwd admin install --frozen-lockfile
+      # - name: Yarn Test
+      #   run: yarn --cwd admin test
+      - name: Prettier && ESLint
+        run: if yarn --cwd admin lint |& grep -E "(error|warn)"; then exit 1; fi
+      - name: Build Test
+        run: yarn --cwd admin build
+        env:
+          BACKEND_HOST: http://localhost:8080
   updater:
     env:
       NODE_VERSION: 20

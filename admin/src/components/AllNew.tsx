@@ -47,7 +47,7 @@ export const AllNew = (): JSX.Element => {
       const techStacks = (data.techStacks || []) as TechStack[]
       const technologies = (data.technologies || []) as Technology[]
       return { blogs, projects, techStacks, technologies }
-    } catch (e) {
+    } catch (e: any) {
       if (e instanceof Error) {
         setMessage(e.message)
       }
@@ -59,26 +59,20 @@ export const AllNew = (): JSX.Element => {
     async (technologies: Technology[], onStep: () => void) => {
       const newTechs = []
       for (const technology of technologies) {
-        try {
-          const { data } = await createTechnology({
-            input: {
-              name: technology.name,
-              logoUrl: technology.logoUrl,
-              tagColor: technology.tagColor,
-            },
-          })
-          if (!data) {
-            console.error('Failed to create technology')
-            setErrors((prev) => [...prev, 'Failed to create technology'])
-            break
-          }
-          newTechs.push(data.createTechnology)
-        } catch (e) {
-          console.error(e)
-          if (e instanceof Error) {
-            setErrors((prev) => [...prev, e.message])
-          }
+        const { data, error } = await createTechnology({
+          input: {
+            name: technology.name,
+            logoUrl: technology.logoUrl,
+            tagColor: technology.tagColor,
+          },
+        })
+        if (!data) {
+          console.error('Failed to create technology')
+          setErrors((prev) => [...prev, 'Failed to create technology'])
+          break
         }
+        if (error) setErrors((prev) => [...prev, error.message])
+        newTechs.push(data.createTechnology)
         onStep()
       }
       return newTechs

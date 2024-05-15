@@ -26,7 +26,7 @@ services:
 
   admin:
     container_name: portfolio-admin
-    image: ghcr.io/piny940/portfolio-admin:latest
+    image: portfolio-admin
     env_file:
       - ./admin/.env
     build:
