@@ -9,10 +9,11 @@ module.exports = {
     'next/core-web-vitals',
     'prettier',
   ],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
-    project: './tsconfig.json',
+    project: ['./tsconfig.json'],
   },
   plugins: ['react', 'prettier'],
   rules: {

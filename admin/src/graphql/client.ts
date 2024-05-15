@@ -16,7 +16,7 @@ const getAuthConfig = async (utils: AuthUtilities): Promise<AuthConfig> => ({
   refreshAuth: async () => undefined,
 })
 const client = new Client({
-  url: '/api/query',
+  url: `${process.env.BACKEND_HOST}/v1/query`,
   exchanges: [cacheExchange, authExchange(getAuthConfig), fetchExchange],
 })
 
