@@ -3,7 +3,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    image: ghcr.io/piny940/portfolio-backend:latest
+    image: portfolio-back
     container_name: portfolio-back
     depends_on:
       - db
@@ -58,6 +58,7 @@ services:
     ports:
       - 54040:3080
       - 54050:4080
+      - 54060:5080
     depends_on:
       - app
       - admin
