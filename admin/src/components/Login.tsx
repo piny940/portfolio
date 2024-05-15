@@ -16,7 +16,7 @@ export const Login = (): JSX.Element => {
   const requiredRule = { required: 'このフィールドは必須です。' }
   const router = useRouter()
   const submit = async () => {
-    const response = await fetch(`${process.env.BACKEND_HOST}/v1/login`, {
+    const response = await fetch('/api/login', {
       method: 'POST',
       body: serialize(getValues()),
     })
