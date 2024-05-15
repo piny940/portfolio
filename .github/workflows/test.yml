@@ -92,6 +92,8 @@ jobs:
         run: if yarn --cwd admin lint |& grep -E "(error|warn)"; then exit 1; fi
       - name: Build Test
         run: yarn --cwd admin build
+        env:
+          BACKEND_HOST: http://localhost:8080
   updater:
     env:
       NODE_VERSION: 20
