@@ -19,9 +19,7 @@ const LIMIT = 20
 export const getServerSideProps: GetServerSideProps<BlogsProps> = async (
   ctx
 ) => {
-  console.log(ctx)
   const page = Number((ctx.query.page || '1') as string)
-  console.log(page)
   const { blogs } = await sdk.fetchBlogs({
     opt: { limit: LIMIT, offset: LIMIT * (page - 1) },
   })
