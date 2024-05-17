@@ -35,6 +35,7 @@ jobs:
           SLACK_TITLE: Test / Success
           SLACK_COLOR: good
           SLACK_MESSAGE: Test Success!
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
       # 失敗
       - name: Slack Notification on Failure
@@ -44,6 +45,7 @@ jobs:
           SLACK_TITLE: Test / Failure
           SLACK_COLOR: danger
           SLACK_MESSAGE: Test Failed!
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
   backend:
     services:
