@@ -26,6 +26,24 @@ jobs:
         run: if yarn --cwd app lint |& grep -E "(error|warn)"; then exit 1; fi
       - name: Build Test
         run: yarn --cwd app build
+      #-- Slack通知 --#
+      # 成功
+      - name: Slack Notification on Success
+        uses: rtCamp/action-slack-notify@v2
+        if: ${{ success() }}
+        env:
+          SLACK_TITLE: Test / Success
+          SLACK_COLOR: good
+          SLACK_MESSAGE: Test Success!
+
+      # 失敗
+      - name: Slack Notification on Failure
+        uses: rtCamp/action-slack-notify@v2
+        if: ${{ failure() }}
+        env:
+          SLACK_TITLE: Test / Failure
+          SLACK_COLOR: danger
+          SLACK_MESSAGE: Test Failed!
 
   backend:
     services:
