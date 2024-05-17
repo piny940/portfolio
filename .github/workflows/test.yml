@@ -26,25 +26,16 @@ jobs:
         run: if yarn --cwd app lint |& grep -E "(error|warn)"; then exit 1; fi
       - name: Build Test
         run: yarn --cwd app build
+
       #-- Slack通知 --#
-      # 成功
       - name: Slack Notification on Success
         uses: rtCamp/action-slack-notify@v2
-        if: ${{ success() }}
+        if: ${{ always() }}
         env:
-          SLACK_TITLE: Test / Success
-          SLACK_COLOR: good
-          SLACK_MESSAGE: Test Success!
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-
-      # 失敗
-      - name: Slack Notification on Failure
-        uses: rtCamp/action-slack-notify@v2
-        if: ${{ failure() }}
-        env:
-          SLACK_TITLE: Test / Failure
-          SLACK_COLOR: danger
-          SLACK_MESSAGE: Test Failed!
+          SLACK_TITLE: Job Result on ${{ github.repository }}
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_MESSAGE_ON_SUCCESS: "The job on ${{ github.repository }} completed successfully."
+          SLACK_MESSAGE_ON_FAILURE: "The job on ${{ github.repository }} failed."
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
   backend:
