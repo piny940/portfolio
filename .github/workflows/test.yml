@@ -54,7 +54,7 @@ jobs:
           echo "DB_SSLMODE=disable" >> $GITHUB_ENV
           echo "DB_TRY_LIMIT=1" >> $GITHUB_ENV
       - name: Setup PostgreSQL
-        run: sh scripts/migrate.sh -e test
+        run: sh backend/scripts/migrate.sh -e test
       - name: Setup Go
         uses: actions/setup-go@v4
         with:
