@@ -2,9 +2,8 @@
 args=$(getopt e: $*) || exit 1
 set -- $args
 while [ -n "$1" ]; do
-  echo "opt: $1"
   case $1 in
-    -e) ENV=$2; shift 2 ; echo "ENV: $ENV" ;;
+    -e) ENV=$2; shift 2 ;;
     --) shift; break ;;
     *) echo "Usage: cmd [-e environment]"; exit 1;;
   esac
@@ -20,9 +19,10 @@ if [ $ENV != "production" ] && [ -e ".env.$ENV" ]; then
   echo "Load .env.$ENV"
   source .env.$ENV
 fi
+echo "ENV: $ENV"
 
 cmd=""
-for file in $(ls db/migrations/*.sql | sort -n); do
+for file in $(ls scripts/migrations/*.sql | sort -n); do
   cmd="$cmd \i $file"
 done
 
