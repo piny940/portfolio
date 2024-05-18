@@ -6,9 +6,25 @@ services:
     image: portfolio-back
     container_name: portfolio-back
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+      db-migrate:
+        condition: service_completed_successfully
     env_file:
       - ./backend/.env
+
+  db-migrate:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: portfolio-back
+    container_name: portfolio-back-migrate
+    command: ["sh", "scripts/migrate.sh", "-e", "production"]
+    env_file:
+      - ./backend/.env
+    depends_on:
+      db:
+        condition: service_healthy
 
   app:
     container_name: portfolio-app
@@ -48,6 +64,10 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: portfolio_production
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${DB_USER}"]
+      timeout: 10s
+      retries: 5
 
   nginx:
     container_name: portfolio-nginx
