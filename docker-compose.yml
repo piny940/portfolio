@@ -15,13 +15,13 @@ services:
 
   db-migrate:
     build:
-      context: ./backend
+      context: ./db
       dockerfile: Dockerfile
-    image: portfolio-back
-    container_name: portfolio-back-migrate
+    image: portfolio-migrate
+    container_name: portfolio-migrate
     command: ["sh", "scripts/migrate.sh", "-e", "production"]
     env_file:
-      - ./backend/.env
+      - ./db/.env
     depends_on:
       db:
         condition: service_healthy
