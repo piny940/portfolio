@@ -21,6 +21,5 @@ RUN apk update && \
 
 COPY --from=build /app/main .
 COPY --from=build /app/config ./config
-COPY scripts ./scripts
 
 CMD [ "/app/main", "-e", "production" ]
