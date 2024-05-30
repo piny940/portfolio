@@ -1,3 +1,5 @@
+
+-- +migrate Up
 create table if not exists blogs (
   id bigserial primary key,
   title varchar(255) not null,
@@ -65,3 +67,19 @@ create table if not exists tech_stacks (
   updated_at timestamp not null
 );
 create index if not exists index_tech_stacks_on_technology_id on tech_stacks (technology_id);
+
+
+-- +migrate Down
+drop index if exists index_tech_stacks_on_technology_id;
+drop table if exists tech_stacks;
+drop index if exists index_project_links_on_project_id;
+drop table if exists project_links;
+drop index if exists index_project_tags_on_technology_id;
+drop index if exists index_project_tags_on_project_id;
+drop table if exists project_technology_tags;
+drop table if exists projects;
+drop index if exists index_blog_tags_on_technology_id;
+drop index if exists index_blog_tags_on_blog_id;
+drop table if exists blog_technology_tags;
+drop table if exists technologies;
+drop table if exists blogs;
