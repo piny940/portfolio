@@ -12,6 +12,8 @@ jobs:
   updater:
     runs-on: ubuntu-latest
     steps:
+      - name: Get current datetime
+        run: echo "TIMESTAMP=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
       - name: Check out
         uses: actions/checkout@v4
       - name: Login to GitHub Container Registry
@@ -29,4 +31,4 @@ jobs:
           context: ./updater
           file: ./updater/Dockerfile
           tags: |
-            ghcr.io/piny940/portfolio-updater:main-${{ github.sha }}-${{ github.run_number }}
+            ghcr.io/piny940/portfolio-updater:main-${{ github.sha }}-${{ env.TIMESTAMP }}
