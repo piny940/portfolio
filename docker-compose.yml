@@ -8,23 +8,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      db-migrate:
-        condition: service_completed_successfully
     env_file:
       - ./backend/.env
-
-  db-migrate:
-    build:
-      context: ./db
-      dockerfile: Dockerfile
-    image: portfolio-migrate
-    container_name: portfolio-migrate
-    command: ["sh", "scripts/migrate.sh", "-e", "production"]
-    env_file:
-      - ./db/.env
-    depends_on:
-      db:
-        condition: service_healthy
 
   app:
     container_name: portfolio-app
