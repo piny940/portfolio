@@ -1,6 +1,7 @@
 package db
 
 import (
+	"database/sql"
 	"fmt"
 	"os"
 	"strconv"
@@ -8,6 +9,8 @@ import (
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+
+	migrate "github.com/rubenv/sql-migrate"
 )
 
 type DB struct {
@@ -25,6 +28,14 @@ func Init() {
 		tryLimit = 0
 	}
 	client, err := connect(dsn, tryLimit)
+	if err != nil {
+		panic(err)
+	}
+	sql, err := client.DB()
+	if err != nil {
+		panic(err)
+	}
+	err = Migrate(sql)
 	if err != nil {
 		panic(err)
 	}
@@ -67,4 +78,15 @@ func connect(dsn string, tryLimit int) (*gorm.DB, error) {
 		break
 	}
 	return client, nil
+}
+
+func Migrate(db *sql.DB) error {
+	migrations := &migrate.FileMigrationSource{Dir: os.Getenv("DB_MIGRATIONS_DIR")}
+
+	n, err := migrate.Exec(db, "postgres", migrations, migrate.Up)
+	if err != nil {
+		return err
+	}
+	fmt.Println("Applied", n, "migrations")
+	return nil
 }
