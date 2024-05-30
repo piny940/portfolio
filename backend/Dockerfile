@@ -21,5 +21,6 @@ RUN apk update && \
 
 COPY --from=build /app/main .
 COPY --from=build /app/config ./config
+COPY db/migrations ./db/migrations
 
 CMD [ "/app/main", "-e", "production" ]
