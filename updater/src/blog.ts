@@ -63,7 +63,7 @@ const notifyToSlack = (newBlogs: Blog[]) => {
   })
   sendSlackMessage(
     newBlogs.map((blog) => ({
-      color: '#36A64F',
+      color: '#36D399',
       blocks: [
         {
           type: 'section',
