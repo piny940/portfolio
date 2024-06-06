@@ -13,7 +13,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION}}
       - name: cache node_modules
         id: node_modules_cache_id
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: |
             node_modules
@@ -26,6 +26,17 @@ jobs:
         run: if yarn --cwd app lint |& grep -E "(error|warn)"; then exit 1; fi
       - name: Build Test
         run: yarn --cwd app build
+
+      #-- Slack通知 --#
+      - name: Slack Notification on Success
+        uses: rtCamp/action-slack-notify@v2
+        if: ${{ always() }}
+        env:
+          SLACK_TITLE: Job Result on ${{ github.repository }}
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_MESSAGE_ON_SUCCESS: "The job on ${{ github.repository }} completed successfully."
+          SLACK_MESSAGE_ON_FAILURE: "The job on ${{ github.repository }} failed."
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
   backend:
     services:
@@ -76,7 +87,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION}}
       - name: cache node_modules
         id: node_modules_cache_id
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: |
             node_modules
@@ -102,7 +113,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION}}
       - name: cache node_modules
         id: node_modules_cache_id
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: |
             node_modules
