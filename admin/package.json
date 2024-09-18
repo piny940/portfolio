@@ -23,7 +23,7 @@
     "@urql/exchange-auth": "^2.1.6",
     "dayjs": "^1.11.10",
     "graphql": "^16.8.1",
-    "next": "14.1.1",
+    "next": "14.2.10",
     "object-to-formdata": "^4.5.1",
     "react": "^18",
     "react-dom": "^18",
