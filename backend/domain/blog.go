@@ -8,6 +8,7 @@ type BlogKind int
 
 const (
 	BlogKindQiita BlogKind = iota
+	BlogKindExternal
 )
 
 type Blog struct {
