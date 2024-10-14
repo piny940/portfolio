@@ -17,7 +17,7 @@ const getQiitaBlogs = async () => {
     }
   )
   const json = await response.json()
-  return json
+  return json.filter((blog: any) => !blog.private)
 }
 const getTags = (qiitaTags: { name: string }[]) => {
   const tagNames = qiitaTags.map((tag) => tag.name)
