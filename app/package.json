@@ -35,7 +35,7 @@
     "@graphql-codegen/cli": "5.0.3",
     "@graphql-codegen/typescript": "^4.1.0",
     "@graphql-codegen/typescript-graphql-request": "^6.2.0",
-    "@graphql-codegen/typescript-operations": "^4.2.3",
+    "@graphql-codegen/typescript-operations": "^4.3.0",
     "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/react": "^14.3.0",
     "@types/bootstrap": "^5.2.10",
