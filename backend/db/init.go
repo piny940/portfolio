@@ -10,19 +10,34 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
+	"github.com/kelseyhightower/envconfig"
 	migrate "github.com/rubenv/sql-migrate"
 )
 
 type DB struct {
 	Client *gorm.DB
 }
+type Config struct {
+	User          string `required:"true"`
+	Password      string `required:"true"`
+	Host          string `required:"true"`
+	DBName        string `envconfig:"NAME" required:"true"`
+	SSLMode       string `required:"true" split_words:"true"`
+	TryLimit      int    `default:"0" split_words:"true"`
+	MigrationsDir string `required:"true" split_words:"true"`
+	Debug         bool   `default:"false"`
+}
 
 var db *DB
 
 func Init() {
+	conf := &Config{}
+	err := envconfig.Process("DB", conf)
+	if err != nil {
+		panic(err)
+	}
 	dsn := fmt.Sprintf("user=%s password=%s host=%s dbname=%s sslmode=%s",
-		os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_HOST"),
-		os.Getenv("DB_NAME"), os.Getenv("DB_SSLMODE"))
+		conf.User, conf.Password, conf.Host, conf.DBName, conf.SSLMode)
 	tryLimit, err := strconv.Atoi(os.Getenv("DB_TRY_LIMIT"))
 	if err != nil {
 		tryLimit = 0
@@ -35,11 +50,14 @@ func Init() {
 	if err != nil {
 		panic(err)
 	}
-	err = Migrate(sql)
+	err = Migrate(sql, conf)
 	if err != nil {
 		panic(err)
 	}
-	db = &DB{Client: client.Debug()}
+	if conf.Debug {
+		client = client.Debug()
+	}
+	db = &DB{Client: client}
 }
 
 func GetDB() *DB {
@@ -80,8 +98,8 @@ func connect(dsn string, tryLimit int) (*gorm.DB, error) {
 	return client, nil
 }
 
-func Migrate(db *sql.DB) error {
-	migrations := &migrate.FileMigrationSource{Dir: os.Getenv("DB_MIGRATIONS_DIR")}
+func Migrate(db *sql.DB, conf *Config) error {
+	migrations := &migrate.FileMigrationSource{Dir: conf.MigrationsDir}
 
 	n, err := migrate.Exec(db, "postgres", migrations, migrate.Up)
 	if err != nil {
