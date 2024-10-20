@@ -25,7 +25,7 @@ export const Navbar: React.FC = () => {
           href="/"
           className="unstyled title fw-bold d-flex align-items-center text-body"
         >
-          <div>piny940</div>
+          <div>mikan</div>
         </Link>
         <button
           className="navbar-toggler"

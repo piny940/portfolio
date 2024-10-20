@@ -47,7 +47,10 @@ export const Profiles: React.FC<ProfilesProps> = ({ className = '' }) => {
           className="rounded-circle"
           priority
         />
-        <h1 className="mt-2">piny940</h1>
+        <h1 className="d-flex flex-column align-items-center mt-2">
+          mikan
+          <span className="text-muted fs-6">@piny940</span>
+        </h1>
         <ul className="list-unstyled mt-2 mb-1 d-flex align-items-center">
           <li>
             <Link
