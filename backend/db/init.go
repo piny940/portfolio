@@ -22,7 +22,7 @@ type Config struct {
 	Password      string `required:"true"`
 	Host          string `required:"true"`
 	DBName        string `envconfig:"NAME" required:"true"`
-	SSLMode       string `required:"true" split_words:"true"`
+	SSLMode       string `required:"true" envconfig:"DB_SSLMODE"`
 	TryLimit      int    `default:"0" split_words:"true"`
 	MigrationsDir string `required:"true" split_words:"true"`
 	Debug         bool   `default:"false"`
