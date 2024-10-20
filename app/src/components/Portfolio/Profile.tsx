@@ -4,6 +4,8 @@ import Link from 'next/link'
 import githubWhiteIcon from '../../resources/images/common/github-white.png'
 import githubIcon from '../../resources/images/common/github.png'
 import qiitaIcon from '../../resources/images/common/qiita.png'
+import twitterIcon from '../../resources/images/common/x.png'
+import twitterWhiteIcon from '../../resources/images/common/x-white.png'
 import profileIcon from '../../resources/images/profile/icon.png'
 import background from '../../resources/images/profile/background.png'
 import styles from '@/styles/profile.module.scss'
@@ -79,6 +81,21 @@ export const Profiles: React.FC<ProfilesProps> = ({ className = '' }) => {
                 width={31}
                 height={31}
                 alt="qiita-icon"
+              />
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="https://x.com/piny940"
+              target="_blank"
+              className="unstyled mx-1"
+            >
+              <Image
+                priority
+                src={theme === 'light' ? twitterIcon : twitterWhiteIcon}
+                width={27}
+                height={27}
+                alt="x-icon"
               />
             </Link>
           </li>

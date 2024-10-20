@@ -51,9 +51,10 @@ jobs:
           echo "DB_HOST=localhost" >> $GITHUB_ENV
           echo "DB_PORT=5432" >> $GITHUB_ENV
           echo "DB_NAME=portfolio_test" >> $GITHUB_ENV
-          echo "DB_SSLMODE=disable" >> $GITHUB_ENV
+          echo "DB_SSL_MODE=disable" >> $GITHUB_ENV
           echo "DB_TRY_LIMIT=1" >> $GITHUB_ENV
           echo "DB_MIGRATIONS_DIR=../db/migrations" >> $GITHUB_ENV
+          echo "DB_DEBUG=true" >> $GITHUB_ENV
       - name: Setup Go
         uses: actions/setup-go@v4
         with:
