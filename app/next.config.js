@@ -5,7 +5,6 @@ if (process.env.NODE_ENV === 'development') {
 }
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
   compiler: {
     styledComponents: true,
   },
