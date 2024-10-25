@@ -1,31 +1,29 @@
 name: Test
 on: [push]
 
+env:
+  NODE_VERSION: 20
+  PNPM_VERSION: 9.12.2
 jobs:
   app:
-    env:
-      NODE_VERSION: 20
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION}}
+          package_json_file: "app/package.json"
       - uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION}}
-      - name: cache node_modules
-        id: node_modules_cache_id
-        uses: actions/cache@v2
-        with:
-          path: |
-            node_modules
-          key: app-node-v${{ env.NODE_VERSION }}-deps-${{ github.workspace }}-yarn.lock
-      - name: Yarn install
-        run: yarn --cwd app install --frozen-lockfile
-      - name: Yarn Test
-        run: yarn --cwd app test
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+          cache-dependency-path: "app/package.json"
+      - run: cd app && pnpm install
+      - run: cd app && pnpm test
       - name: Prettier && ESLint
-        run: if yarn --cwd app lint |& grep -E "(error|warn)"; then exit 1; fi
+        run: cd app && if pnpm lint |& grep -E "(error|warn)"; then exit 1; fi
       - name: Build Test
-        run: yarn --cwd app build
+        run: cd app && pnpm build
 
   backend:
     services:
@@ -67,34 +65,26 @@ jobs:
         run: cd backend && go test ./...
 
   admin:
-    env:
-      NODE_VERSION: 20
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION}}
+          package_json_file: "admin/package.json"
       - uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION}}
-      - name: cache node_modules
-        id: node_modules_cache_id
-        uses: actions/cache@v2
-        with:
-          path: |
-            node_modules
-          key: admin-node-v${{ env.NODE_VERSION }}-deps-${{ github.workspace }}-yarn.lock
-      - name: Yarn install
-        run: yarn --cwd admin install --frozen-lockfile
-      # - name: Yarn Test
-      #   run: yarn --cwd admin test
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+          cache-dependency-path: "admin/package.json"
+      - run: cd admin && pnpm install
       - name: Prettier && ESLint
-        run: if yarn --cwd admin lint |& grep -E "(error|warn)"; then exit 1; fi
+        run: cd admin && if pnpm lint |& grep -E "(error|warn)"; then exit 1; fi
       - name: Build Test
-        run: yarn --cwd admin build
+        run: cd admin && pnpm build
         env:
           BACKEND_HOST: http://localhost:8080
   updater:
-    env:
-      NODE_VERSION: 20
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

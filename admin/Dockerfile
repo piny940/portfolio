@@ -3,33 +3,39 @@
 ARG NODE_VERSION=20
 
 ################################################################################
-FROM node:${NODE_VERSION}-alpine as base
+FROM node:${NODE_VERSION}-alpine AS base
 
 WORKDIR /usr/src/app
 
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
+RUN corepack enable
 
 ################################################################################
-FROM base as deps
+FROM base AS deps
 
 RUN --mount=type=bind,source=package.json,target=package.json \
-    --mount=type=bind,source=yarn.lock,target=yarn.lock \
-    --mount=type=cache,target=/root/.yarn \
-    yarn install --production --frozen-lockfile
+    --mount=type=bind,source=pnpm-lock.yaml,target=pnpm-lock.yaml \
+    --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
 
 ################################################################################
-FROM deps as build
+FROM base AS build
+
+COPY package.json pnpm-lock.yaml ./
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 COPY . .
 ARG BACKEND_HOST
-ENV BACKEND_HOST ${BACKEND_HOST}
-RUN yarn run build
+ENV BACKEND_HOST=${BACKEND_HOST}
+
+RUN pnpm run build
 
 ################################################################################
-FROM base as final
+FROM base AS final
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 RUN chown node:node -R /usr/src/app
-RUN apk add curl
 
 USER node
 
@@ -40,4 +46,4 @@ COPY --from=build /usr/src/app/next.config.js ./next.config.js
 COPY --from=build /usr/src/app/.next ./.next
 # COPY ./public ./public
 
-CMD yarn start
+CMD [ "pnpm", "start" ]
