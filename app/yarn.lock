@@ -625,7 +625,7 @@
     "@graphql-codegen/plugin-helpers" "^5.0.3"
     tslib "~2.6.0"
 
-"@graphql-codegen/cli@5.0.3":
+"@graphql-codegen/cli@^5.0.3":
   version "5.0.3"
   resolved "https://registry.yarnpkg.com/@graphql-codegen/cli/-/cli-5.0.3.tgz#d518ce5c011ff82496badef1342b3ba8d42efbcb"
   integrity sha512-ULpF6Sbu2d7vNEOgBtE9avQp2oMgcPY/QBYcCqk0Xru5fz+ISjcovQX29V7CS7y5wWBRzNLoXwJQGeEyWbl05g==
@@ -7387,7 +7387,7 @@ typed-array-length@^1.0.6:
     is-typed-array "^1.1.13"
     possible-typed-array-names "^1.0.0"
 
-typescript@5.6.3:
+typescript@^5.6.3:
   version "5.6.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.6.3.tgz#5f3449e31c9d94febb17de03cc081dd56d81db5b"
   integrity sha512-hjcS1mhfuyi4WW8IWtjP7brDrG2cuDZukyrYrSauoXGNgx0S7zceP07adYkJycEr56BOUTNPzbInooiN3fn1qw==
@@ -7522,7 +7522,7 @@ urlpattern-polyfill@^10.0.0:
   resolved "https://registry.yarnpkg.com/urlpattern-polyfill/-/urlpattern-polyfill-10.0.0.tgz#f0a03a97bfb03cdf33553e5e79a2aadd22cac8ec"
   integrity sha512-H/A06tKD7sS1O1X2SshBVeA5FLycRpjqiBeqGKmBwBDBy28EnRjORxTNe269KSSr5un5qyWi1iL61wLxpd+ZOg==
 
-urql@^4.0.7:
+urql@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/urql/-/urql-4.2.0.tgz#5db868129000caae37f29c093d858edb1c29d97e"
   integrity sha512-xj9KoMxdF3omd0QCHHS3SvgxDHZAmuAFgUcdNe0w75NeJDA4qesc2/M6CquefZ7Sod6uyImENKCKg+/2I7YvXQ==
