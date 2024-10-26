@@ -89,7 +89,7 @@ func TestListProjectTagsComplex(t *testing.T) {
 	setup(t)
 	length := 5
 	pRepo := NewProjectRepo(db)
-	tRepo := NewTechnologyRepo(db)
+	tRepo := NewTechnologyRepo(db, &storage{})
 	techs := make([]*domain.Technology, length)
 	for i := 0; i < length; i++ {
 		tech := technologyF.MustCreate().(*domain.TechnologyInput)
@@ -139,7 +139,7 @@ func TestUpdateProjectTags(t *testing.T) {
 	setup(t)
 	length := 5
 	pRepo := NewProjectRepo(db)
-	tRepo := NewTechnologyRepo(db)
+	tRepo := NewTechnologyRepo(db, &storage{})
 	techs := make([]*domain.Technology, length)
 	for i := 0; i < length; i++ {
 		tech := technologyF.MustCreate().(*domain.TechnologyInput)

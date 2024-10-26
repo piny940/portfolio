@@ -123,7 +123,7 @@ func TestListBlogTagsComplex(t *testing.T) {
 	setup(t)
 	length := 5
 	bRepo := NewBlogRepo(db)
-	tRepo := NewTechnologyRepo(db)
+	tRepo := NewTechnologyRepo(db, &storage{})
 	techs := make([]*domain.Technology, length)
 	for i := 0; i < length; i++ {
 		tech := technologyF.MustCreate().(*domain.TechnologyInput)
@@ -173,7 +173,7 @@ func TestUpdateBlogTags(t *testing.T) {
 	setup(t)
 	length := 5
 	bRepo := NewBlogRepo(db)
-	tRepo := NewTechnologyRepo(db)
+	tRepo := NewTechnologyRepo(db, &storage{})
 	techs := make([]*domain.Technology, length)
 	for i := 0; i < length; i++ {
 		tech := technologyF.MustCreate().(*domain.TechnologyInput)

@@ -2,6 +2,7 @@ package registry
 
 import (
 	"backend/db"
+	"backend/db/gcs"
 	"backend/usecase"
 )
 
@@ -36,7 +37,8 @@ func (r *registry) BlogUsecase() usecase.IBlogUsecase {
 }
 
 func (r *registry) TechnologyUsecase() usecase.ITechnologyUsecase {
-	repo := db.NewTechnologyRepo(r.db)
+	storage := gcs.NewStorage()
+	repo := db.NewTechnologyRepo(r.db, storage)
 	return usecase.NewTechnologyUsecase(repo)
 }
 

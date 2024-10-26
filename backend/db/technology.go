@@ -1,34 +1,28 @@
 package db
 
 import (
+	"backend/db/gcs"
 	"backend/domain"
 	"context"
-	"io"
-	"os"
-	"path"
 	"strings"
-	"time"
 
-	"cloud.google.com/go/storage"
 	"gorm.io/gorm/clause"
 )
 
 type technologyRepo struct {
-	db         *DB
-	storage    *storage.BucketHandle
-	bucketName string
+	db      *DB
+	storage gcs.IStorage
 }
 
 // Create implements domain.ITechnologyRepo.
 func (r *technologyRepo) Create(ctx context.Context, input domain.TechnologyInput) (*domain.Technology, error) {
 	logoURL := ""
 	if input.Logo != nil {
-		writer := r.storage.Object(input.Logo.Filename).NewWriter(ctx)
-		defer writer.Close()
-		if _, err := io.Copy(writer, input.Logo.File); err != nil {
-			return nil, err
-		}
-		url := gcsURL(r.bucketName, input.Logo.Filename)
+		r.storage.Create(ctx, &gcs.File{
+			Filename: input.Logo.Filename,
+			File:     input.Logo.File,
+		})
+		url := r.storage.ObjectURL(input.Logo.Filename)
 		logoURL = url
 	}
 	technology := domain.Technology{
@@ -86,19 +80,21 @@ func (r *technologyRepo) List() ([]*domain.Technology, error) {
 func (r *technologyRepo) Update(ctx context.Context, id uint, input domain.TechnologyInput) (*domain.Technology, error) {
 	var technology domain.Technology
 	r.db.Client.First(&technology, id)
-	if technology.LogoURL != nil && strings.HasPrefix(*technology.LogoURL, gcsHost) {
-		obj := gcsObjectName(r.bucketName, *technology.LogoURL)
-		if err := r.storage.Object(obj).Delete(ctx); err != nil {
+	if technology.LogoURL != nil && strings.HasPrefix(*technology.LogoURL, gcs.GOOGLE_STORAGE_HOST) {
+		err := r.storage.Delete(ctx, gcs.NewStorage().ObjectName(*technology.LogoURL))
+		if err != nil {
 			return nil, err
 		}
 	}
 	if input.Logo != nil {
-		writer := r.storage.Object(input.Logo.Filename).NewWriter(ctx)
-		defer writer.Close()
-		if _, err := io.Copy(writer, input.Logo.File); err != nil {
+		err := r.storage.Create(ctx, &gcs.File{
+			Filename: input.Logo.Filename,
+			File:     input.Logo.File,
+		})
+		if err != nil {
 			return nil, err
 		}
-		url := gcsURL(r.bucketName, input.Logo.Filename)
+		url := r.storage.ObjectURL(input.Logo.Filename)
 		technology.LogoURL = &url
 	}
 	technology.Name = input.Name
@@ -110,24 +106,6 @@ func (r *technologyRepo) Update(ctx context.Context, id uint, input domain.Techn
 	return &technology, nil
 }
 
-func NewTechnologyRepo(db *DB) domain.ITechnologyRepo {
-	const TIMEOUT = 30 * time.Second
-	ctx, cancel := context.WithTimeout(context.Background(), TIMEOUT)
-	defer cancel()
-	client, err := storage.NewClient(ctx)
-	if err != nil {
-		panic(err)
-	}
-	bucketName := os.Getenv("GOOGLE_BUCKET_NAME")
-	bucket := client.Bucket(bucketName)
-	return &technologyRepo{db: db, storage: bucket, bucketName: bucketName}
-}
-
-const gcsHost = "https://storage.googleapis.com"
-
-func gcsURL(bucketName, objectName string) string {
-	return path.Join(gcsHost, bucketName, objectName)
-}
-func gcsObjectName(bucketName, url string) string {
-	return url[len(path.Join(gcsHost, bucketName)+"/"):]
+func NewTechnologyRepo(db *DB, storage gcs.IStorage) domain.ITechnologyRepo {
+	return &technologyRepo{db: db, storage: storage}
 }
