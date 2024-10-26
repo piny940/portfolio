@@ -3,9 +3,9 @@ package db
 import (
 	"backend/domain"
 	"context"
-	"fmt"
 	"io"
 	"os"
+	"path"
 	"strings"
 	"time"
 
@@ -87,7 +87,8 @@ func (r *technologyRepo) Update(ctx context.Context, id uint, input domain.Techn
 	var technology domain.Technology
 	r.db.Client.First(&technology, id)
 	if technology.LogoURL != nil && strings.HasPrefix(*technology.LogoURL, gcsHost) {
-		if err := r.storage.Object(gcsObjectName(r.bucketName, *technology.LogoURL)).Delete(ctx); err != nil {
+		obj := gcsObjectName(r.bucketName, *technology.LogoURL)
+		if err := r.storage.Object(obj).Delete(ctx); err != nil {
 			return nil, err
 		}
 	}
@@ -122,11 +123,11 @@ func NewTechnologyRepo(db *DB) domain.ITechnologyRepo {
 	return &technologyRepo{db: db, storage: bucket, bucketName: bucketName}
 }
 
-const gcsHost = "https://storage.googleapis.com/"
+const gcsHost = "https://storage.googleapis.com"
 
 func gcsURL(bucketName, objectName string) string {
-	return gcsHost + bucketName + "/" + objectName
+	return path.Join(gcsHost, bucketName, objectName)
 }
 func gcsObjectName(bucketName, url string) string {
-	return url[len(fmt.Sprintf("%s/%s/", gcsHost, bucketName)):]
+	return url[len(path.Join(gcsHost, bucketName)+"/"):]
 }
