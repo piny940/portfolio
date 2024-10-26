@@ -11,7 +11,7 @@ import (
 )
 
 func (r *mutationResolver) CreateTechnology(ctx context.Context, input domain.TechnologyInput) (*domain.Technology, error) {
-	technology, err := r.Reg.TechnologyUsecase().Create(input)
+	technology, err := r.Reg.TechnologyUsecase().Create(ctx, input)
 	if err != nil {
 		return nil, err
 	}

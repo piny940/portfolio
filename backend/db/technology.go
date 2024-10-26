@@ -2,19 +2,37 @@ package db
 
 import (
 	"backend/domain"
+	"context"
+	"fmt"
+	"io"
+	"os"
+	"time"
 
+	"cloud.google.com/go/storage"
 	"gorm.io/gorm/clause"
 )
 
 type technologyRepo struct {
-	db *DB
+	db         *DB
+	storage    *storage.BucketHandle
+	bucketName string
 }
 
 // Create implements domain.ITechnologyRepo.
-func (r *technologyRepo) Create(input domain.TechnologyInput) (*domain.Technology, error) {
+func (r *technologyRepo) Create(ctx context.Context, input domain.TechnologyInput) (*domain.Technology, error) {
+	var logoURL *string
+	if input.Logo != nil {
+		writer := r.storage.Object(input.Logo.Filename).NewWriter(ctx)
+		defer writer.Close()
+		if _, err := io.Copy(writer, input.Logo.File); err != nil {
+			return nil, err
+		}
+		url := gcsURL(r.bucketName, input.Logo.Filename)
+		logoURL = &url
+	}
 	technology := domain.Technology{
 		Name:     input.Name,
-		LogoURL:  input.LogoURL,
+		LogoURL:  logoURL,
 		TagColor: input.TagColor,
 	}
 	result := r.db.Client.Create(&technology)
@@ -64,11 +82,24 @@ func (r *technologyRepo) List() ([]*domain.Technology, error) {
 }
 
 // Update implements domain.ITechnologyRepo.
-func (r *technologyRepo) Update(id uint, input domain.TechnologyInput) (*domain.Technology, error) {
+func (r *technologyRepo) Update(ctx context.Context, id uint, input domain.TechnologyInput) (*domain.Technology, error) {
 	var technology domain.Technology
 	r.db.Client.First(&technology, id)
+	if technology.LogoURL != nil {
+		if err := r.storage.Object(gcsObjectName(r.bucketName, *technology.LogoURL)).Delete(ctx); err != nil {
+			return nil, err
+		}
+	}
+	if input.Logo != nil {
+		writer := r.storage.Object(input.Logo.Filename).NewWriter(ctx)
+		defer writer.Close()
+		if _, err := io.Copy(writer, input.Logo.File); err != nil {
+			return nil, err
+		}
+		url := gcsURL(r.bucketName, input.Logo.Filename)
+		technology.LogoURL = &url
+	}
 	technology.Name = input.Name
-	technology.LogoURL = input.LogoURL
 	technology.TagColor = input.TagColor
 	result := r.db.Client.Clauses(clause.Returning{}).Save(&technology)
 	if result.Error != nil {
@@ -78,5 +109,21 @@ func (r *technologyRepo) Update(id uint, input domain.TechnologyInput) (*domain.
 }
 
 func NewTechnologyRepo(db *DB) domain.ITechnologyRepo {
-	return &technologyRepo{db: db}
+	const TIMEOUT = 30 * time.Second
+	ctx, cancel := context.WithTimeout(context.Background(), TIMEOUT)
+	defer cancel()
+	client, err := storage.NewClient(ctx)
+	if err != nil {
+		panic(err)
+	}
+	bucketName := os.Getenv("GOOGLE_BUCKET_NAME")
+	bucket := client.Bucket(bucketName)
+	return &technologyRepo{db: db, storage: bucket, bucketName: bucketName}
+}
+
+func gcsURL(bucketName, objectName string) string {
+	return "https://storage.googleapis.com/" + bucketName + "/" + objectName
+}
+func gcsObjectName(bucketName, url string) string {
+	return url[len(fmt.Sprintf("https://storage.googleapis.com/%s/", bucketName)):]
 }

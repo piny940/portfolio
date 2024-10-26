@@ -1,6 +1,9 @@
 package domain
 
-import "time"
+import (
+	"context"
+	"time"
+)
 
 type Technology struct {
 	ID        uint    `gorm:"primarykey"`
@@ -15,7 +18,7 @@ type ITechnologyRepo interface {
 	List() ([]*Technology, error)
 	Find(id uint) (*Technology, error)
 	FindAll(ids []uint) ([]*Technology, error)
-	Create(input TechnologyInput) (*Technology, error)
-	Update(id uint, input TechnologyInput) (*Technology, error)
+	Create(ctx context.Context, input TechnologyInput) (*Technology, error)
+	Update(ctx context.Context, id uint, input TechnologyInput) (*Technology, error)
 	Delete(id uint) (*Technology, error)
 }

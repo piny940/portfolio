@@ -9,7 +9,7 @@ type Technology {
 
 input TechnologyInput {
   name: String!
-  logoUrl: String
+  logo: Upload
   tagColor: String!
 }
 

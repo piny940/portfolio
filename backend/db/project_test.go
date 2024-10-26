@@ -2,6 +2,7 @@ package db
 
 import (
 	"backend/domain"
+	"context"
 	"fmt"
 	"testing"
 	"time"
@@ -92,7 +93,7 @@ func TestListProjectTagsComplex(t *testing.T) {
 	techs := make([]*domain.Technology, length)
 	for i := 0; i < length; i++ {
 		tech := technologyF.MustCreate().(*domain.TechnologyInput)
-		newTech, err := tRepo.Create(*tech)
+		newTech, err := tRepo.Create(context.Background(), *tech)
 		if err != nil {
 			t.Errorf("failed to create technology: %v", err)
 		}
@@ -142,7 +143,7 @@ func TestUpdateProjectTags(t *testing.T) {
 	techs := make([]*domain.Technology, length)
 	for i := 0; i < length; i++ {
 		tech := technologyF.MustCreate().(*domain.TechnologyInput)
-		newTech, err := tRepo.Create(*tech)
+		newTech, err := tRepo.Create(context.Background(), *tech)
 		if err != nil {
 			t.Errorf("failed to create technology: %v", err)
 		}

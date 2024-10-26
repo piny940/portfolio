@@ -15,7 +15,7 @@ type technologyUsecase struct {
 }
 
 // Create implements usecase.ITechnologyUsecase.
-func (t *technologyUsecase) Create(input domain.TechnologyInput) (*domain.Technology, error) {
+func (t *technologyUsecase) Create(ctx context.Context, input domain.TechnologyInput) (*domain.Technology, error) {
 	panic("unimplemented")
 }
 
