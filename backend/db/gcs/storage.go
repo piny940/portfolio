@@ -47,8 +47,10 @@ func NewStorage() *Storage {
 func (s *Storage) Create(ctx context.Context, file *File) (string, error) {
 	filename := randomString(20) + "-" + file.Filename
 	writer := s.storage.Object(filename).NewWriter(ctx)
-	defer writer.Close()
 	if _, err := io.Copy(writer, file.File); err != nil {
+		return "", err
+	}
+	if err := writer.Close(); err != nil {
 		return "", err
 	}
 	url := s.ObjectURL(filename)
