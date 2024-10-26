@@ -15,7 +15,7 @@ type technologyUsecase struct {
 }
 
 // Create implements usecase.ITechnologyUsecase.
-func (t *technologyUsecase) Create(input domain.TechnologyInput) (*domain.Technology, error) {
+func (t *technologyUsecase) Create(ctx context.Context, input domain.TechnologyInput) (*domain.Technology, error) {
 	panic("unimplemented")
 }
 
@@ -49,7 +49,7 @@ func (t *technologyUsecase) List() ([]*domain.Technology, error) {
 }
 
 // Update implements usecase.ITechnologyUsecase.
-func (t *technologyUsecase) Update(id uint, input domain.TechnologyInput) (*domain.Technology, error) {
+func (t *technologyUsecase) Update(ctx context.Context, id uint, input domain.TechnologyInput) (*domain.Technology, error) {
 	panic("unimplemented")
 }
 

@@ -17,6 +17,7 @@ const config: CodegenConfig = {
           Time: 'string',
           Int64: 'number',
           Uint: 'number',
+          Upload: 'File',
         },
         withHooks: true,
       },

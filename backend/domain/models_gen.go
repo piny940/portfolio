@@ -4,6 +4,8 @@ package domain
 
 import (
 	"time"
+
+	"github.com/99designs/gqlgen/graphql"
 )
 
 type BlogConnection struct {
@@ -46,9 +48,9 @@ type TechStackInput struct {
 }
 
 type TechnologyInput struct {
-	Name     string  `json:"name"`
-	LogoURL  *string `json:"logoUrl,omitempty"`
-	TagColor string  `json:"tagColor"`
+	Name     string          `json:"name"`
+	Logo     *graphql.Upload `json:"logo,omitempty"`
+	TagColor string          `json:"tagColor"`
 }
 
 type UpdateProjectOrderInput struct {

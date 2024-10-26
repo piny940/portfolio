@@ -7,6 +7,7 @@ import {
   useUpdateTechnologyMutation,
 } from '@/graphql/types'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 
 export type TechnologyEditProps = {
   technology: Technology
@@ -19,16 +20,25 @@ export const TechnologyEdit = ({
     defaultValues: {
       name: technology.name,
       tagColor: technology.tagColor,
-      logoUrl: technology.logoUrl,
     },
   })
   const [, updateTechnology] = useUpdateTechnologyMutation()
   const router = useRouter()
+  const [logo, setLogo] = useState<File | undefined>(undefined)
+  const [logoPreview, setLogoPreview] = useState<string | undefined>(undefined)
+
+  const onLogoChange = (file: File) => {
+    setLogo(file)
+    setLogoPreview(URL.createObjectURL(file))
+  }
 
   const submit = async () => {
     const { error } = await updateTechnology({
       id: technology.id,
-      input: getValues(),
+      input: {
+        ...getValues(),
+        logo: logo,
+      },
     })
     if (error) return
     void router.push('/technologies')
@@ -39,7 +49,12 @@ export const TechnologyEdit = ({
       <Typography variant="h4" component="h1">
         Edit Technology{technology.id}
       </Typography>
-      <TechnologyForm control={control} submit={handleSubmit(submit)} />
+      <TechnologyForm
+        onLogoChange={onLogoChange}
+        logoPreview={logoPreview}
+        control={control}
+        submit={handleSubmit(submit)}
+      />
     </Box>
   )
 }

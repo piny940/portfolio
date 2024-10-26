@@ -921,6 +921,7 @@ extend type Mutation {
 	{Name: "../schema/schema.gql", Input: `scalar Uint
 scalar Int64
 scalar Time
+scalar Upload
 
 input ListOpt {
   limit: Int!
@@ -963,7 +964,7 @@ extend type Mutation {
 
 input TechnologyInput {
   name: String!
-  logoUrl: String
+  logo: Upload
   tagColor: String!
 }
 
@@ -6819,7 +6820,7 @@ func (ec *executionContext) unmarshalInputTechnologyInput(ctx context.Context, o
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "logoUrl", "tagColor"}
+	fieldsInOrder := [...]string{"name", "logo", "tagColor"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -6833,13 +6834,13 @@ func (ec *executionContext) unmarshalInputTechnologyInput(ctx context.Context, o
 				return it, err
 			}
 			it.Name = data
-		case "logoUrl":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("logoUrl"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
+		case "logo":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("logo"))
+			data, err := ec.unmarshalOUpload2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚐUpload(ctx, v)
 			if err != nil {
 				return it, err
 			}
-			it.LogoURL = data
+			it.Logo = data
 		case "tagColor":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("tagColor"))
 			data, err := ec.unmarshalNString2string(ctx, v)
@@ -9035,6 +9036,22 @@ func (ec *executionContext) marshalOString2ᚖstring(ctx context.Context, sel as
 		return graphql.Null
 	}
 	res := graphql.MarshalString(*v)
+	return res
+}
+
+func (ec *executionContext) unmarshalOUpload2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚐUpload(ctx context.Context, v interface{}) (*graphql.Upload, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := graphql.UnmarshalUpload(v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOUpload2ᚖgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚐUpload(ctx context.Context, sel ast.SelectionSet, v *graphql.Upload) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	res := graphql.MarshalUpload(*v)
 	return res
 }
 

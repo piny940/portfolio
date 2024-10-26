@@ -95,3 +95,5 @@ Temporary Items
 
 .env*
 !.env.sample
+
+google-credentials.json

@@ -31,6 +31,7 @@ export const SkillItem: React.FC<SkillItemProps> = ({
                 src={tech.logoUrl}
                 width={50}
                 height={50}
+                style={{ objectFit: 'contain' }}
               />
             </div>
           )}

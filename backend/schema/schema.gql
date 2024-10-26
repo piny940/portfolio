@@ -1,6 +1,7 @@
 scalar Uint
 scalar Int64
 scalar Time
+scalar Upload
 
 input ListOpt {
   limit: Int!

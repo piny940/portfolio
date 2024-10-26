@@ -2,6 +2,7 @@ package db
 
 import (
 	"backend/domain"
+	"context"
 	"fmt"
 	"testing"
 	"time"
@@ -122,11 +123,11 @@ func TestListBlogTagsComplex(t *testing.T) {
 	setup(t)
 	length := 5
 	bRepo := NewBlogRepo(db)
-	tRepo := NewTechnologyRepo(db)
+	tRepo := NewTechnologyRepo(db, &storage{})
 	techs := make([]*domain.Technology, length)
 	for i := 0; i < length; i++ {
 		tech := technologyF.MustCreate().(*domain.TechnologyInput)
-		newTech, err := tRepo.Create(*tech)
+		newTech, err := tRepo.Create(context.Background(), *tech)
 		if err != nil {
 			t.Errorf("failed to create technology: %v", err)
 		}
@@ -172,11 +173,11 @@ func TestUpdateBlogTags(t *testing.T) {
 	setup(t)
 	length := 5
 	bRepo := NewBlogRepo(db)
-	tRepo := NewTechnologyRepo(db)
+	tRepo := NewTechnologyRepo(db, &storage{})
 	techs := make([]*domain.Technology, length)
 	for i := 0; i < length; i++ {
 		tech := technologyF.MustCreate().(*domain.TechnologyInput)
-		newTech, err := tRepo.Create(*tech)
+		newTech, err := tRepo.Create(context.Background(), *tech)
 		if err != nil {
 			t.Errorf("failed to create technology: %v", err)
 		}

@@ -1,20 +1,35 @@
 package db
 
 import (
+	"backend/db/gcs"
 	"backend/domain"
+	"context"
+	"strings"
 
 	"gorm.io/gorm/clause"
 )
 
 type technologyRepo struct {
-	db *DB
+	db      *DB
+	storage gcs.IStorage
 }
 
 // Create implements domain.ITechnologyRepo.
-func (r *technologyRepo) Create(input domain.TechnologyInput) (*domain.Technology, error) {
+func (r *technologyRepo) Create(ctx context.Context, input domain.TechnologyInput) (*domain.Technology, error) {
+	logoURL := ""
+	var err error
+	if input.Logo != nil {
+		logoURL, err = r.storage.Create(ctx, &gcs.File{
+			Filename: input.Logo.Filename,
+			File:     input.Logo.File,
+		})
+		if err != nil {
+			return nil, err
+		}
+	}
 	technology := domain.Technology{
 		Name:     input.Name,
-		LogoURL:  input.LogoURL,
+		LogoURL:  &logoURL,
 		TagColor: input.TagColor,
 	}
 	result := r.db.Client.Create(&technology)
@@ -64,11 +79,26 @@ func (r *technologyRepo) List() ([]*domain.Technology, error) {
 }
 
 // Update implements domain.ITechnologyRepo.
-func (r *technologyRepo) Update(id uint, input domain.TechnologyInput) (*domain.Technology, error) {
+func (r *technologyRepo) Update(ctx context.Context, id uint, input domain.TechnologyInput) (*domain.Technology, error) {
 	var technology domain.Technology
 	r.db.Client.First(&technology, id)
+	if technology.LogoURL != nil && strings.HasPrefix(*technology.LogoURL, gcs.GOOGLE_STORAGE_HOST) {
+		err := r.storage.Delete(ctx, gcs.NewStorage().ObjectName(*technology.LogoURL))
+		if err != nil {
+			return nil, err
+		}
+	}
+	if input.Logo != nil {
+		url, err := r.storage.Create(ctx, &gcs.File{
+			Filename: input.Logo.Filename,
+			File:     input.Logo.File,
+		})
+		if err != nil {
+			return nil, err
+		}
+		technology.LogoURL = &url
+	}
 	technology.Name = input.Name
-	technology.LogoURL = input.LogoURL
 	technology.TagColor = input.TagColor
 	result := r.db.Client.Clauses(clause.Returning{}).Save(&technology)
 	if result.Error != nil {
@@ -77,6 +107,6 @@ func (r *technologyRepo) Update(id uint, input domain.TechnologyInput) (*domain.
 	return &technology, nil
 }
 
-func NewTechnologyRepo(db *DB) domain.ITechnologyRepo {
-	return &technologyRepo{db: db}
+func NewTechnologyRepo(db *DB, storage gcs.IStorage) domain.ITechnologyRepo {
+	return &technologyRepo{db: db, storage: storage}
 }
