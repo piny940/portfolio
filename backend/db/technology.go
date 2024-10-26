@@ -17,13 +17,15 @@ type technologyRepo struct {
 // Create implements domain.ITechnologyRepo.
 func (r *technologyRepo) Create(ctx context.Context, input domain.TechnologyInput) (*domain.Technology, error) {
 	logoURL := ""
+	var err error
 	if input.Logo != nil {
-		r.storage.Create(ctx, &gcs.File{
+		logoURL, err = r.storage.Create(ctx, &gcs.File{
 			Filename: input.Logo.Filename,
 			File:     input.Logo.File,
 		})
-		url := r.storage.ObjectURL(input.Logo.Filename)
-		logoURL = url
+		if err != nil {
+			return nil, err
+		}
 	}
 	technology := domain.Technology{
 		Name:     input.Name,
@@ -87,14 +89,13 @@ func (r *technologyRepo) Update(ctx context.Context, id uint, input domain.Techn
 		}
 	}
 	if input.Logo != nil {
-		err := r.storage.Create(ctx, &gcs.File{
+		url, err := r.storage.Create(ctx, &gcs.File{
 			Filename: input.Logo.Filename,
 			File:     input.Logo.File,
 		})
 		if err != nil {
 			return nil, err
 		}
-		url := r.storage.ObjectURL(input.Logo.Filename)
 		technology.LogoURL = &url
 	}
 	technology.Name = input.Name

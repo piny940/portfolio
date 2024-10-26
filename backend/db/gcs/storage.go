@@ -2,6 +2,7 @@ package gcs
 
 import (
 	"context"
+	crand "crypto/rand"
 	"io"
 	"os"
 	"path"
@@ -15,7 +16,7 @@ type File struct {
 	File     io.ReadSeeker
 }
 type IStorage interface {
-	Create(ctx context.Context, file *File) error
+	Create(ctx context.Context, file *File) (string, error)
 	Delete(ctx context.Context, fileName string) error
 	ObjectURL(objectName string) string
 	ObjectName(url string) string
@@ -43,13 +44,15 @@ func NewStorage() *Storage {
 	return &Storage{storage: bucket, bucketName: bucketName}
 }
 
-func (s *Storage) Create(ctx context.Context, file *File) error {
-	writer := s.storage.Object(file.Filename).NewWriter(ctx)
+func (s *Storage) Create(ctx context.Context, file *File) (string, error) {
+	filename := randomString(20) + "-" + file.Filename
+	writer := s.storage.Object(filename).NewWriter(ctx)
 	defer writer.Close()
 	if _, err := io.Copy(writer, file.File); err != nil {
-		return err
+		return "", err
 	}
-	return nil
+	url := s.ObjectURL(filename)
+	return url, nil
 }
 
 func (s *Storage) Delete(ctx context.Context, filename string) error {
@@ -64,4 +67,16 @@ func (s *Storage) ObjectURL(objectName string) string {
 }
 func (s *Storage) ObjectName(url string) string {
 	return url[len(path.Join(GOOGLE_STORAGE_HOST, s.bucketName)+"/"):]
+}
+
+func randomString(n int) string {
+	const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+	b := make([]byte, n)
+	if _, err := crand.Read(b); err != nil {
+		panic(err)
+	}
+	for i := range b {
+		b[i] = letters[int(b[i])%len(letters)]
+	}
+	return string(b)
 }

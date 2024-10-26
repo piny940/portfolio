@@ -10,9 +10,9 @@ type storage struct {
 }
 
 // Create implements gcs.IStorage.
-func (s *storage) Create(ctx context.Context, file *gcs.File) error {
+func (s *storage) Create(ctx context.Context, file *gcs.File) (string, error) {
 	s.files = append(s.files, file)
-	return nil
+	return file.Filename, nil
 }
 
 // Delete implements gcs.IStorage.
