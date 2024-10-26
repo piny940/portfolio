@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strings"
 	"time"
 
 	"cloud.google.com/go/storage"
@@ -20,7 +21,7 @@ type technologyRepo struct {
 
 // Create implements domain.ITechnologyRepo.
 func (r *technologyRepo) Create(ctx context.Context, input domain.TechnologyInput) (*domain.Technology, error) {
-	var logoURL *string
+	logoURL := ""
 	if input.Logo != nil {
 		writer := r.storage.Object(input.Logo.Filename).NewWriter(ctx)
 		defer writer.Close()
@@ -28,11 +29,11 @@ func (r *technologyRepo) Create(ctx context.Context, input domain.TechnologyInpu
 			return nil, err
 		}
 		url := gcsURL(r.bucketName, input.Logo.Filename)
-		logoURL = &url
+		logoURL = url
 	}
 	technology := domain.Technology{
 		Name:     input.Name,
-		LogoURL:  logoURL,
+		LogoURL:  &logoURL,
 		TagColor: input.TagColor,
 	}
 	result := r.db.Client.Create(&technology)
@@ -85,7 +86,7 @@ func (r *technologyRepo) List() ([]*domain.Technology, error) {
 func (r *technologyRepo) Update(ctx context.Context, id uint, input domain.TechnologyInput) (*domain.Technology, error) {
 	var technology domain.Technology
 	r.db.Client.First(&technology, id)
-	if technology.LogoURL != nil {
+	if technology.LogoURL != nil && strings.HasPrefix(*technology.LogoURL, gcsHost) {
 		if err := r.storage.Object(gcsObjectName(r.bucketName, *technology.LogoURL)).Delete(ctx); err != nil {
 			return nil, err
 		}
@@ -121,9 +122,11 @@ func NewTechnologyRepo(db *DB) domain.ITechnologyRepo {
 	return &technologyRepo{db: db, storage: bucket, bucketName: bucketName}
 }
 
+const gcsHost = "https://storage.googleapis.com/"
+
 func gcsURL(bucketName, objectName string) string {
-	return "https://storage.googleapis.com/" + bucketName + "/" + objectName
+	return gcsHost + bucketName + "/" + objectName
 }
 func gcsObjectName(bucketName, url string) string {
-	return url[len(fmt.Sprintf("https://storage.googleapis.com/%s/", bucketName)):]
+	return url[len(fmt.Sprintf("%s/%s/", gcsHost, bucketName)):]
 }

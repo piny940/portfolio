@@ -62,7 +62,6 @@ export const AllNew = (): JSX.Element => {
         const { data, error } = await createTechnology({
           input: {
             name: technology.name,
-            logoUrl: technology.logoUrl,
             tagColor: technology.tagColor,
           },
         })

@@ -19,7 +19,7 @@ func (r *mutationResolver) CreateTechnology(ctx context.Context, input domain.Te
 }
 
 func (r *mutationResolver) UpdateTechnology(ctx context.Context, id uint, input domain.TechnologyInput) (*domain.Technology, error) {
-	technology, err := r.Reg.TechnologyUsecase().Update(id, input)
+	technology, err := r.Reg.TechnologyUsecase().Update(ctx, id, input)
 	if err != nil {
 		return nil, err
 	}

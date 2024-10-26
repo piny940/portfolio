@@ -10,7 +10,7 @@ type ITechnologyUsecase interface {
 	Find(id uint) (*domain.Technology, error)
 	FindAll(ids []uint) ([]*domain.Technology, error)
 	Create(ctx context.Context, input domain.TechnologyInput) (*domain.Technology, error)
-	Update(id uint, input domain.TechnologyInput) (*domain.Technology, error)
+	Update(ctx context.Context, id uint, input domain.TechnologyInput) (*domain.Technology, error)
 	Delete(id uint) (*domain.Technology, error)
 }
 
@@ -43,8 +43,8 @@ func (u *technologyUsecase) List() ([]*domain.Technology, error) {
 }
 
 // Update implements ITechnologyUsecase.
-func (u *technologyUsecase) Update(id uint, input domain.TechnologyInput) (*domain.Technology, error) {
-	return u.Repo.Update(id, input)
+func (u *technologyUsecase) Update(ctx context.Context, id uint, input domain.TechnologyInput) (*domain.Technology, error) {
+	return u.Repo.Update(ctx, id, input)
 }
 
 func NewTechnologyUsecase(repo domain.ITechnologyRepo) ITechnologyUsecase {

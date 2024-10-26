@@ -1,16 +1,31 @@
 import { TechnologyInput } from '@/graphql/types'
-import { Box, Button, TextField } from '@mui/material'
+import { Box, Button, TextField, Typography } from '@mui/material'
+import { useDropzone } from 'react-dropzone'
 import { Control, Controller } from 'react-hook-form'
 
 export type TechnologyFormProps = {
   submit: () => void
   control: Control<TechnologyInput, any>
+  onLogoChange: (file: File) => void
+  logoPreview: string | undefined
 }
 
 export const TechnologyForm = ({
   control,
   submit,
+  onLogoChange,
+  logoPreview,
 }: TechnologyFormProps): JSX.Element => {
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: { 'image/*': [] },
+    multiple: false,
+    onDrop: (acceptedFiles) => {
+      if (acceptedFiles.length > 0) {
+        const file = acceptedFiles[0]
+        onLogoChange(file)
+      }
+    },
+  })
   const requiredRule = { required: 'このフィールドは必須です。' }
   return (
     <Box onSubmit={submit} component="form" sx={{ '> *': { margin: 2 } }}>
@@ -46,20 +61,33 @@ export const TechnologyForm = ({
           )}
         />
       </Box>
-      <Box>
-        <Controller
-          name="logoUrl"
-          control={control}
-          render={({ field, fieldState }) => (
-            <TextField
-              fullWidth
-              label="LogoUrl"
-              error={fieldState.invalid}
-              helperText={fieldState.error?.message}
-              {...field}
-            />
-          )}
-        />
+      <Box pl={3} sx={{ '> *': { margin: 2 } }}>
+        <Typography variant="h5" component="p">
+          Logo
+        </Typography>
+        <Box
+          {...getRootProps()}
+          sx={{
+            background: '#fafafa',
+            borderRadius: '4px',
+            borderStyle: 'solid',
+            borderColor: '#bbb',
+            color: '#777',
+            px: '20px',
+            py: '40px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <input {...getInputProps()} />
+          <Typography component="p">
+            Drag 'n' drop some files here, or click to select files
+          </Typography>
+        </Box>
+        {logoPreview && (
+          <img src={logoPreview} alt="logo" style={{ width: '100px' }} />
+        )}
       </Box>
       <Box>
         <Button type="submit" fullWidth variant="contained">
