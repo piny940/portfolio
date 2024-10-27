@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material'
-import { TechnologyForm } from './TechnologyForm'
+import { FilePreview, TechnologyForm } from './TechnologyForm'
 import { useForm } from 'react-hook-form'
 import {
   Technology,
@@ -25,11 +25,19 @@ export const TechnologyEdit = ({
   const [, updateTechnology] = useUpdateTechnologyMutation()
   const router = useRouter()
   const [logo, setLogo] = useState<File | undefined>(undefined)
-  const [logoPreview, setLogoPreview] = useState<string | undefined>(undefined)
+  const [logoPreview, setLogoPreview] = useState<FilePreview | undefined>(
+    technology.logoUrl
+      ? { filename: technology.logoUrl, src: technology.logoUrl, dirty: false }
+      : undefined
+  )
 
   const onLogoChange = (file: File) => {
     setLogo(file)
-    setLogoPreview(URL.createObjectURL(file))
+    setLogoPreview({
+      filename: file.name,
+      src: URL.createObjectURL(file),
+      dirty: true,
+    })
   }
 
   const submit = async () => {

@@ -7,7 +7,12 @@ export type TechnologyFormProps = {
   submit: () => void
   control: Control<TechnologyInput, any>
   onLogoChange: (file: File) => void
-  logoPreview: string | undefined
+  logoPreview: FilePreview | undefined
+}
+export type FilePreview = {
+  filename: string
+  src: string
+  dirty: boolean
 }
 
 export const TechnologyForm = ({
@@ -86,7 +91,12 @@ export const TechnologyForm = ({
           </Typography>
         </Box>
         {logoPreview && (
-          <img src={logoPreview} alt="logo" style={{ width: '100px' }} />
+          <>
+            <img src={logoPreview.src} alt="logo" style={{ width: '100px' }} />
+            {logoPreview.dirty && (
+              <Typography component="p">{logoPreview.filename}</Typography>
+            )}
+          </>
         )}
       </Box>
       <Box>
