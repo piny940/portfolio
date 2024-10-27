@@ -30,9 +30,6 @@ COPY . .
 ARG BACKEND_HOST
 ENV BACKEND_HOST=${BACKEND_HOST}
 
-ARG BACKEND_TOKEN
-ENV BACKEND_TOKEN=${BACKEND_TOKEN}
-
 RUN pnpm run build
 
 ################################################################################
@@ -45,6 +42,7 @@ COPY package.json .
 COPY documents ./documents
 COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY --from=build /usr/src/app/.next ./.next
+COPY ./next.config.js .
 COPY ./public ./public
 
 RUN chown node:node -R /usr/src/app
