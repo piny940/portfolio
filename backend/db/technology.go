@@ -86,7 +86,7 @@ func (r *technologyRepo) Update(ctx context.Context, id uint, input domain.Techn
 	if technology.LogoURL != nil && strings.HasPrefix(*technology.LogoURL, gcs.GOOGLE_STORAGE_HOST) {
 		err := r.storage.Delete(ctx, gcs.NewStorage().ObjectName(*technology.LogoURL))
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("failed to delete logo: %w", err)
 		}
 	}
 	fmt.Println(input.Logo)
@@ -96,7 +96,7 @@ func (r *technologyRepo) Update(ctx context.Context, id uint, input domain.Techn
 			File:     input.Logo.File,
 		})
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("failed to upload logo: %w", err)
 		}
 		technology.LogoURL = &url
 	}
