@@ -91,7 +91,7 @@ func (r *technologyRepo) Update(ctx context.Context, id uint, input domain.Techn
 	}
 	fmt.Println(input.Logo)
 	if input.Logo != nil {
-		url, err := r.storage.Create(ctx, &gcs.File{
+		url, err := r.storage.Create(context.Background(), &gcs.File{
 			Filename: input.Logo.Filename,
 			File:     input.Logo.File,
 		})
