@@ -6,7 +6,6 @@ import (
 	"io"
 	"os"
 	"path"
-	"time"
 
 	"cloud.google.com/go/storage"
 )
@@ -32,10 +31,7 @@ var _ IStorage = &Storage{}
 const GOOGLE_STORAGE_HOST = "https://storage.googleapis.com"
 
 func NewStorage() *Storage {
-	const TIMEOUT = 30 * time.Second
-	ctx, cancel := context.WithTimeout(context.Background(), TIMEOUT)
-	defer cancel()
-	client, err := storage.NewClient(ctx)
+	client, err := storage.NewClient(context.Background())
 	if err != nil {
 		panic(err)
 	}
