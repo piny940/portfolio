@@ -22,7 +22,6 @@ type IStorage interface {
 }
 
 type Storage struct {
-	storage    *storage.BucketHandle
 	bucketName string
 }
 
@@ -31,18 +30,19 @@ var _ IStorage = &Storage{}
 const GOOGLE_STORAGE_HOST = "https://storage.googleapis.com"
 
 func NewStorage() *Storage {
-	client, err := storage.NewClient(context.Background())
-	if err != nil {
-		panic(err)
-	}
 	bucketName := os.Getenv("GOOGLE_BUCKET_NAME")
-	bucket := client.Bucket(bucketName)
-	return &Storage{storage: bucket, bucketName: bucketName}
+	return &Storage{bucketName: bucketName}
 }
 
 func (s *Storage) Create(ctx context.Context, file *File) (string, error) {
+	client, err := storage.NewClient(ctx)
+	if err != nil {
+		return "", err
+	}
+	defer client.Close()
+	bucket := client.Bucket(s.bucketName)
 	filename := randomString(20) + "-" + file.Filename
-	writer := s.storage.Object(filename).NewWriter(ctx)
+	writer := bucket.Object(filename).NewWriter(ctx)
 	defer writer.Close()
 	if _, err := io.Copy(writer, file.File); err != nil {
 		return "", err
@@ -52,7 +52,13 @@ func (s *Storage) Create(ctx context.Context, file *File) (string, error) {
 }
 
 func (s *Storage) Delete(ctx context.Context, filename string) error {
-	if err := s.storage.Object(filename).Delete(ctx); err != nil {
+	client, err := storage.NewClient(ctx)
+	if err != nil {
+		return err
+	}
+	defer client.Close()
+	bucket := client.Bucket(s.bucketName)
+	if err := bucket.Object(filename).Delete(ctx); err != nil {
 		return err
 	}
 	return nil
