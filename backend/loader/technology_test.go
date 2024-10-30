@@ -14,23 +14,28 @@ type technologyUsecase struct {
 	Technologies []*domain.Technology
 }
 
+// Delete implements usecase.ITechnologyUsecase.
+func (t *technologyUsecase) Delete(ctx context.Context, id uint) (*domain.Technology, error) {
+	panic("unimplemented")
+}
+
+// Find implements usecase.ITechnologyUsecase.
+func (t *technologyUsecase) Find(ctx context.Context, id uint) (*domain.Technology, error) {
+	panic("unimplemented")
+}
+
+// List implements usecase.ITechnologyUsecase.
+func (t *technologyUsecase) List(ctx context.Context) ([]*domain.Technology, error) {
+	panic("unimplemented")
+}
+
 // Create implements usecase.ITechnologyUsecase.
 func (t *technologyUsecase) Create(ctx context.Context, input domain.TechnologyInput) (*domain.Technology, error) {
 	panic("unimplemented")
 }
 
-// Delete implements usecase.ITechnologyUsecase.
-func (t *technologyUsecase) Delete(id uint) (*domain.Technology, error) {
-	panic("unimplemented")
-}
-
-// Find implements usecase.ITechnologyUsecase.
-func (t *technologyUsecase) Find(id uint) (*domain.Technology, error) {
-	panic("unimplemented")
-}
-
 // FindAll implements usecase.ITechnologyUsecase.
-func (t *technologyUsecase) FindAll(ids []uint) ([]*domain.Technology, error) {
+func (t *technologyUsecase) FindAll(ctx context.Context, ids []uint) ([]*domain.Technology, error) {
 	techs := make([]*domain.Technology, len(ids))
 	allTechsById := make(map[uint]*domain.Technology, len(t.Technologies))
 	for _, tech := range t.Technologies {
@@ -41,11 +46,6 @@ func (t *technologyUsecase) FindAll(ids []uint) ([]*domain.Technology, error) {
 		techs[len(techs)-i-1] = allTechsById[id]
 	}
 	return techs, nil
-}
-
-// List implements usecase.ITechnologyUsecase.
-func (t *technologyUsecase) List() ([]*domain.Technology, error) {
-	panic("unimplemented")
 }
 
 // Update implements usecase.ITechnologyUsecase.

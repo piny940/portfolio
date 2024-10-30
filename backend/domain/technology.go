@@ -15,10 +15,10 @@ type Technology struct {
 }
 
 type ITechnologyRepo interface {
-	List() ([]*Technology, error)
-	Find(id uint) (*Technology, error)
-	FindAll(ids []uint) ([]*Technology, error)
+	List(ctx context.Context) ([]*Technology, error)
+	Find(ctx context.Context, id uint) (*Technology, error)
+	FindAll(ctx context.Context, ids []uint) ([]*Technology, error)
 	Create(ctx context.Context, input TechnologyInput) (*Technology, error)
 	Update(ctx context.Context, id uint, input TechnologyInput) (*Technology, error)
-	Delete(id uint) (*Technology, error)
+	Delete(ctx context.Context, id uint) (*Technology, error)
 }

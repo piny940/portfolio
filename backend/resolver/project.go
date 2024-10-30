@@ -11,7 +11,7 @@ import (
 )
 
 func (r *mutationResolver) CreateProject(ctx context.Context, input domain.ProjectInput) (*domain.Project, error) {
-	project, err := r.Reg.ProjectUsecase().Create(input)
+	project, err := r.Reg.ProjectUsecase().Create(ctx, input)
 	if err != nil {
 		return nil, err
 	}
@@ -19,7 +19,7 @@ func (r *mutationResolver) CreateProject(ctx context.Context, input domain.Proje
 }
 
 func (r *mutationResolver) UpdateProject(ctx context.Context, input domain.ProjectInput) (*domain.Project, error) {
-	project, err := r.Reg.ProjectUsecase().Update(input)
+	project, err := r.Reg.ProjectUsecase().Update(ctx, input)
 	if err != nil {
 		return nil, err
 	}
@@ -27,7 +27,7 @@ func (r *mutationResolver) UpdateProject(ctx context.Context, input domain.Proje
 }
 
 func (r *mutationResolver) UpdateProjectOrder(ctx context.Context, input domain.UpdateProjectOrderInput) ([]*domain.Project, error) {
-	projects, err := r.Reg.ProjectUsecase().UpdatePositions(input)
+	projects, err := r.Reg.ProjectUsecase().UpdatePositions(ctx, input)
 	if err != nil {
 		return nil, err
 	}
@@ -35,7 +35,7 @@ func (r *mutationResolver) UpdateProjectOrder(ctx context.Context, input domain.
 }
 
 func (r *mutationResolver) DeleteProject(ctx context.Context, id string) (*domain.Project, error) {
-	project, err := r.Reg.ProjectUsecase().Delete(id)
+	project, err := r.Reg.ProjectUsecase().Delete(ctx, id)
 	if err != nil {
 		return nil, err
 	}
@@ -43,7 +43,7 @@ func (r *mutationResolver) DeleteProject(ctx context.Context, id string) (*domai
 }
 
 func (r *mutationResolver) UpdateProjectTags(ctx context.Context, id string, tags []uint) ([]*domain.ProjectTag, error) {
-	technologies, err := r.Reg.ProjectUsecase().UpdateTags(id, tags)
+	technologies, err := r.Reg.ProjectUsecase().UpdateTags(ctx, id, tags)
 	if err != nil {
 		return nil, err
 	}
@@ -59,7 +59,7 @@ func (r *projectResolver) Tags(ctx context.Context, obj *domain.Project) ([]*dom
 }
 
 func (r *queryResolver) Projects(ctx context.Context) ([]*domain.Project, error) {
-	projects, err := r.Reg.ProjectUsecase().List()
+	projects, err := r.Reg.ProjectUsecase().List(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -67,7 +67,7 @@ func (r *queryResolver) Projects(ctx context.Context) ([]*domain.Project, error)
 }
 
 func (r *queryResolver) Project(ctx context.Context, id string) (*domain.Project, error) {
-	project, err := r.Reg.ProjectUsecase().Find(id)
+	project, err := r.Reg.ProjectUsecase().Find(ctx, id)
 	if err != nil {
 		return nil, err
 	}

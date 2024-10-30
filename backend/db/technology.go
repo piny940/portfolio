@@ -32,7 +32,7 @@ func (r *technologyRepo) Create(ctx context.Context, input domain.TechnologyInpu
 		LogoURL:  &logoURL,
 		TagColor: input.TagColor,
 	}
-	result := r.db.Client.Create(&technology)
+	result := r.db.Client.WithContext(ctx).Create(&technology)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -40,9 +40,9 @@ func (r *technologyRepo) Create(ctx context.Context, input domain.TechnologyInpu
 }
 
 // Delete implements domain.ITechnologyRepo.
-func (r *technologyRepo) Delete(id uint) (*domain.Technology, error) {
+func (r *technologyRepo) Delete(ctx context.Context, id uint) (*domain.Technology, error) {
 	var technology domain.Technology
-	result := r.db.Client.Clauses(clause.Returning{}).Delete(&technology, id)
+	result := r.db.Client.WithContext(ctx).Clauses(clause.Returning{}).Delete(&technology, id)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -50,18 +50,18 @@ func (r *technologyRepo) Delete(id uint) (*domain.Technology, error) {
 }
 
 // Find implements domain.ITechnologyRepo.
-func (r *technologyRepo) Find(id uint) (*domain.Technology, error) {
+func (r *technologyRepo) Find(ctx context.Context, id uint) (*domain.Technology, error) {
 	var technology domain.Technology
-	result := r.db.Client.Find(&technology, id)
+	result := r.db.Client.WithContext(ctx).Find(&technology, id)
 	if result.Error != nil {
 		return nil, result.Error
 	}
 	return &technology, nil
 }
 
-func (r *technologyRepo) FindAll(ids []uint) ([]*domain.Technology, error) {
+func (r *technologyRepo) FindAll(ctx context.Context, ids []uint) ([]*domain.Technology, error) {
 	var technologies []*domain.Technology
-	result := r.db.Client.Where("id in ?", ids).Find(&technologies)
+	result := r.db.Client.WithContext(ctx).Where("id in ?", ids).Find(&technologies)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -69,9 +69,9 @@ func (r *technologyRepo) FindAll(ids []uint) ([]*domain.Technology, error) {
 }
 
 // List implements domain.ITechnologyRepo.
-func (r *technologyRepo) List() ([]*domain.Technology, error) {
+func (r *technologyRepo) List(ctx context.Context) ([]*domain.Technology, error) {
 	var technologies []*domain.Technology
-	result := r.db.Client.Find(&technologies)
+	result := r.db.Client.WithContext(ctx).Find(&technologies)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -81,7 +81,7 @@ func (r *technologyRepo) List() ([]*domain.Technology, error) {
 // Update implements domain.ITechnologyRepo.
 func (r *technologyRepo) Update(ctx context.Context, id uint, input domain.TechnologyInput) (*domain.Technology, error) {
 	var technology domain.Technology
-	r.db.Client.First(&technology, id)
+	r.db.Client.WithContext(ctx).First(&technology, id)
 	if technology.LogoURL != nil && strings.HasPrefix(*technology.LogoURL, gcs.GOOGLE_STORAGE_HOST) {
 		err := r.storage.Delete(ctx, gcs.NewStorage().ObjectName(*technology.LogoURL))
 		if err != nil {
@@ -100,7 +100,7 @@ func (r *technologyRepo) Update(ctx context.Context, id uint, input domain.Techn
 	}
 	technology.Name = input.Name
 	technology.TagColor = input.TagColor
-	result := r.db.Client.Clauses(clause.Returning{}).Save(&technology)
+	result := r.db.Client.WithContext(ctx).Clauses(clause.Returning{}).Save(&technology)
 	if result.Error != nil {
 		return nil, result.Error
 	}

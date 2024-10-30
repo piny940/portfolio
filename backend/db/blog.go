@@ -2,6 +2,7 @@ package db
 
 import (
 	"backend/domain"
+	"context"
 	"time"
 
 	"gorm.io/gorm/clause"
@@ -21,9 +22,9 @@ type BlogTechnologyTag struct {
 }
 
 // ListTags implements domain.IBlogRepo.
-func (*blogRepo) ListTags(blogIds []uint) ([]*domain.BlogTag, error) {
+func (*blogRepo) ListTags(ctx context.Context, blogIds []uint) ([]*domain.BlogTag, error) {
 	blogTechnologyTags := []*BlogTechnologyTag{}
-	result := db.Client.Where("blog_id IN ?", blogIds).Find(&blogTechnologyTags)
+	result := db.Client.WithContext(ctx).Where("blog_id IN ?", blogIds).Find(&blogTechnologyTags)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -32,7 +33,7 @@ func (*blogRepo) ListTags(blogIds []uint) ([]*domain.BlogTag, error) {
 		technologyIds[i] = blogTechnologyTag.TechnologyID
 	}
 	technologies := []*domain.Technology{}
-	result = db.Client.Where("id IN ?", technologyIds).Find(&technologies)
+	result = db.Client.WithContext(ctx).Where("id IN ?", technologyIds).Find(&technologies)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -50,9 +51,9 @@ func (*blogRepo) ListTags(blogIds []uint) ([]*domain.BlogTag, error) {
 	return blogTags, nil
 }
 
-func (r *blogRepo) UpdateTags(blogId uint, technologyIds []uint) ([]*domain.BlogTag, error) {
+func (r *blogRepo) UpdateTags(ctx context.Context, blogId uint, technologyIds []uint) ([]*domain.BlogTag, error) {
 	existing := make([]*BlogTechnologyTag, 0)
-	result := r.db.Client.Where("blog_id = ?", blogId).Find(&existing)
+	result := r.db.Client.WithContext(ctx).Where("blog_id = ?", blogId).Find(&existing)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -63,7 +64,7 @@ func (r *blogRepo) UpdateTags(blogId uint, technologyIds []uint) ([]*domain.Blog
 	toCreate, toDelete := diff(actual, technologyIds)
 
 	// Delete
-	result = r.db.Client.Where("blog_id = ? and technology_id in ?", blogId, toDelete).Delete(&BlogTechnologyTag{})
+	result = r.db.Client.WithContext(ctx).Where("blog_id = ? and technology_id in ?", blogId, toDelete).Delete(&BlogTechnologyTag{})
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -82,14 +83,14 @@ func (r *blogRepo) UpdateTags(blogId uint, technologyIds []uint) ([]*domain.Blog
 }
 
 // Create implements domain.IBlogRepo.
-func (r *blogRepo) Create(input domain.BlogInput) (*domain.Blog, error) {
+func (r *blogRepo) Create(ctx context.Context, input domain.BlogInput) (*domain.Blog, error) {
 	blog := domain.Blog{
 		Title:       input.Title,
 		Kind:        domain.BlogKind(input.Kind),
 		Url:         input.URL,
 		PublishedAt: input.PublishedAt,
 	}
-	result := r.db.Client.Clauses(clause.Returning{}).Create(&blog)
+	result := r.db.Client.WithContext(ctx).Clauses(clause.Returning{}).Create(&blog)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -97,9 +98,9 @@ func (r *blogRepo) Create(input domain.BlogInput) (*domain.Blog, error) {
 }
 
 // Delete implements domain.IBlogRepo.
-func (r *blogRepo) Delete(id uint) (*domain.Blog, error) {
+func (r *blogRepo) Delete(ctx context.Context, id uint) (*domain.Blog, error) {
 	var blog domain.Blog
-	result := r.db.Client.Clauses(clause.Returning{}).Delete(&blog, id)
+	result := r.db.Client.WithContext(ctx).Clauses(clause.Returning{}).Delete(&blog, id)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -107,18 +108,18 @@ func (r *blogRepo) Delete(id uint) (*domain.Blog, error) {
 }
 
 // Find implements domain.IBlogRepo.
-func (r *blogRepo) Find(id uint) (*domain.Blog, error) {
+func (r *blogRepo) Find(ctx context.Context, id uint) (*domain.Blog, error) {
 	var blog domain.Blog
-	result := r.db.Client.First(&blog, id)
+	result := r.db.Client.WithContext(ctx).First(&blog, id)
 	if result.Error != nil {
 		return nil, result.Error
 	}
 	return &blog, nil
 }
 
-func (r *blogRepo) List(opt *domain.ListOpt) ([]*domain.Blog, error) {
+func (r *blogRepo) List(ctx context.Context, opt *domain.ListOpt) ([]*domain.Blog, error) {
 	var blogs []*domain.Blog
-	scope := r.db.Client.Order("published_at DESC")
+	scope := r.db.Client.WithContext(ctx).Order("published_at DESC")
 	if opt != nil {
 		scope = scope.Offset(opt.Offset).Limit(opt.Limit)
 	}
@@ -130,9 +131,9 @@ func (r *blogRepo) List(opt *domain.ListOpt) ([]*domain.Blog, error) {
 }
 
 // Update implements domain.IBlogRepo.
-func (r *blogRepo) Update(id uint, input domain.BlogInput) (*domain.Blog, error) {
+func (r *blogRepo) Update(ctx context.Context, id uint, input domain.BlogInput) (*domain.Blog, error) {
 	var blog domain.Blog
-	result := r.db.Client.First(&blog, id)
+	result := r.db.Client.WithContext(ctx).First(&blog, id)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -140,16 +141,16 @@ func (r *blogRepo) Update(id uint, input domain.BlogInput) (*domain.Blog, error)
 	blog.Kind = domain.BlogKind(input.Kind)
 	blog.Url = input.URL
 	blog.PublishedAt = input.PublishedAt
-	result = r.db.Client.Clauses(clause.Returning{}).Save(&blog)
+	result = r.db.Client.WithContext(ctx).Clauses(clause.Returning{}).Save(&blog)
 	if result.Error != nil {
 		return nil, result.Error
 	}
 	return &blog, nil
 }
 
-func (r *blogRepo) TotalCount() (int64, error) {
+func (r *blogRepo) TotalCount(ctx context.Context) (int64, error) {
 	var count int64
-	result := r.db.Client.Model(&domain.Blog{}).Count(&count)
+	result := r.db.Client.WithContext(ctx).Model(&domain.Blog{}).Count(&count)
 	if result.Error != nil {
 		return 0, result.Error
 	}

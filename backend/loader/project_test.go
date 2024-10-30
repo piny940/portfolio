@@ -2,6 +2,7 @@ package loader
 
 import (
 	"backend/domain"
+	"backend/usecase"
 	"context"
 	"testing"
 
@@ -45,27 +46,41 @@ type projectUsecase struct {
 	TagsByProjectId map[string][]*domain.ProjectTag
 }
 
-func (p *projectUsecase) Create(input domain.ProjectInput) (*domain.Project, error) {
+// Create implements usecase.IProjectUsecase.
+func (p *projectUsecase) Create(ctx context.Context, input domain.ProjectInput) (*domain.Project, error) {
 	panic("unimplemented")
 }
 
-func (p *projectUsecase) Delete(id string) (*domain.Project, error) {
+// Delete implements usecase.IProjectUsecase.
+func (p *projectUsecase) Delete(ctx context.Context, id string) (*domain.Project, error) {
 	panic("unimplemented")
 }
 
-func (p *projectUsecase) Find(id string) (*domain.Project, error) {
+// Find implements usecase.IProjectUsecase.
+func (p *projectUsecase) Find(ctx context.Context, id string) (*domain.Project, error) {
 	panic("unimplemented")
 }
 
-func (p *projectUsecase) List() ([]*domain.Project, error) {
-	return p.Projects, nil
-}
-
-func (p *projectUsecase) Update(input domain.ProjectInput) (*domain.Project, error) {
+// List implements usecase.IProjectUsecase.
+func (p *projectUsecase) List(ctx context.Context) ([]*domain.Project, error) {
 	panic("unimplemented")
 }
 
-func (p *projectUsecase) ListTags(projectIds []string) ([]*domain.ProjectTag, error) {
+// Update implements usecase.IProjectUsecase.
+func (p *projectUsecase) Update(ctx context.Context, input domain.ProjectInput) (*domain.Project, error) {
+	panic("unimplemented")
+}
+
+// UpdatePositions implements usecase.IProjectUsecase.
+func (p *projectUsecase) UpdatePositions(ctx context.Context, input domain.UpdateProjectOrderInput) ([]*domain.Project, error) {
+	panic("unimplemented")
+}
+
+// UpdateTags implements usecase.IProjectUsecase.
+func (p *projectUsecase) UpdateTags(ctx context.Context, projectId string, technologyIds []uint) ([]*domain.ProjectTag, error) {
+	panic("unimplemented")
+}
+func (p *projectUsecase) ListTags(ctx context.Context, projectIds []string) ([]*domain.ProjectTag, error) {
 	projectTags := []*domain.ProjectTag{}
 	for _, tags := range p.TagsByProjectId {
 		projectTags = append(projectTags, tags...)
@@ -73,13 +88,7 @@ func (p *projectUsecase) ListTags(projectIds []string) ([]*domain.ProjectTag, er
 	return projectTags, nil
 }
 
-func (p *projectUsecase) UpdateTags(projectId string, technologyIds []uint) ([]*domain.ProjectTag, error) {
-	panic("unimplemented")
-}
-
-func (p *projectUsecase) UpdatePositions(input domain.UpdateProjectOrderInput) ([]*domain.Project, error) {
-	panic("unimplemented")
-}
+var _ usecase.IProjectUsecase = &projectUsecase{}
 
 func TestGetProjectTagsEmpty(t *testing.T) {
 	uc := &projectUsecase{

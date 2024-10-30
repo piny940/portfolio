@@ -1,6 +1,9 @@
 package domain
 
-import "time"
+import (
+	"context"
+	"time"
+)
 
 type TechStack struct {
 	ID           uint `gorm:"primarykey"`
@@ -12,9 +15,9 @@ type TechStack struct {
 }
 
 type ITechStackRepo interface {
-	List() ([]*TechStack, error)
-	Find(id uint) (*TechStack, error)
-	Create(input TechStackInput) (*TechStack, error)
-	Update(id uint, input TechStackInput) (*TechStack, error)
-	Delete(id uint) (*TechStack, error)
+	List(ctx context.Context) ([]*TechStack, error)
+	Find(ctx context.Context, id uint) (*TechStack, error)
+	Create(ctx context.Context, input TechStackInput) (*TechStack, error)
+	Update(ctx context.Context, id uint, input TechStackInput) (*TechStack, error)
+	Delete(ctx context.Context, id uint) (*TechStack, error)
 }

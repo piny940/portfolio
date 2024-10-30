@@ -2,6 +2,7 @@ package loader
 
 import (
 	"backend/domain"
+	"backend/usecase"
 	"context"
 	"testing"
 
@@ -45,26 +46,12 @@ type blogUsecase struct {
 	TagsByBlogId map[uint][]*domain.BlogTag
 }
 
-func (b *blogUsecase) Create(input domain.BlogInput) (*domain.Blog, error) {
+// List implements usecase.IBlogUsecase.
+func (b *blogUsecase) List(ctx context.Context, opt *domain.ListOpt) (*domain.BlogConnection, error) {
 	panic("unimplemented")
 }
 
-func (b *blogUsecase) Delete(id uint) (*domain.Blog, error) {
-	panic("unimplemented")
-}
-
-func (b *blogUsecase) Find(id uint) (*domain.Blog, error) {
-	panic("unimplemented")
-}
-
-func (b *blogUsecase) List(opt *domain.ListOpt) (*domain.BlogConnection, error) {
-	panic("unimplemented")
-}
-
-func (b *blogUsecase) Update(id uint, input domain.BlogInput) (*domain.Blog, error) {
-	panic("unimplemented")
-}
-func (b *blogUsecase) ListTags(blogIds []uint) ([]*domain.BlogTag, error) {
+func (b *blogUsecase) ListTags(ctx context.Context, blogIds []uint) ([]*domain.BlogTag, error) {
 	blogTags := make([]*domain.BlogTag, 0)
 	for _, blogId := range blogIds {
 		blogTags = append(blogTags, tagsByBlogId[blogId]...)
@@ -72,7 +59,26 @@ func (b *blogUsecase) ListTags(blogIds []uint) ([]*domain.BlogTag, error) {
 	return blogTags, nil
 }
 
-func (b *blogUsecase) UpdateTags(blogId uint, technologyIds []uint) ([]*domain.BlogTag, error) {
+// UpdateTags implements usecase.IBlogUsecase.
+func (b *blogUsecase) UpdateTags(ctx context.Context, blogId uint, technologyIds []uint) ([]*domain.BlogTag, error) {
+	panic("unimplemented")
+}
+
+var _ usecase.IBlogUsecase = &blogUsecase{}
+
+func (b *blogUsecase) Create(ctx context.Context, input domain.BlogInput) (*domain.Blog, error) {
+	panic("unimplemented")
+}
+
+func (b *blogUsecase) Delete(ctx context.Context, id uint) (*domain.Blog, error) {
+	panic("unimplemented")
+}
+
+func (b *blogUsecase) Find(ctx context.Context, id uint) (*domain.Blog, error) {
+	panic("unimplemented")
+}
+
+func (b *blogUsecase) Update(ctx context.Context, id uint, input domain.BlogInput) (*domain.Blog, error) {
 	panic("unimplemented")
 }
 

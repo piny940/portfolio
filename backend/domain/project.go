@@ -1,6 +1,7 @@
 package domain
 
 import (
+	"context"
 	"fmt"
 	"time"
 	"unicode/utf8"
@@ -26,14 +27,14 @@ type ProjectTag struct {
 }
 
 type IProjectRepo interface {
-	List() ([]*Project, error)
-	ListByIds(ids []string) (map[string]*Project, error)
-	Find(id string) (*Project, error)
-	Create(input ProjectInput) (*Project, error)
-	Update(input ProjectInput) (*Project, error)
-	Delete(id string) (*Project, error)
-	ListTags(projectIds []string) ([]*ProjectTag, error)
-	UpdateTags(projectId string, technologyIds []uint) ([]*ProjectTag, error)
+	List(ctx context.Context) ([]*Project, error)
+	ListByIds(ctx context.Context, ids []string) (map[string]*Project, error)
+	Find(ctx context.Context, id string) (*Project, error)
+	Create(ctx context.Context, input ProjectInput) (*Project, error)
+	Update(ctx context.Context, input ProjectInput) (*Project, error)
+	Delete(ctx context.Context, id string) (*Project, error)
+	ListTags(ctx context.Context, projectIds []string) ([]*ProjectTag, error)
+	UpdateTags(ctx context.Context, projectId string, technologyIds []uint) ([]*ProjectTag, error)
 }
 
 const (

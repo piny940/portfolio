@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"backend/domain"
+	"context"
 	"fmt"
 	"slices"
 	"testing"
@@ -13,19 +14,19 @@ type projectRepo struct {
 	Projects []*domain.Project
 }
 
-func (repo *projectRepo) Create(input domain.ProjectInput) (*domain.Project, error) {
+func (repo *projectRepo) Create(ctx context.Context, input domain.ProjectInput) (*domain.Project, error) {
 	panic("create unimplemented")
 }
-func (repo *projectRepo) Delete(id string) (*domain.Project, error) {
+func (repo *projectRepo) Delete(ctx context.Context, id string) (*domain.Project, error) {
 	panic("delete unimplemented")
 }
-func (repo *projectRepo) Find(id string) (*domain.Project, error) {
+func (repo *projectRepo) Find(ctx context.Context, id string) (*domain.Project, error) {
 	panic("find unimplemented")
 }
-func (repo *projectRepo) List() ([]*domain.Project, error) {
+func (repo *projectRepo) List(ctx context.Context) ([]*domain.Project, error) {
 	return repo.Projects, nil
 }
-func (repo *projectRepo) ListByIds(ids []string) (map[string]*domain.Project, error) {
+func (repo *projectRepo) ListByIds(ctx context.Context, ids []string) (map[string]*domain.Project, error) {
 	projects := make(map[string]*domain.Project, len(ids))
 	for _, id := range ids {
 		idx := slices.IndexFunc(repo.Projects, func(project *domain.Project) bool {
@@ -35,10 +36,10 @@ func (repo *projectRepo) ListByIds(ids []string) (map[string]*domain.Project, er
 	}
 	return projects, nil
 }
-func (repo *projectRepo) ListTags(projectIds []string) ([]*domain.ProjectTag, error) {
+func (repo *projectRepo) ListTags(ctx context.Context, projectIds []string) ([]*domain.ProjectTag, error) {
 	panic("list tags unimplemented")
 }
-func (repo *projectRepo) Update(input domain.ProjectInput) (*domain.Project, error) {
+func (repo *projectRepo) Update(ctx context.Context, input domain.ProjectInput) (*domain.Project, error) {
 	for _, project := range repo.Projects {
 		if project.ID != input.ID {
 			continue
@@ -48,7 +49,7 @@ func (repo *projectRepo) Update(input domain.ProjectInput) (*domain.Project, err
 	}
 	return nil, fmt.Errorf("project not found")
 }
-func (repo *projectRepo) UpdateTags(projectId string, technologyIds []uint) ([]*domain.ProjectTag, error) {
+func (repo *projectRepo) UpdateTags(ctx context.Context, projectId string, technologyIds []uint) ([]*domain.ProjectTag, error) {
 	panic("update tags unimplemented")
 }
 
@@ -72,7 +73,7 @@ var sampleProjects = []*domain.Project{
 
 func TestList(t *testing.T) {
 	usecase := NewProjectUsecase(&projectRepo{Projects: sampleProjects})
-	actual, err := usecase.List()
+	actual, err := usecase.List(context.Background())
 	if err != nil {
 		t.Errorf("should not fail: %s", err)
 	}
@@ -81,7 +82,7 @@ func TestList(t *testing.T) {
 
 func TestUpdateOrder(t *testing.T) {
 	usecase := NewProjectUsecase(&projectRepo{Projects: sampleProjects})
-	newProjects, err := usecase.UpdatePositions(domain.UpdateProjectOrderInput{
+	newProjects, err := usecase.UpdatePositions(context.Background(), domain.UpdateProjectOrderInput{
 		Ids: []string{"2", "3"},
 	})
 	if err != nil {
@@ -99,7 +100,7 @@ func TestUpdateOrder(t *testing.T) {
 			IsFavorite: false,
 		},
 	})
-	actual, err := usecase.List()
+	actual, err := usecase.List(context.Background())
 	if err != nil {
 		t.Errorf("should not fail: %s", err)
 	}

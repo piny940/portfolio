@@ -23,7 +23,7 @@ func (r *blogResolver) Tags(ctx context.Context, obj *domain.Blog) ([]*domain.Bl
 }
 
 func (r *mutationResolver) CreateBlog(ctx context.Context, input domain.BlogInput) (*domain.Blog, error) {
-	blog, err := r.Reg.BlogUsecase().Create(input)
+	blog, err := r.Reg.BlogUsecase().Create(ctx, input)
 	if err != nil {
 		return nil, err
 	}
@@ -31,7 +31,7 @@ func (r *mutationResolver) CreateBlog(ctx context.Context, input domain.BlogInpu
 }
 
 func (r *mutationResolver) UpdateBlog(ctx context.Context, id uint, input domain.BlogInput) (*domain.Blog, error) {
-	blog, err := r.Reg.BlogUsecase().Update(id, input)
+	blog, err := r.Reg.BlogUsecase().Update(ctx, id, input)
 	if err != nil {
 		return nil, err
 	}
@@ -39,7 +39,7 @@ func (r *mutationResolver) UpdateBlog(ctx context.Context, id uint, input domain
 }
 
 func (r *mutationResolver) DeleteBlog(ctx context.Context, id uint) (*domain.Blog, error) {
-	blog, err := r.Reg.BlogUsecase().Delete(id)
+	blog, err := r.Reg.BlogUsecase().Delete(ctx, id)
 	if err != nil {
 		return nil, err
 	}
@@ -47,7 +47,7 @@ func (r *mutationResolver) DeleteBlog(ctx context.Context, id uint) (*domain.Blo
 }
 
 func (r *mutationResolver) UpdateBlogTags(ctx context.Context, id uint, tags []uint) ([]*domain.BlogTag, error) {
-	technologies, err := r.Reg.BlogUsecase().UpdateTags(id, tags)
+	technologies, err := r.Reg.BlogUsecase().UpdateTags(ctx, id, tags)
 	if err != nil {
 		return nil, err
 	}
@@ -55,7 +55,7 @@ func (r *mutationResolver) UpdateBlogTags(ctx context.Context, id uint, tags []u
 }
 
 func (r *queryResolver) Blogs(ctx context.Context, opt *domain.ListOpt) (*domain.BlogConnection, error) {
-	connection, err := r.Reg.BlogUsecase().List(opt)
+	connection, err := r.Reg.BlogUsecase().List(ctx, opt)
 	if err != nil {
 		return nil, err
 	}
@@ -63,7 +63,7 @@ func (r *queryResolver) Blogs(ctx context.Context, opt *domain.ListOpt) (*domain
 }
 
 func (r *queryResolver) Blog(ctx context.Context, id uint) (*domain.Blog, error) {
-	blog, err := r.Reg.BlogUsecase().Find(id)
+	blog, err := r.Reg.BlogUsecase().Find(ctx, id)
 	if err != nil {
 		return nil, err
 	}

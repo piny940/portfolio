@@ -14,9 +14,9 @@ type projectLoader struct {
 
 type IProjectTagLoader dataloader.Interface[string, []*domain.ProjectTag]
 
-func (p *projectLoader) projectTagsBatch(_ context.Context, projectIds []string) []*dataloader.Result[[]*domain.ProjectTag] {
+func (p *projectLoader) projectTagsBatch(ctx context.Context, projectIds []string) []*dataloader.Result[[]*domain.ProjectTag] {
 	results := make([]*dataloader.Result[[]*domain.ProjectTag], len(projectIds))
-	projectTags, err := p.uc.ListTags(projectIds)
+	projectTags, err := p.uc.ListTags(ctx, projectIds)
 	if err != nil {
 		for i := range results {
 			results[i] = &dataloader.Result[[]*domain.ProjectTag]{Error: err}

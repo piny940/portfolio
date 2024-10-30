@@ -6,12 +6,12 @@ import (
 )
 
 type ITechnologyUsecase interface {
-	List() ([]*domain.Technology, error)
-	Find(id uint) (*domain.Technology, error)
-	FindAll(ids []uint) ([]*domain.Technology, error)
+	List(ctx context.Context) ([]*domain.Technology, error)
+	Find(ctx context.Context, id uint) (*domain.Technology, error)
+	FindAll(ctx context.Context, ids []uint) ([]*domain.Technology, error)
 	Create(ctx context.Context, input domain.TechnologyInput) (*domain.Technology, error)
 	Update(ctx context.Context, id uint, input domain.TechnologyInput) (*domain.Technology, error)
-	Delete(id uint) (*domain.Technology, error)
+	Delete(ctx context.Context, id uint) (*domain.Technology, error)
 }
 
 type technologyUsecase struct {
@@ -24,22 +24,22 @@ func (u *technologyUsecase) Create(ctx context.Context, input domain.TechnologyI
 }
 
 // Delete implements ITechnologyUsecase.
-func (u *technologyUsecase) Delete(id uint) (*domain.Technology, error) {
-	return u.Repo.Delete(id)
+func (u *technologyUsecase) Delete(ctx context.Context, id uint) (*domain.Technology, error) {
+	return u.Repo.Delete(ctx, id)
 }
 
 // Find implements ITechnologyUsecase.
-func (u *technologyUsecase) Find(id uint) (*domain.Technology, error) {
-	return u.Repo.Find(id)
+func (u *technologyUsecase) Find(ctx context.Context, id uint) (*domain.Technology, error) {
+	return u.Repo.Find(ctx, id)
 }
 
-func (u *technologyUsecase) FindAll(ids []uint) ([]*domain.Technology, error) {
-	return u.Repo.FindAll(ids)
+func (u *technologyUsecase) FindAll(ctx context.Context, ids []uint) ([]*domain.Technology, error) {
+	return u.Repo.FindAll(ctx, ids)
 }
 
 // List implements ITechnologyUsecase.
-func (u *technologyUsecase) List() ([]*domain.Technology, error) {
-	return u.Repo.List()
+func (u *technologyUsecase) List(ctx context.Context) ([]*domain.Technology, error) {
+	return u.Repo.List(ctx)
 }
 
 // Update implements ITechnologyUsecase.
