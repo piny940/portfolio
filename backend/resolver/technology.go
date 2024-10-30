@@ -27,7 +27,7 @@ func (r *mutationResolver) UpdateTechnology(ctx context.Context, id uint, input 
 }
 
 func (r *mutationResolver) DeleteTechnology(ctx context.Context, id uint) (*domain.Technology, error) {
-	technology, err := r.Reg.TechnologyUsecase().Delete(id)
+	technology, err := r.Reg.TechnologyUsecase().Delete(ctx, id)
 	if err != nil {
 		return nil, err
 	}
@@ -35,7 +35,7 @@ func (r *mutationResolver) DeleteTechnology(ctx context.Context, id uint) (*doma
 }
 
 func (r *queryResolver) Technologies(ctx context.Context) ([]*domain.Technology, error) {
-	technologies, err := r.Reg.TechnologyUsecase().List()
+	technologies, err := r.Reg.TechnologyUsecase().List(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -43,7 +43,7 @@ func (r *queryResolver) Technologies(ctx context.Context) ([]*domain.Technology,
 }
 
 func (r *queryResolver) Technology(ctx context.Context, id uint) (*domain.Technology, error) {
-	technology, err := r.Reg.TechnologyUsecase().Find(id)
+	technology, err := r.Reg.TechnologyUsecase().Find(ctx, id)
 	if err != nil {
 		return nil, err
 	}

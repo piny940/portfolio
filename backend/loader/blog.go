@@ -16,7 +16,7 @@ type IBlogTagLoader dataloader.Interface[uint, []*domain.BlogTag]
 
 func (b *blogLoader) blogTagsBatch(ctx context.Context, blogIds []uint) []*dataloader.Result[[]*domain.BlogTag] {
 	results := make([]*dataloader.Result[[]*domain.BlogTag], len(blogIds))
-	blogTags, err := b.uc.ListTags(blogIds)
+	blogTags, err := b.uc.ListTags(ctx, blogIds)
 	if err != nil {
 		for i := range results {
 			results[i] = &dataloader.Result[[]*domain.BlogTag]{Error: err}

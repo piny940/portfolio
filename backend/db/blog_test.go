@@ -43,7 +43,7 @@ func TestCreateBlog(t *testing.T) {
 	db.Client.Raw("select count(*) from blogs").Scan(&beforeCount)
 
 	blog := blogF.MustCreate().(*domain.BlogInput)
-	repo.Create(*blog)
+	repo.Create(context.Background(), *blog)
 	var afterCount int
 	db.Client.Raw("select count(*) from blogs").Scan(&afterCount)
 	if afterCount != beforeCount+1 {
@@ -67,13 +67,13 @@ func TestListBlogsOrder(t *testing.T) {
 	publishedAts[2], _ = time.Parse("2006-01-02-15:04:05", "2021-01-03-00:00:00")
 	for i, publishedAt := range publishedAts {
 		blog := blogF.MustCreateWithOption(map[string]interface{}{"PublishedAt": publishedAt}).(*domain.BlogInput)
-		newBlog, err := repo.Create(*blog)
+		newBlog, err := repo.Create(context.Background(), *blog)
 		if err != nil {
 			t.Errorf("failed to create blog: %v", err)
 		}
 		blogs[i] = newBlog
 	}
-	actual, err := repo.List(nil)
+	actual, err := repo.List(context.Background(), nil)
 	if err != nil {
 		t.Errorf("failed to list blogs: %v", err)
 	}
@@ -87,13 +87,13 @@ func TestListBlogsLimit(t *testing.T) {
 	blogs := make([]*domain.Blog, 0)
 	for i := 0; i < 10; i++ {
 		blog := blogF.MustCreate().(*domain.BlogInput)
-		newBlog, err := repo.Create(*blog)
+		newBlog, err := repo.Create(context.Background(), *blog)
 		if err != nil {
 			t.Errorf("failed to create blog: %v", err)
 		}
 		blogs = append(blogs, newBlog)
 	}
-	actual, err := repo.List(&domain.ListOpt{Limit: 5})
+	actual, err := repo.List(context.Background(), &domain.ListOpt{Limit: 5})
 	if err != nil {
 		t.Errorf("failed to list blogs: %v", err)
 	}
@@ -106,13 +106,13 @@ func TestListBlogsOffset(t *testing.T) {
 	blogs := make([]*domain.Blog, 0)
 	for i := 0; i < 15; i++ {
 		blog := blogF.MustCreate().(*domain.BlogInput)
-		newBlog, err := repo.Create(*blog)
+		newBlog, err := repo.Create(context.Background(), *blog)
 		if err != nil {
 			t.Errorf("failed to create blog: %v", err)
 		}
 		blogs = append(blogs, newBlog)
 	}
-	actual, err := repo.List(&domain.ListOpt{Offset: 5, Limit: 5})
+	actual, err := repo.List(context.Background(), &domain.ListOpt{Offset: 5, Limit: 5})
 	if err != nil {
 		t.Errorf("failed to list blogs: %v", err)
 	}
@@ -136,7 +136,7 @@ func TestListBlogTagsComplex(t *testing.T) {
 	blogs := make([]*domain.Blog, length)
 	for i := 0; i < length; i++ {
 		blog := blogF.MustCreate().(*domain.BlogInput)
-		newBlog, _ := bRepo.Create(*blog)
+		newBlog, _ := bRepo.Create(context.Background(), *blog)
 		blogs[i] = newBlog
 	}
 	for bi := 0; bi < 3; bi++ {
@@ -146,7 +146,7 @@ func TestListBlogTagsComplex(t *testing.T) {
 	}
 	var count int
 	db.Client.Raw("select count(*) from blog_technology_tags").Scan(&count)
-	tags, err := bRepo.ListTags([]uint{blogs[0].ID, blogs[1].ID})
+	tags, err := bRepo.ListTags(context.Background(), []uint{blogs[0].ID, blogs[1].ID})
 	if err != nil {
 		t.Errorf("should not fail: %v", err)
 	}
@@ -183,13 +183,13 @@ func TestUpdateBlogTags(t *testing.T) {
 		}
 		techs[i] = newTech
 	}
-	blog, _ := bRepo.Create(*blogF.MustCreate().(*domain.BlogInput))
+	blog, _ := bRepo.Create(context.Background(), *blogF.MustCreate().(*domain.BlogInput))
 	t.Run("Add tags", func(t *testing.T) {
-		_, err := bRepo.UpdateTags(blog.ID, []uint{techs[0].ID, techs[1].ID})
+		_, err := bRepo.UpdateTags(context.Background(), blog.ID, []uint{techs[0].ID, techs[1].ID})
 		if err != nil {
 			t.Errorf("should not fail: %v", err)
 		}
-		tags, _ := bRepo.ListTags([]uint{blog.ID})
+		tags, _ := bRepo.ListTags(context.Background(), []uint{blog.ID})
 		if len(tags) != 2 {
 			t.Errorf("expected 2 tags, got %d", len(tags))
 		}
@@ -198,11 +198,11 @@ func TestUpdateBlogTags(t *testing.T) {
 		}
 	})
 	t.Run("Remove tags", func(t *testing.T) {
-		_, err := bRepo.UpdateTags(blog.ID, []uint{techs[0].ID})
+		_, err := bRepo.UpdateTags(context.Background(), blog.ID, []uint{techs[0].ID})
 		if err != nil {
 			t.Errorf("should not fail: %v", err)
 		}
-		tags, _ := bRepo.ListTags([]uint{blog.ID})
+		tags, _ := bRepo.ListTags(context.Background(), []uint{blog.ID})
 		if len(tags) != 1 {
 			t.Errorf("expected 1 tag, got %d", len(tags))
 		}
@@ -218,9 +218,9 @@ func TestBlogCount(t *testing.T) {
 	length := 5
 	for i := 0; i < length; i++ {
 		blog := blogF.MustCreate().(*domain.BlogInput)
-		repo.Create(*blog)
+		repo.Create(context.Background(), *blog)
 	}
-	count, err := repo.TotalCount()
+	count, err := repo.TotalCount(context.Background())
 	if err != nil {
 		t.Errorf("should not fail: %v", err)
 	}

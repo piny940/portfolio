@@ -14,9 +14,9 @@ type technologyLoader struct {
 
 type ITechnologyLoader dataloader.Interface[uint, *domain.Technology]
 
-func (t *technologyLoader) TechnologyBatch(_ context.Context, ids []uint) []*dataloader.Result[*domain.Technology] {
+func (t *technologyLoader) TechnologyBatch(ctx context.Context, ids []uint) []*dataloader.Result[*domain.Technology] {
 	results := make([]*dataloader.Result[*domain.Technology], len(ids))
-	technologies, err := t.uc.FindAll(ids)
+	technologies, err := t.uc.FindAll(ctx, ids)
 	if err != nil {
 		for i := range results {
 			results[i] = &dataloader.Result[*domain.Technology]{Error: err}

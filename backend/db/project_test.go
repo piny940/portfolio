@@ -50,7 +50,7 @@ func TestCreateProject(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			var beforeCount int
 			db.Client.Raw("select count(*) from projects").Scan(&beforeCount)
-			repo.Create(*project)
+			repo.Create(context.Background(), *project)
 			var afterCount int
 			db.Client.Raw("select count(*) from projects").Scan(&afterCount)
 			if afterCount != beforeCount+1 {
@@ -74,9 +74,9 @@ func TestListProjects(t *testing.T) {
 		project := projectF.MustCreate().(*domain.ProjectInput)
 		projects[i] = project
 	}
-	repo.Create(*projects[0])
-	repo.Create(*projects[1])
-	actual, err := repo.List()
+	repo.Create(context.Background(), *projects[0])
+	repo.Create(context.Background(), *projects[1])
+	actual, err := repo.List(context.Background())
 	if err != nil {
 		t.Errorf("failed to list projects: %v", err)
 	}
@@ -103,7 +103,7 @@ func TestListProjectTagsComplex(t *testing.T) {
 	for i := 0; i < length; i++ {
 		project := projectF.MustCreate().(*domain.ProjectInput)
 		projects[i] = project
-		pRepo.Create(*project)
+		pRepo.Create(context.Background(), *project)
 	}
 	for pi := 0; pi < 3; pi++ {
 		for ti := pi; ti < pi+2; ti++ {
@@ -112,7 +112,7 @@ func TestListProjectTagsComplex(t *testing.T) {
 	}
 	var count int
 	db.Client.Raw("select count(*) from project_technology_tags").Scan(&count)
-	tags, err := pRepo.ListTags([]string{projects[0].ID, projects[1].ID})
+	tags, err := pRepo.ListTags(context.Background(), []string{projects[0].ID, projects[1].ID})
 	if err != nil {
 		t.Errorf("should not fail: %v", err)
 	}
@@ -150,13 +150,13 @@ func TestUpdateProjectTags(t *testing.T) {
 		techs[i] = newTech
 	}
 	project := projectF.MustCreate().(*domain.ProjectInput)
-	pRepo.Create(*project)
+	pRepo.Create(context.Background(), *project)
 	t.Run("Add tags", func(t *testing.T) {
-		_, err := pRepo.UpdateTags(project.ID, []uint{techs[0].ID, techs[1].ID})
+		_, err := pRepo.UpdateTags(context.Background(), project.ID, []uint{techs[0].ID, techs[1].ID})
 		if err != nil {
 			t.Errorf("should not fail: %v", err)
 		}
-		tags, _ := pRepo.ListTags([]string{project.ID})
+		tags, _ := pRepo.ListTags(context.Background(), []string{project.ID})
 		if len(tags) != 2 {
 			t.Errorf("expected 2 tags, got %d", len(tags))
 		}
@@ -165,11 +165,11 @@ func TestUpdateProjectTags(t *testing.T) {
 		}
 	})
 	t.Run("Remove tags", func(t *testing.T) {
-		_, err := pRepo.UpdateTags(project.ID, []uint{techs[0].ID})
+		_, err := pRepo.UpdateTags(context.Background(), project.ID, []uint{techs[0].ID})
 		if err != nil {
 			t.Errorf("should not fail: %v", err)
 		}
-		tags, _ := pRepo.ListTags([]string{project.ID})
+		tags, _ := pRepo.ListTags(context.Background(), []string{project.ID})
 		if len(tags) != 1 {
 			t.Errorf("expected 1 tag, got %d", len(tags))
 		}

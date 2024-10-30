@@ -11,7 +11,7 @@ import (
 )
 
 func (r *mutationResolver) CreateTechStack(ctx context.Context, input domain.TechStackInput) (*domain.TechStack, error) {
-	techStack, err := r.Reg.TechStackUsecase().Create(input)
+	techStack, err := r.Reg.TechStackUsecase().Create(ctx, input)
 	if err != nil {
 		return nil, err
 	}
@@ -19,7 +19,7 @@ func (r *mutationResolver) CreateTechStack(ctx context.Context, input domain.Tec
 }
 
 func (r *mutationResolver) UpdateTechStack(ctx context.Context, id uint, input domain.TechStackInput) (*domain.TechStack, error) {
-	techStack, err := r.Reg.TechStackUsecase().Update(id, input)
+	techStack, err := r.Reg.TechStackUsecase().Update(ctx, id, input)
 	if err != nil {
 		return nil, err
 	}
@@ -27,7 +27,7 @@ func (r *mutationResolver) UpdateTechStack(ctx context.Context, id uint, input d
 }
 
 func (r *mutationResolver) DeleteTechStack(ctx context.Context, id uint) (*domain.TechStack, error) {
-	techStack, err := r.Reg.TechStackUsecase().Delete(id)
+	techStack, err := r.Reg.TechStackUsecase().Delete(ctx, id)
 	if err != nil {
 		return nil, err
 	}
@@ -35,7 +35,7 @@ func (r *mutationResolver) DeleteTechStack(ctx context.Context, id uint) (*domai
 }
 
 func (r *queryResolver) TechStacks(ctx context.Context) ([]*domain.TechStack, error) {
-	techStacks, err := r.Reg.TechStackUsecase().List()
+	techStacks, err := r.Reg.TechStackUsecase().List(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -43,7 +43,7 @@ func (r *queryResolver) TechStacks(ctx context.Context) ([]*domain.TechStack, er
 }
 
 func (r *queryResolver) TechStack(ctx context.Context, id uint) (*domain.TechStack, error) {
-	techStack, err := r.Reg.TechStackUsecase().Find(id)
+	techStack, err := r.Reg.TechStackUsecase().Find(ctx, id)
 	if err != nil {
 		return nil, err
 	}

@@ -1,6 +1,7 @@
 package domain
 
 import (
+	"context"
 	"time"
 )
 
@@ -27,12 +28,12 @@ type BlogTag struct {
 }
 
 type IBlogRepo interface {
-	List(opt *ListOpt) ([]*Blog, error)
-	Find(id uint) (*Blog, error)
-	Create(input BlogInput) (*Blog, error)
-	Update(id uint, input BlogInput) (*Blog, error)
-	Delete(id uint) (*Blog, error)
-	ListTags(blogIds []uint) ([]*BlogTag, error)
-	UpdateTags(blogId uint, technologyIds []uint) ([]*BlogTag, error)
-	TotalCount() (int64, error)
+	List(ctx context.Context, opt *ListOpt) ([]*Blog, error)
+	Find(ctx context.Context, id uint) (*Blog, error)
+	Create(ctx context.Context, input BlogInput) (*Blog, error)
+	Update(ctx context.Context, id uint, input BlogInput) (*Blog, error)
+	Delete(ctx context.Context, id uint) (*Blog, error)
+	ListTags(ctx context.Context, blogIds []uint) ([]*BlogTag, error)
+	UpdateTags(ctx context.Context, blogId uint, technologyIds []uint) ([]*BlogTag, error)
+	TotalCount(ctx context.Context) (int64, error)
 }

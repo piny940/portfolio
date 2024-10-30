@@ -2,6 +2,7 @@ package db
 
 import (
 	"backend/domain"
+	"context"
 	"time"
 
 	"gorm.io/gorm/clause"
@@ -41,9 +42,9 @@ func NewProjectRepo(db *DB) domain.IProjectRepo {
 	return &projectRepo{db: db}
 }
 
-func (r *projectRepo) GetLinksByProjectIds(projectIds []string) (map[string][]*ProjectLink, error) {
+func (r *projectRepo) GetLinksByProjectIds(ctx context.Context, projectIds []string) (map[string][]*ProjectLink, error) {
 	var links []*ProjectLink
-	result := r.db.Client.Where("project_id in ?", projectIds).Find(&links)
+	result := r.db.Client.WithContext(ctx).Where("project_id in ?", projectIds).Find(&links)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -55,9 +56,9 @@ func (r *projectRepo) GetLinksByProjectIds(projectIds []string) (map[string][]*P
 }
 
 // ListTags implements domain.IProjectRepo.
-func (r *projectRepo) ListTags(projectIds []string) ([]*domain.ProjectTag, error) {
+func (r *projectRepo) ListTags(ctx context.Context, projectIds []string) ([]*domain.ProjectTag, error) {
 	var projectTechnologyTags []*ProjectTechnologyTag
-	result := r.db.Client.Where("project_id in ?", projectIds).Find(&projectTechnologyTags)
+	result := r.db.Client.WithContext(ctx).Where("project_id in ?", projectIds).Find(&projectTechnologyTags)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -66,7 +67,7 @@ func (r *projectRepo) ListTags(projectIds []string) ([]*domain.ProjectTag, error
 		technologyIds[i] = tag.TechnologyID
 	}
 	var technologies []*domain.Technology
-	result = r.db.Client.Where("id in ?", technologyIds).Find(&technologies)
+	result = r.db.Client.WithContext(ctx).Where("id in ?", technologyIds).Find(&technologies)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -85,9 +86,9 @@ func (r *projectRepo) ListTags(projectIds []string) ([]*domain.ProjectTag, error
 }
 
 // UpdateTags implements domain.IProjectRepo.
-func (r *projectRepo) UpdateTags(projectId string, technologyIds []uint) ([]*domain.ProjectTag, error) {
+func (r *projectRepo) UpdateTags(ctx context.Context, projectId string, technologyIds []uint) ([]*domain.ProjectTag, error) {
 	existing := make([]*ProjectTechnologyTag, 0)
-	result := r.db.Client.Where("project_id = ?", projectId).Find(&existing)
+	result := r.db.Client.WithContext(ctx).Where("project_id = ?", projectId).Find(&existing)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -98,7 +99,7 @@ func (r *projectRepo) UpdateTags(projectId string, technologyIds []uint) ([]*dom
 	toCreate, toDelete := diff(actual, technologyIds)
 
 	// Delete
-	result = r.db.Client.Where("project_id = ? and technology_id in ?", projectId, toDelete).Delete(&ProjectTechnologyTag{})
+	result = r.db.Client.WithContext(ctx).Where("project_id = ? and technology_id in ?", projectId, toDelete).Delete(&ProjectTechnologyTag{})
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -108,7 +109,7 @@ func (r *projectRepo) UpdateTags(projectId string, technologyIds []uint) ([]*dom
 			ProjectID:    projectId,
 			TechnologyID: id,
 		}
-		result = r.db.Client.Create(&new)
+		result = r.db.Client.WithContext(ctx).Create(&new)
 		if result.Error != nil {
 			return nil, result.Error
 		}
@@ -116,7 +117,7 @@ func (r *projectRepo) UpdateTags(projectId string, technologyIds []uint) ([]*dom
 	return []*domain.ProjectTag{}, nil
 }
 
-func (r *projectRepo) Create(input domain.ProjectInput) (*domain.Project, error) {
+func (r *projectRepo) Create(ctx context.Context, input domain.ProjectInput) (*domain.Project, error) {
 	project := domain.Project{
 		ID:          input.ID,
 		Title:       input.Title,
@@ -127,71 +128,71 @@ func (r *projectRepo) Create(input domain.ProjectInput) (*domain.Project, error)
 	if input.Position != nil {
 		project.Position = *input.Position
 	}
-	result := r.db.Client.Clauses(clause.Returning{}).Create(&project)
+	result := r.db.Client.WithContext(ctx).Clauses(clause.Returning{}).Create(&project)
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	if err := r.updateLinks(input, project.ID); err != nil {
+	if err := r.updateLinks(ctx, input, project.ID); err != nil {
 		return nil, err
 	}
-	if err := r.setLinks([]*domain.Project{&project}); err != nil {
+	if err := r.setLinks(ctx, []*domain.Project{&project}); err != nil {
 		return nil, err
 	}
 	return &project, nil
 }
 
-func (r *projectRepo) Delete(id string) (*domain.Project, error) {
+func (r *projectRepo) Delete(ctx context.Context, id string) (*domain.Project, error) {
 	var projectLinks []*ProjectLink
-	result := r.db.Client.Where("project_id = ?", id).Delete(&projectLinks)
+	result := r.db.Client.WithContext(ctx).Where("project_id = ?", id).Delete(&projectLinks)
 	if result.Error != nil {
 		return nil, result.Error
 	}
 	var project domain.Project
-	result = r.db.Client.Clauses(clause.Returning{}).Where("id = ?", id).Delete(&project)
+	result = r.db.Client.WithContext(ctx).Clauses(clause.Returning{}).Where("id = ?", id).Delete(&project)
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	if err := r.setLinks([]*domain.Project{&project}); err != nil {
+	if err := r.setLinks(ctx, []*domain.Project{&project}); err != nil {
 		return nil, err
 	}
 	return &project, nil
 }
 
-func (r *projectRepo) Find(id string) (*domain.Project, error) {
+func (r *projectRepo) Find(ctx context.Context, id string) (*domain.Project, error) {
 	var project domain.Project
-	result := r.db.Client.First(&project, "id = ?", id)
+	result := r.db.Client.WithContext(ctx).First(&project, "id = ?", id)
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	if err := r.setLinks([]*domain.Project{&project}); err != nil {
+	if err := r.setLinks(ctx, []*domain.Project{&project}); err != nil {
 		return nil, err
 	}
 	return &project, nil
 }
 
-func (r *projectRepo) List() ([]*domain.Project, error) {
+func (r *projectRepo) List(ctx context.Context) ([]*domain.Project, error) {
 	var projects []*domain.Project
-	result := r.db.Client.Order("is_favorite desc").Order("position asc").Find(&projects)
+	result := r.db.Client.WithContext(ctx).Order("is_favorite desc").Order("position asc").Find(&projects)
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	if err := r.setLinks(projects); err != nil {
+	if err := r.setLinks(ctx, projects); err != nil {
 		return nil, err
 	}
 	return projects, nil
 }
 
-func (r *projectRepo) ListByIds(ids []string) (map[string]*domain.Project, error) {
+func (r *projectRepo) ListByIds(ctx context.Context, ids []string) (map[string]*domain.Project, error) {
 	var projects []*domain.Project
 	projectsMap := make(map[string]*domain.Project, len(ids))
 	if len(ids) == 0 {
 		return projectsMap, nil
 	}
-	result := r.db.Client.Where("id in ?", ids).Find(&projects)
+	result := r.db.Client.WithContext(ctx).Where("id in ?", ids).Find(&projects)
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	if err := r.setLinks(projects); err != nil {
+	if err := r.setLinks(ctx, projects); err != nil {
 		return nil, err
 	}
 	for _, project := range projects {
@@ -200,49 +201,49 @@ func (r *projectRepo) ListByIds(ids []string) (map[string]*domain.Project, error
 	return projectsMap, nil
 }
 
-func (r *projectRepo) Update(input domain.ProjectInput) (*domain.Project, error) {
+func (r *projectRepo) Update(ctx context.Context, input domain.ProjectInput) (*domain.Project, error) {
 	var project domain.Project
-	r.db.Client.First(&project, "id = ?", input.ID)
+	r.db.Client.WithContext(ctx).First(&project, "id = ?", input.ID)
 	project.Title = input.Title
 	project.Description = input.Description
 	project.IsFavorite = input.IsFavorite
 	if input.Position != nil {
 		project.Position = *input.Position
 	}
-	result := r.db.Client.Clauses(clause.Returning{}).Save(&project)
+	result := r.db.Client.WithContext(ctx).Clauses(clause.Returning{}).Save(&project)
 	if result.Error != nil {
 		return nil, result.Error
 	}
-	if err := r.updateLinks(input, project.ID); err != nil {
+	if err := r.updateLinks(ctx, input, project.ID); err != nil {
 		return nil, err
 	}
-	if err := r.setLinks([]*domain.Project{&project}); err != nil {
+	if err := r.setLinks(ctx, []*domain.Project{&project}); err != nil {
 		return nil, err
 	}
 	return &project, nil
 }
 
-func (r *projectRepo) updateLinks(input domain.ProjectInput, projectId string) error {
-	if err := r.updateLink(input.AppLink, projectId, projectLinkKindApp); err != nil {
+func (r *projectRepo) updateLinks(ctx context.Context, input domain.ProjectInput, projectId string) error {
+	if err := r.updateLink(ctx, input.AppLink, projectId, projectLinkKindApp); err != nil {
 		return err
 	}
-	if err := r.updateLink(input.QiitaLink, projectId, projectLinkKindQiita); err != nil {
+	if err := r.updateLink(ctx, input.QiitaLink, projectId, projectLinkKindQiita); err != nil {
 		return err
 	}
-	if err := r.updateLink(input.GithubLink, projectId, projectLinkKindGithub); err != nil {
+	if err := r.updateLink(ctx, input.GithubLink, projectId, projectLinkKindGithub); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (r *projectRepo) updateLink(link *string, projectId string, kind ProjectLinkKind) error {
+func (r *projectRepo) updateLink(ctx context.Context, link *string, projectId string, kind ProjectLinkKind) error {
 	var projectLink = &ProjectLink{}
-	result := r.db.Client.Where("project_id = ? and kind = ?", projectId, kind).Limit(1).Find(projectLink)
+	result := r.db.Client.WithContext(ctx).Where("project_id = ? and kind = ?", projectId, kind).Limit(1).Find(projectLink)
 	if result.Error != nil {
 		return result.Error
 	}
 	if isLinkEmpty(link) && projectLink != nil {
-		result = r.db.Client.Where("id = ?", projectLink.ID).Delete(&projectLink)
+		result = r.db.Client.WithContext(ctx).Where("id = ?", projectLink.ID).Delete(&projectLink)
 		if result.Error != nil {
 			return result.Error
 		}
@@ -251,7 +252,7 @@ func (r *projectRepo) updateLink(link *string, projectId string, kind ProjectLin
 		projectLink.Url = *link
 		projectLink.Kind = kind
 		projectLink.ProjectID = projectId
-		result = r.db.Client.Save(projectLink)
+		result = r.db.Client.WithContext(ctx).Save(projectLink)
 		if result.Error != nil {
 			return result.Error
 		}
@@ -259,12 +260,12 @@ func (r *projectRepo) updateLink(link *string, projectId string, kind ProjectLin
 	return nil
 }
 
-func (r *projectRepo) setLinks(projects []*domain.Project) error {
+func (r *projectRepo) setLinks(ctx context.Context, projects []*domain.Project) error {
 	projectIds := make([]string, len(projects))
 	for i, project := range projects {
 		projectIds[i] = project.ID
 	}
-	links, err := r.GetLinksByProjectIds(projectIds)
+	links, err := r.GetLinksByProjectIds(ctx, projectIds)
 	if err != nil {
 		return err
 	}

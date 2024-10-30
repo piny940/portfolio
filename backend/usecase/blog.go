@@ -1,42 +1,45 @@
 package usecase
 
-import "backend/domain"
+import (
+	"backend/domain"
+	"context"
+)
 
 type IBlogUsecase interface {
-	List(opt *domain.ListOpt) (*domain.BlogConnection, error)
-	Find(id uint) (*domain.Blog, error)
-	Create(input domain.BlogInput) (*domain.Blog, error)
-	Update(id uint, input domain.BlogInput) (*domain.Blog, error)
-	Delete(id uint) (*domain.Blog, error)
-	ListTags(blogIds []uint) ([]*domain.BlogTag, error)
-	UpdateTags(blogId uint, technologyIds []uint) ([]*domain.BlogTag, error)
+	List(ctx context.Context, opt *domain.ListOpt) (*domain.BlogConnection, error)
+	Find(ctx context.Context, id uint) (*domain.Blog, error)
+	Create(ctx context.Context, input domain.BlogInput) (*domain.Blog, error)
+	Update(ctx context.Context, id uint, input domain.BlogInput) (*domain.Blog, error)
+	Delete(ctx context.Context, id uint) (*domain.Blog, error)
+	ListTags(ctx context.Context, blogIds []uint) ([]*domain.BlogTag, error)
+	UpdateTags(ctx context.Context, blogId uint, technologyIds []uint) ([]*domain.BlogTag, error)
 }
 type blogUsecase struct {
 	repo domain.IBlogRepo
 }
 
 // Create implements IBlogUsecase.
-func (u *blogUsecase) Create(input domain.BlogInput) (*domain.Blog, error) {
-	return u.repo.Create(input)
+func (u *blogUsecase) Create(ctx context.Context, input domain.BlogInput) (*domain.Blog, error) {
+	return u.repo.Create(ctx, input)
 }
 
 // Delete implements IBlogUsecase.
-func (u *blogUsecase) Delete(id uint) (*domain.Blog, error) {
-	return u.repo.Delete(id)
+func (u *blogUsecase) Delete(ctx context.Context, id uint) (*domain.Blog, error) {
+	return u.repo.Delete(ctx, id)
 }
 
 // Find implements IBlogUsecase.
-func (u *blogUsecase) Find(id uint) (*domain.Blog, error) {
-	return u.repo.Find(id)
+func (u *blogUsecase) Find(ctx context.Context, id uint) (*domain.Blog, error) {
+	return u.repo.Find(ctx, id)
 }
 
 // List implements IBlogUsecase.
-func (u *blogUsecase) List(opt *domain.ListOpt) (*domain.BlogConnection, error) {
-	blogs, err := u.repo.List(opt)
+func (u *blogUsecase) List(ctx context.Context, opt *domain.ListOpt) (*domain.BlogConnection, error) {
+	blogs, err := u.repo.List(ctx, opt)
 	if err != nil {
 		return nil, err
 	}
-	count, err := u.repo.TotalCount()
+	count, err := u.repo.TotalCount(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -48,15 +51,15 @@ func (u *blogUsecase) List(opt *domain.ListOpt) (*domain.BlogConnection, error) 
 }
 
 // Update implements IBlogUsecase.
-func (u *blogUsecase) Update(id uint, input domain.BlogInput) (*domain.Blog, error) {
-	return u.repo.Update(id, input)
+func (u *blogUsecase) Update(ctx context.Context, id uint, input domain.BlogInput) (*domain.Blog, error) {
+	return u.repo.Update(ctx, id, input)
 }
 
-func (u *blogUsecase) ListTags(blogIds []uint) ([]*domain.BlogTag, error) {
-	return u.repo.ListTags(blogIds)
+func (u *blogUsecase) ListTags(ctx context.Context, blogIds []uint) ([]*domain.BlogTag, error) {
+	return u.repo.ListTags(ctx, blogIds)
 }
-func (u *blogUsecase) UpdateTags(blogId uint, technologyIds []uint) ([]*domain.BlogTag, error) {
-	return u.repo.UpdateTags(blogId, technologyIds)
+func (u *blogUsecase) UpdateTags(ctx context.Context, blogId uint, technologyIds []uint) ([]*domain.BlogTag, error) {
+	return u.repo.UpdateTags(ctx, blogId, technologyIds)
 }
 
 func NewBlogUsecase(repo domain.IBlogRepo) IBlogUsecase {
