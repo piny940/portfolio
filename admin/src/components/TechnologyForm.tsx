@@ -1,5 +1,6 @@
 import { TechnologyInput } from '@/graphql/types'
 import { Box, Button, TextField, Typography } from '@mui/material'
+import Image from 'next/image'
 import { useDropzone } from 'react-dropzone'
 import { Control, Controller } from 'react-hook-form'
 
@@ -92,7 +93,13 @@ export const TechnologyForm = ({
         </Box>
         {logoPreview && (
           <>
-            <img src={logoPreview.src} alt="logo" style={{ width: '100px' }} />
+            <Image
+              style={{ objectFit: 'contain' }}
+              width={100}
+              height={100}
+              src={logoPreview.src}
+              alt="logo"
+            />
             {logoPreview.dirty && (
               <Typography component="p">{logoPreview.filename}</Typography>
             )}
