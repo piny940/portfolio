@@ -22,11 +22,8 @@ func authHandler() echo.MiddlewareFunc {
 			authorization := c.Request().Header.Get("Authorization")
 			token := strings.TrimPrefix(authorization, "Bearer ")
 
-			if token == os.Getenv("API_TOKEN") {
-				return next(c)
-			}
-			useId, err := auth.VerifyJWTToken(token)
-			if err != nil || useId != os.Getenv("ADMIN_ID") {
+			userId, err := auth.VerifyJWTToken(token)
+			if err != nil || (userId != os.Getenv("ADMIN_ID") && (userId != os.Getenv("OIDC_SUB"))) {
 				return c.JSON(http.StatusUnauthorized, echo.Map{
 					"message": "invalid token",
 				})
