@@ -18,15 +18,15 @@ func authHandler() echo.MiddlewareFunc {
 			if c.Path() == fmt.Sprintf("/%s/login", conf.GetString("server.version")) {
 				return next(c)
 			}
+			if os.Getenv("SKIP_AUTH") == "true" {
+				return next(c)
+			}
 
 			authorization := c.Request().Header.Get("Authorization")
 			token := strings.TrimPrefix(authorization, "Bearer ")
 
-			if token == os.Getenv("API_TOKEN") {
-				return next(c)
-			}
-			useId, err := auth.VerifyJWTToken(token)
-			if err != nil || useId != os.Getenv("ADMIN_ID") {
+			userId, err := auth.VerifyJWTToken(token)
+			if err != nil || (userId != os.Getenv("ADMIN_ID") && (userId != os.Getenv("OIDC_SUB"))) {
 				return c.JSON(http.StatusUnauthorized, echo.Map{
 					"message": "invalid token",
 				})
