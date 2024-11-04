@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"path/filepath"
+	"slices"
 	"strings"
 	"time"
 
@@ -98,15 +99,23 @@ func VerifyJWTToken(tokenString string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	if claims, ok := token.Claims.(jwt.MapClaims); ok &&
-		token.Valid &&
-		int64(claims["exp"].(float64)) > time.Now().Unix() &&
-		(claims["iss"] == ISS || claims["iss"] == clusterConf.Issuer) &&
-		claims["aud"] == oidcAud {
-		return claims["sub"].(string), nil
-	} else {
-		return "", err
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok {
+		return "", fmt.Errorf("failed to parse claims")
 	}
+	if !token.Valid {
+		return "", fmt.Errorf("invalid token")
+	}
+	if int64(claims["exp"].(float64)) < time.Now().Unix() {
+		return "", fmt.Errorf("expired token")
+	}
+	if slices.Contains(claims["aud"].([]string), oidcAud) {
+		return "", fmt.Errorf("invalid audience. got %v", claims["aud"])
+	}
+	if claims["iss"] != ISS && claims["iss"] != clusterConf.Issuer {
+		return "", fmt.Errorf("invalid issuer")
+	}
+	return claims["sub"].(string), nil
 }
 
 func hmacKeyFunc(_ *jwt.Token) (interface{}, error) {
