@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"slices"
 	"strings"
 
 	"github.com/labstack/echo/v4"
@@ -26,7 +27,7 @@ func authHandler() echo.MiddlewareFunc {
 			token := strings.TrimPrefix(authorization, "Bearer ")
 
 			userId, err := auth.VerifyJWTToken(token)
-			if err != nil || (userId != os.Getenv("ADMIN_ID") && (userId != os.Getenv("OIDC_SUB"))) {
+			if err != nil || !userApproved(userId) {
 				return c.JSON(http.StatusUnauthorized, echo.Map{
 					"message": "invalid token",
 				})
@@ -54,4 +55,12 @@ func loginHandler() echo.HandlerFunc {
 			"token": token,
 		})
 	}
+}
+
+func userApproved(userId string) bool {
+	if userId == os.Getenv("ADMIN_ID") {
+		return true
+	}
+	subs := strings.Split(os.Getenv("OIDC_SUB"), ",")
+	return slices.Contains(subs, userId)
 }
