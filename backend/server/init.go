@@ -1,6 +1,7 @@
 package server
 
 import (
+	"backend/auth"
 	"backend/config"
 
 	"github.com/labstack/echo/v4"
@@ -9,6 +10,7 @@ import (
 
 func Init() error {
 	c := config.GetConfig()
+	auth.Init()
 	e := echo.New()
 
 	router := e.Group(c.GetString("server.version"))
