@@ -27,6 +27,7 @@ func authHandler() echo.MiddlewareFunc {
 			token := strings.TrimPrefix(authorization, "Bearer ")
 
 			userId, err := auth.VerifyJWTToken(token)
+			fmt.Println(userId)
 			if err != nil || !userApproved(userId) {
 				return c.JSON(http.StatusUnauthorized, echo.Map{
 					"message": "invalid token",
