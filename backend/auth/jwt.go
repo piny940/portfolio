@@ -19,10 +19,9 @@ import (
 )
 
 type Config struct {
-	JwtSecret  string   `required:"true" split_words:"true"`
-	Local      bool     `default:"false"`
-	OidcSub    []string `split_words:"true" required:"true"`
-	OidcIssuer string   `split_words:"true" required:"true"`
+	JwtSecret string   `required:"true" split_words:"true"`
+	Local     bool     `default:"false"`
+	OidcSub   []string `split_words:"true" required:"true"`
 }
 type ClusterConfig struct {
 	Issuer  string
