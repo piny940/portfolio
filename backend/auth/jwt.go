@@ -109,7 +109,7 @@ func VerifyJWTToken(tokenString string) (string, error) {
 	if int64(claims["exp"].(float64)) < time.Now().Unix() {
 		return "", fmt.Errorf("expired token")
 	}
-	if slices.ContainsFunc(claims["aud"].([]interface{}), func(aud interface{}) bool {
+	if !slices.ContainsFunc(claims["aud"].([]interface{}), func(aud interface{}) bool {
 		return aud.(string) == oidcAud
 	}) {
 		return "", fmt.Errorf("invalid audience. got %v", claims["aud"])
