@@ -4,6 +4,7 @@ import (
 	"backend/auth"
 	"backend/config"
 	"fmt"
+	"log/slog"
 	"net/http"
 	"os"
 	"slices"
@@ -27,8 +28,14 @@ func authHandler() echo.MiddlewareFunc {
 			token := strings.TrimPrefix(authorization, "Bearer ")
 
 			userId, err := auth.VerifyJWTToken(token)
-			fmt.Println(userId)
-			if err != nil || !userApproved(userId) {
+			if err != nil {
+				slog.Info(fmt.Sprintf("error: %v", err))
+				return c.JSON(http.StatusUnauthorized, echo.Map{
+					"message": "invalid token",
+				})
+			}
+			if !userApproved(userId) {
+				slog.Info(fmt.Sprintf("unapproved user: %s", userId))
 				return c.JSON(http.StatusUnauthorized, echo.Map{
 					"message": "invalid token",
 				})
