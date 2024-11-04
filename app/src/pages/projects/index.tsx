@@ -17,7 +17,7 @@ export const getServerSideProps: GetServerSideProps<ProjectsProps> = async (
   ctx
 ) => ({
   props: {
-    projects: (await sdk.fetchProjects()).projects,
+    projects: (await sdk().fetchProjects()).projects,
     projectIdsWithBlog: getProjectIdsWithBlog(),
     initialTheme: getThemeFromCookie(ctx),
   },

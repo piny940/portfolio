@@ -33,6 +33,8 @@ var conf = &Config{}
 var clusterConf = &ClusterConfig{}
 var k8sClient *kubernetes.Clientset
 
+const oidcAud = "portfolio.piny940.com"
+
 func Init() {
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
@@ -69,6 +71,7 @@ func CreateJWTToken(userId string) (string, error) {
 		"sub": userId,
 		"exp": time.Now().Add(time.Second * TTL_SEC).Unix(),
 		"iss": ISS,
+		"aud": oidcAud,
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	tokenString, err := token.SignedString([]byte(conf.JwtSecret))
@@ -98,7 +101,8 @@ func VerifyJWTToken(tokenString string) (string, error) {
 	if claims, ok := token.Claims.(jwt.MapClaims); ok &&
 		token.Valid &&
 		int64(claims["exp"].(float64)) > time.Now().Unix() &&
-		(claims["iss"] == ISS || claims["iss"] == clusterConf.Issuer) {
+		(claims["iss"] == ISS || claims["iss"] == clusterConf.Issuer) &&
+		claims["aud"] == oidcAud {
 		return claims["sub"].(string), nil
 	} else {
 		return "", err
