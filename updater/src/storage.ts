@@ -1,10 +1,15 @@
 import { Blog, BlogInput, Technology } from './types'
+import fs from 'fs'
 
+let token = ''
+if (process.env.TOKEN_PATH) {
+  token = fs.readFileSync(process.env.TOKEN_PATH).toString()
+}
 const query = async (query: string, variables: any) => {
   const response = await fetch(`${process.env.BACKEND_HOST || ''}/v1/query`, {
     body: JSON.stringify({ query, variables }),
     headers: {
-      Authorization: `Bearer ${process.env.BACKEND_TOKEN || ''}`,
+      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
     method: 'POST',
