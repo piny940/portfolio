@@ -22,7 +22,7 @@ interface HomeProps extends PageProps {
 export const getServerSideProps: GetServerSideProps<HomeProps> = async (
   ctx
 ) => {
-  const data = await sdk.fetchAllData()
+  const data = await sdk().fetchAllData()
   return {
     props: {
       initialTheme: getThemeFromCookie(ctx),

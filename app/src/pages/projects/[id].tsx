@@ -21,7 +21,7 @@ export const getServerSideProps: GetServerSideProps<ProjectProps> = async (
 ) => {
   const id = ctx.query.id as string
   const blogContent = getBlogContent(id)
-  const project = (await sdk.fetchProject({ id })).project
+  const project = (await sdk().fetchProject({ id })).project
   if (!project || !blogContent) return { notFound: true }
   return {
     props: { project, blogContent, initialTheme: getThemeFromCookie(ctx) },

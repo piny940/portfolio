@@ -20,7 +20,7 @@ export const getServerSideProps: GetServerSideProps<SkillProps> = async (
   ctx
 ) => {
   const id = parseInt(ctx.query.id as string)
-  const data = await sdk.fetchTechnology({ id })
+  const data = await sdk().fetchTechnology({ id })
   const projects = data.projects.filter((project) =>
     project.tags.map((tag) => tag.technology.id).includes(id)
   )

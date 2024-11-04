@@ -16,7 +16,7 @@ export const getServerSideProps: GetServerSideProps<SkillsProps> = async (
 ) => ({
   props: {
     initialTheme: getThemeFromCookie(ctx),
-    techStacks: (await sdk.fetchTechStacks()).techStacks,
+    techStacks: (await sdk().fetchTechStacks()).techStacks,
   },
 })
 
