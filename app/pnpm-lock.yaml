@@ -60,8 +60,8 @@ importers:
         specifier: ^11.0.5
         version: 11.0.5
       urql:
-        specifier: ^4.0.7
-        version: 4.2.0(@urql/core@5.0.8(graphql@16.9.0))(react@18.3.1)
+        specifier: ^4.2.1
+        version: 4.2.1(@urql/core@5.0.8(graphql@16.9.0))(react@18.3.1)
     devDependencies:
       '@graphql-codegen/cli':
         specifier: 5.0.3
@@ -4106,8 +4106,8 @@ packages:
   urlpattern-polyfill@10.0.0:
     resolution: {integrity: sha512-H/A06tKD7sS1O1X2SshBVeA5FLycRpjqiBeqGKmBwBDBy28EnRjORxTNe269KSSr5un5qyWi1iL61wLxpd+ZOg==}
 
-  urql@4.2.0:
-    resolution: {integrity: sha512-xj9KoMxdF3omd0QCHHS3SvgxDHZAmuAFgUcdNe0w75NeJDA4qesc2/M6CquefZ7Sod6uyImENKCKg+/2I7YvXQ==}
+  urql@4.2.1:
+    resolution: {integrity: sha512-Y/cVi1rsR96kbF3VX6YgfHw1V3kJ287nR1TqpjGzVPyAmXuwRvBvABI+sHY2WOquWCNh+kvFapM/LLYeiC3wig==}
     peerDependencies:
       '@urql/core': ^5.0.0
       react: '>= 16.8.0'
@@ -9416,7 +9416,7 @@ snapshots:
 
   urlpattern-polyfill@10.0.0: {}
 
-  urql@4.2.0(@urql/core@5.0.8(graphql@16.9.0))(react@18.3.1):
+  urql@4.2.1(@urql/core@5.0.8(graphql@16.9.0))(react@18.3.1):
     dependencies:
       '@urql/core': 5.0.8(graphql@16.9.0)
       react: 18.3.1
