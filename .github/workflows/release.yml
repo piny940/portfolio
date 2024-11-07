@@ -63,7 +63,6 @@ jobs:
           file: ./app/Dockerfile
           build-args: |
             BACKEND_HOST=https://portfolio-backend.piny940.com
-            BACKEND_TOKEN=${{ secrets.BACKEND_API_TOKEN }}
           tags: |
             ghcr.io/piny940/portfolio-app:1.0.0-${{ env.TIMESTAMP }}
             ghcr.io/piny940/portfolio-app:latest
@@ -124,7 +123,6 @@ jobs:
           file: ./updater/Dockerfile
           build-args: |
             BACKEND_HOST=https://portfolio-backend.piny940.com
-            BACKEND_TOKEN=${{ secrets.BACKEND_API_TOKEN }}
           tags: |
             ghcr.io/piny940/portfolio-updater:1.0.${{ github.run_number }}
             ghcr.io/piny940/portfolio-updater:latest
