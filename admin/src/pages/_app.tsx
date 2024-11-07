@@ -4,7 +4,7 @@ import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { Layout } from '@/layouts/Layout'
 import { Provider } from 'urql'
-import client from '@/graphql/client'
+import getClient from '@/graphql/client'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
@@ -31,8 +31,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <Head>
           <meta content="width=device-width,initial-scale=1" name="viewport" />
         </Head>
-        <CssBaseline />
-        <Provider value={client}>
+        <Provider value={getClient}>
           <Layout>
             <Component {...pageProps} />
           </Layout>

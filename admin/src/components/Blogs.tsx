@@ -1,3 +1,4 @@
+'use client'
 import { useDeleteBlogMutation, useGetBlogsQuery } from '@/graphql/types'
 import {
   Box,
