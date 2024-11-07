@@ -37,17 +37,24 @@ export const Layout = ({ children }: LayoutProps): JSX.Element => {
     },
   })
   return (
-    <Box>
-      <AppBar position="sticky">
-        <Toolbar>
-          <Link href="/" className="unstyled">
-            <Typography variant="h6">PortfolioAdmin</Typography>
-          </Link>
-        </Toolbar>
-      </AppBar>
-      <Container component="main" sx={{ pt: 4, pb: 6 }}>
-        {children}
-      </Container>
-    </Box>
+    <ThemeProvider theme={theme}>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <CssBaseline />
+        <Provider value={client}>
+          <Box>
+            <AppBar position="sticky">
+              <Toolbar>
+                <Link href="/" className="unstyled">
+                  <Typography variant="h6">PortfolioAdmin</Typography>
+                </Link>
+              </Toolbar>
+            </AppBar>
+            <Container component="main" sx={{ pt: 4, pb: 6 }}>
+              {children}
+            </Container>
+          </Box>
+        </Provider>
+      </LocalizationProvider>
+    </ThemeProvider>
   )
 }
