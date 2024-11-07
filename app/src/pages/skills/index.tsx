@@ -6,6 +6,7 @@ import { sdk } from '@/server/api'
 import { GetServerSideProps } from 'next'
 import { PageProps } from '../_app'
 import { getThemeFromCookie } from '@/server/helper'
+import { logger } from '@/utils/logger'
 
 interface SkillsProps extends PageProps {
   techStacks: TechStack[]
@@ -13,13 +14,15 @@ interface SkillsProps extends PageProps {
 
 export const getServerSideProps: GetServerSideProps<SkillsProps> = async (
   ctx
-) => ({
-  props: {
-    initialTheme: getThemeFromCookie(ctx),
-    techStacks: (await sdk().fetchTechStacks()).techStacks,
-  },
-})
-
+) => {
+  logger.child({ path: '/skills' }).info('accessed')
+  return {
+    props: {
+      initialTheme: getThemeFromCookie(ctx),
+      techStacks: (await sdk().fetchTechStacks()).techStacks,
+    },
+  }
+}
 const SkillsPage = ({ techStacks }: SkillsProps): JSX.Element => {
   const paths = [
     { name: 'トップページ', path: '/' },

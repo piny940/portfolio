@@ -8,6 +8,7 @@ import { getProjectIdsWithBlog } from '@/server/loader'
 import { GetServerSideProps } from 'next'
 import { PageProps } from '../_app'
 import { getThemeFromCookie } from '@/server/helper'
+import { logger } from '@/utils/logger'
 
 interface SkillProps extends PageProps {
   projects: Project[]
@@ -27,6 +28,7 @@ export const getServerSideProps: GetServerSideProps<SkillProps> = async (
   const blogs = data.blogs.items.filter((blog) =>
     blog.tags.map((tag) => tag.technology.id).includes(id)
   )
+  logger.child({ path: `/skills/${id}` }).info('accessed')
   return {
     props: {
       projects,
