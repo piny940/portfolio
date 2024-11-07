@@ -7,6 +7,7 @@ import { getProjectIdsWithBlog } from '@/server/loader'
 import { GetServerSideProps } from 'next'
 import { PageProps } from '../_app'
 import { getThemeFromCookie } from '@/server/helper'
+import { logger } from '@/utils/logger'
 
 interface ProjectsProps extends PageProps {
   projects: Project[]
@@ -15,13 +16,16 @@ interface ProjectsProps extends PageProps {
 
 export const getServerSideProps: GetServerSideProps<ProjectsProps> = async (
   ctx
-) => ({
-  props: {
-    projects: (await sdk().fetchProjects()).projects,
-    projectIdsWithBlog: getProjectIdsWithBlog(),
-    initialTheme: getThemeFromCookie(ctx),
-  },
-})
+) => {
+  logger.child({ path: '/projects' }).info('accessed')
+  return {
+    props: {
+      projects: (await sdk().fetchProjects()).projects,
+      projectIdsWithBlog: getProjectIdsWithBlog(),
+      initialTheme: getThemeFromCookie(ctx),
+    },
+  }
+}
 
 const ProjectsPage = ({
   projects,

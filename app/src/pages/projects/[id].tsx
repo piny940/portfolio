@@ -10,6 +10,7 @@ import Link from 'next/link'
 import { useMemo } from 'react'
 import { PageProps } from '../_app'
 import { getThemeFromCookie } from '@/server/helper'
+import { logger } from '@/utils/logger'
 
 interface ProjectProps extends PageProps {
   project: Project
@@ -23,6 +24,7 @@ export const getServerSideProps: GetServerSideProps<ProjectProps> = async (
   const blogContent = getBlogContent(id)
   const project = (await sdk().fetchProject({ id })).project
   if (!project || !blogContent) return { notFound: true }
+  logger.child({ path: `/projects/${id}` }).info('accessed')
   return {
     props: { project, blogContent, initialTheme: getThemeFromCookie(ctx) },
   }

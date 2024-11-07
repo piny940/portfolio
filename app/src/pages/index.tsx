@@ -11,6 +11,7 @@ import { Blog, Project, TechStack } from '@/server/_types'
 import { getProjectIdsWithBlog } from '@/server/loader'
 import { PageProps } from './_app'
 import { getThemeFromCookie } from '@/server/helper'
+import { logger } from '@/utils/logger'
 
 interface HomeProps extends PageProps {
   projects: Project[]
@@ -23,6 +24,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (
   ctx
 ) => {
   const data = await sdk().fetchAllData()
+  logger.child({ path: '/' }).info('accessed')
   return {
     props: {
       initialTheme: getThemeFromCookie(ctx),

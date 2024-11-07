@@ -8,6 +8,7 @@ import { getThemeFromCookie } from '@/server/helper'
 import { GetServerSideProps } from 'next'
 import { Paging } from '@/components/Common/Paging'
 import { useRouter } from 'next/router'
+import { logger } from '@/utils/logger'
 
 interface BlogsProps extends PageProps {
   blogs: Blog[]
@@ -23,6 +24,7 @@ export const getServerSideProps: GetServerSideProps<BlogsProps> = async (
   const { blogs } = await sdk().fetchBlogs({
     opt: { limit: LIMIT, offset: LIMIT * (page - 1) },
   })
+  logger.child({ path: '/blogs' }).info('accessed')
   return {
     props: {
       blogs: blogs.items,
