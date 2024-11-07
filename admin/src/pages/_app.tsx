@@ -28,10 +28,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={theme}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <CssBaseline />
         <Head>
           <meta content="width=device-width,initial-scale=1" name="viewport" />
         </Head>
-        <Provider value={getClient}>
+        <Provider value={getClient()}>
           <Layout>
             <Component {...pageProps} />
           </Layout>
