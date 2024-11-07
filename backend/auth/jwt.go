@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"path/filepath"
-	"slices"
 	"strings"
 	"time"
 
@@ -109,9 +108,7 @@ func VerifyJWTToken(tokenString string) (string, error) {
 	if int64(claims["exp"].(float64)) < time.Now().Unix() {
 		return "", fmt.Errorf("expired token")
 	}
-	if !slices.ContainsFunc(claims["aud"].([]interface{}), func(aud interface{}) bool {
-		return aud.(string) == oidcAud
-	}) {
+	if !validAud(claims) {
 		return "", fmt.Errorf("invalid audience. got %v", claims["aud"])
 	}
 	if claims["iss"] != ISS && claims["iss"] != clusterConf.Issuer {
@@ -172,4 +169,23 @@ func updateJwks(ctx context.Context) error {
 	}
 	clusterConf.Jwks = string(raw)
 	return nil
+}
+func validAud(claims jwt.MapClaims) bool {
+	aud, ok := claims["aud"]
+	if !ok {
+		return false
+	}
+	audStr, ok := aud.(string)
+	if ok {
+		return audStr == oidcAud
+	}
+	audArr, ok := aud.([]interface{})
+	if ok {
+		for _, a := range audArr {
+			if a == oidcAud {
+				return true
+			}
+		}
+	}
+	return false
 }
