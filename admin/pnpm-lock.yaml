@@ -66,8 +66,8 @@ importers:
         specifier: ^7.49.2
         version: 7.53.1(react@18.3.1)
       urql:
-        specifier: ^4.0.6
-        version: 4.2.0(@urql/core@5.0.8(graphql@16.9.0))(react@18.3.1)
+        specifier: ^4.2.1
+        version: 4.2.1(@urql/core@5.0.8(graphql@16.9.0))(react@18.3.1)
     devDependencies:
       '@graphql-codegen/cli':
         specifier: ^5.0.0
@@ -138,8 +138,8 @@ importers:
 
 packages:
 
-  '@0no-co/graphql.web@1.0.9':
-    resolution: {integrity: sha512-lXSg4bDHvP8CiMdpQf9f/rca12IIjXHN/p0Rc5mgzgLe4JBlIoA1zFa9NKhfG1bW0OyI2hgaOldFCfkEQwZuEQ==}
+  '@0no-co/graphql.web@1.0.11':
+    resolution: {integrity: sha512-xuSJ9WXwTmtngWkbdEoopMo6F8NLtjy84UNAMsAr5C3/2SgAL/dEU10TMqTIsipqPQ8HA/7WzeqQ9DEQxSvPPA==}
     peerDependencies:
       graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
     peerDependenciesMeta:
@@ -3300,8 +3300,8 @@ packages:
   urlpattern-polyfill@10.0.0:
     resolution: {integrity: sha512-H/A06tKD7sS1O1X2SshBVeA5FLycRpjqiBeqGKmBwBDBy28EnRjORxTNe269KSSr5un5qyWi1iL61wLxpd+ZOg==}
 
-  urql@4.2.0:
-    resolution: {integrity: sha512-xj9KoMxdF3omd0QCHHS3SvgxDHZAmuAFgUcdNe0w75NeJDA4qesc2/M6CquefZ7Sod6uyImENKCKg+/2I7YvXQ==}
+  urql@4.2.1:
+    resolution: {integrity: sha512-Y/cVi1rsR96kbF3VX6YgfHw1V3kJ287nR1TqpjGzVPyAmXuwRvBvABI+sHY2WOquWCNh+kvFapM/LLYeiC3wig==}
     peerDependencies:
       '@urql/core': ^5.0.0
       react: '>= 16.8.0'
@@ -3419,7 +3419,7 @@ packages:
 
 snapshots:
 
-  '@0no-co/graphql.web@1.0.9(graphql@16.9.0)':
+  '@0no-co/graphql.web@1.0.11(graphql@16.9.0)':
     optionalDependencies:
       graphql: 16.9.0
 
@@ -5006,7 +5006,7 @@ snapshots:
 
   '@urql/core@5.0.8(graphql@16.9.0)':
     dependencies:
-      '@0no-co/graphql.web': 1.0.9(graphql@16.9.0)
+      '@0no-co/graphql.web': 1.0.11(graphql@16.9.0)
       wonka: 6.3.4
     transitivePeerDependencies:
       - graphql
@@ -7217,7 +7217,7 @@ snapshots:
 
   urlpattern-polyfill@10.0.0: {}
 
-  urql@4.2.0(@urql/core@5.0.8(graphql@16.9.0))(react@18.3.1):
+  urql@4.2.1(@urql/core@5.0.8(graphql@16.9.0))(react@18.3.1):
     dependencies:
       '@urql/core': 5.0.8(graphql@16.9.0)
       react: 18.3.1

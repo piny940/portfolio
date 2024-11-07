@@ -17,6 +17,7 @@ const getClient = () => {
     didAuthError: (error) => error.response?.status === 401,
     refreshAuth: async () => undefined,
   })
+  console.log('is server side: ', typeof window === 'undefined')
   return new Client({
     url: '/api/query',
     exchanges: [cacheExchange, authExchange(getAuthConfig), fetchExchange],

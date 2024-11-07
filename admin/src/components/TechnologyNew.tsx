@@ -1,3 +1,4 @@
+'use client'
 import { Box, Typography } from '@mui/material'
 import { FilePreview, TechnologyForm } from './TechnologyForm'
 import { TechnologyInput, useCreateTechnologyMutation } from '@/graphql/types'

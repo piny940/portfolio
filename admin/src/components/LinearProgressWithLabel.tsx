@@ -1,3 +1,4 @@
+'use client'
 import { LinearProgress, LinearProgressProps, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 
