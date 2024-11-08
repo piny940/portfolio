@@ -1,6 +1,6 @@
 import { Blogs } from '@/components/Blogs'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
-import { useMemo } from 'react'
+import { Suspense } from 'react'
 
 const BlogsPage = (): JSX.Element => {
   const paths = [
@@ -10,7 +10,9 @@ const BlogsPage = (): JSX.Element => {
   return (
     <>
       <Breadcrumbs paths={paths} />
-      <Blogs />
+      <Suspense>
+        <Blogs />
+      </Suspense>
     </>
   )
 }
