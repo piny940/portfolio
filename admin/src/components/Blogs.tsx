@@ -16,21 +16,23 @@ import Link from 'next/link'
 import { useCallback, useMemo } from 'react'
 import { BlogKind, blogKindLabel } from '../../utils/types'
 import { dateLabel } from '../../utils/helpers'
-import { useRouter } from 'next/router'
 import { Stack } from '@mui/system'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 export const Blogs = (): JSX.Element => {
   const LIMIT = 20
   const context = useMemo(() => ({ additionalTypenames: ['Blog'] }), [])
   const [, deleteBlog] = useDeleteBlogMutation()
   const router = useRouter()
+  const pathname = usePathname()
+  const query = useSearchParams()
   const page = useMemo(() => {
-    const page = router.query.page
+    const page = query?.get('page')
     if (typeof page === 'string') {
       return parseInt(page)
     }
     return 1
-  }, [router.query.page])
+  }, [query])
   const [{ data, error }] = useGetBlogsQuery({
     context,
     variables: { opt: { limit: LIMIT, offset: LIMIT * (page - 1) } },
@@ -38,10 +40,7 @@ export const Blogs = (): JSX.Element => {
 
   const changePage = useCallback(
     (page: number) => {
-      void router.push({
-        pathname: router.pathname,
-        query: { ...router.query, page },
-      })
+      router.push(pathname + '?page=' + page)
     },
     [router]
   )
