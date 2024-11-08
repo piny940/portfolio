@@ -1,0 +1,47 @@
+import { IDToken } from '@/components/IdToken'
+import { NextRequest, NextResponse } from 'next/server'
+
+type Params = {
+  code: string
+}
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<Params>
+}) {
+  const query = await searchParams
+  if (!query.code) {
+    return {
+      status: 400,
+      json: { error: 'Missing code' },
+    }
+  }
+  if (!process.env.NEXT_PUBLIC_CLIENT_ID || !process.env.CLIENT_SECRET) {
+    throw Error('Missing environment variables')
+  }
+  const secret = Buffer.from(
+    process.env.NEXT_PUBLIC_CLIENT_ID + ':' + process.env.CLIENT_SECRET
+  ).toString('base64')
+  const res = await fetch(
+    process.env.NEXT_PUBLIC_AUTH_SERVER_URL + '/oauth/token',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: `Basic ${secret}`,
+      },
+      body: new URLSearchParams({
+        client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
+        code: query.code,
+        grant_type: 'authorization_code',
+        redirect_uri: process.env.NEXT_PUBLIC_APP_URL + '/callback',
+      }),
+    }
+  )
+  const data = await res.json()
+  if (!res.ok) {
+    throw Error(data.error_description)
+  }
+  const idToken = data.id_token
+  return <IDToken idToken={idToken} />
+}
