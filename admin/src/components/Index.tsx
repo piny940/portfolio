@@ -7,8 +7,9 @@ type IndexProps = {
   loginUrl: string
 }
 export const Index = ({ loginUrl }: IndexProps): JSX.Element => {
-  const [{ data }] = useGetMeQuery()
+  const [{ data, fetching }] = useGetMeQuery()
 
+  if (fetching) return <div>Loading...</div>
   return (
     <>
       <Typography variant="h4" component="h1">
