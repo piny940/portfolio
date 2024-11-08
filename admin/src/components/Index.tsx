@@ -3,7 +3,10 @@ import { useGetMeQuery } from '@/graphql/types'
 import { List, ListItemButton, ListItemText, Typography } from '@mui/material'
 import Link from 'next/link'
 
-export const Index = (): JSX.Element => {
+type IndexProps = {
+  loginUrl: string
+}
+export const Index = ({ loginUrl }: IndexProps): JSX.Element => {
   const [{ data }] = useGetMeQuery()
 
   return (
@@ -31,10 +34,7 @@ export const Index = (): JSX.Element => {
             </ListItemButton>
           </>
         ) : (
-          <ListItemButton
-            component={Link}
-            href={`${process.env.AUTH_SERVER_URL}/oauth/authorize?client_id=${process.env.CLIENT_ID}&response_type=code&redirect_uri=${process.env.APP_URL}/callback&scope=openid`}
-          >
+          <ListItemButton component={Link} href={loginUrl}>
             <ListItemText primary="Login" />
           </ListItemButton>
         )}
