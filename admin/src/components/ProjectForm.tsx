@@ -1,3 +1,4 @@
+'use client'
 import { ProjectInput } from '@/graphql/types'
 import {
   Box,

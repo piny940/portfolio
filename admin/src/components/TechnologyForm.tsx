@@ -1,3 +1,4 @@
+'use client'
 import { TechnologyInput } from '@/graphql/types'
 import { Box, Button, TextField, Typography } from '@mui/material'
 import Image from 'next/image'

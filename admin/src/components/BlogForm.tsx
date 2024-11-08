@@ -1,3 +1,4 @@
+'use client'
 import { BlogInput } from '@/graphql/types'
 import {
   Box,

@@ -1,9 +1,9 @@
+'use client'
 import { useGetMeQuery } from '@/graphql/types'
 import { List, ListItemButton, ListItemText, Typography } from '@mui/material'
-import type { NextPage } from 'next'
 import Link from 'next/link'
 
-const Home: NextPage = () => {
+export const Index = (): JSX.Element => {
   const [{ data }] = useGetMeQuery()
 
   return (
@@ -39,5 +39,3 @@ const Home: NextPage = () => {
     </>
   )
 }
-
-export default Home

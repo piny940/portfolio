@@ -4,9 +4,9 @@ import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { Layout } from '@/layouts/Layout'
 import { Provider } from 'urql'
-import client from '@/graphql/client'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import client from '@/graphql/client'
 
 const theme = createTheme({
   palette: {
@@ -28,10 +28,10 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={theme}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <CssBaseline />
         <Head>
           <meta content="width=device-width,initial-scale=1" name="viewport" />
         </Head>
-        <CssBaseline />
         <Provider value={client}>
           <Layout>
             <Component {...pageProps} />

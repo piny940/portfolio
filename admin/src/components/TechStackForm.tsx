@@ -1,3 +1,4 @@
+'use client'
 import { TechStackInput, useGetTechnologiesQuery } from '@/graphql/types'
 import {
   Box,
