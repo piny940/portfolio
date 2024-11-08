@@ -24,7 +24,9 @@ type Config struct {
 	OidcSub          []string `split_words:"true" required:"true"`
 	AuthServerUrl    string   `split_words:"true" required:"true"`
 	AuthServerIssuer string   `split_words:"true" required:"true"`
+	AuthAudience     string   `split_words:"true" required:"true"`
 	ClusterIssuer    string   `split_words:"true" required:"true"`
+	ClusterAudience  string   `split_words:"true" required:"true"`
 
 	clusterJwks jwk.Set
 	authJwks    jwk.Set
@@ -196,14 +198,26 @@ func validAud(claims jwt.MapClaims) bool {
 	if !ok {
 		return false
 	}
+	iss, ok := claims["iss"]
+	if !ok {
+		return false
+	}
+	var validAud string
+	if iss == conf.AuthServerIssuer {
+		validAud = conf.AuthAudience
+	} else if iss == conf.ClusterIssuer {
+		validAud = conf.ClusterAudience
+	} else {
+		return false
+	}
 	audStr, ok := aud.(string)
 	if ok {
-		return audStr == oidcAud
+		return audStr == validAud
 	}
 	audArr, ok := aud.([]interface{})
 	if ok {
 		for _, a := range audArr {
-			if a == oidcAud {
+			if a == validAud {
 				return true
 			}
 		}
