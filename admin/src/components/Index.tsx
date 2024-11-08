@@ -31,7 +31,10 @@ export const Index = (): JSX.Element => {
             </ListItemButton>
           </>
         ) : (
-          <ListItemButton component={Link} href="/login">
+          <ListItemButton
+            component={Link}
+            href={`${process.env.NEXT_PUBLIC_AUTH_SERVER_URL}/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}&response_type=code&redirect_uri=${process.env.NEXT_PUBLIC_APP_URL}/callback&scope=openid`}
+          >
             <ListItemText primary="Login" />
           </ListItemButton>
         )}
