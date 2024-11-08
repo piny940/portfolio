@@ -1,20 +1,17 @@
 'use client'
 import client from '@/graphql/client'
 import {
-  AppBar,
   Box,
   Container,
   createTheme,
   CssBaseline,
   ThemeProvider,
-  Toolbar,
-  Typography,
 } from '@mui/material'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import Link from 'next/link'
 import { ReactNode } from 'react'
 import { Provider } from 'urql'
+import { Header } from './Header'
 
 export type LayoutProps = {
   children: ReactNode
@@ -42,13 +39,7 @@ export const Layout = ({ children }: LayoutProps): JSX.Element => {
         <CssBaseline />
         <Provider value={client}>
           <Box>
-            <AppBar position="sticky">
-              <Toolbar>
-                <Link href="/" className="unstyled">
-                  <Typography variant="h6">PortfolioAdmin</Typography>
-                </Link>
-              </Toolbar>
-            </AppBar>
+            <Header />
             <Container component="main" sx={{ pt: 4, pb: 6 }}>
               {children}
             </Container>
