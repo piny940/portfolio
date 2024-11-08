@@ -1,12 +1,12 @@
 package auth
 
 import (
-	"bytes"
 	"context"
-	"encoding/json"
 	"fmt"
+	"io"
+	"log/slog"
+	"net/http"
 	"path/filepath"
-	"strings"
 	"time"
 
 	"github.com/golang-jwt/jwt"
@@ -19,19 +19,18 @@ import (
 )
 
 type Config struct {
-	JwtSecret string   `required:"true" split_words:"true"`
-	Local     bool     `default:"false"`
-	OidcSub   []string `split_words:"true" required:"true"`
-}
-type ClusterConfig struct {
-	Issuer  string
-	JwksURI string
-	Jwks    string
+	JwtSecret        string   `required:"true" split_words:"true"`
+	Local            bool     `default:"false"`
+	OidcSub          []string `split_words:"true" required:"true"`
+	AuthServerUrl    string   `split_words:"true" required:"true"`
+	AuthServerIssuer string   `split_words:"true" required:"true"`
+	ClusterIssuer    string   `split_words:"true" required:"true"`
+
+	clusterJwks jwk.Set
+	authJwks    jwk.Set
 }
 
 var conf = &Config{}
-var clusterConf = &ClusterConfig{}
-var k8sClient *kubernetes.Clientset
 
 const oidcAud = "portfolio.piny940.com"
 
@@ -41,27 +40,18 @@ func Init() {
 	if err := envconfig.Process("auth", conf); err != nil {
 		panic(err)
 	}
-	var err error
-	k8sClient, err = newClient()
+
+	clusterjwks, err := getClusterJwks(ctx)
 	if err != nil {
 		panic(err)
 	}
-	result := k8sClient.RESTClient().Get().AbsPath("/.well-known/openid-configuration").Do(ctx)
-	raw, err := result.Raw()
+	conf.clusterJwks = clusterjwks
+
+	authjwks, err := getAuthJwks(ctx)
 	if err != nil {
 		panic(err)
 	}
-	decoder := json.NewDecoder(bytes.NewBuffer(raw))
-	oidcConf := make(map[string]interface{})
-	if err := decoder.Decode(&oidcConf); err != nil {
-		panic(err)
-	}
-	fmt.Println("OIDC Configuration: ", oidcConf)
-	clusterConf.Issuer = oidcConf["issuer"].(string)
-	clusterConf.JwksURI = oidcConf["jwks_uri"].(string)
-	if err := updateJwks(ctx); err != nil {
-		panic(err)
-	}
+	conf.authJwks = authjwks
 }
 
 const ISS = "portfolio.piny940.com"
@@ -87,11 +77,26 @@ func VerifyJWTToken(tokenString string) (string, error) {
 		if !ok {
 			return nil, fmt.Errorf("failed to parse claims")
 		}
-		if claims["iss"].(string) == ISS {
-			return hmacKeyFunc(token)
+		issuer, ok := claims["iss"].(string)
+		if !ok {
+			return nil, fmt.Errorf("failed to parse issuer")
 		}
-		if claims["iss"].(string) == clusterConf.Issuer {
-			return clusterKeyFunc(token)
+		kid, ok := claims["kid"].(string)
+		if !ok {
+			return nil, fmt.Errorf("failed to parse kid")
+		}
+		if issuer == conf.AuthServerIssuer {
+			key, err := keyFromJwks(conf.authJwks, kid)
+			if err != nil {
+				return nil, fmt.Errorf("failed to get auth server key: %w", err)
+			}
+			return key, nil
+		} else if issuer == conf.ClusterIssuer {
+			key, err := keyFromJwks(conf.clusterJwks, kid)
+			if err != nil {
+				return nil, fmt.Errorf("failed to get cluster key: %w", err)
+			}
+			return key, nil
 		}
 		return nil, fmt.Errorf("invalid issuer")
 	})
@@ -111,26 +116,11 @@ func VerifyJWTToken(tokenString string) (string, error) {
 	if !validAud(claims) {
 		return "", fmt.Errorf("invalid audience. got %v", claims["aud"])
 	}
-	if claims["iss"] != ISS && claims["iss"] != clusterConf.Issuer {
-		return "", fmt.Errorf("invalid issuer")
-	}
 	return claims["sub"].(string), nil
 }
 
-func hmacKeyFunc(_ *jwt.Token) (interface{}, error) {
-	return []byte(conf.JwtSecret), nil
-}
-
-func clusterKeyFunc(token *jwt.Token) (interface{}, error) {
-	set, err := jwk.Parse([]byte(clusterConf.Jwks))
-	if err != nil {
-		return nil, fmt.Errorf("failed to parse jwks: %w", err)
-	}
-	kid, ok := token.Header["kid"].(string)
-	if !ok {
-		return nil, fmt.Errorf("failed to parse kid")
-	}
-	key, ok := set.LookupKeyID(kid)
+func keyFromJwks(jwks jwk.Set, kid string) (interface{}, error) {
+	key, ok := jwks.LookupKeyID(kid)
 	if !ok {
 		return nil, fmt.Errorf("failed to lookup key")
 	}
@@ -141,7 +131,7 @@ func clusterKeyFunc(token *jwt.Token) (interface{}, error) {
 	return pubKey, nil
 }
 
-func newClient() (*kubernetes.Clientset, error) {
+func newK8sClient() (*kubernetes.Clientset, error) {
 	var config *rest.Config
 	var err error
 	if conf.Local {
@@ -160,16 +150,47 @@ func newClient() (*kubernetes.Clientset, error) {
 	}
 	return client, nil
 }
-func updateJwks(ctx context.Context) error {
-	uri := strings.Join(strings.Split(clusterConf.JwksURI, "/")[3:], "/") // remove https://example.com/
-	result := k8sClient.RESTClient().Get().AbsPath(uri).Do(ctx)
+
+func getClusterJwks(ctx context.Context) (jwk.Set, error) {
+	k8sClient, err := newK8sClient()
+	if err != nil {
+		return nil, err
+	}
+	result := k8sClient.RESTClient().Get().AbsPath("/openid/v1/jwks").Do(ctx)
 	raw, err := result.Raw()
 	if err != nil {
-		return fmt.Errorf("failed to get jwks: %w", err)
+		return nil, fmt.Errorf("failed to get jwks: %w", err)
 	}
-	clusterConf.Jwks = string(raw)
-	return nil
+	slog.Info(fmt.Sprintf("cluster jwks: %v", string(raw)))
+	set, err := jwk.Parse(raw)
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse jwks: %w", err)
+	}
+	return set, nil
 }
+
+func getAuthJwks(ctx context.Context) (jwk.Set, error) {
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, conf.AuthServerUrl+"/oauth/jwks", nil)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create request: %w", err)
+	}
+	res, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get jwks: %w", err)
+	}
+	defer res.Body.Close()
+	data, err := io.ReadAll(res.Body)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read body: %w", err)
+	}
+	slog.Info(fmt.Sprintf("auth jwks: %v", string(data)))
+	set, err := jwk.Parse(data)
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse jwks: %w", err)
+	}
+	return set, nil
+}
+
 func validAud(claims jwt.MapClaims) bool {
 	aud, ok := claims["aud"]
 	if !ok {
