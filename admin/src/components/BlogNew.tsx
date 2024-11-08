@@ -7,9 +7,9 @@ import {
   useUpdateBlogTagsMutation,
 } from '@/graphql/types'
 import { useForm } from 'react-hook-form'
-import { useRouter } from 'next/router'
 import { TechTagsFormFields } from './TechTagsEdit'
 import dayjs from 'dayjs'
+import { useRouter } from 'next/navigation'
 
 export const BlogNew = (): JSX.Element => {
   const { handleSubmit, getValues, control } = useForm<BlogInput>({
