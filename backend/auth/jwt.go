@@ -83,18 +83,14 @@ func VerifyJWTToken(tokenString string) (string, error) {
 		if !ok {
 			return nil, fmt.Errorf("failed to parse issuer")
 		}
-		kid, ok := claims["kid"].(string)
-		if !ok {
-			return nil, fmt.Errorf("failed to parse kid")
-		}
 		if issuer == conf.AuthServerIssuer {
-			key, err := keyFromJwks(conf.authJwks, kid)
+			key, err := keyFromJwks(conf.authJwks, claims)
 			if err != nil {
 				return nil, fmt.Errorf("failed to get auth server key: %w", err)
 			}
 			return key, nil
 		} else if issuer == conf.ClusterIssuer {
-			key, err := keyFromJwks(conf.clusterJwks, kid)
+			key, err := keyFromJwks(conf.clusterJwks, claims)
 			if err != nil {
 				return nil, fmt.Errorf("failed to get cluster key: %w", err)
 			}
@@ -121,10 +117,16 @@ func VerifyJWTToken(tokenString string) (string, error) {
 	return claims["sub"].(string), nil
 }
 
-func keyFromJwks(jwks jwk.Set, kid string) (interface{}, error) {
-	key, ok := jwks.LookupKeyID(kid)
+func keyFromJwks(jwks jwk.Set, claims jwt.MapClaims) (interface{}, error) {
+	var key jwk.Key
+	kid, ok := claims["kid"].(string)
+	if ok {
+		key, ok = jwks.LookupKeyID(kid)
+	} else {
+		key, ok = jwks.Get(0)
+	}
 	if !ok {
-		return nil, fmt.Errorf("failed to lookup key")
+		return nil, fmt.Errorf("failed to get key")
 	}
 	var pubKey interface{}
 	if err := key.Raw(&pubKey); err != nil {
