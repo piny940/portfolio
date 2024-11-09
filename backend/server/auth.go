@@ -13,12 +13,19 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+var skipAuthPaths = []string{
+	"/login",
+	"/healthz",
+}
+
 func authHandler() echo.MiddlewareFunc {
 	return echo.MiddlewareFunc(func(next echo.HandlerFunc) echo.HandlerFunc {
 		return echo.HandlerFunc(func(c echo.Context) error {
 			conf := config.GetConfig()
-			if c.Path() == fmt.Sprintf("/%s/login", conf.GetString("server.version")) {
-				return next(c)
+			for _, path := range skipAuthPaths {
+				if c.Path() == fmt.Sprintf("/%s%s", conf.GetString("server.version"), path) {
+					return next(c)
+				}
 			}
 			if os.Getenv("SKIP_AUTH") == "true" {
 				return next(c)
