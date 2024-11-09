@@ -84,13 +84,13 @@ func VerifyJWTToken(tokenString string) (string, error) {
 			return nil, fmt.Errorf("failed to parse issuer")
 		}
 		if issuer == conf.AuthServerIssuer {
-			key, err := keyFromJwks(conf.authJwks, claims)
+			key, err := keyFromJwks(conf.authJwks, token)
 			if err != nil {
 				return nil, fmt.Errorf("failed to get auth server key: %w", err)
 			}
 			return key, nil
 		} else if issuer == conf.ClusterIssuer {
-			key, err := keyFromJwks(conf.clusterJwks, claims)
+			key, err := keyFromJwks(conf.clusterJwks, token)
 			if err != nil {
 				return nil, fmt.Errorf("failed to get cluster key: %w", err)
 			}
@@ -117,13 +117,11 @@ func VerifyJWTToken(tokenString string) (string, error) {
 	return claims["sub"].(string), nil
 }
 
-func keyFromJwks(jwks jwk.Set, claims jwt.MapClaims) (interface{}, error) {
+func keyFromJwks(jwks jwk.Set, token *jwt.Token) (interface{}, error) {
 	var key jwk.Key
-	kid, ok := claims["kid"].(string)
+	kid, ok := token.Header["kid"].(string)
 	if ok {
 		key, ok = jwks.LookupKeyID(kid)
-	} else {
-		key, ok = jwks.Get(0)
 	}
 	if !ok {
 		return nil, fmt.Errorf("failed to get key")
