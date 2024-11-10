@@ -13,6 +13,13 @@ ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 
 ################################################################################
+FROM base AS deps
+
+RUN --mount=type=bind,source=package.json,target=package.json \
+    --mount=type=bind,source=pnpm-lock.yaml,target=pnpm-lock.yaml \
+    --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
+
+################################################################################
 FROM base AS build
 
 COPY package.json pnpm-lock.yaml ./
@@ -33,6 +40,7 @@ ENV NODE_ENV=production
 COPY package.json .
 
 COPY documents ./documents
+COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY --from=build /usr/src/app/.next ./.next
 COPY ./next.config.js .
 COPY ./public ./public
