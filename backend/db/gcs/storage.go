@@ -44,6 +44,7 @@ func (s *Storage) Create(ctx context.Context, file *File) (string, error) {
 	filename := randomString(20) + "-" + file.Filename
 	writer := bucket.Object(filename).NewWriter(ctx)
 	defer writer.Close()
+	writer.CacheControl = "public, max-age=31536000" // 1 year
 	if _, err := io.Copy(writer, file.File); err != nil {
 		return "", err
 	}
