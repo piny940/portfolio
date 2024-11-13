@@ -27,6 +27,7 @@ type Config struct {
 	AuthAudience     string   `split_words:"true" required:"true"`
 	ClusterIssuer    string   `split_words:"true" required:"true"`
 	ClusterAudience  string   `split_words:"true" required:"true"`
+	TokenTtl         int64    `split_words:"true" required:"true"`
 
 	clusterJwks jwk.Set
 	authJwks    jwk.Set
@@ -113,6 +114,9 @@ func VerifyJWTToken(tokenString string) (string, error) {
 	}
 	if !validAud(claims) {
 		return "", fmt.Errorf("invalid audience. got %v", claims["aud"])
+	}
+	if claims["auth_time"] != nil && int64(claims["auth_time"].(float64)) < time.Now().Unix()-conf.TokenTtl {
+		return "", fmt.Errorf("expired token")
 	}
 	return claims["sub"].(string), nil
 }
