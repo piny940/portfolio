@@ -54,9 +54,6 @@ func authMiddleware() echo.MiddlewareFunc {
 }
 
 func userApproved(userId string) bool {
-	if userId == os.Getenv("ADMIN_ID") {
-		return true
-	}
 	subs := strings.Split(os.Getenv("AUTH_OIDC_SUB"), ",")
 	return slices.Contains(subs, userId)
 }
