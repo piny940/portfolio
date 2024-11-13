@@ -16,8 +16,7 @@ func Init() error {
 	router := e.Group(c.GetString("server.version"))
 
 	router.Use(EchoContextToContextMiddleware)
-	router.Use(authHandler())
-	router.POST("/login", loginHandler())
+	router.Use(authMiddleware())
 	router.GET("/healthz", healthzHandler())
 	router.Any("/query", graphqlHandler())
 	router.GET("", playgroundHandler())

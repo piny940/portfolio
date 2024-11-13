@@ -35,8 +35,6 @@ type Config struct {
 
 var conf = &Config{}
 
-const oidcAud = "portfolio.piny940.com"
-
 func Init() {
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
@@ -55,23 +53,6 @@ func Init() {
 		panic(err)
 	}
 	conf.authJwks = authjwks
-}
-
-const ISS = "portfolio.piny940.com"
-const TTL_SEC = 60 * 60 * 24 * 3 // 3 days
-func CreateJWTToken(userId string) (string, error) {
-	claims := jwt.MapClaims{
-		"sub": userId,
-		"exp": time.Now().Add(time.Second * TTL_SEC).Unix(),
-		"iss": ISS,
-		"aud": oidcAud,
-	}
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	tokenString, err := token.SignedString([]byte(conf.JwtSecret))
-	if err != nil {
-		return "", err
-	}
-	return tokenString, nil
 }
 
 func VerifyJWTToken(tokenString string) (string, error) {

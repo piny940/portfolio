@@ -18,7 +18,7 @@ var skipAuthPaths = []string{
 	"/healthz",
 }
 
-func authHandler() echo.MiddlewareFunc {
+func authMiddleware() echo.MiddlewareFunc {
 	return echo.MiddlewareFunc(func(next echo.HandlerFunc) echo.HandlerFunc {
 		return echo.HandlerFunc(func(c echo.Context) error {
 			conf := config.GetConfig()
@@ -51,25 +51,6 @@ func authHandler() echo.MiddlewareFunc {
 			return next(c)
 		})
 	})
-}
-
-func loginHandler() echo.HandlerFunc {
-	return func(c echo.Context) error {
-		userId := c.FormValue("id")
-		password := c.FormValue("password")
-		if userId != os.Getenv("ADMIN_ID") || password != os.Getenv("ADMIN_PASSWORD") {
-			return c.JSON(http.StatusBadRequest, echo.Map{
-				"message": "invalid id or password",
-			})
-		}
-		token, err := auth.CreateJWTToken(userId)
-		if err != nil {
-			return c.JSON(http.StatusInternalServerError, err)
-		}
-		return c.JSON(http.StatusOK, echo.Map{
-			"token": token,
-		})
-	}
 }
 
 func userApproved(userId string) bool {
