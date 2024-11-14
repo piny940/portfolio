@@ -16,18 +16,16 @@ function MyDocument({ initialTheme }: MyDocumentProps) {
   return (
     <Html className="bg-body text-body" data-bs-theme={initialTheme} lang="ja">
       <Head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
           href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet"
-        ></link>
+        />
         <link
-          href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&display=swap"
           rel="stylesheet"
-        ></link>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500&display=swap"
-          rel="stylesheet"
-        ></link>
+        />
       </Head>
       <body>
         <Main />
