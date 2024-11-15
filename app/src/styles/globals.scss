@@ -70,15 +70,23 @@ $main: rgb(25, 97, 206);
   );
   border-image-slice: 1;
 }
+[data-bs-theme='light'] {
+  .on-dark {
+    display: none;
+  }
+}
 [data-bs-theme='dark'] {
   --bs-body-color-rgb: 210, 210, 210 !important;
   --bs-body-color: #dddddd !important;
+  .on-light {
+    display: none;
+  }
 }
 
 .markdown {
   max-width: 1000px;
   p {
-    padding-left: 10px;
+    padding-left: 0.6rem;
   }
   a {
     color: var(--bs-link-color);
@@ -99,11 +107,13 @@ $main: rgb(25, 97, 206);
   }
   h4 {
     font-size: 20px;
+    padding-left: 0.5rem;
     margin-top: 30px;
     margin-bottom: 10px;
   }
   h5,
   h6 {
+    padding-left: 0.5rem;
     font-size: 16px;
   }
   img:not(.custom) {
