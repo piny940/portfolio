@@ -40,7 +40,7 @@ services:
       - backend
 
   db:
-    image: postgres:15.1-alpine
+    image: postgres:15.10-alpine
     restart: always
     container_name: portfolio-db
     volumes:
