@@ -16,7 +16,7 @@
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.3",
     "graphql": "^16.9.0",
-    "graphql-request": "^6.1.0",
+    "graphql-request": "^7.0.0",
     "graphql-tag": "^2.12.6",
     "jest-cli": "^29.7.0",
     "js-yaml": "^4.1.0",
