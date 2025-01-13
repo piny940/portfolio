@@ -3,7 +3,7 @@ on: [push]
 
 env:
   NODE_VERSION: 20
-  PNPM_VERSION: 9.12.2
+  PNPM_VERSION: 9.15.3
 jobs:
   app:
     runs-on: ubuntu-latest
