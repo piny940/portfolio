@@ -17,7 +17,7 @@ require (
 	github.com/maxatome/go-testdeep v1.14.0
 	github.com/spf13/viper v1.19.0
 	github.com/vektah/gqlparser/v2 v2.5.21
-	gorm.io/driver/postgres v1.5.10
+	gorm.io/driver/postgres v1.5.11
 	gorm.io/gorm v1.25.12
 	k8s.io/client-go v0.31.3
 )
