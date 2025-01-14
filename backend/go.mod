@@ -6,7 +6,7 @@ toolchain go1.23.4
 
 require (
 	cloud.google.com/go/storage v1.47.0
-	github.com/99designs/gqlgen v0.17.56
+	github.com/99designs/gqlgen v0.17.63
 	github.com/bluele/factory-go v0.0.1
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/graph-gophers/dataloader/v7 v7.1.0
@@ -16,7 +16,7 @@ require (
 	github.com/lestrrat-go/jwx v1.2.30
 	github.com/maxatome/go-testdeep v1.14.0
 	github.com/spf13/viper v1.19.0
-	github.com/vektah/gqlparser/v2 v2.5.19
+	github.com/vektah/gqlparser/v2 v2.5.21
 	gorm.io/driver/postgres v1.5.10
 	gorm.io/gorm v1.25.12
 	k8s.io/client-go v0.31.3
@@ -91,7 +91,7 @@ require (
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20241015192408-796eee8c2d53 // indirect
 	google.golang.org/grpc v1.67.1 // indirect
 	google.golang.org/grpc/stats/opentelemetry v0.0.0-20240907200651-3ffb98b2c93a // indirect
-	google.golang.org/protobuf v1.35.1 // indirect
+	google.golang.org/protobuf v1.36.1 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	k8s.io/api v0.31.3 // indirect
@@ -105,7 +105,7 @@ require (
 )
 
 require (
-	github.com/agnivade/levenshtein v1.1.1 // indirect
+	github.com/agnivade/levenshtein v1.2.0 // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.5 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
@@ -144,7 +144,7 @@ require (
 	golang.org/x/crypto v0.31.0 // indirect
 	golang.org/x/exp v0.0.0-20230905200255-921286631fa9 // indirect
 	golang.org/x/mod v0.20.0 // indirect
-	golang.org/x/net v0.30.0 // indirect
+	golang.org/x/net v0.33.0 // indirect
 	golang.org/x/sync v0.10.0 // indirect
 	golang.org/x/sys v0.28.0 // indirect
 	golang.org/x/text v0.21.0 // indirect
