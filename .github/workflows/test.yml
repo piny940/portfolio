@@ -3,7 +3,6 @@ on: [push]
 
 env:
   NODE_VERSION: 20
-  PNPM_VERSION: 9.15.3
 jobs:
   app:
     runs-on: ubuntu-latest
@@ -11,7 +10,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
-          version: ${{ env.PNPM_VERSION}}
           package_json_file: "app/package.json"
       - uses: actions/setup-node@v4
         with:
@@ -70,7 +68,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
-          version: ${{ env.PNPM_VERSION}}
           package_json_file: "admin/package.json"
       - uses: actions/setup-node@v4
         with:
