@@ -91,6 +91,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION}}
+          cache: "pnpm"
+          cache-dependency-path: "updater/package.json"
       - run: cd updater && pnpm install
       - name: Prettier && ESLint
         run: cd updater && if pnpm lint |& grep -E "(error|warn)"; then exit 1; fi
