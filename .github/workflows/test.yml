@@ -98,5 +98,5 @@ jobs:
         run: cd updater && if pnpm lint |& grep -E "(error|warn)"; then exit 1; fi
       - name: Build Test
         run: cd updater && pnpm build
-      # - name: Yarn test
-      #   run: if yarn --cwd updater test |& grep -E "failed"; then exit 1; fi
+      # - name: pnpm test
+      #   run: if pnpm --cwd updater test |& grep -E "failed"; then exit 1; fi
