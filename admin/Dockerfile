@@ -1,9 +1,7 @@
 # syntax=docker/dockerfile:1
 
-ARG NODE_VERSION=20
-
 ################################################################################
-FROM node:${NODE_VERSION}-alpine AS base
+FROM node:22.14.0-alpine AS base
 
 WORKDIR /usr/src/app
 

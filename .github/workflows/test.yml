@@ -2,7 +2,7 @@ name: Test
 on: [push]
 
 env:
-  NODE_VERSION: 20
+  NODE_VERSION: 22.14.0
 jobs:
   app:
     runs-on: ubuntu-latest
