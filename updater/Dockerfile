@@ -1,33 +1,36 @@
 # syntax=docker/dockerfile:1
 
-ARG NODE_VERSION=20
-
 ################################################################################
-FROM node:${NODE_VERSION}-alpine as base
+FROM node:22.14.0-alpine AS base
 
 WORKDIR /usr/src/app
 
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
+RUN corepack enable
 
 ################################################################################
-FROM base as deps
+FROM base AS deps
 
 RUN --mount=type=bind,source=package.json,target=package.json \
-    --mount=type=bind,source=yarn.lock,target=yarn.lock \
-    --mount=type=cache,target=/root/.yarn \
-    yarn install --frozen-lockfile
+    --mount=type=bind,source=pnpm-lock.yaml,target=pnpm-lock.yaml \
+    --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
 
 ################################################################################
-FROM deps as build
+FROM deps AS build
+
+COPY package.json pnpm-lock.yaml ./
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 COPY . .
-RUN yarn run build
+RUN pnpm run build
 
 ################################################################################
-FROM base as final
+FROM base AS final
 
 ENV NODE_ENV production
 RUN chown node:node -R /usr/src/app
-RUN apk add curl
 
 USER node
 

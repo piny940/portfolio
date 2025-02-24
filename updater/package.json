@@ -2,10 +2,11 @@
   "name": "updater",
   "version": "1.0.0",
   "main": "main.js",
+  "packageManager": "pnpm@10.4.1",
   "scripts": {
     "dev": "webpack --mode development --watch",
     "build": "webpack --mode production",
-    "lint": "yarn -s run prettier --write . && yarn -s run eslint --ext .ts,.js, . --fix",
+    "lint": "pnpm -s run prettier --write . && pnpm -s run eslint --ext .ts,.js, . --fix",
     "codegen": "graphql-codegen"
   },
   "license": "MIT",
