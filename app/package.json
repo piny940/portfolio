@@ -64,6 +64,6 @@
     "sass": "^1.81.0",
     "ts-mockery": "^1.2.0",
     "ts-node": "^10.9.2",
-    "typescript": "5.7.3"
+    "typescript": "5.8.2"
   }
 }
