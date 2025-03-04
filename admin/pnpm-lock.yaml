@@ -67,7 +67,7 @@ importers:
         version: 7.54.2(react@18.3.1)
       urql:
         specifier: ^4.2.1
-        version: 4.2.1(@urql/core@5.0.8(graphql@16.10.0))(react@18.3.1)
+        version: 4.2.2(@urql/core@5.0.8(graphql@16.10.0))(react@18.3.1)
     devDependencies:
       '@graphql-codegen/cli':
         specifier: ^5.0.0
@@ -3619,8 +3619,8 @@ packages:
   urlpattern-polyfill@10.0.0:
     resolution: {integrity: sha512-H/A06tKD7sS1O1X2SshBVeA5FLycRpjqiBeqGKmBwBDBy28EnRjORxTNe269KSSr5un5qyWi1iL61wLxpd+ZOg==}
 
-  urql@4.2.1:
-    resolution: {integrity: sha512-Y/cVi1rsR96kbF3VX6YgfHw1V3kJ287nR1TqpjGzVPyAmXuwRvBvABI+sHY2WOquWCNh+kvFapM/LLYeiC3wig==}
+  urql@4.2.2:
+    resolution: {integrity: sha512-3GgqNa6iF7bC4hY/ImJKN4REQILcSU9VKcKL8gfELZM8mM5BnLH1BsCc8kBdnVGD1LIFOs4W3O2idNHhON1r0w==}
     peerDependencies:
       '@urql/core': ^5.0.0
       react: '>= 16.8.0'
@@ -3679,9 +3679,6 @@ packages:
     resolution: {integrity: sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==}
     engines: {node: '>= 8'}
     hasBin: true
-
-  wonka@6.3.4:
-    resolution: {integrity: sha512-CjpbqNtBGNAeyNS/9W6q3kSkKE52+FjIj7AkFlLr11s/VWGUu6a2CdYSdGxocIhIVjaW/zchesBQUKPVU69Cqg==}
 
   wonka@6.3.5:
     resolution: {integrity: sha512-SSil+ecw6B4/Dm7Pf2sAshKQ5hWFvfyGlfPbEd6A14dOH6VDjrmbY86u6nZvy9omGwwIPFR8V41+of1EezgoUw==}
@@ -8046,11 +8043,11 @@ snapshots:
 
   urlpattern-polyfill@10.0.0: {}
 
-  urql@4.2.1(@urql/core@5.0.8(graphql@16.10.0))(react@18.3.1):
+  urql@4.2.2(@urql/core@5.0.8(graphql@16.10.0))(react@18.3.1):
     dependencies:
       '@urql/core': 5.0.8(graphql@16.10.0)
       react: 18.3.1
-      wonka: 6.3.4
+      wonka: 6.3.5
 
   util-deprecate@1.0.2: {}
 
@@ -8132,8 +8129,6 @@ snapshots:
   which@2.0.2:
     dependencies:
       isexe: 2.0.0
-
-  wonka@6.3.4: {}
 
   wonka@6.3.5: {}
 
