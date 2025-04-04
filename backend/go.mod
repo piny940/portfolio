@@ -6,7 +6,7 @@ toolchain go1.24.2
 
 require (
 	cloud.google.com/go/storage v1.47.0
-	github.com/99designs/gqlgen v0.17.67
+	github.com/99designs/gqlgen v0.17.70
 	github.com/bluele/factory-go v0.0.1
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/graph-gophers/dataloader/v7 v7.1.0

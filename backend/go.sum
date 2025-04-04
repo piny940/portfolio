@@ -33,6 +33,8 @@ github.com/99designs/gqlgen v0.17.66 h1:2/SRc+h3115fCOZeTtsqrB5R5gTGm+8qCAwcrZa+
 github.com/99designs/gqlgen v0.17.66/go.mod h1:gucrb5jK5pgCKzAGuOMMVU9C8PnReecHEHd2UxLQwCg=
 github.com/99designs/gqlgen v0.17.67 h1:Fuu2s74iqWCslv7oOHjb+xTW5+KwRuMATVHNC6gb6WM=
 github.com/99designs/gqlgen v0.17.67/go.mod h1:VFKZgBh0FrQYKbiGc5iB8AqnUpDiGY5l/Tu/nLhe+Jw=
+github.com/99designs/gqlgen v0.17.70 h1:xgLIgQuG+Q2L/AE9cW595CT7xCWCe/bpPIFGSfsGSGs=
+github.com/99designs/gqlgen v0.17.70/go.mod h1:fvCiqQAu2VLhKXez2xFvLmE47QgAPf/KTPN5XQ4rsHQ=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/GoogleCloudPlatform/opentelemetry-operations-go/detectors/gcp v1.24.1 h1:pB2F2JKCj1Znmp2rwxxt1J0Fg0wezTMgWYk5Mpbi1kg=
 github.com/GoogleCloudPlatform/opentelemetry-operations-go/detectors/gcp v1.24.1/go.mod h1:itPGVDKf9cC/ov4MdvJ2QZ0khw4bfoo9jzwTJlaxy2k=
