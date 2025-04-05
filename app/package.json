@@ -2,7 +2,7 @@
   "name": "portfolio",
   "version": "0.1.0",
   "private": true,
-  "packageManager": "pnpm@10.6.3",
+  "packageManager": "pnpm@10.7.1",
   "scripts": {
     "dev": "next dev --turbopack -p 3001",
     "build": "next build",
