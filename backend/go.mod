@@ -15,7 +15,7 @@ require (
 	github.com/labstack/echo/v4 v4.13.3
 	github.com/lestrrat-go/jwx v1.2.30
 	github.com/maxatome/go-testdeep v1.14.0
-	github.com/spf13/viper v1.19.0
+	github.com/spf13/viper v1.20.1
 	github.com/vektah/gqlparser/v2 v2.5.23
 	gorm.io/driver/postgres v1.5.11
 	gorm.io/gorm v1.25.12
