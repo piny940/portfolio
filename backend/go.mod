@@ -16,7 +16,7 @@ require (
 	github.com/lestrrat-go/jwx v1.2.31
 	github.com/lestrrat-go/jwx/v3 v3.0.4
 	github.com/maxatome/go-testdeep v1.14.0
-	github.com/spf13/viper v1.19.0
+	github.com/spf13/viper v1.20.1
 	github.com/vektah/gqlparser/v2 v2.5.27
 	gorm.io/driver/postgres v1.6.0
 	gorm.io/gorm v1.30.0
