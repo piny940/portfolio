@@ -2,7 +2,7 @@
   "name": "updater",
   "version": "1.0.0",
   "main": "main.js",
-  "packageManager": "pnpm@10.12.4",
+  "packageManager": "pnpm@10.13.1",
   "scripts": {
     "dev": "webpack --mode development --watch",
     "build": "webpack --mode production",
