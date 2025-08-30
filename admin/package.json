@@ -25,7 +25,7 @@
     "@urql/exchange-auth": "^2.1.6",
     "dayjs": "^1.11.10",
     "graphql": "^16.8.1",
-    "next": "15.4.6",
+    "next": "15.4.7",
     "object-to-formdata": "^4.5.1",
     "react": "18.3.1",
     "react-dom": "18.3.1",
