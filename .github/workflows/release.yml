@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Create Release Branch
         run: |
           git switch -c release-admin
@@ -40,7 +40,7 @@ jobs:
       - name: Get current datetime
         run: echo "TIMESTAMP=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
       - name: Check out
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Create Release Branch
         run: |
           git switch -c release-app
@@ -71,7 +71,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Create Release Branch
         run: |
           git switch -c release-backend
@@ -100,7 +100,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Create Release Branch
         run: |
           git switch -c release-updater
