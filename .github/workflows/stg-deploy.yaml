@@ -18,6 +18,7 @@ jobs:
       backend: ${{ steps.filter.outputs.backend }}
       app: ${{ steps.filter.outputs.app }}
       admin: ${{ steps.filter.outputs.admin }}
+      updater: ${{ steps.filter.outputs.updater }}
     steps:
       - uses: actions/checkout@v5
       - uses: dorny/paths-filter@v3
