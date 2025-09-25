@@ -1,0 +1,170 @@
+name: Build App for Staging
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+  packages: write
+
+jobs:
+  filter:
+    runs-on: ubuntu-latest
+    outputs:
+      backend: ${{ steps.filter.outputs.backend }}
+      app: ${{ steps.filter.outputs.app }}
+      admin: ${{ steps.filter.outputs.admin }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            backend:
+              - "backend/**"
+              - ".github/workflows/stg-deploy.yaml"
+            app:
+              - "app/**"
+              - ".github/workflows/stg-deploy.yaml"
+            admin:
+              - "admin/**"
+              - ".github/workflows/stg-deploy.yaml"
+            updater:
+              - "updater/**"
+              - ".github/workflows/stg-deploy.yaml"
+
+  stg-build-backend:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && needs.filter.outputs.backend == 'true'
+    needs: filter
+    environment: staging # 管理者の承認を必要とする
+    steps:
+      - name: Get current datetime
+        run: echo "TIMESTAMP=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/docker-build
+        with:
+          gh-token: ${{ secrets.GITHUB_TOKEN }}
+          github-actor: ${{ github.actor }}
+          tags: ghcr.io/${{ github.repository }}-backend:main-${{ github.sha }}-${{ env.TIMESTAMP }}
+          path: "./backend"
+          cache-registry: ghcr.io/${{ github.repository }}-backend:buildcache
+  stg-build-backend-main:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.filter.outputs.backend == 'true'
+    needs: filter
+    steps:
+      - name: Get current datetime
+        run: echo "TIMESTAMP=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/docker-build
+        with:
+          gh-token: ${{ secrets.GITHUB_TOKEN }}
+          github-actor: ${{ github.actor }}
+          tags: ghcr.io/${{ github.repository }}-backend:main-${{ github.sha }}-${{ env.TIMESTAMP }}
+          path: "./backend"
+          cache-registry: ghcr.io/${{ github.repository }}-backend:buildcache
+
+  stg-build-app:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && needs.filter.outputs.app == 'true'
+    needs: filter
+    environment: staging # 管理者の承認を必要とする
+    steps:
+      - name: Get current datetime
+        run: echo "TIMESTAMP=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/docker-build
+        with:
+          gh-token: ${{ secrets.GITHUB_TOKEN }}
+          github-actor: ${{ github.actor }}
+          tags: ghcr.io/${{ github.repository }}-app:main-${{ github.sha }}-${{ env.TIMESTAMP }}
+          path: "./app"
+          cache-registry: ghcr.io/${{ github.repository }}-app:buildcache
+          build-args: |
+            BACKEND_HOST=https://stg-portfolio-backend.piny940.com
+  stg-build-app-main:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.filter.outputs.app == 'true'
+    needs: filter
+    steps:
+      - name: Get current datetime
+        run: echo "TIMESTAMP=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/docker-build
+        with:
+          gh-token: ${{ secrets.GITHUB_TOKEN }}
+          github-actor: ${{ github.actor }}
+          tags: ghcr.io/${{ github.repository }}-app:main-${{ github.sha }}-${{ env.TIMESTAMP }}
+          path: "./app"
+          cache-registry: ghcr.io/${{ github.repository }}-app:buildcache
+          build-args: |
+            BACKEND_HOST=https://stg-portfolio-backend.piny940.com
+
+  stg-build-admin:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && needs.filter.outputs.admin == 'true'
+    needs: filter
+    environment: staging # 管理者の承認を必要とする
+    steps:
+      - name: Get current datetime
+        run: echo "TIMESTAMP=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/docker-build
+        with:
+          gh-token: ${{ secrets.GITHUB_TOKEN }}
+          github-actor: ${{ github.actor }}
+          tags: ghcr.io/${{ github.repository }}-admin:main-${{ github.sha }}-${{ env.TIMESTAMP }}
+          path: "./admin"
+          cache-registry: ghcr.io/${{ github.repository }}-admin:buildcache
+  stg-build-admin-main:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.filter.outputs.admin == 'true'
+    needs: filter
+    steps:
+      - name: Get current datetime
+        run: echo "TIMESTAMP=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/docker-build
+        with:
+          gh-token: ${{ secrets.GITHUB_TOKEN }}
+          github-actor: ${{ github.actor }}
+          tags: ghcr.io/${{ github.repository }}-admin:main-${{ github.sha }}-${{ env.TIMESTAMP }}
+          path: "./admin"
+          cache-registry: ghcr.io/${{ github.repository }}-admin:buildcache
+
+  stg-build-updater:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && needs.filter.outputs.updater == 'true'
+    needs: filter
+    environment: staging # 管理者の承認を必要とする
+    steps:
+      - name: Get current datetime
+        run: echo "TIMESTAMP=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/docker-build
+        with:
+          gh-token: ${{ secrets.GITHUB_TOKEN }}
+          github-actor: ${{ github.actor }}
+          tags: ghcr.io/${{ github.repository }}-updater:main-${{ github.sha }}-${{ env.TIMESTAMP }}
+          path: "./updater"
+          cache-registry: ghcr.io/${{ github.repository }}-updater:buildcache
+  stg-build-updater-main:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.filter.outputs.updater == 'true'
+    needs: filter
+    steps:
+      - name: Get current datetime
+        run: echo "TIMESTAMP=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/docker-build
+        with:
+          gh-token: ${{ secrets.GITHUB_TOKEN }}
+          github-actor: ${{ github.actor }}
+          tags: ghcr.io/${{ github.repository }}-updater:main-${{ github.sha }}-${{ env.TIMESTAMP }}
+          path: "./updater"
+          cache-registry: ghcr.io/${{ github.repository }}-updater:buildcache

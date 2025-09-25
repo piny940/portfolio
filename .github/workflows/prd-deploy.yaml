@@ -1,0 +1,113 @@
+name: Build App for Production
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+  pages: write
+  packages: write
+
+jobs:
+  filter:
+    runs-on: ubuntu-latest
+    outputs:
+      backend: ${{ steps.filter.outputs.backend }}
+      app: ${{ steps.filter.outputs.app }}
+      admin: ${{ steps.filter.outputs.admin }}
+      updater: ${{ steps.filter.outputs.updater }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            backend:
+              - "backend/**"
+              - ".github/workflows/prd-deploy.yaml"
+            app:
+              - "app/**"
+              - ".github/workflows/prd-deploy.yaml"
+            admin:
+              - "admin/**"
+              - ".github/workflows/prd-deploy.yaml"
+            updater:
+              - "updater/**"
+              - ".github/workflows/prd-deploy.yaml"
+
+  prd-build-backend:
+    runs-on: ubuntu-latest
+    environment: production
+    needs: filter
+    if: needs.filter.outputs.backend == 'true'
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/docker-build
+        with:
+          gh-token: ${{ secrets.GITHUB_TOKEN }}
+          github-actor: ${{ github.actor }}
+          tags: |
+            ghcr.io/${{ github.repository }}-backend:1.0.${{ github.run_number }}
+            ghcr.io/${{ github.repository }}-backend:latest
+          path: "./backend"
+          cache-registry: ghcr.io/${{ github.repository }}-backend:buildcache
+
+  prd-build-app:
+    runs-on: ubuntu-latest
+    environment: production
+    needs: filter
+    if: needs.filter.outputs.app == 'true'
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/docker-build
+        with:
+          gh-token: ${{ secrets.GITHUB_TOKEN }}
+          github-actor: ${{ github.actor }}
+          tags: |
+            ghcr.io/${{ github.repository }}-app:1.0.${{ github.run_number }}
+            ghcr.io/${{ github.repository }}-app:latest
+          path: "./app"
+          build-args: |
+            BACKEND_HOST=https://portfolio-backend.piny940.com
+          cache-registry: ghcr.io/${{ github.repository }}-app:buildcache
+
+  prd-build-admin:
+    runs-on: ubuntu-latest
+    environment: production
+    needs: filter
+    if: needs.filter.outputs.admin == 'true'
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/docker-build
+        with:
+          gh-token: ${{ secrets.GITHUB_TOKEN }}
+          github-actor: ${{ github.actor }}
+          tags: |
+            ghcr.io/${{ github.repository }}-admin:1.0.${{ github.run_number }}
+            ghcr.io/${{ github.repository }}-admin:latest
+          path: "./admin"
+          build-args: |
+            "BACKEND_HOST=http://portfolio-backend.default.svc.cluster.local:8080"
+          cache-registry: ghcr.io/${{ github.repository }}-admin:buildcache
+
+  prd-build-updater:
+    runs-on: ubuntu-latest
+    environment: production
+    needs: filter
+    if: needs.filter.outputs.updater == 'true'
+    steps:
+      - uses: actions/checkout@v5
+      - uses: ./.github/actions/docker-build
+        with:
+          gh-token: ${{ secrets.GITHUB_TOKEN }}
+          github-actor: ${{ github.actor }}
+          tags: |
+            ghcr.io/${{ github.repository }}-updater:1.0.${{ github.run_number }}
+            ghcr.io/${{ github.repository }}-updater:latest
+          path: "./updater"
+          build-args: |
+            "BACKEND_HOST=http://portfolio-backend.default.svc.cluster.local:8080"
+          cache-registry: ghcr.io/${{ github.repository }}-updater:buildcache
