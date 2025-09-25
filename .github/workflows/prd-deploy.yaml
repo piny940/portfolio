@@ -53,7 +53,6 @@ jobs:
             ghcr.io/${{ github.repository }}-backend:1.0.${{ github.run_number }}
             ghcr.io/${{ github.repository }}-backend:latest
           path: "./backend"
-          cache-registry: ghcr.io/${{ github.repository }}-backend:buildcache
 
   prd-build-app:
     runs-on: ubuntu-latest
@@ -72,7 +71,6 @@ jobs:
           path: "./app"
           build-args: |
             BACKEND_HOST=https://portfolio-backend.piny940.com
-          cache-registry: ghcr.io/${{ github.repository }}-app:buildcache
 
   prd-build-admin:
     runs-on: ubuntu-latest
@@ -91,7 +89,6 @@ jobs:
           path: "./admin"
           build-args: |
             "BACKEND_HOST=http://portfolio-backend.default.svc.cluster.local:8080"
-          cache-registry: ghcr.io/${{ github.repository }}-admin:buildcache
 
   prd-build-updater:
     runs-on: ubuntu-latest
@@ -110,4 +107,3 @@ jobs:
           path: "./updater"
           build-args: |
             "BACKEND_HOST=http://portfolio-backend.default.svc.cluster.local:8080"
-          cache-registry: ghcr.io/${{ github.repository }}-updater:buildcache
