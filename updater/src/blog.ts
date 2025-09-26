@@ -4,7 +4,7 @@ import {
   getTechnologies,
   updateBlogTags,
 } from './storage'
-import { Blog, BlogInput, Technology } from './types'
+import { Blog, BlogInput, QiitaBlog, QiitaTag, Technology } from './types'
 import { sendSlackMessage } from './slack'
 
 const getQiitaBlogs = async () => {
@@ -16,10 +16,10 @@ const getQiitaBlogs = async () => {
       },
     },
   )
-  const json = await response.json()
-  return json.filter((blog: any) => !blog.private)
+  const json = await response.json() as QiitaBlog[]
+  return json.filter(blog => !blog.private)
 }
-const getTags = (qiitaTags: { name: string }[]) => {
+const getTags = (qiitaTags: QiitaTag[]) => {
   const tagNames = qiitaTags.map(tag => tag.name)
   const map: { [key in string]: string[] } = {
     'Next.js': ['React.js', 'React', 'Typescript'],
@@ -46,7 +46,7 @@ const getTagIds = (
 }
 const filterNewBlogs = (desiredBlogs: BlogInput[], currentBlogs: Blog[]) => {
   const currentBlogUrls = currentBlogs.map(blog => blog.url)
-  return desiredBlogs.filter((blog: any) => !currentBlogUrls.includes(blog.url))
+  return desiredBlogs.filter(blog => !currentBlogUrls.includes(blog.url))
 }
 const notifyToSlack = (newBlogs: Blog[]) => {
   const keyValuePair = (label: string, value: string) => ({
@@ -82,7 +82,7 @@ const notifyToSlack = (newBlogs: Blog[]) => {
             },
           ],
         },
-        keyValuePair('Kind', blog.kind),
+        keyValuePair('Kind', blog.kind.toString()),
         keyValuePair('Pubslished At', blog.publishedAt),
         keyValuePair('Tags', blog.tags.map(tag => tag.name).join(', ')),
       ],
@@ -92,7 +92,7 @@ const notifyToSlack = (newBlogs: Blog[]) => {
 
 export const updateBlogs = async () => {
   const qiitaBlogs = await getQiitaBlogs()
-  const desiredBlogs: BlogInput[] = qiitaBlogs.map((blog: any) => ({
+  const desiredBlogs: BlogInput[] = qiitaBlogs.map(blog => ({
     kind: 0, // Qiita
     publishedAt: blog.created_at,
     title: blog.title,

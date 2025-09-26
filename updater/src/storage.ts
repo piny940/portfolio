@@ -1,7 +1,7 @@
 import { Blog, BlogInput, Technology } from './types'
 import fs from 'fs'
 
-const query = async (query: string, variables: any) => {
+const query = async (query: string, variables: unknown) => {
   let token = ''
   if (process.env.TOKEN_PATH) {
     token = fs.readFileSync(process.env.TOKEN_PATH).toString()

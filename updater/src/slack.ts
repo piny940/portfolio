@@ -1,4 +1,4 @@
-export const sendSlackMessage = async (attachments: any) => {
+export const sendSlackMessage = async (attachments: unknown) => {
   if (!process.env.SLACK_CHANNEL_ID || process.env.SLACK_CHANNEL_ID === '') {
     console.log('SLACK_CHANNEL_ID is not set')
     return
