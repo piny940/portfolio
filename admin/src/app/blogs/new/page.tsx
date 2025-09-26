@@ -1,5 +1,6 @@
 import { BlogNew } from '@/components/BlogNew'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
+import { JSX } from '@emotion/react/jsx-runtime'
 
 const BlogNewPage = (): JSX.Element => {
   const paths = [
