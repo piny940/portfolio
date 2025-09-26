@@ -1,4 +1,4 @@
-# Portfolio Admin
+# Portfolio App
 
 ## 開発
 
@@ -8,3 +8,7 @@
 ## コード整形
 
 `pnpm lint --fix`
+
+## テスト
+
+`pnpm test`

@@ -1,9 +1,9 @@
-# Portfolio Admin
+# Portfolio Updater
 
 ## 開発
 
 1. `pnpm i`
-2. `pnpm dev`
+1. `pnpm dev`
 
 ## コード整形
 
