@@ -1,5 +1,5 @@
 import { useTheme } from '@/context/ThemeProvider'
-import { CSSProperties, memo, useMemo } from 'react'
+import { CSSProperties, JSX, memo, useMemo } from 'react'
 
 export type BadgeProps = {
   color: string

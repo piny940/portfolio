@@ -9,6 +9,7 @@ import { GetServerSideProps } from 'next'
 import { Paging } from '@/components/Common/Paging'
 import { useRouter } from 'next/router'
 import { logger } from '@/utils/logger'
+import { JSX } from 'react'
 
 interface BlogsProps extends PageProps {
   blogs: Blog[]

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { memo } from 'react'
+import { JSX, memo } from 'react'
 
 export type BreadcrumbProps = {
   paths: Array<{

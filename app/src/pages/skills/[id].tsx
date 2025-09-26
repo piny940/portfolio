@@ -9,6 +9,7 @@ import { GetServerSideProps } from 'next'
 import { PageProps } from '../_app'
 import { getThemeFromCookie } from '@/server/helper'
 import { logger } from '@/utils/logger'
+import { JSX } from 'react'
 
 interface SkillProps extends PageProps {
   projects: Project[]

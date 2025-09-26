@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { JSX, useEffect, useState } from 'react'
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
 import remarkGfm from 'remark-gfm'
@@ -10,7 +10,7 @@ export type MarkdownDisplayProps = {
   content: string
 }
 
-export const MarkdownDisplay = ({ content }: MarkdownDisplayProps) => {
+export const MarkdownDisplay = ({ content }: MarkdownDisplayProps): JSX.Element => {
   const [html, setHtml] = useState('')
 
   const parseMarkdown = async (content: string): Promise<string> => {

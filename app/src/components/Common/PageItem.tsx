@@ -1,4 +1,4 @@
-import { MouseEventHandler, ReactNode } from 'react'
+import { JSX, MouseEventHandler, ReactNode } from 'react'
 
 export type PageItemProps = {
   children: ReactNode

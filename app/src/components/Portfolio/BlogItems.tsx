@@ -1,6 +1,6 @@
 import { Blog } from '@/server/_types'
 import BlogItem from './BlogItem'
-import { memo } from 'react'
+import { JSX, memo } from 'react'
 
 export type BlogItemsProps = {
   blogs: Blog[]

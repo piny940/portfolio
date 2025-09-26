@@ -1,5 +1,5 @@
 import { PageItem } from './PageItem'
-import { useMemo } from 'react'
+import { JSX, useMemo } from 'react'
 
 export type PagingProps = {
   setPageNumber: (page: number) => void

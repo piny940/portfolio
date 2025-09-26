@@ -1,5 +1,5 @@
 import { TestID } from '@/resources/TestID'
-import { memo } from 'react'
+import { JSX, memo } from 'react'
 import Link from 'next/link'
 import TechnologyTag from './TechnologyTag'
 import { Blog } from '@/server/_types'

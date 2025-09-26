@@ -1,7 +1,7 @@
 import { useTheme } from '@/context/ThemeProvider'
 import { TestID } from '@/resources/TestID'
 import Head from 'next/head'
-import { memo, useMemo } from 'react'
+import { JSX, memo, useMemo } from 'react'
 
 export type MetaProps = {
   keyword?: string
