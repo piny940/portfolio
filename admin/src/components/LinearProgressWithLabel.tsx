@@ -6,7 +6,7 @@ export type LinearProgressWithLabelProps = LinearProgressProps & {
   value: number
 }
 export const LinearProgressWithLabel = (
-  props: LinearProgressProps & { value: number }
+  props: LinearProgressProps & { value: number },
 ): JSX.Element => {
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -14,9 +14,11 @@ export const LinearProgressWithLabel = (
         <LinearProgress variant="determinate" {...props} />
       </Box>
       <Box sx={{ minWidth: 35 }}>
-        <Typography variant="body2" color="text.secondary">{`${Math.round(
-          props.value
-        )}%`}</Typography>
+        <Typography variant="body2" color="text.secondary">
+          {`${Math.round(
+            props.value,
+          )}%`}
+        </Typography>
       </Box>
     </Box>
   )

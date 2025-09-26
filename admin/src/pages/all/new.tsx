@@ -9,7 +9,7 @@ const NewAllPage = (): JSX.Element => {
       { name: 'All', path: '/all' },
       { name: 'New All', path: '/all/new' },
     ],
-    []
+    [],
   )
   return (
     <>

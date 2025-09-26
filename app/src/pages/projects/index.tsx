@@ -8,6 +8,7 @@ import { GetServerSideProps } from 'next'
 import { PageProps } from '../_app'
 import { getThemeFromCookie } from '@/server/helper'
 import { logger } from '@/utils/logger'
+import { JSX } from 'react'
 
 interface ProjectsProps extends PageProps {
   projects: Project[]
@@ -15,7 +16,7 @@ interface ProjectsProps extends PageProps {
 }
 
 export const getServerSideProps: GetServerSideProps<ProjectsProps> = async (
-  ctx
+  ctx,
 ) => {
   logger.child({ path: '/projects' }).info('accessed')
   return {

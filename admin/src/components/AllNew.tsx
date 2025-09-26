@@ -47,7 +47,8 @@ export const AllNew = (): JSX.Element => {
       const techStacks = (data.techStacks || []) as TechStack[]
       const technologies = (data.technologies || []) as Technology[]
       return { blogs, projects, techStacks, technologies }
-    } catch (e: any) {
+    }
+    catch (e: unknown) {
       if (e instanceof Error) {
         setMessage(e.message)
       }
@@ -67,22 +68,22 @@ export const AllNew = (): JSX.Element => {
         })
         if (!data) {
           console.error('Failed to create technology')
-          setErrors((prev) => [...prev, 'Failed to create technology'])
+          setErrors(prev => [...prev, 'Failed to create technology'])
           break
         }
-        if (error) setErrors((prev) => [...prev, error.message])
+        if (error) setErrors(prev => [...prev, error.message])
         newTechs.push(data.createTechnology)
         onStep()
       }
       return newTechs
     },
-    [createTechnology, setErrors]
+    [createTechnology, setErrors],
   )
   const createTechStacks = useCallback(
     async (
       techStacks: TechStack[],
       techNameIdMap: { [key in string]: number },
-      onStep: () => void
+      onStep: () => void,
     ) => {
       for (const techStack of techStacks) {
         const { error } = await createTechStack({
@@ -91,17 +92,17 @@ export const AllNew = (): JSX.Element => {
             technologyId: techNameIdMap[techStack.technology.name],
           },
         })
-        if (error) setErrors((prev) => [...prev, error.message])
+        if (error) setErrors(prev => [...prev, error.message])
         onStep()
       }
     },
-    [createTechStack, setErrors]
+    [createTechStack, setErrors],
   )
   const createBlogs = useCallback(
     async (
       blogs: Blog[],
       techNameIdMap: { [key in string]: number },
-      onStep: () => void
+      onStep: () => void,
     ) => {
       for (const blog of blogs) {
         const { data, error: error1 } = await createBlog({
@@ -112,24 +113,24 @@ export const AllNew = (): JSX.Element => {
             publishedAt: blog.publishedAt,
           },
         })
-        if (error1) setErrors((prev) => [...prev, error1.message])
+        if (error1) setErrors(prev => [...prev, error1.message])
         if (!data) continue
 
         const { error: error2 } = await updateBlogTags({
           id: data.createBlog.id,
-          tags: blog.tags.map((t) => techNameIdMap[t.technology.name]),
+          tags: blog.tags.map(t => techNameIdMap[t.technology.name]),
         })
-        if (error2) setErrors((prev) => [...prev, error2.message])
+        if (error2) setErrors(prev => [...prev, error2.message])
         onStep()
       }
     },
-    [createBlog, updateBlogTags, setErrors]
+    [createBlog, updateBlogTags, setErrors],
   )
   const createProjects = useCallback(
     async (
       projects: Project[],
       techNameIdMap: { [key in string]: number },
-      onStep: () => void
+      onStep: () => void,
     ) => {
       for (const project of projects) {
         const { data, error: error1 } = await createProject({
@@ -144,26 +145,26 @@ export const AllNew = (): JSX.Element => {
             position: project.position,
           },
         })
-        if (error1) setErrors((prev) => [...prev, error1.message])
+        if (error1) setErrors(prev => [...prev, error1.message])
         if (!data) continue
 
         const { error: error2 } = await updateProjectTags({
           id: data.createProject.id,
-          tags: project.tags.map((t) => techNameIdMap[t.technology.name]),
+          tags: project.tags.map(t => techNameIdMap[t.technology.name]),
         })
-        if (error2) setErrors((prev) => [...prev, error2.message])
+        if (error2) setErrors(prev => [...prev, error2.message])
         onStep()
       }
     },
-    [createProject, updateProjectTags, setErrors]
+    [createProject, updateProjectTags, setErrors],
   )
 
   const submit = async () => {
     const data = fromJson(getValues().json)
     if (!data) return
     const { blogs, projects, techStacks, technologies } = data
-    const allCount =
-      blogs.length + projects.length + techStacks.length + technologies.length
+    const allCount
+      = blogs.length + projects.length + techStacks.length + technologies.length
     let count = 0
     setDialogOpen(true)
     setProgress(0)

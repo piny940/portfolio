@@ -21,7 +21,7 @@ interface HomeProps extends PageProps {
 }
 
 export const getServerSideProps: GetServerSideProps<HomeProps> = async (
-  ctx
+  ctx,
 ) => {
   const data = await sdk().fetchAllData()
   logger.child({ path: '/' }).info('accessed')
@@ -49,8 +49,8 @@ const Home: NextPage<HomeProps> = ({
         <section
           id="skills"
           className={
-            'd-flex flex-column align-items-center container py-5 row-gap-4 row-gap-lg-5 ' +
-            styles.skillItemsSection
+            'd-flex flex-column align-items-center container py-5 row-gap-4 row-gap-lg-5 '
+            + styles.skillItemsSection
           }
         >
           <Link href="/skills" className="unstyled">
@@ -65,8 +65,8 @@ const Home: NextPage<HomeProps> = ({
         <section
           id="projects"
           className={
-            'd-flex flex-column align-items-center py-5 container row-gap-4 row-gap-lg-5 ' +
-            styles.projectItemsSection
+            'd-flex flex-column align-items-center py-5 container row-gap-4 row-gap-lg-5 '
+            + styles.projectItemsSection
           }
         >
           <Link href="/projects" className="unstyled">

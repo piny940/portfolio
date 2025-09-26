@@ -12,7 +12,7 @@ const TechnologyNewPage = (): JSX.Element => {
         path: `/technologies/new`,
       },
     ],
-    []
+    [],
   )
   return (
     <>

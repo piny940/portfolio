@@ -1,5 +1,4 @@
 import { render, waitFor } from '@testing-library/react'
-import { expect } from '@jest/globals'
 import { PieItem, PieItemProps } from '@/components/Common/PieItem'
 import { Mock } from 'ts-mockery'
 

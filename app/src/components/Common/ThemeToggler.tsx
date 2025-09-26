@@ -16,11 +16,13 @@ export const ThemeToggler: React.FC<ThemeTogglerProps> = ({
       onClick={toggleTheme}
       className={'text-body-emphasis rounded-circle ' + styles.toggler}
     >
-      {theme === 'light' ? (
-        <MaterialIcon name="light_mode" />
-      ) : (
-        <MaterialIcon name="dark_mode" />
-      )}
+      {theme === 'light'
+        ? (
+            <MaterialIcon name="light_mode" />
+          )
+        : (
+            <MaterialIcon name="dark_mode" />
+          )}
     </button>
   )
 }

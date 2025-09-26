@@ -1,6 +1,5 @@
 import { IconButton, IconButtonProps } from '@/components/Navbar/IconButton'
 import { TestID } from '@/resources/TestID'
-import { expect } from '@jest/globals'
 import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import { Mock } from 'ts-mockery'
 

@@ -1,5 +1,5 @@
 import { useTheme } from '@/context/ThemeProvider'
-import { CSSProperties, memo, useMemo } from 'react'
+import { CSSProperties, JSX, memo, useMemo } from 'react'
 
 export type BadgeProps = {
   color: string
@@ -22,7 +22,7 @@ const Badge = ({
       backgroundColor: color,
       fontSize: `${size}px`,
     }),
-    [theme, color, size]
+    [theme, color, size],
   )
   return (
     <span data-testid={testId} style={style} className="badge">

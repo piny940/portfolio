@@ -11,7 +11,7 @@ export const AllShow = (): JSX.Element => {
     () => ({
       additionalTypenames: ['Project', 'Blog', 'TechStack', 'Technology'],
     }),
-    []
+    [],
   )
   const [{ data, error }] = useGetAllQuery({ context })
   const [copied, setCopied] = useState(false)

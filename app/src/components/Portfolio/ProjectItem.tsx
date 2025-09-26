@@ -25,7 +25,7 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
   const { theme } = useTheme()
   const mainLink = useMemo(
     () => (hasBlog ? `/projects/${project.id}` : project.qiitaLink),
-    [project, hasBlog]
+    [project, hasBlog],
   )
   const githubLink = useMemo(() => project.githubLink, [project])
   const projectLink = useMemo(() => project.appLink, [project])
@@ -39,8 +39,8 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
     <div
       data-testid={TestID.PROJECT_ITEM}
       className={
-        'p-3 rounded border d-flex flex-column align-items-center position-relative w-100 h-100 ' +
-        className
+        'p-3 rounded border d-flex flex-column align-items-center position-relative w-100 h-100 '
+        + className
       }
     >
       {project.isFavorite && (
@@ -48,17 +48,19 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
           <FavoriteIcon size={42} />
         </div>
       )}
-      {mainLink ? (
-        <Link
-          className="unstyled"
-          href={mainLink}
-          target={hasBlog ? '_self' : '_blank'}
-        >
-          {renderTitle()}
-        </Link>
-      ) : (
-        renderTitle()
-      )}
+      {mainLink
+        ? (
+            <Link
+              className="unstyled"
+              href={mainLink}
+              target={hasBlog ? '_self' : '_blank'}
+            >
+              {renderTitle()}
+            </Link>
+          )
+        : (
+            renderTitle()
+          )}
       <ul className="list-unstyled mt-2 mb-1 d-flex align-items-center">
         {githubLink && (
           <li>
@@ -94,7 +96,7 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
       <div className="d-flex flex-column align-items-center mt-1">
         <h4 className="small text-muted fw-normal p-0 m-0">使用技術</h4>
         <p className="small text-muted text-center">
-          {project.tags.map((tag) => tag.technology.name).join(', ')}
+          {project.tags.map(tag => tag.technology.name).join(', ')}
         </p>
       </div>
       <p className="">{project.description}</p>

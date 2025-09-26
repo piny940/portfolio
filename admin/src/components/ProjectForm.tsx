@@ -15,8 +15,8 @@ import { TechTagsEdit, TechTagsFormFields } from './TechTagsEdit'
 
 export type ProjectFormProps = {
   submit: () => void
-  control: Control<ProjectInput, any>
-  tagsControl: Control<TechTagsFormFields, any>
+  control: Control<ProjectInput, unknown>
+  tagsControl: Control<TechTagsFormFields, unknown>
   isEdit: boolean
 }
 

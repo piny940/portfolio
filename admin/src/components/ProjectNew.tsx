@@ -22,8 +22,8 @@ export const ProjectNew = (): JSX.Element => {
       githubLink: '',
     },
   })
-  const { getValues: getTagsValues, control: tagsControl } =
-    useForm<TechTagsFormFields>({
+  const { getValues: getTagsValues, control: tagsControl }
+    = useForm<TechTagsFormFields>({
       defaultValues: { tags: [] },
     })
   const [, createProject] = useCreateProjectMutation()
@@ -35,7 +35,7 @@ export const ProjectNew = (): JSX.Element => {
     if (!data || error) return
     const { error: tagsError } = await updateProjectTags({
       id: data.createProject.id,
-      tags: getTagsValues().tags.map((tag) => tag.id),
+      tags: getTagsValues().tags.map(tag => tag.id),
     })
     if (tagsError) return
     void router.push('/projects')

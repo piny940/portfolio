@@ -14,7 +14,7 @@ import { Control, Controller } from 'react-hook-form'
 
 export type TechStackFormProps = {
   submit: () => void
-  control: Control<TechStackInput, any>
+  control: Control<TechStackInput, unknown>
 }
 
 export const TechStackForm = ({
@@ -37,7 +37,7 @@ export const TechStackForm = ({
             <FormControl fullWidth>
               <InputLabel>Technology</InputLabel>
               <Select error={fieldState.invalid} label="Technology" {...field}>
-                {data.technologies.map((tech) => (
+                {data.technologies.map(tech => (
                   <MenuItem key={tech.id} value={tech.id}>
                     {tech.name}
                   </MenuItem>

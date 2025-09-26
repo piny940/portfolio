@@ -1,5 +1,5 @@
 import { PageItem } from './PageItem'
-import { useMemo } from 'react'
+import { JSX, useMemo } from 'react'
 
 export type PagingProps = {
   setPageNumber: (page: number) => void
@@ -41,7 +41,7 @@ export const Paging = ({
       >
         &lt;
       </PageItem>
-      {items.map((i) => (
+      {items.map(i => (
         <PageItem
           pageClassName={currentPage === i ? 'active' : ''}
           key={i}

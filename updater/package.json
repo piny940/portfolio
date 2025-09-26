@@ -2,31 +2,32 @@
   "name": "updater",
   "version": "1.0.0",
   "main": "main.js",
+  "private": true,
   "packageManager": "pnpm@10.15.1",
   "scripts": {
     "dev": "webpack --mode development --watch",
     "build": "webpack --mode production",
-    "lint": "pnpm -s run prettier --write . && pnpm -s run eslint --ext .ts,.js, . --fix",
+    "lint": "eslint . --max-warnings 0",
     "codegen": "graphql-codegen"
   },
-  "license": "MIT",
   "devDependencies": {
+    "@eslint/compat": "^1.4.0",
+    "@eslint/eslintrc": "^3.3.1",
+    "@eslint/js": "^9.36.0",
     "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/typescript": "^4.0.1",
     "@graphql-codegen/typescript-operations": "^4.0.1",
-    "@types/node": "^20.10.6",
-    "@typescript-eslint/eslint-plugin": "^6.16.0",
-    "@typescript-eslint/parser": "^6.16.0",
-    "eslint": "^8.56.0",
-    "eslint-config-prettier": "^10.0.0",
-    "prettier": "^3.1.1",
-    "typescript": "^5.3.3"
-  },
-  "dependencies": {
+    "@stylistic/eslint-plugin": "^5.4.0",
+    "@types/node": "^20.19.17",
     "dotenv": "^17.0.0",
+    "eslint": "9.36.0",
+    "typescript": "^5.3.3",
+    "typescript-eslint": "^8.44.1",
     "ts-loader": "^9.5.1",
-    "graphql": "^16.8.1",
     "webpack": "^5.94.0",
     "webpack-cli": "^6.0.0"
+  },
+  "dependencies": {
+    "graphql": "^16.8.1"
   }
 }

@@ -1,4 +1,4 @@
-import { CSSProperties, memo } from 'react'
+import { CSSProperties, JSX, memo } from 'react'
 import { MaterialIcon } from '../Common/MaterialIcon'
 
 export type FavoriteIconPros = {

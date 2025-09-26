@@ -9,15 +9,15 @@ export const Navbar: React.FC = () => {
   const { theme, setTheme } = useTheme()
   const toggleTheme = useCallback(
     () => setTheme(theme === 'light' ? 'dark' : 'light'),
-    [theme, setTheme]
+    [theme, setTheme],
   )
 
   return (
     <nav
       data-testid={TestID.NAVBAR}
       className={
-        'navbar navbar-expand-lg ' +
-        (theme === 'light' ? 'navbar-light bg-light ' : 'navbar-dark bg-dark')
+        'navbar navbar-expand-lg '
+        + (theme === 'light' ? 'navbar-light bg-light ' : 'navbar-dark bg-dark')
       }
     >
       <div className="container">
@@ -62,17 +62,19 @@ export const Navbar: React.FC = () => {
                 onClick={toggleTheme}
                 className="nav-link d-flex align-items-center"
               >
-                {theme === 'light' ? (
-                  <>
-                    <MaterialIcon className="me-1" name="light_mode" />
-                    ライトモード
-                  </>
-                ) : (
-                  <>
-                    <MaterialIcon className="me-1" name="dark_mode" />
-                    ダークモード
-                  </>
-                )}
+                {theme === 'light'
+                  ? (
+                      <>
+                        <MaterialIcon className="me-1" name="light_mode" />
+                        ライトモード
+                      </>
+                    )
+                  : (
+                      <>
+                        <MaterialIcon className="me-1" name="dark_mode" />
+                        ダークモード
+                      </>
+                    )}
               </button>
             </li>
           </ul>

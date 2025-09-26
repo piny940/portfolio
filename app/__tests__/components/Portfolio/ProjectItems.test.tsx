@@ -1,5 +1,4 @@
 import { render, waitFor } from '@testing-library/react'
-import { expect } from '@jest/globals'
 import { Mock } from 'ts-mockery'
 import ProjectItems, {
   ProjectItemsProps,
@@ -18,7 +17,7 @@ describe('<ProjectItems />', () => {
     await waitFor(() => {
       expect(component).toBeTruthy()
       expect(component.getAllByTestId(TestID.PROJECT_ITEM).length).toBe(
-        projects.length
+        projects.length,
       )
     })
   })

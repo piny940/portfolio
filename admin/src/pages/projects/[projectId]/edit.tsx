@@ -23,7 +23,7 @@ const ProjectEditPage = (): JSX.Element => {
         path: `/projects/${data?.project?.id}/edit`,
       },
     ],
-    [data?.project?.id]
+    [data?.project?.id],
   )
 
   if (error) return <Error statusCode={404} />

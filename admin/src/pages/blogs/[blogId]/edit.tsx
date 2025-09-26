@@ -19,7 +19,7 @@ const BlogEditPage = (): JSX.Element => {
       { name: 'Blogs', path: '/blogs' },
       { name: 'Edit Blog', path: `/blogs/${data?.blog?.id}/edit` },
     ],
-    [data?.blog?.id]
+    [data?.blog?.id],
   )
 
   if (error) return <Error statusCode={404} />

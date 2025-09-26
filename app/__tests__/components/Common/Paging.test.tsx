@@ -1,5 +1,4 @@
 import { render, waitFor } from '@testing-library/react'
-import { expect } from '@jest/globals'
 import { Paging, PagingProps } from '@/components/Common/Paging'
 import { Mock } from 'ts-mockery'
 

@@ -1,5 +1,4 @@
 import { ThemeProvider, useTheme } from '@/context/ThemeProvider'
-import { expect } from '@jest/globals'
 import { ReactNode } from 'react'
 import { renderHook, waitFor, act } from '@testing-library/react'
 

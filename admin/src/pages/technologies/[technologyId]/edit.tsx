@@ -22,7 +22,7 @@ const TechnologyEditPage = (): JSX.Element => {
         path: `/technologies/${data?.technology?.id}/edit`,
       },
     ],
-    [data?.technology?.id]
+    [data?.technology?.id],
   )
 
   if (error) return <Error statusCode={404} />

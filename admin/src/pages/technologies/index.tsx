@@ -8,7 +8,7 @@ const TechnologiesPage = (): JSX.Element => {
       { name: 'Home', path: '/' },
       { name: 'Technologies', path: '/technologies' },
     ],
-    []
+    [],
   )
   return (
     <>

@@ -1,5 +1,4 @@
 import { IDToken } from '@/components/IdToken'
-import { NextRequest, NextResponse } from 'next/server'
 
 type Params = {
   code: string
@@ -11,22 +10,19 @@ export default async function Page({
 }) {
   const query = await searchParams
   if (!query.code) {
-    return {
-      status: 400,
-      json: { error: 'Missing code' },
-    }
+    throw Error('No code provided')
   }
   if (!process.env.CLIENT_ID || !process.env.CLIENT_SECRET) {
     throw Error('Missing environment variables')
   }
   const secret = Buffer.from(
-    process.env.CLIENT_ID + ':' + process.env.CLIENT_SECRET
+    process.env.CLIENT_ID + ':' + process.env.CLIENT_SECRET,
   ).toString('base64')
   const res = await fetch(process.env.AUTH_SERVER_URL + '/oauth/token', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization: `Basic ${secret}`,
+      'Authorization': `Basic ${secret}`,
     },
     body: new URLSearchParams({
       client_id: process.env.CLIENT_ID,

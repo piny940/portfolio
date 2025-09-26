@@ -20,8 +20,8 @@ export const BlogNew = (): JSX.Element => {
       publishedAt: dayjs().toJSON(),
     },
   })
-  const { getValues: getTagsValues, control: tagsControl } =
-    useForm<TechTagsFormFields>({
+  const { getValues: getTagsValues, control: tagsControl }
+    = useForm<TechTagsFormFields>({
       defaultValues: { tags: [] },
     })
   const [, createBlog] = useCreateBlogMutation()
@@ -33,7 +33,7 @@ export const BlogNew = (): JSX.Element => {
     if (data == null || error != null) return
     const { error: tagsError } = await updateBlogTags({
       id: data.createBlog.id,
-      tags: getTagsValues().tags.map((tag) => tag.id),
+      tags: getTagsValues().tags.map(tag => tag.id),
     })
     if (tagsError != null) return
     void router.push('/blogs')

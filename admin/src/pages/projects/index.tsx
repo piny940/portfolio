@@ -8,7 +8,7 @@ const ProjectsPage = (): JSX.Element => {
       { name: 'Home', path: '/' },
       { name: 'Projects', path: '/projects' },
     ],
-    []
+    [],
   )
   return (
     <>

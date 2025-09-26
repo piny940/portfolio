@@ -52,7 +52,7 @@ export const TechStacks = (): JSX.Element => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.techStacks.map((techStack) => (
+          {data.techStacks.map(techStack => (
             <TableRow key={techStack.id}>
               <TableCell>{techStack.id}</TableCell>
               <TableCell>{techStack.technology.name}</TableCell>

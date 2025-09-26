@@ -18,8 +18,8 @@ jobs:
           cache-dependency-path: "app/package.json"
       - run: cd app && pnpm install
       - run: cd app && pnpm test
-      - name: Prettier && ESLint
-        run: cd app && if pnpm lint |& grep -E "(error|warn)"; then exit 1; fi
+      - name: ESLint
+        run: cd app && pnpm lint
       - name: Build Test
         run: cd app && pnpm build
 
@@ -75,8 +75,8 @@ jobs:
           cache: "pnpm"
           cache-dependency-path: "admin/package.json"
       - run: cd admin && pnpm install
-      - name: Prettier && ESLint
-        run: cd admin && if pnpm lint |& grep -E "(error|warn)"; then exit 1; fi
+      - name: ESLint
+        run: cd admin && pnpm lint
       - name: Build Test
         run: cd admin && pnpm build
         env:
@@ -94,8 +94,8 @@ jobs:
           cache: "pnpm"
           cache-dependency-path: "updater/package.json"
       - run: cd updater && pnpm install
-      - name: Prettier && ESLint
-        run: cd updater && if pnpm lint |& grep -E "(error|warn)"; then exit 1; fi
+      - name: ESLint
+        run: cd updater && pnpm lint
       - name: Build Test
         run: cd updater && pnpm build
       # - name: pnpm test

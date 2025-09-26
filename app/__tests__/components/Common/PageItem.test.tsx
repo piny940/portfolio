@@ -1,5 +1,4 @@
 import { render, waitFor } from '@testing-library/react'
-import { expect } from '@jest/globals'
 import { PageItem, PageItemProps } from '@/components/Common/PageItem'
 import { Mock } from 'ts-mockery'
 

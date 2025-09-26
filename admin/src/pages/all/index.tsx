@@ -8,7 +8,7 @@ const AllPage = () => {
       { name: 'Home', path: '/' },
       { name: 'All', path: '/all' },
     ],
-    []
+    [],
   )
   return (
     <>

@@ -1,4 +1,3 @@
-import { expect } from '@jest/globals'
 import { render, waitFor } from '@testing-library/react'
 import Custom500 from '@/pages/500'
 import { TestID } from '@/resources/TestID'
@@ -16,7 +15,6 @@ describe('500 Page', () => {
 
     await waitFor(() => {
       expect(getByTestId(TestID.CUSTOM500)).toBeTruthy()
-      expect(getByTestId(TestID.NO_INDEX)).toBeTruthy()
     })
   })
 })

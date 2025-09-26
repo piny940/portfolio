@@ -1,5 +1,5 @@
-@import '../../node_modules/bootstrap/scss/bootstrap.scss';
-@import './utils.scss';
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
+@import "./utils.scss";
 
 html {
   padding: 0;
@@ -11,7 +11,7 @@ html {
 }
 #root {
   min-height: 100dvh;
-  font-family: 'Noto Sans JP', sans-serif;
+  font-family: "Noto Sans JP", sans-serif;
   font-display: swap;
   font-weight: 400;
 }
@@ -70,12 +70,12 @@ $main: rgb(25, 97, 206);
   );
   border-image-slice: 1;
 }
-[data-bs-theme='light'] {
+[data-bs-theme="light"] {
   .on-dark {
     display: none;
   }
 }
-[data-bs-theme='dark'] {
+[data-bs-theme="dark"] {
   --bs-body-color-rgb: 210, 210, 210 !important;
   --bs-body-color: #dddddd !important;
   .on-light {

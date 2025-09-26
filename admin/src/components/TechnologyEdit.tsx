@@ -29,7 +29,7 @@ export const TechnologyEdit = ({
   const [logoPreview, setLogoPreview] = useState<FilePreview | undefined>(
     technology.logoUrl
       ? { filename: technology.logoUrl, src: technology.logoUrl, dirty: false }
-      : undefined
+      : undefined,
   )
 
   const onLogoChange = (file: File) => {
@@ -56,7 +56,8 @@ export const TechnologyEdit = ({
   return (
     <Box>
       <Typography variant="h4" component="h1">
-        Edit Technology{technology.id}
+        Edit Technology
+        {technology.id}
       </Typography>
       <TechnologyForm
         onLogoChange={onLogoChange}

@@ -7,7 +7,7 @@ import { Control, Controller } from 'react-hook-form'
 
 export type TechnologyFormProps = {
   submit: () => void
-  control: Control<TechnologyInput, any>
+  control: Control<TechnologyInput, unknown>
   onLogoChange: (file: File) => void
   logoPreview: FilePreview | undefined
 }
@@ -89,7 +89,7 @@ export const TechnologyForm = ({
         >
           <input {...getInputProps()} />
           <Typography component="p">
-            Drag 'n' drop some files here, or click to select files
+            Drag &apos;n&apos; drop some files here, or click to select files
           </Typography>
         </Box>
         {logoPreview && (

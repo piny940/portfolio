@@ -12,6 +12,6 @@ export const sdk = () => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    })
+    }),
   )
 }

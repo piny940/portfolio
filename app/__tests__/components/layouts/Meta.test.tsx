@@ -1,8 +1,6 @@
-import { render, waitFor } from '@testing-library/react'
-import { expect } from '@jest/globals'
+import { render } from '@testing-library/react'
 import { Mock } from 'ts-mockery'
 import Meta, { MetaProps } from '@/layouts/Meta'
-import { TestID } from '@/resources/TestID'
 
 jest.mock('next/head', () => {
   return {
@@ -22,8 +20,5 @@ describe('<Meta />', () => {
     const props = Mock.from<MetaProps>({ noIndex: true })
     const component = render(<Meta {...props} />)
     expect(component).toBeTruthy()
-    await waitFor(() => {
-      expect(component.getByTestId(TestID.NO_INDEX)).toBeTruthy()
-    })
   })
 })

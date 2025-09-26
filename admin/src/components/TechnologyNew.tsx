@@ -14,7 +14,7 @@ export const TechnologyNew = (): JSX.Element => {
   const router = useRouter()
   const [logo, setLogo] = useState<File | undefined>(undefined)
   const [logoPreview, setLogoPreview] = useState<FilePreview | undefined>(
-    undefined
+    undefined,
   )
 
   const onLogoChange = (file: File) => {

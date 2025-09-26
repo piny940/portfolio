@@ -36,9 +36,9 @@ export const ProjectEdit = ({ project }: ProjectEditProps): JSX.Element => {
       qiitaLink: project.qiitaLink || '',
     },
   })
-  const { getValues: getTagsValues, control: tagsControl } =
-    useForm<TechTagsFormFields>({
-      defaultValues: { tags: project.tags.map((t) => t.technology) },
+  const { getValues: getTagsValues, control: tagsControl }
+    = useForm<TechTagsFormFields>({
+      defaultValues: { tags: project.tags.map(t => t.technology) },
     })
   const [, updateProject] = useUpdateProjectWithTagsMutation()
   const router = useRouter()
@@ -47,7 +47,7 @@ export const ProjectEdit = ({ project }: ProjectEditProps): JSX.Element => {
     const { error } = await updateProject({
       id: project.id,
       input: getValues(),
-      tags: getTagsValues().tags.map((tag) => tag.id),
+      tags: getTagsValues().tags.map(tag => tag.id),
     })
     if (error) return
     void router.push('/projects')
@@ -56,7 +56,8 @@ export const ProjectEdit = ({ project }: ProjectEditProps): JSX.Element => {
   return (
     <Box>
       <Typography variant="h4" component="h1">
-        Edit Project{project.id}
+        Edit Project
+        {project.id}
       </Typography>
       <ProjectForm
         isEdit={true}

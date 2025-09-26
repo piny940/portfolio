@@ -9,6 +9,7 @@ import { GetServerSideProps } from 'next'
 import { Paging } from '@/components/Common/Paging'
 import { useRouter } from 'next/router'
 import { logger } from '@/utils/logger'
+import { JSX } from 'react'
 
 interface BlogsProps extends PageProps {
   blogs: Blog[]
@@ -18,7 +19,7 @@ interface BlogsProps extends PageProps {
 
 const LIMIT = 20
 export const getServerSideProps: GetServerSideProps<BlogsProps> = async (
-  ctx
+  ctx,
 ) => {
   const page = Number((ctx.query.page || '1') as string)
   const { blogs } = await sdk().fetchBlogs({

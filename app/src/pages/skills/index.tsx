@@ -7,13 +7,14 @@ import { GetServerSideProps } from 'next'
 import { PageProps } from '../_app'
 import { getThemeFromCookie } from '@/server/helper'
 import { logger } from '@/utils/logger'
+import { JSX } from 'react'
 
 interface SkillsProps extends PageProps {
   techStacks: TechStack[]
 }
 
 export const getServerSideProps: GetServerSideProps<SkillsProps> = async (
-  ctx
+  ctx,
 ) => {
   logger.child({ path: '/skills' }).info('accessed')
   return {

@@ -13,8 +13,8 @@ import Error from 'next/error'
 
 export const TechStackNew = (): JSX.Element => {
   const [{ data: technologiesData, error }] = useGetTechnologiesQuery()
-  const { watch, handleSubmit, getValues, control, setValue } =
-    useForm<TechStackInput>({
+  const { watch, handleSubmit, getValues, control, setValue }
+    = useForm<TechStackInput>({
       defaultValues: { proficiency: 0, technologyId: -1 },
     })
   const [, createTechStack] = useCreateTechStackMutation()

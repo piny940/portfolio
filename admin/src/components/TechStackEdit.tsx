@@ -37,7 +37,8 @@ export const TechStackEdit = ({
   return (
     <Box>
       <Typography variant="h4" component="h1">
-        Edit TechStack{techStack.id}
+        Edit TechStack
+        {techStack.id}
       </Typography>
       <TechStackForm control={control} submit={handleSubmit(submit)} />
     </Box>

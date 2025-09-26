@@ -1,6 +1,6 @@
 import Badge from './Badge'
 import { TestID } from '@/resources/TestID'
-import { memo } from 'react'
+import { JSX, memo } from 'react'
 import Link from 'next/link'
 import { Technology } from '@/server/_types'
 

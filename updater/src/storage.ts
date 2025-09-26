@@ -1,7 +1,7 @@
 import { Blog, BlogInput, Technology } from './types'
 import fs from 'fs'
 
-const query = async (query: string, variables: any) => {
+const query = async (query: string, variables: unknown) => {
   let token = ''
   if (process.env.TOKEN_PATH) {
     token = fs.readFileSync(process.env.TOKEN_PATH).toString()
@@ -9,7 +9,7 @@ const query = async (query: string, variables: any) => {
   const response = await fetch(`${process.env.BACKEND_HOST || ''}/v1/query`, {
     body: JSON.stringify({ query, variables }),
     headers: {
-      Authorization: `Bearer ${token}`,
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
     method: 'POST',
@@ -35,7 +35,7 @@ export const getBlogs = async () => {
       }
     }
   }`,
-    {}
+    {},
   )
   return data.blogs.items as Blog[]
 }
@@ -51,7 +51,7 @@ export const getTechnologies = async () => {
       updatedAt
     }
   }`,
-    {}
+    {},
   )
   return data.technologies as Technology[]
 }
@@ -68,7 +68,7 @@ export const createBlog = async (input: BlogInput) => {
       updatedAt
     }
   }`,
-    { input }
+    { input },
   )
   return data.createBlog as Blog
 }
@@ -87,7 +87,7 @@ export const updateBlogTags = async (id: number, tags: number[]) => {
       }
     }
   }`,
-    { id, tags }
+    { id, tags },
   )
   return data.updateBlogTags as Technology[]
 }

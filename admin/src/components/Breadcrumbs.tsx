@@ -15,7 +15,7 @@ export type BreadcrumbProps = {
 export const Breadcrumbs = ({ paths }: BreadcrumbProps): JSX.Element => {
   return (
     <MuiBreadcrumbs sx={{ m: 1 }} aria-label="breadcrumb">
-      {paths.slice(0, paths.length - 1).map((path) => (
+      {paths.slice(0, paths.length - 1).map(path => (
         <MuiLink
           key={path.path}
           underline="hover"

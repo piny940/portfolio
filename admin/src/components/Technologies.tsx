@@ -53,7 +53,7 @@ export const Technologies = (): JSX.Element => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.technologies.map((technology) => (
+          {data.technologies.map(technology => (
             <TableRow key={technology.id}>
               <TableCell>{technology.id}</TableCell>
               <TableCell>{technology.name}</TableCell>
