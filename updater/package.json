@@ -11,18 +11,18 @@
     "codegen": "graphql-codegen"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^5.0.0",
-    "@graphql-codegen/typescript": "^4.0.1",
-    "@graphql-codegen/typescript-operations": "^4.0.1",
-    "@types/node": "^20.19.17",
     "@eslint/compat": "^1.4.0",
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.36.0",
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/typescript": "^4.0.1",
+    "@graphql-codegen/typescript-operations": "^4.0.1",
     "@stylistic/eslint-plugin": "^5.4.0",
-    "eslint": "9.36.0",
-    "eslint-config-next": "15.5.4",
+    "@types/node": "^20.19.17",
     "dotenv": "^17.0.0",
+    "eslint": "9.36.0",
     "typescript": "^5.3.3",
+    "typescript-eslint": "^8.44.1",
     "webpack-cli": "^6.0.0"
   },
   "dependencies": {
