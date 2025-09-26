@@ -4,6 +4,7 @@ import { Box, Button, TextField, Typography } from '@mui/material'
 import Image from 'next/image'
 import { useDropzone } from 'react-dropzone'
 import { Control, Controller } from 'react-hook-form'
+import { JSX } from 'react'
 
 export type TechnologyFormProps = {
   submit: () => void

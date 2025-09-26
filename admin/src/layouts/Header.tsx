@@ -4,6 +4,7 @@ import { AppBar, Button, Toolbar, Typography } from '@mui/material'
 import Link from 'next/link'
 import { toStorage } from '../../utils/storage'
 import { BACKEND_JWT_TOKEN_KEY } from '../../utils/constants'
+import { JSX } from 'react'
 
 export const Header = (): JSX.Element => {
   const [{ data }] = useGetMeQuery()

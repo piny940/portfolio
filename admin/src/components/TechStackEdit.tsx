@@ -8,6 +8,7 @@ import {
 } from '@/graphql/types'
 import { useRouter } from 'next/router'
 import { TechStackForm } from './TechStackForm'
+import { JSX } from 'react'
 
 export type TechStackEditProps = {
   techStack: Pick<TechStack, 'id' | 'technologyId' | 'proficiency'>

@@ -13,7 +13,7 @@ import {
 } from '@mui/material'
 import Error from 'next/error'
 import Link from 'next/link'
-import { useCallback, useMemo } from 'react'
+import { JSX, useCallback, useMemo } from 'react'
 import { BlogKind, blogKindLabel } from '../../utils/types'
 import { dateLabel } from '../../utils/helpers'
 import { Stack } from '@mui/system'

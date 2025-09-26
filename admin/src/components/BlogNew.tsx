@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form'
 import { TechTagsFormFields } from './TechTagsEdit'
 import dayjs from 'dayjs'
 import { useRouter } from 'next/navigation'
+import { JSX } from 'react'
 
 export const BlogNew = (): JSX.Element => {
   const { handleSubmit, getValues, control } = useForm<BlogInput>({

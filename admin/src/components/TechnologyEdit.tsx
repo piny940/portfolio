@@ -9,6 +9,7 @@ import {
 } from '@/graphql/types'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import { JSX } from 'react'
 
 export type TechnologyEditProps = {
   technology: Technology

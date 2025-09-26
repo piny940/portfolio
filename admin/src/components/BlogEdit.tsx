@@ -5,6 +5,7 @@ import { Blog, BlogInput, useUpdateBlogWithTagsMutation } from '@/graphql/types'
 import { useRouter } from 'next/router'
 import { BlogForm } from './BlogForm'
 import { TechTagsFormFields } from './TechTagsEdit'
+import { JSX } from 'react'
 
 export type BlogEditProps = {
   blog: Pick<Blog, 'id' | 'title' | 'kind' | 'url' | 'tags' | 'publishedAt'>

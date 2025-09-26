@@ -12,6 +12,7 @@ import {
 } from '@mui/material'
 import { Control, Controller } from 'react-hook-form'
 import { TechTagsEdit, TechTagsFormFields } from './TechTagsEdit'
+import { JSX } from 'react'
 
 export type ProjectFormProps = {
   submit: () => void

@@ -1,6 +1,7 @@
 import { TechStackNew } from '@/components/TechStackNew'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { useMemo } from 'react'
+import { JSX } from 'react'
 
 const TechStackNewPage = (): JSX.Element => {
   const paths = useMemo(

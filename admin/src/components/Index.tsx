@@ -2,6 +2,7 @@
 import { useGetMeQuery } from '@/graphql/types'
 import { List, ListItemButton, ListItemText, Typography } from '@mui/material'
 import Link from 'next/link'
+import { JSX } from 'react'
 
 type IndexProps = {
   loginUrl: string

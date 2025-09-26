@@ -4,6 +4,7 @@ import { useGetBlogWithTagsQuery } from '@/graphql/types'
 import Error from 'next/error'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
+import { JSX } from 'react'
 
 const BlogEditPage = (): JSX.Element => {
   const router = useRouter()

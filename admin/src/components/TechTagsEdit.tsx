@@ -21,6 +21,7 @@ import {
 import { useGetTechnologiesQuery } from '@/graphql/types'
 import Error from 'next/error'
 import DeleteIcon from '@mui/icons-material/Delete'
+import { JSX } from 'react'
 
 export interface TechTagsFormFields extends FieldValues {
   tags: Array<{ id: number }>
