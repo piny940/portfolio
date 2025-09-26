@@ -42,7 +42,7 @@ export const Blogs = (): JSX.Element => {
     (page: number) => {
       router.push(pathname + '?page=' + page)
     },
-    [router],
+    [router, pathname],
   )
 
   if (error) return <Error statusCode={400} />

@@ -14,7 +14,7 @@ export const IDToken = ({ idToken }: IDTokenProps): JSX.Element => {
   useEffect(() => {
     toStorage(BACKEND_JWT_TOKEN_KEY, idToken)
     router.push('/')
-  }, [])
+  }, [idToken, router])
 
   return <Typography component="p">処理中。このままお待ちください</Typography>
 }

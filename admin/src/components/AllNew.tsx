@@ -48,7 +48,7 @@ export const AllNew = (): JSX.Element => {
       const technologies = (data.technologies || []) as Technology[]
       return { blogs, projects, techStacks, technologies }
     }
-    catch (e: any) {
+    catch (e: unknown) {
       if (e instanceof Error) {
         setMessage(e.message)
       }

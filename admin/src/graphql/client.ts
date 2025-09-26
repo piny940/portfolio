@@ -15,7 +15,8 @@ const getAuthConfig = async (utils: AuthUtilities): Promise<AuthConfig> => ({
   didAuthError: error => error.response?.status === 401,
   refreshAuth: async () => undefined,
 })
-export default new Client({
+const client = new Client({
   url: '/api/query',
   exchanges: [cacheExchange, authExchange(getAuthConfig), fetchExchange],
 })
+export default client

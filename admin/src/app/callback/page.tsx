@@ -1,5 +1,4 @@
 import { IDToken } from '@/components/IdToken'
-import { NextRequest, NextResponse } from 'next/server'
 
 type Params = {
   code: string

@@ -18,8 +18,8 @@ import dayjs from 'dayjs'
 
 export type BlogFormProps = {
   submit: () => void
-  control: Control<BlogInput, any>
-  tagsControl: Control<TechTagsFormFields, any>
+  control: Control<BlogInput, unknown>
+  tagsControl: Control<TechTagsFormFields, unknown>
 }
 
 export const BlogForm = ({

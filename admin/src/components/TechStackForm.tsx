@@ -14,7 +14,7 @@ import { Control, Controller } from 'react-hook-form'
 
 export type TechStackFormProps = {
   submit: () => void
-  control: Control<TechStackInput, any>
+  control: Control<TechStackInput, unknown>
 }
 
 export const TechStackForm = ({

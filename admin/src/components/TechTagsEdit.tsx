@@ -26,7 +26,7 @@ export interface TechTagsFormFields extends FieldValues {
   tags: Array<{ id: number }>
 }
 export type TechTagsEditProps = {
-  control: Control<TechTagsFormFields, any>
+  control: Control<TechTagsFormFields, unknown>
 }
 export const TechTagsEdit = ({ control }: TechTagsEditProps): JSX.Element => {
   const { fields, append, remove } = useFieldArray({ control, name: 'tags' })
