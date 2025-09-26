@@ -10,10 +10,7 @@ export default async function Page({
 }) {
   const query = await searchParams
   if (!query.code) {
-    return {
-      status: 400,
-      json: { error: 'Missing code' },
-    }
+    throw Error('No code provided')
   }
   if (!process.env.CLIENT_ID || !process.env.CLIENT_SECRET) {
     throw Error('Missing environment variables')

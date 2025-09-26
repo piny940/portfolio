@@ -20,5 +20,5 @@ export default defineConfig([
   stylistic.configs.recommended,
 
   includeIgnoreFile(gitignorePath, "Imported .gitignore patterns"),
-  globalIgnores(["*.config.*", "src/server/_types.ts", "jest.setup.js"]),
+  globalIgnores(["*.config.*", "src/graphql/types/index.ts"]),
 ]);
