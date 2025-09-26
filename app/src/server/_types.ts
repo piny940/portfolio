@@ -3,35 +3,34 @@ import gql from 'graphql-tag'
 export type Maybe<T> = T | null
 export type InputMaybe<T> = Maybe<T>
 export type Exact<T extends Record<string, unknown>> = {
-  [K in keyof T]: T[K]
+  [K in keyof T]: T[K];
 }
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>
+  [SubKey in K]?: Maybe<T[SubKey]>;
 }
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>
+  [SubKey in K]: Maybe<T[SubKey]>;
 }
-export type MakeEmpty<
-  T extends Record<string, unknown>,
-  K extends keyof T,
-> = { [_ in K]?: never }
-export type Incremental<T> =
-  | T
-  | {
-      [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never
+export type MakeEmpty<T extends Record<string, unknown>, K extends keyof T> = {
+  [_ in K]?: never;
+}
+export type Incremental<T>
+  = | T
+    | {
+      [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
     }
 type GraphQLClientRequestHeaders = RequestOptions['requestHeaders']
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string }
-  String: { input: string; output: string }
-  Boolean: { input: boolean; output: boolean }
-  Int: { input: number; output: number }
-  Float: { input: number; output: number }
-  Int64: { input: number; output: number }
-  Time: { input: string; output: string }
-  Uint: { input: number; output: number }
-  Upload: { input: File; output: File }
+  ID: { input: string, output: string }
+  String: { input: string, output: string }
+  Boolean: { input: boolean, output: boolean }
+  Int: { input: number, output: number }
+  Float: { input: number, output: number }
+  Int64: { input: number, output: number }
+  Time: { input: string, output: string }
+  Uint: { input: number, output: number }
+  Upload: { input: File, output: File }
 }
 
 export type Blog = {
@@ -756,111 +755,123 @@ export type SdkFunctionWrapper = <T>(
   action: (requestHeaders?: Record<string, string>) => Promise<T>,
   operationName: string,
   operationType?: string,
-  variables?: any
+  variables?: any,
 ) => Promise<T>
 
 const defaultWrapper: SdkFunctionWrapper = async (
   action,
   _operationName,
   _operationType,
-  _variables
+  _variables,
 ) => await action()
 
 export function getSdk(
   client: GraphQLClient,
-  withWrapper: SdkFunctionWrapper = defaultWrapper
+  withWrapper: SdkFunctionWrapper = defaultWrapper,
 ) {
   return {
     async fetchAllData(
       variables?: FetchAllDataQueryVariables,
-      requestHeaders?: GraphQLClientRequestHeaders
+      requestHeaders?: GraphQLClientRequestHeaders,
     ): Promise<FetchAllDataQuery> {
       return await withWrapper(
-        async (wrappedRequestHeaders) =>
-          await client.request<FetchAllDataQuery>(FetchAllDataDocument, variables, {
-            ...requestHeaders,
-            ...wrappedRequestHeaders,
-          }),
+        async wrappedRequestHeaders =>
+          await client.request<FetchAllDataQuery>(
+            FetchAllDataDocument,
+            variables,
+            {
+              ...requestHeaders,
+              ...wrappedRequestHeaders,
+            },
+          ),
         'fetchAllData',
         'query',
-        variables
+        variables,
       )
     },
     async fetchBlogs(
       variables?: FetchBlogsQueryVariables,
-      requestHeaders?: GraphQLClientRequestHeaders
+      requestHeaders?: GraphQLClientRequestHeaders,
     ): Promise<FetchBlogsQuery> {
       return await withWrapper(
-        async (wrappedRequestHeaders) =>
+        async wrappedRequestHeaders =>
           await client.request<FetchBlogsQuery>(FetchBlogsDocument, variables, {
             ...requestHeaders,
             ...wrappedRequestHeaders,
           }),
         'fetchBlogs',
         'query',
-        variables
+        variables,
       )
     },
     async fetchProjects(
       variables?: FetchProjectsQueryVariables,
-      requestHeaders?: GraphQLClientRequestHeaders
+      requestHeaders?: GraphQLClientRequestHeaders,
     ): Promise<FetchProjectsQuery> {
       return await withWrapper(
-        async (wrappedRequestHeaders) =>
-          await client.request<FetchProjectsQuery>(FetchProjectsDocument, variables, {
-            ...requestHeaders,
-            ...wrappedRequestHeaders,
-          }),
+        async wrappedRequestHeaders =>
+          await client.request<FetchProjectsQuery>(
+            FetchProjectsDocument,
+            variables,
+            {
+              ...requestHeaders,
+              ...wrappedRequestHeaders,
+            },
+          ),
         'fetchProjects',
         'query',
-        variables
+        variables,
       )
     },
     async fetchProject(
       variables: FetchProjectQueryVariables,
-      requestHeaders?: GraphQLClientRequestHeaders
+      requestHeaders?: GraphQLClientRequestHeaders,
     ): Promise<FetchProjectQuery> {
       return await withWrapper(
-        async (wrappedRequestHeaders) =>
-          await client.request<FetchProjectQuery>(FetchProjectDocument, variables, {
-            ...requestHeaders,
-            ...wrappedRequestHeaders,
-          }),
+        async wrappedRequestHeaders =>
+          await client.request<FetchProjectQuery>(
+            FetchProjectDocument,
+            variables,
+            {
+              ...requestHeaders,
+              ...wrappedRequestHeaders,
+            },
+          ),
         'fetchProject',
         'query',
-        variables
+        variables,
       )
     },
     async fetchTechStacks(
       variables?: FetchTechStacksQueryVariables,
-      requestHeaders?: GraphQLClientRequestHeaders
+      requestHeaders?: GraphQLClientRequestHeaders,
     ): Promise<FetchTechStacksQuery> {
       return await withWrapper(
-        async (wrappedRequestHeaders) =>
+        async wrappedRequestHeaders =>
           await client.request<FetchTechStacksQuery>(
             FetchTechStacksDocument,
             variables,
-            { ...requestHeaders, ...wrappedRequestHeaders }
+            { ...requestHeaders, ...wrappedRequestHeaders },
           ),
         'fetchTechStacks',
         'query',
-        variables
+        variables,
       )
     },
     async fetchTechnology(
       variables: FetchTechnologyQueryVariables,
-      requestHeaders?: GraphQLClientRequestHeaders
+      requestHeaders?: GraphQLClientRequestHeaders,
     ): Promise<FetchTechnologyQuery> {
       return await withWrapper(
-        async (wrappedRequestHeaders) =>
+        async wrappedRequestHeaders =>
           await client.request<FetchTechnologyQuery>(
             FetchTechnologyDocument,
             variables,
-            { ...requestHeaders, ...wrappedRequestHeaders }
+            { ...requestHeaders, ...wrappedRequestHeaders },
           ),
         'fetchTechnology',
         'query',
-        variables
+        variables,
       )
     },
   }

@@ -34,11 +34,13 @@ export const MarkdownDisplay = ({ content }: MarkdownDisplayProps) => {
 
   return (
     <>
-      {html ? (
-        <div dangerouslySetInnerHTML={{ __html: html }} />
-      ) : (
-        <p>Loading...</p>
-      )}
+      {html
+        ? (
+            <div dangerouslySetInnerHTML={{ __html: html }} />
+          )
+        : (
+            <p>Loading...</p>
+          )}
     </>
   )
 }

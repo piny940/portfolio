@@ -16,7 +16,7 @@ describe('<BlogItem />', () => {
     await waitFor(() => {
       expect(component).toBeTruthy()
       expect(component.getAllByTestId(TestID.TECHNOLOGY_BADGE).length).toBe(
-        blog.tags.length
+        blog.tags.length,
       )
     })
   })

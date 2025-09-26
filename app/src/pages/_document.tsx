@@ -35,12 +35,12 @@ function MyDocument({ initialTheme }: MyDocumentProps) {
   )
 }
 MyDocument.getInitialProps = async (
-  ctx: DocumentContext
+  ctx: DocumentContext,
 ): Promise<MyDocumentProps> => {
   const initialProps = await Document.getInitialProps(ctx)
   const req = ctx.req as IncomingMessage & {
     cookies: Partial<{
-      [key in string]: string
+      [key in string]: string;
     }>
   }
   const initialTheme = (req?.cookies?.theme ?? 'light') as Theme

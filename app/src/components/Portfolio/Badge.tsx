@@ -22,7 +22,7 @@ const Badge = ({
       backgroundColor: color,
       fontSize: `${size}px`,
     }),
-    [theme, color, size]
+    [theme, color, size],
   )
   return (
     <span data-testid={testId} style={style} className="badge">

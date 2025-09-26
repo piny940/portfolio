@@ -18,7 +18,7 @@ interface BlogsProps extends PageProps {
 
 const LIMIT = 20
 export const getServerSideProps: GetServerSideProps<BlogsProps> = async (
-  ctx
+  ctx,
 ) => {
   const page = Number((ctx.query.page || '1') as string)
   const { blogs } = await sdk().fetchBlogs({

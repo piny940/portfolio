@@ -18,7 +18,7 @@ describe('<ProjectItems />', () => {
     await waitFor(() => {
       expect(component).toBeTruthy()
       expect(component.getAllByTestId(TestID.PROJECT_ITEM).length).toBe(
-        projects.length
+        projects.length,
       )
     })
   })

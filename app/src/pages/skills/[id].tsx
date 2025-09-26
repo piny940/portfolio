@@ -18,15 +18,15 @@ interface SkillProps extends PageProps {
 }
 
 export const getServerSideProps: GetServerSideProps<SkillProps> = async (
-  ctx
+  ctx,
 ) => {
   const id = parseInt(ctx.query.id as string)
   const data = await sdk().fetchTechnology({ id })
-  const projects = data.projects.filter((project) =>
-    project.tags.map((tag) => tag.technology.id).includes(id)
+  const projects = data.projects.filter(project =>
+    project.tags.map(tag => tag.technology.id).includes(id),
   )
-  const blogs = data.blogs.items.filter((blog) =>
-    blog.tags.map((tag) => tag.technology.id).includes(id)
+  const blogs = data.blogs.items.filter(blog =>
+    blog.tags.map(tag => tag.technology.id).includes(id),
   )
   logger.child({ path: `/skills/${id}` }).info('accessed')
   return {

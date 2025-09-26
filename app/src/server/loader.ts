@@ -3,14 +3,15 @@ import { readFileSync, readdirSync } from 'fs'
 const loadFile = (filename: string) => {
   try {
     return readFileSync(filename, 'utf8')
-  } catch {
+  }
+  catch {
     return undefined
   }
 }
 
 export const getBlogContents = () => {
   const files = readdirSync('documents')
-  const keys = files.map((filename) => filename.replace('.md', ''))
+  const keys = files.map(filename => filename.replace('.md', ''))
   const contents: { [key in string]: string } = {}
   keys.forEach((key) => {
     const content = loadFile(`documents/${key}.md`)

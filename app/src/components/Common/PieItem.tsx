@@ -19,7 +19,9 @@ export const PieItem: React.FC<PieItemProps> = ({
   const bgImage = useMemo(() => {
     const start = [0, 85, 255]
     const end = [0, 255, 238]
-    const color = end.map((v, i) => start[i] + ((v - start[i]) * percent) / 100)
+    const color = end.map(
+      (v, i) => start[i] + ((v - start[i]) * percent) / 100,
+    )
     return `conic-gradient(rgb(${start[0]}, ${start[1]}, ${start[2]}), rgb(${color[0]}, ${color[1]}, ${color[2]}) ${percent}%,
     rgb(79, 79, 79) ${percent}% 100%)`
   }, [percent])

@@ -41,7 +41,7 @@ export const Paging = ({
       >
         &lt;
       </PageItem>
-      {items.map((i) => (
+      {items.map(i => (
         <PageItem
           pageClassName={currentPage === i ? 'active' : ''}
           key={i}

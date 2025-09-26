@@ -15,7 +15,7 @@ const ProjectItems: React.FC<ProjectItemsProps> = ({
 }) => {
   return (
     <div className={`row row-cols-1 row-cols-md-2 row-cols-xl-${row} gy-4`}>
-      {projects.map((project) => (
+      {projects.map(project => (
         <div className="col" key={project.title}>
           <ProjectItem
             hasBlog={projectIdsWithBlog.includes(project.id)}

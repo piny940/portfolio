@@ -43,7 +43,9 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({
     toCookie('theme', theme)
   }, [theme])
 
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+  return (
+    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+  )
 }
 
 export { useTheme, ThemeProvider }

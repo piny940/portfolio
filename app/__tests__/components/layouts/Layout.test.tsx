@@ -10,7 +10,7 @@ describe('<Layout />', () => {
     const { getByTestId } = render(
       <Layout>
         <TestComponent testID={testId} />
-      </Layout>
+      </Layout>,
     )
 
     await waitFor(() => {

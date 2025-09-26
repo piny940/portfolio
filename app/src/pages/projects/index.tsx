@@ -15,7 +15,7 @@ interface ProjectsProps extends PageProps {
 }
 
 export const getServerSideProps: GetServerSideProps<ProjectsProps> = async (
-  ctx
+  ctx,
 ) => {
   logger.child({ path: '/projects' }).info('accessed')
   return {

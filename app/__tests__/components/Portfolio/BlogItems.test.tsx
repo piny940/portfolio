@@ -13,7 +13,7 @@ describe('<BlogItems />', () => {
     await waitFor(() => {
       expect(component).toBeTruthy()
       expect(component.getAllByTestId(TestID.BLOG_ITEM).length).toBe(
-        blogs.length
+        blogs.length,
       )
     })
   })

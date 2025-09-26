@@ -37,8 +37,8 @@ export const Profiles: React.FC<ProfilesProps> = ({ className = '' }) => {
       </div>
       <div
         className={
-          'top-middle d-flex flex-column align-items-center position-relative rounded p-3 bg-body ' +
-          styles.profile
+          'top-middle d-flex flex-column align-items-center position-relative rounded p-3 bg-body '
+          + styles.profile
         }
       >
         <Image

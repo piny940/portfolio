@@ -13,7 +13,7 @@ interface SkillsProps extends PageProps {
 }
 
 export const getServerSideProps: GetServerSideProps<SkillsProps> = async (
-  ctx
+  ctx,
 ) => {
   logger.child({ path: '/skills' }).info('accessed')
   return {

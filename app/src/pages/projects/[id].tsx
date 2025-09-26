@@ -18,7 +18,7 @@ interface ProjectProps extends PageProps {
 }
 
 export const getServerSideProps: GetServerSideProps<ProjectProps> = async (
-  ctx
+  ctx,
 ) => {
   const id = ctx.query.id as string
   const blogContent = getBlogContent(id)
@@ -47,7 +47,7 @@ const ProjectShow = ({ project, blogContent }: ProjectProps): JSX.Element => {
         <Breadcrumb paths={paths} />
         <h1 className="title-underline ps-2">{project.title}</h1>
         <ul className="list-unstyled d-flex mx-lg-4 flex-wrap">
-          {project.tags.map((tag) => (
+          {project.tags.map(tag => (
             <li key={tag.technology.id} className="m-1">
               <TechnologyTag technology={tag.technology} size={15} />
             </li>
