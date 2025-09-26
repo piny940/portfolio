@@ -7,7 +7,7 @@ jobs:
   app:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: pnpm/action-setup@v4
         with:
           package_json_file: "app/package.json"
@@ -39,7 +39,7 @@ jobs:
       GO_VERSION: 1.21.x
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Set Env
         run: |
           echo "DB_USER=postgres" >> $GITHUB_ENV
@@ -65,7 +65,7 @@ jobs:
   admin:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: pnpm/action-setup@v4
         with:
           package_json_file: "admin/package.json"
@@ -84,7 +84,7 @@ jobs:
   updater:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: pnpm/action-setup@v4
         with:
           package_json_file: "updater/package.json"
