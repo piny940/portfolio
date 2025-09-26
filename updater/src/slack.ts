@@ -7,7 +7,7 @@ export const sendSlackMessage = async (attachments: any) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${process.env.SLACK_OAUTH_TOKEN}`,
+      'Authorization': `Bearer ${process.env.SLACK_OAUTH_TOKEN}`,
     },
     body: JSON.stringify({
       attachments,
