@@ -130,8 +130,8 @@ importers:
         specifier: 1.81.0
         version: 1.81.0
       ts-mockery:
-        specifier: 1.2.0
-        version: 1.2.0(typescript@5.9.2)
+        specifier: 2.0.0
+        version: 2.0.0(typescript@5.9.2)
       ts-node:
         specifier: 10.9.2
         version: 10.9.2(@types/node@22.9.1)(typescript@5.9.2)
@@ -4293,10 +4293,10 @@ packages:
   ts-log@2.2.7:
     resolution: {integrity: sha512-320x5Ggei84AxzlXp91QkIGSw5wgaLT6GeAH0KsqDmRZdVWW2OiSeVvElVoatk3f7nicwXlElXsoFkARiGE2yg==}
 
-  ts-mockery@1.2.0:
-    resolution: {integrity: sha512-ArGPMUzO4H25KBYVTWmmE36y5bCOFAwC7XdW4CLTqYg+gQcvxJzKoj5URSc+luzwI8QdtwAkHtazBmrKepX81g==}
+  ts-mockery@2.0.0:
+    resolution: {integrity: sha512-6MSVatOSBIRFODTG4BtQTgY8xz4eG9Grxb7M2h7yXyrRwS2YFA5GVDK3L+9BntBWZSqNy57aNgjor/tLv+rNnA==}
     peerDependencies:
-      typescript: '>= 2.8'
+      typescript: '>= 4.5'
 
   ts-node@10.9.2:
     resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
@@ -9902,7 +9902,7 @@ snapshots:
 
   ts-log@2.2.7: {}
 
-  ts-mockery@1.2.0(typescript@5.9.2):
+  ts-mockery@2.0.0(typescript@5.9.2):
     dependencies:
       typescript: 5.9.2
 
