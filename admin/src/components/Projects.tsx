@@ -33,6 +33,7 @@ import {
   restrictToParentElement,
   restrictToVerticalAxis,
 } from '@dnd-kit/modifiers'
+import { JSX } from 'react'
 
 type ProjectType = Pick<
   Project,

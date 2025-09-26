@@ -9,6 +9,7 @@ import {
 } from '@/graphql/types'
 import { useRouter } from 'next/router'
 import { TechTagsFormFields } from './TechTagsEdit'
+import { JSX } from 'react'
 
 export type ProjectEditProps = {
   project: Pick<

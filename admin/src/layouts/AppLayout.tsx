@@ -12,6 +12,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { ReactNode } from 'react'
 import { Provider } from 'urql'
 import { Header } from './Header'
+import { JSX } from 'react'
 
 export type LayoutProps = {
   children: ReactNode

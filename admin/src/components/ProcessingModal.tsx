@@ -8,6 +8,7 @@ import {
 } from '@mui/material'
 import { LinearProgressWithLabel } from './LinearProgressWithLabel'
 import { Box } from '@mui/system'
+import { JSX } from 'react'
 
 export type ProcessingModalProps = {
   progress: number

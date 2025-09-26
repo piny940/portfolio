@@ -9,6 +9,7 @@ import {
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import { TechTagsFormFields } from './TechTagsEdit'
+import { JSX } from 'react'
 
 export const ProjectNew = (): JSX.Element => {
   const { handleSubmit, getValues, control } = useForm<ProjectInput>({

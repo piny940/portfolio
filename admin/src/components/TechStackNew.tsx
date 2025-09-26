@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import Error from 'next/error'
+import { JSX } from 'react'
 
 export const TechStackNew = (): JSX.Element => {
   const [{ data: technologiesData, error }] = useGetTechnologiesQuery()

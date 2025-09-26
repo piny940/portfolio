@@ -11,6 +11,7 @@ import {
 } from '@mui/material'
 import Error from 'next/error'
 import { Control, Controller } from 'react-hook-form'
+import { JSX } from 'react'
 
 export type TechStackFormProps = {
   submit: () => void

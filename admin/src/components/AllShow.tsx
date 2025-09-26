@@ -2,7 +2,7 @@ import { useGetAllQuery } from '@/graphql/types'
 import { Button, Typography } from '@mui/material'
 import { ContentCopy as CopyIcon } from '@mui/icons-material'
 import Error from 'next/error'
-import { useCallback, useMemo, useState } from 'react'
+import { JSX, useCallback, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { Box } from '@mui/system'
 

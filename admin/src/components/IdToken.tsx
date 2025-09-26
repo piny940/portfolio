@@ -2,7 +2,7 @@
 import { Typography } from '@mui/material'
 import { toStorage } from '../../utils/storage'
 import { BACKEND_JWT_TOKEN_KEY } from '../../utils/constants'
-import { useEffect } from 'react'
+import { JSX, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
 type IDTokenProps = {

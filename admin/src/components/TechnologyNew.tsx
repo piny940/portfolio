@@ -5,6 +5,7 @@ import { TechnologyInput, useCreateTechnologyMutation } from '@/graphql/types'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import { JSX } from 'react'
 
 export const TechnologyNew = (): JSX.Element => {
   const { handleSubmit, getValues, control } = useForm<TechnologyInput>({

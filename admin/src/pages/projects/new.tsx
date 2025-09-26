@@ -1,6 +1,7 @@
 import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { ProjectNew } from '@/components/ProjectNew'
 import { useMemo } from 'react'
+import { JSX } from 'react'
 
 const ProjectNewPage = (): JSX.Element => {
   const paths = useMemo(

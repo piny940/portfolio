@@ -1,6 +1,6 @@
 import { Blogs } from '@/components/Blogs'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
-import { Suspense } from 'react'
+import { JSX, Suspense } from 'react'
 
 const BlogsPage = (): JSX.Element => {
   const paths = [

@@ -1,6 +1,7 @@
 import { AllNew } from '@/components/AllNew'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { useMemo } from 'react'
+import { JSX } from 'react'
 
 const NewAllPage = (): JSX.Element => {
   const paths = useMemo(

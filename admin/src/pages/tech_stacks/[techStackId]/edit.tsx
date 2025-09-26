@@ -4,6 +4,7 @@ import Error from 'next/error'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 import { useGetTechStackQuery } from '@/graphql/types'
+import { JSX } from 'react'
 
 const TechStackEditPage = (): JSX.Element => {
   const router = useRouter()

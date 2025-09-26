@@ -17,6 +17,7 @@ import Error from 'next/error'
 import Link from 'next/link'
 import { useMemo } from 'react'
 import { dateLabel } from '../../utils/helpers'
+import { JSX } from 'react'
 
 export const Technologies = (): JSX.Element => {
   const context = useMemo(() => ({ additionalTypenames: ['Technology'] }), [])

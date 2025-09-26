@@ -4,6 +4,7 @@ import {
   Link as MuiLink,
   Typography,
 } from '@mui/material'
+import { JSX } from 'react'
 
 export type BreadcrumbProps = {
   paths: Array<{
