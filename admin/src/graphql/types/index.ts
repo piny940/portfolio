@@ -15,23 +15,23 @@ export type MakeEmpty<
   T extends { [key: string]: unknown },
   K extends keyof T,
 > = { [_ in K]?: never }
-export type Incremental<T> =
-  | T
-  | {
+export type Incremental<T>
+  = | T
+    | {
       [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never
     }
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string }
-  String: { input: string; output: string }
-  Boolean: { input: boolean; output: boolean }
-  Int: { input: number; output: number }
-  Float: { input: number; output: number }
-  Int64: { input: number; output: number }
-  Time: { input: string; output: string }
-  Uint: { input: number; output: number }
-  Upload: { input: File; output: File }
+  ID: { input: string, output: string }
+  String: { input: string, output: string }
+  Boolean: { input: boolean, output: boolean }
+  Int: { input: number, output: number }
+  Float: { input: number, output: number }
+  Int64: { input: number, output: number }
+  Time: { input: string, output: string }
+  Uint: { input: number, output: number }
+  Upload: { input: File, output: File }
 }
 
 export type Blog = {
@@ -273,7 +273,7 @@ export type GetAllQuery = {
       tags: Array<{
         __typename?: 'BlogTag'
         blogId: number
-        technology: { __typename?: 'Technology'; id: number; name: string }
+        technology: { __typename?: 'Technology', id: number, name: string }
       }>
     }>
   }
@@ -292,7 +292,7 @@ export type GetAllQuery = {
     tags: Array<{
       __typename?: 'ProjectTag'
       projectId: string
-      technology: { __typename?: 'Technology'; id: number; name: string }
+      technology: { __typename?: 'Technology', id: number, name: string }
     }>
   }>
   technologies: Array<{
@@ -311,13 +311,13 @@ export type GetAllQuery = {
     technologyId: number
     createdAt: string
     updatedAt: string
-    technology: { __typename?: 'Technology'; id: number; name: string }
+    technology: { __typename?: 'Technology', id: number, name: string }
   }>
 }
 
 export type GetMeQueryVariables = Exact<{ [key: string]: never }>
 
-export type GetMeQuery = { __typename?: 'Query'; me?: string | null }
+export type GetMeQuery = { __typename?: 'Query', me?: string | null }
 
 export type BlogFragment = {
   __typename?: 'Blog'
@@ -1064,7 +1064,7 @@ export const GetAllDocument = gql`
 `
 
 export function useGetAllQuery(
-  options?: Omit<Urql.UseQueryArgs<GetAllQueryVariables>, 'query'>
+  options?: Omit<Urql.UseQueryArgs<GetAllQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<GetAllQuery, GetAllQueryVariables>({
     query: GetAllDocument,
@@ -1078,7 +1078,7 @@ export const GetMeDocument = gql`
 `
 
 export function useGetMeQuery(
-  options?: Omit<Urql.UseQueryArgs<GetMeQueryVariables>, 'query'>
+  options?: Omit<Urql.UseQueryArgs<GetMeQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<GetMeQuery, GetMeQueryVariables>({
     query: GetMeDocument,
@@ -1098,7 +1098,7 @@ export const GetBlogsDocument = gql`
 `
 
 export function useGetBlogsQuery(
-  options?: Omit<Urql.UseQueryArgs<GetBlogsQueryVariables>, 'query'>
+  options?: Omit<Urql.UseQueryArgs<GetBlogsQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<GetBlogsQuery, GetBlogsQueryVariables>({
     query: GetBlogsDocument,
@@ -1115,7 +1115,7 @@ export const GetBlogDocument = gql`
 `
 
 export function useGetBlogQuery(
-  options: Omit<Urql.UseQueryArgs<GetBlogQueryVariables>, 'query'>
+  options: Omit<Urql.UseQueryArgs<GetBlogQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<GetBlogQuery, GetBlogQueryVariables>({
     query: GetBlogDocument,
@@ -1136,7 +1136,7 @@ export const GetBlogWithTagsDocument = gql`
 `
 
 export function useGetBlogWithTagsQuery(
-  options: Omit<Urql.UseQueryArgs<GetBlogWithTagsQueryVariables>, 'query'>
+  options: Omit<Urql.UseQueryArgs<GetBlogWithTagsQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<GetBlogWithTagsQuery, GetBlogWithTagsQueryVariables>({
     query: GetBlogWithTagsDocument,
@@ -1154,7 +1154,7 @@ export const CreateBlogDocument = gql`
 
 export function useCreateBlogMutation() {
   return Urql.useMutation<CreateBlogMutation, CreateBlogMutationVariables>(
-    CreateBlogDocument
+    CreateBlogDocument,
   )
 }
 export const UpdateBlogWithTagsDocument = gql`
@@ -1187,7 +1187,7 @@ export const DeleteBlogDocument = gql`
 
 export function useDeleteBlogMutation() {
   return Urql.useMutation<DeleteBlogMutation, DeleteBlogMutationVariables>(
-    DeleteBlogDocument
+    DeleteBlogDocument,
   )
 }
 export const UpdateBlogTagsDocument = gql`
@@ -1215,7 +1215,7 @@ export const GetProjectsDocument = gql`
 `
 
 export function useGetProjectsQuery(
-  options?: Omit<Urql.UseQueryArgs<GetProjectsQueryVariables>, 'query'>
+  options?: Omit<Urql.UseQueryArgs<GetProjectsQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<GetProjectsQuery, GetProjectsQueryVariables>({
     query: GetProjectsDocument,
@@ -1232,7 +1232,7 @@ export const GetProjectDocument = gql`
 `
 
 export function useGetProjectQuery(
-  options: Omit<Urql.UseQueryArgs<GetProjectQueryVariables>, 'query'>
+  options: Omit<Urql.UseQueryArgs<GetProjectQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<GetProjectQuery, GetProjectQueryVariables>({
     query: GetProjectDocument,
@@ -1253,7 +1253,7 @@ export const GetProjectWithTagsDocument = gql`
 `
 
 export function useGetProjectWithTagsQuery(
-  options: Omit<Urql.UseQueryArgs<GetProjectWithTagsQueryVariables>, 'query'>
+  options: Omit<Urql.UseQueryArgs<GetProjectWithTagsQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<
     GetProjectWithTagsQuery,
@@ -1373,7 +1373,7 @@ export const GetTechStacksDocument = gql`
 `
 
 export function useGetTechStacksQuery(
-  options?: Omit<Urql.UseQueryArgs<GetTechStacksQueryVariables>, 'query'>
+  options?: Omit<Urql.UseQueryArgs<GetTechStacksQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<GetTechStacksQuery, GetTechStacksQueryVariables>({
     query: GetTechStacksDocument,
@@ -1395,7 +1395,7 @@ export const GetTechStackDocument = gql`
 `
 
 export function useGetTechStackQuery(
-  options: Omit<Urql.UseQueryArgs<GetTechStackQueryVariables>, 'query'>
+  options: Omit<Urql.UseQueryArgs<GetTechStackQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<GetTechStackQuery, GetTechStackQueryVariables>({
     query: GetTechStackDocument,
@@ -1457,7 +1457,7 @@ export const GetTechnologiesDocument = gql`
 `
 
 export function useGetTechnologiesQuery(
-  options?: Omit<Urql.UseQueryArgs<GetTechnologiesQueryVariables>, 'query'>
+  options?: Omit<Urql.UseQueryArgs<GetTechnologiesQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<GetTechnologiesQuery, GetTechnologiesQueryVariables>({
     query: GetTechnologiesDocument,
@@ -1474,7 +1474,7 @@ export const GetTechnologyDocument = gql`
 `
 
 export function useGetTechnologyQuery(
-  options: Omit<Urql.UseQueryArgs<GetTechnologyQueryVariables>, 'query'>
+  options: Omit<Urql.UseQueryArgs<GetTechnologyQueryVariables>, 'query'>,
 ) {
   return Urql.useQuery<GetTechnologyQuery, GetTechnologyQueryVariables>({
     query: GetTechnologyDocument,

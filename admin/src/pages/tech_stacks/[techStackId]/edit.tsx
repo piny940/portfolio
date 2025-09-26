@@ -22,7 +22,7 @@ const TechStackEditPage = (): JSX.Element => {
         path: `/tech_stacks/${data?.techStack?.id}/edit`,
       },
     ],
-    [data?.techStack?.id]
+    [data?.techStack?.id],
   )
 
   if (error) return <Error statusCode={404} />

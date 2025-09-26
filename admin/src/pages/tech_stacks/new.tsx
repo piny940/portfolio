@@ -12,7 +12,7 @@ const TechStackNewPage = (): JSX.Element => {
         path: `/tech_stacks/new`,
       },
     ],
-    []
+    [],
   )
   return (
     <>

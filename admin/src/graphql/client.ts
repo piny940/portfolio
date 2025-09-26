@@ -12,7 +12,7 @@ const getAuthConfig = async (utils: AuthUtilities): Promise<AuthConfig> => ({
       Authorization: `Bearer ${token}`,
     })
   },
-  didAuthError: (error) => error.response?.status === 401,
+  didAuthError: error => error.response?.status === 401,
   refreshAuth: async () => undefined,
 })
 export default new Client({

@@ -55,7 +55,7 @@ export const TechTagsEdit = ({ control }: TechTagsEditProps): JSX.Element => {
                     error={fieldState.invalid}
                     {...field}
                   >
-                    {data.technologies.map((technology) => (
+                    {data.technologies.map(technology => (
                       <MenuItem key={technology.id} value={technology.id}>
                         {technology.name}
                       </MenuItem>

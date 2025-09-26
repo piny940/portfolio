@@ -60,7 +60,7 @@ export const BlogForm = ({
                 error={fieldState.invalid}
                 {...field}
               >
-                {allBlogKinds.map((blogKind) => (
+                {allBlogKinds.map(blogKind => (
                   <MenuItem key={blogKind} value={blogKind}>
                     {blogKindLabel[blogKind]}
                   </MenuItem>
@@ -98,7 +98,7 @@ export const BlogForm = ({
                 label="PublishedAt"
                 {...field}
                 value={dayjs(field.value)}
-                onChange={(value) => field.onChange(value?.toISOString())}
+                onChange={value => field.onChange(value?.toISOString())}
               />
               <FormHelperText>{fieldState.error?.message}</FormHelperText>
             </FormControl>

@@ -42,7 +42,7 @@ export const Blogs = (): JSX.Element => {
     (page: number) => {
       router.push(pathname + '?page=' + page)
     },
-    [router]
+    [router],
   )
 
   if (error) return <Error statusCode={400} />
@@ -76,7 +76,7 @@ export const Blogs = (): JSX.Element => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.blogs.items.map((blog) => (
+          {data.blogs.items.map(blog => (
             <TableRow key={blog.id}>
               <TableCell>{blog.id}</TableCell>
               <TableCell>{blog.title}</TableCell>

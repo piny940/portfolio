@@ -9,7 +9,7 @@ const ProjectNewPage = (): JSX.Element => {
       { name: 'Projects', path: '/projects' },
       { name: 'New Project', path: `/projects/new` },
     ],
-    []
+    [],
   )
   return (
     <>

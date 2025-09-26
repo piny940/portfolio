@@ -57,7 +57,7 @@ export const Projects = (): JSX.Element => {
     if (over && active.id !== over.id) {
       setProjects((projects) => {
         if (!projects) return
-        const ids = projects.map((project) => project.id)
+        const ids = projects.map(project => project.id)
         const oldIndex = ids.indexOf(active.id as string)
         const newIndex = ids.indexOf(over.id as string)
         return arrayMove(projects, oldIndex, newIndex)
@@ -67,7 +67,7 @@ export const Projects = (): JSX.Element => {
   }, [])
   const saveOrder = useCallback(async () => {
     if (!projects) return
-    const ids = projects.map((project) => project.id)
+    const ids = projects.map(project => project.id)
     const { error } = await updateProjectOrder({ input: { ids } })
     if (error) {
       console.error(error)
@@ -145,7 +145,7 @@ export const Projects = (): JSX.Element => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {projects.map((project) => (
+              {projects.map(project => (
                 <ProjectItem
                   actionsDisabled={orderChanged}
                   key={project.id}
@@ -173,8 +173,8 @@ const ProjectItem = ({
   deleteProject,
   actionsDisabled = false,
 }: ProjectItemProps) => {
-  const { listeners, setNodeRef, transform, transition, attributes } =
-    useSortable({
+  const { listeners, setNodeRef, transform, transition, attributes }
+    = useSortable({
       id: project.id,
     })
   const style = {

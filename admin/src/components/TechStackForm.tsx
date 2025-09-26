@@ -37,7 +37,7 @@ export const TechStackForm = ({
             <FormControl fullWidth>
               <InputLabel>Technology</InputLabel>
               <Select error={fieldState.invalid} label="Technology" {...field}>
-                {data.technologies.map((tech) => (
+                {data.technologies.map(tech => (
                   <MenuItem key={tech.id} value={tech.id}>
                     {tech.name}
                   </MenuItem>

@@ -19,9 +19,9 @@ export const BlogEdit = ({ blog }: BlogEditProps): JSX.Element => {
       publishedAt: blog.publishedAt,
     },
   })
-  const { getValues: getTagsValues, control: tagsControl } =
-    useForm<TechTagsFormFields>({
-      defaultValues: { tags: blog.tags.map((t) => t.technology) },
+  const { getValues: getTagsValues, control: tagsControl }
+    = useForm<TechTagsFormFields>({
+      defaultValues: { tags: blog.tags.map(t => t.technology) },
     })
   const [, updateBlog] = useUpdateBlogWithTagsMutation()
   const router = useRouter()
@@ -30,7 +30,7 @@ export const BlogEdit = ({ blog }: BlogEditProps): JSX.Element => {
     const { data, error } = await updateBlog({
       id: blog.id,
       input: getValues(),
-      tags: getTagsValues().tags.map((tag) => tag.id),
+      tags: getTagsValues().tags.map(tag => tag.id),
     })
     if (!data || error) return
     void router.push('/blogs')
@@ -39,7 +39,8 @@ export const BlogEdit = ({ blog }: BlogEditProps): JSX.Element => {
   return (
     <Box>
       <Typography variant="h4" component="h1">
-        Edit Blog{blog.id}
+        Edit Blog
+        {blog.id}
       </Typography>
       <BlogForm
         tagsControl={tagsControl}

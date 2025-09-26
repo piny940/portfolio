@@ -16,29 +16,31 @@ export const Index = ({ loginUrl }: IndexProps): JSX.Element => {
         Home
       </Typography>
       <List>
-        {data?.me ? (
-          <>
-            <ListItemButton component={Link} href="/all">
-              <ListItemText primary="All" />
-            </ListItemButton>
-            <ListItemButton component={Link} href="/blogs">
-              <ListItemText primary="Blogs" />
-            </ListItemButton>
-            <ListItemButton component={Link} href="/projects">
-              <ListItemText primary="Projects" />
-            </ListItemButton>
-            <ListItemButton component={Link} href="/technologies">
-              <ListItemText primary="Technologies" />
-            </ListItemButton>
-            <ListItemButton component={Link} href="/tech_stacks">
-              <ListItemText primary="TechStacks" />
-            </ListItemButton>
-          </>
-        ) : (
-          <ListItemButton component={Link} href={loginUrl}>
-            <ListItemText primary="Login" />
-          </ListItemButton>
-        )}
+        {data?.me
+          ? (
+              <>
+                <ListItemButton component={Link} href="/all">
+                  <ListItemText primary="All" />
+                </ListItemButton>
+                <ListItemButton component={Link} href="/blogs">
+                  <ListItemText primary="Blogs" />
+                </ListItemButton>
+                <ListItemButton component={Link} href="/projects">
+                  <ListItemText primary="Projects" />
+                </ListItemButton>
+                <ListItemButton component={Link} href="/technologies">
+                  <ListItemText primary="Technologies" />
+                </ListItemButton>
+                <ListItemButton component={Link} href="/tech_stacks">
+                  <ListItemText primary="TechStacks" />
+                </ListItemButton>
+              </>
+            )
+          : (
+              <ListItemButton component={Link} href={loginUrl}>
+                <ListItemText primary="Login" />
+              </ListItemButton>
+            )}
       </List>
     </>
   )
