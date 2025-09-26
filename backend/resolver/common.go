@@ -2,6 +2,7 @@ package resolver
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/labstack/echo/v4"
@@ -10,13 +11,13 @@ import (
 func echoContextFromContext(ctx context.Context) (echo.Context, error) {
 	echoContext := ctx.Value("echoContext")
 	if echoContext == nil {
-		err := fmt.Errorf("could not retrieve echo.Context")
+		err := errors.New("could not retrieve echo.Context")
 		return nil, err
 	}
 
 	ec, ok := echoContext.(echo.Context)
 	if !ok {
-		err := fmt.Errorf("echo.Context has wrong type")
+		err := errors.New("echo.Context has wrong type")
 		return nil, err
 	}
 	return ec, nil
