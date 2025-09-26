@@ -117,6 +117,8 @@ jobs:
           github-actor: ${{ github.actor }}
           tags: ghcr.io/${{ github.repository }}-admin:main-${{ github.sha }}-${{ env.TIMESTAMP }}
           path: "./admin"
+          build-args: |
+            BACKEND_HOST=https://stg-portfolio-backend.piny940.com
   stg-build-admin-main:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.filter.outputs.admin == 'true'
@@ -131,6 +133,8 @@ jobs:
           github-actor: ${{ github.actor }}
           tags: ghcr.io/${{ github.repository }}-admin:main-${{ github.sha }}-${{ env.TIMESTAMP }}
           path: "./admin"
+          build-args: |
+            BACKEND_HOST=https://stg-portfolio-backend.piny940.com
 
   stg-build-updater:
     runs-on: ubuntu-latest
