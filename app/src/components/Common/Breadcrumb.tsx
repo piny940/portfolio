@@ -12,7 +12,7 @@ const Breadcrumb = ({ paths }: BreadcrumbProps): JSX.Element => {
   return (
     <nav aria-label="breadcrumb">
       <ol className="breadcrumb">
-        {paths.slice(0, paths.length - 1).map((path, i) => (
+        {paths.slice(0, paths.length - 1).map(path => (
           <li className="breadcrumb-item" key={path.path}>
             <Link href={path.path}>{path.name}</Link>
           </li>

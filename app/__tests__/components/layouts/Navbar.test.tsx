@@ -1,5 +1,4 @@
 import { render, waitFor } from '@testing-library/react'
-import { expect } from '@jest/globals'
 import { Navbar } from '@/layouts/Navbar'
 import { TestID } from '@/resources/TestID'
 

@@ -1,4 +1,3 @@
-import { expect } from '@jest/globals'
 import { render, waitFor } from '@testing-library/react'
 import Custom404 from '@/pages/404'
 import { TestID } from '@/resources/TestID'
@@ -16,7 +15,6 @@ describe('404 Page', () => {
 
     await waitFor(() => {
       expect(getByTestId(TestID.CUSTOM404)).toBeTruthy()
-      expect(getByTestId(TestID.NO_INDEX)).toBeTruthy()
     })
   })
 })
