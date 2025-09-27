@@ -25,7 +25,7 @@ importers:
         version: 2.12.6(graphql@16.11.0)
       next:
         specifier: 15.5.4
-        version: 15.5.4(@babel/core@7.28.4)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(sass@1.81.0)
+        version: 15.5.4(@babel/core@7.28.4)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(sass@1.93.2)
       pino:
         specifier: 9.5.0
         version: 9.5.0
@@ -127,8 +127,8 @@ importers:
         specifier: 3.0.3
         version: 3.0.3
       sass:
-        specifier: 1.81.0
-        version: 1.81.0
+        specifier: 1.93.2
+        version: 1.93.2
       ts-mockery:
         specifier: 2.0.0
         version: 2.0.0(typescript@5.9.2)
@@ -3962,8 +3962,8 @@ packages:
   safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
 
-  sass@1.81.0:
-    resolution: {integrity: sha512-Q4fOxRfhmv3sqCLoGfvrC9pRV8btc0UtqL9mN6Yrv6Qi9ScL55CVH1vlPP863ISLEEMNLLuu9P+enCeGHlnzhA==}
+  sass@1.93.2:
+    resolution: {integrity: sha512-t+YPtOQHpGW1QWsh1CHQ5cPIr9lbbGZLZnbihP/D/qZj/yuV68m8qarcV17nvkOX81BCrvzAlq2klCQFZghyTg==}
     engines: {node: '>=14.0.0'}
     hasBin: true
 
@@ -8954,7 +8954,7 @@ snapshots:
 
   natural-compare@1.4.0: {}
 
-  next@15.5.4(@babel/core@7.28.4)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(sass@1.81.0):
+  next@15.5.4(@babel/core@7.28.4)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(sass@1.93.2):
     dependencies:
       '@next/env': 15.5.4
       '@swc/helpers': 0.5.15
@@ -8972,7 +8972,7 @@ snapshots:
       '@next/swc-linux-x64-musl': 15.5.4
       '@next/swc-win32-arm64-msvc': 15.5.4
       '@next/swc-win32-x64-msvc': 15.5.4
-      sass: 1.81.0
+      sass: 1.93.2
       sharp: 0.34.4
     transitivePeerDependencies:
       - '@babel/core'
@@ -9451,7 +9451,7 @@ snapshots:
 
   safer-buffer@2.1.2: {}
 
-  sass@1.81.0:
+  sass@1.93.2:
     dependencies:
       chokidar: 4.0.3
       immutable: 5.1.3
