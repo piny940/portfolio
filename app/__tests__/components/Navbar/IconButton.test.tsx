@@ -14,14 +14,14 @@ describe('<IconButton />', () => {
 
     await waitFor(() => {
       expect(getByTestId(TestID.PROFILE_BUTTON)).toBeTruthy()
-      expect(onClick).not.toBeCalled()
+      expect(onClick).not.toHaveBeenCalled()
     })
 
     act(() => {
       fireEvent.click(getByTestId(TestID.PROFILE_BUTTON))
     })
     await waitFor(() => {
-      expect(onClick).toBeCalledTimes(1)
+      expect(onClick).toHaveBeenCalledTimes(1)
     })
   })
 })
