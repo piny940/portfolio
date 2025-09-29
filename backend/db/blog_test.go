@@ -4,6 +4,8 @@ import (
 	"backend/domain"
 	"context"
 	"fmt"
+	"math/rand"
+	"slices"
 	"testing"
 	"time"
 
@@ -49,8 +51,9 @@ func TestCreateBlog(t *testing.T) {
 	if afterCount != beforeCount+1 {
 		t.Errorf("blog not created")
 	}
+	fmt.Println(afterCount)
 	var actual domain.Blog
-	result := db.Client.First(&actual)
+	result := db.Client.Last(&actual)
 	if result.Error != nil || actual.Title != blog.Title {
 		t.Errorf("blog not found: %v", result.Error)
 	}
@@ -77,6 +80,7 @@ func TestListBlogsOrder(t *testing.T) {
 	if err != nil {
 		t.Errorf("failed to list blogs: %v", err)
 	}
+	fmt.Println(len(actual))
 	orderedBlogs := []*domain.Blog{blogs[2], blogs[0], blogs[1]}
 	td.Cmp(t, actual, orderedBlogs)
 }
@@ -106,6 +110,7 @@ func TestListBlogsOffset(t *testing.T) {
 	blogs := make([]*domain.Blog, 0)
 	for i := 0; i < 15; i++ {
 		blog := blogF.MustCreate().(*domain.BlogInput)
+		blog.PublishedAt = time.Now().Add(time.Duration(rand.Intn(1000)) * time.Second).UTC()
 		newBlog, err := repo.Create(context.Background(), *blog)
 		if err != nil {
 			t.Errorf("failed to create blog: %v", err)
@@ -116,6 +121,15 @@ func TestListBlogsOffset(t *testing.T) {
 	if err != nil {
 		t.Errorf("failed to list blogs: %v", err)
 	}
+	slices.SortFunc(blogs, func(a, b *domain.Blog) int {
+		if a.PublishedAt.After(b.PublishedAt) {
+			return -1
+		}
+		if a.PublishedAt.Before(b.PublishedAt) {
+			return 1
+		}
+		return 0
+	})
 	td.Cmp(t, actual, blogs[5:10])
 }
 

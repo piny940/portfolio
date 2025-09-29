@@ -3,7 +3,6 @@ package resolver
 import (
 	"context"
 	"errors"
-	"fmt"
 
 	"github.com/labstack/echo/v4"
 )
@@ -21,9 +20,4 @@ func echoContextFromContext(ctx context.Context) (echo.Context, error) {
 		return nil, err
 	}
 	return ec, nil
-}
-
-func newError(err error, message string) error {
-	fmt.Println(err)
-	return fmt.Errorf(message)
 }
