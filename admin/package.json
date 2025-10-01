@@ -48,6 +48,6 @@
     "eslint-config-next": "15.5.4",
     "graphql-tag": "2.12.6",
     "sass": "1.93.2",
-    "typescript": "5.9.2"
+    "typescript": "5.9.3"
   }
 }
