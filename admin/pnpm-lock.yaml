@@ -63,8 +63,8 @@ importers:
         specifier: 14.3.8
         version: 14.3.8(react@19.2.0)
       react-hook-form:
-        specifier: 7.63.0
-        version: 7.63.0(react@19.2.0)
+        specifier: 7.64.0
+        version: 7.64.0(react@19.2.0)
       urql:
         specifier: 4.2.2
         version: 4.2.2(@urql/core@5.2.0(graphql@16.11.0))(react@19.2.0)
@@ -2983,8 +2983,8 @@ packages:
     peerDependencies:
       react: '>= 16.8 || 18.0.0'
 
-  react-hook-form@7.63.0:
-    resolution: {integrity: sha512-ZwueDMvUeucovM2VjkCf7zIHcs1aAlDimZu2Hvel5C5907gUzMpm4xCrQXtRzCvsBqFjonB4m3x4LzCFI1ZKWA==}
+  react-hook-form@7.64.0:
+    resolution: {integrity: sha512-fnN+vvTiMLnRqKNTVhDysdrUay0kUUAymQnFIznmgDvapjveUWOOPqMNzPg+A+0yf9DuE2h6xzBjN1s+Qx8wcg==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18 || ^19
@@ -6906,7 +6906,7 @@ snapshots:
       prop-types: 15.8.1
       react: 19.2.0
 
-  react-hook-form@7.63.0(react@19.2.0):
+  react-hook-form@7.64.0(react@19.2.0):
     dependencies:
       react: 19.2.0
 
