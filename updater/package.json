@@ -18,7 +18,7 @@
     "@graphql-codegen/typescript": "4.1.6",
     "@graphql-codegen/typescript-operations": "4.6.1",
     "@stylistic/eslint-plugin": "5.4.0",
-    "@types/node": "22.18.8",
+    "@types/node": "22.18.9",
     "dotenv": "17.2.3",
     "eslint": "9.37.0",
     "typescript": "5.9.3",
