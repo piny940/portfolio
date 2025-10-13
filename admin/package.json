@@ -43,7 +43,7 @@
     "@stylistic/eslint-plugin": "5.4.0",
     "@types/node": "22.18.10",
     "@types/react": "19.2.2",
-    "@types/react-dom": "19.2.1",
+    "@types/react-dom": "19.2.2",
     "eslint": "9.37.0",
     "eslint-config-next": "15.5.4",
     "graphql-tag": "2.12.6",
