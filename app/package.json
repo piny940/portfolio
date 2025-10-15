@@ -15,7 +15,7 @@
     "@popperjs/core": "2.11.8",
     "bootstrap": "5.3.8",
     "graphql": "16.11.0",
-    "graphql-request": "7.2.0",
+    "graphql-request": "7.3.0",
     "graphql-tag": "2.12.6",
     "next": "15.5.5",
     "pino": "9.13.1",
