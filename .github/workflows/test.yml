@@ -11,7 +11,7 @@ jobs:
       - uses: pnpm/action-setup@v4
         with:
           package_json_file: "app/package.json"
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "pnpm"
@@ -69,7 +69,7 @@ jobs:
       - uses: pnpm/action-setup@v4
         with:
           package_json_file: "admin/package.json"
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "pnpm"
@@ -88,7 +88,7 @@ jobs:
       - uses: pnpm/action-setup@v4
         with:
           package_json_file: "updater/package.json"
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION}}
           cache: "pnpm"
