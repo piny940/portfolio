@@ -37,13 +37,13 @@ importers:
         version: 7.3.3(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(react@19.2.0)
       '@mui/x-date-pickers':
         specifier: 8.16.0
-        version: 8.16.0(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(react@19.2.0))(@mui/material@7.3.4(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(dayjs@1.11.18)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+        version: 8.16.0(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(react@19.2.0))(@mui/material@7.3.4(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(dayjs@1.11.19)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@urql/exchange-auth':
         specifier: 2.2.1
         version: 2.2.1(@urql/core@5.2.0(graphql@16.11.0))
       dayjs:
-        specifier: 1.11.18
-        version: 1.11.18
+        specifier: 1.11.19
+        version: 1.11.19
       graphql:
         specifier: 16.11.0
         version: 16.11.0
@@ -1856,8 +1856,8 @@ packages:
   dataloader@2.2.3:
     resolution: {integrity: sha512-y2krtASINtPFS1rSDjacrFgn1dcUuoREVabwlOGOe4SdxenREqwjwjElAdwvbGM7kgZz9a3KVicWR7vcz8rnzA==}
 
-  dayjs@1.11.18:
-    resolution: {integrity: sha512-zFBQ7WFRvVRhKcWoUh+ZA1g2HVgUbsZm9sbddh8EC5iv93sui8DVVz1Npvz+r6meo9VKfa8NyLWBsQK1VvIKPA==}
+  dayjs@1.11.19:
+    resolution: {integrity: sha512-t5EcLVS6QPBNqM2z8fakk/NKel+Xzshgt8FFKAn+qwlD1pzZWxh0nVCrvFK7ZDb6XucZeF9z8C7CBWTRIVApAw==}
 
   debounce@1.2.1:
     resolution: {integrity: sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==}
@@ -4822,7 +4822,7 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.2.2
 
-  '@mui/x-date-pickers@8.16.0(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(react@19.2.0))(@mui/material@7.3.4(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(dayjs@1.11.18)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
+  '@mui/x-date-pickers@8.16.0(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(react@19.2.0))(@mui/material@7.3.4(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(dayjs@1.11.19)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)':
     dependencies:
       '@babel/runtime': 7.28.4
       '@mui/material': 7.3.4(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -4838,7 +4838,7 @@ snapshots:
     optionalDependencies:
       '@emotion/react': 11.14.0(@types/react@19.2.2)(react@19.2.0)
       '@emotion/styled': 11.14.1(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(react@19.2.0)
-      dayjs: 1.11.18
+      dayjs: 1.11.19
     transitivePeerDependencies:
       - '@types/react'
 
@@ -5613,7 +5613,7 @@ snapshots:
 
   dataloader@2.2.3: {}
 
-  dayjs@1.11.18: {}
+  dayjs@1.11.19: {}
 
   debounce@1.2.1: {}
 
