@@ -35,7 +35,7 @@
   "devDependencies": {
     "@eslint/compat": "1.4.1",
     "@eslint/eslintrc": "3.3.1",
-    "@eslint/js": "9.38.0",
+    "@eslint/js": "9.39.0",
     "@graphql-codegen/cli": "5.0.7",
     "@graphql-codegen/typescript": "4.1.6",
     "@graphql-codegen/typescript-operations": "4.6.1",
@@ -44,7 +44,7 @@
     "@types/node": "22.18.13",
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.2",
-    "eslint": "9.38.0",
+    "eslint": "9.39.0",
     "eslint-config-next": "15.5.6",
     "graphql-tag": "2.12.6",
     "sass": "1.93.3",
