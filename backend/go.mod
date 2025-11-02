@@ -18,7 +18,7 @@ require (
 	github.com/spf13/viper v1.21.0
 	github.com/vektah/gqlparser/v2 v2.5.31
 	gorm.io/driver/postgres v1.6.0
-	gorm.io/gorm v1.31.0
+	gorm.io/gorm v1.31.1
 	k8s.io/client-go v0.34.1
 )
 
