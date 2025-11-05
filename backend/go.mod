@@ -2,7 +2,7 @@ module backend
 
 go 1.24.0
 
-toolchain go1.25.3
+toolchain go1.25.4
 
 require (
 	cloud.google.com/go/storage v1.47.0
