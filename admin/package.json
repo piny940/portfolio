@@ -42,7 +42,7 @@
     "@graphql-codegen/typescript-urql": "4.0.1",
     "@stylistic/eslint-plugin": "5.5.0",
     "@types/node": "22.19.1",
-    "@types/react": "19.2.5",
+    "@types/react": "19.2.6",
     "@types/react-dom": "19.2.3",
     "eslint": "9.39.1",
     "eslint-config-next": "15.5.6",
