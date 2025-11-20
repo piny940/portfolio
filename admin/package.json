@@ -47,7 +47,7 @@
     "eslint": "9.39.1",
     "eslint-config-next": "15.5.6",
     "graphql-tag": "2.12.6",
-    "sass": "1.94.1",
+    "sass": "1.94.2",
     "typescript": "5.9.3"
   }
 }
