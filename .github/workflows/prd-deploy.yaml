@@ -20,7 +20,7 @@ jobs:
       admin: ${{ steps.filter.outputs.admin }}
       updater: ${{ steps.filter.outputs.updater }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: dorny/paths-filter@v3
         id: filter
         with:
@@ -44,7 +44,7 @@ jobs:
     needs: filter
     if: needs.filter.outputs.backend == 'true'
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/docker-build
         with:
           gh-token: ${{ secrets.GITHUB_TOKEN }}
@@ -60,7 +60,7 @@ jobs:
     needs: filter
     if: needs.filter.outputs.app == 'true'
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/docker-build
         with:
           gh-token: ${{ secrets.GITHUB_TOKEN }}
@@ -78,7 +78,7 @@ jobs:
     needs: filter
     if: needs.filter.outputs.admin == 'true'
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/docker-build
         with:
           gh-token: ${{ secrets.GITHUB_TOKEN }}
@@ -96,7 +96,7 @@ jobs:
     needs: filter
     if: needs.filter.outputs.updater == 'true'
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: ./.github/actions/docker-build
         with:
           gh-token: ${{ secrets.GITHUB_TOKEN }}
