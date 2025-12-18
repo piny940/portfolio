@@ -20,7 +20,7 @@
     "@mui/icons-material": "7.3.6",
     "@mui/material": "7.3.6",
     "@mui/system": "7.3.6",
-    "@mui/x-date-pickers": "8.22.0",
+    "@mui/x-date-pickers": "8.22.1",
     "@urql/exchange-auth": "2.2.1",
     "dayjs": "1.11.19",
     "graphql": "16.12.0",
