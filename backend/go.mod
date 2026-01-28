@@ -5,7 +5,7 @@ go 1.25.0
 toolchain go1.25.5
 
 require (
-	cloud.google.com/go/storage v1.47.0
+	cloud.google.com/go/storage v1.59.2
 	github.com/99designs/gqlgen v0.17.85
 	github.com/bluele/factory-go v0.0.1
 	github.com/golang-jwt/jwt v3.2.2+incompatible
