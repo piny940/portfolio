@@ -43,8 +43,8 @@ importers:
         specifier: 9.39.2
         version: 9.39.2(jiti@2.6.0)
       ts-loader:
-        specifier: 9.5.4
-        version: 9.5.4(typescript@5.9.3)(webpack@5.104.1)
+        specifier: 9.5.7
+        version: 9.5.7(typescript@5.9.3)(webpack@5.104.1)
       typescript:
         specifier: 5.9.3
         version: 5.9.3
@@ -1901,10 +1901,6 @@ packages:
     resolution: {integrity: sha512-c7AfkZ9udatCuAy9RSfiGPpeOKKUAUK5e1cXadLOGUjasdxqYqAK0jTNkM/FSEyJ3a5Ra27j/tw/PS0qLmaF/A==}
     engines: {node: '>=18'}
 
-  tapable@2.2.3:
-    resolution: {integrity: sha512-ZL6DDuAlRlLGghwcfmSn9sK3Hr6ArtyudlSAiCqQ6IfE+b+HHbydbYDIG15IfS5do+7XQQBdBiubF/cV2dnDzg==}
-    engines: {node: '>=6'}
-
   tapable@2.3.0:
     resolution: {integrity: sha512-g9ljZiwki/LfxmQADO3dEY1CbpmXT5Hm2fJ+QaGKwSXUylMybePR7/67YW7jOrrvjEgL1Fmz5kzyAjWVWLlucg==}
     engines: {node: '>=6'}
@@ -1957,8 +1953,8 @@ packages:
     peerDependencies:
       typescript: '>=4.8.4'
 
-  ts-loader@9.5.4:
-    resolution: {integrity: sha512-nCz0rEwunlTZiy6rXFByQU1kVVpCIgUpc/psFiKVrUwrizdnIbRFu8w7bxhUF0X613DYwT4XzrZHpVyMe758hQ==}
+  ts-loader@9.5.7:
+    resolution: {integrity: sha512-/ZNrKgA3K3PtpMYOC71EeMWIloGw3IYEa5/t1cyz2r5/PyUwTXGzYJvcD3kfUvmhlfpz1rhV8B2O6IVTQ0avsg==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       typescript: '*'
@@ -3410,7 +3406,7 @@ snapshots:
   enhanced-resolve@5.18.3:
     dependencies:
       graceful-fs: 4.2.11
-      tapable: 2.2.3
+      tapable: 2.3.0
 
   envinfo@7.14.0: {}
 
@@ -4269,8 +4265,6 @@ snapshots:
       timeout-signal: 2.0.0
       whatwg-mimetype: 4.0.0
 
-  tapable@2.2.3: {}
-
   tapable@2.3.0: {}
 
   terser-webpack-plugin@5.3.16(webpack@5.104.1):
@@ -4312,7 +4306,7 @@ snapshots:
     dependencies:
       typescript: 5.9.3
 
-  ts-loader@9.5.4(typescript@5.9.3)(webpack@5.104.1):
+  ts-loader@9.5.7(typescript@5.9.3)(webpack@5.104.1):
     dependencies:
       chalk: 4.1.2
       enhanced-resolve: 5.18.3
