@@ -22,7 +22,7 @@
     "@mui/system": "7.3.6",
     "@mui/x-date-pickers": "8.23.0",
     "@urql/exchange-auth": "2.2.1",
-    "dayjs": "1.11.19",
+    "dayjs": "1.11.20",
     "graphql": "16.12.0",
     "next": "15.5.14",
     "object-to-formdata": "4.5.1",
