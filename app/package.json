@@ -47,7 +47,7 @@
     "eslint": "9.39.2",
     "eslint-config-next": "15.5.9",
     "@eslint/compat": "1.4.1",
-    "@eslint/eslintrc": "3.3.3",
+    "@eslint/eslintrc": "3.3.5",
     "@eslint/js": "9.39.2",
     "@stylistic/eslint-plugin": "5.6.1",
     "jest": "30.2.0",
