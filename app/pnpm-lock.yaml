@@ -25,16 +25,16 @@ importers:
         version: 2.12.6(graphql@16.12.0)
       next:
         specifier: 15.5.15
-        version: 15.5.15(@babel/core@7.28.4)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.97.1)
+        version: 15.5.15(@babel/core@7.28.4)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(sass@1.97.1)
       pino:
         specifier: 10.1.0
         version: 10.1.0
       react:
-        specifier: 19.2.3
-        version: 19.2.3
+        specifier: 19.2.5
+        version: 19.2.5
       react-dom:
-        specifier: 19.2.3
-        version: 19.2.3(react@19.2.3)
+        specifier: 19.2.5
+        version: 19.2.5(react@19.2.5)
       rehype-sanitize:
         specifier: 6.0.0
         version: 6.0.0
@@ -58,7 +58,7 @@ importers:
         version: 11.0.5
       urql:
         specifier: 4.2.2
-        version: 4.2.2(@urql/core@5.2.0(graphql@16.12.0))(react@19.2.3)
+        version: 4.2.2(@urql/core@5.2.0(graphql@16.12.0))(react@19.2.5)
     devDependencies:
       '@eslint/compat':
         specifier: 1.4.1
@@ -89,7 +89,7 @@ importers:
         version: 6.9.1
       '@testing-library/react':
         specifier: 16.3.2
-        version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+        version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       '@types/bootstrap':
         specifier: 5.2.10
         version: 5.2.10
@@ -103,11 +103,11 @@ importers:
         specifier: 22.19.3
         version: 22.19.3
       '@types/react':
-        specifier: 19.2.7
-        version: 19.2.7
+        specifier: 19.2.14
+        version: 19.2.14
       '@types/react-dom':
         specifier: 19.2.3
-        version: 19.2.3(@types/react@19.2.7)
+        version: 19.2.3(@types/react@19.2.14)
       eslint:
         specifier: 9.39.4
         version: 9.39.4(jiti@2.6.0)
@@ -1467,8 +1467,8 @@ packages:
     peerDependencies:
       '@types/react': ^19.2.0
 
-  '@types/react@19.2.7':
-    resolution: {integrity: sha512-MWtvHrGZLFttgeEj28VXHxpmwYbor/ATPYbBfSFZEIRK0ecCFLl2Qo55z52Hss+UV9CRN7trSeq1zbgx7YDWWg==}
+  '@types/react@19.2.14':
+    resolution: {integrity: sha512-ilcTH/UniCkMdtexkoCN0bI7pMcJDvmQFPvuPvmEaYA/NSfFTAgdUSLAoVjaRJm7+6PvcM+q1zYOwS4wTYMF9w==}
 
   '@types/stack-utils@2.0.3':
     resolution: {integrity: sha512-9aEbYZ3TbYMznPdcdr3SmIrLXwC/AKZXQeCf9Pgao5CKb8CyHuEX5jzWPTkvregvhRJHcpRO6BFoGW9ycaOkYw==}
@@ -3739,10 +3739,10 @@ packages:
   quick-format-unescaped@4.0.4:
     resolution: {integrity: sha512-tYC1Q1hgyRuHgloV/YXs2w15unPVh8qfu/qCTfhTYamaw7fyhumKa2yGpdSo87vY32rIclj+4fWYQXUMs9EHvg==}
 
-  react-dom@19.2.3:
-    resolution: {integrity: sha512-yELu4WmLPw5Mr/lmeEpox5rw3RETacE++JgHqQzd2dg+YbJuat3jH4ingc+WPZhxaoFzdv9y33G+F7Nl5O0GBg==}
+  react-dom@19.2.5:
+    resolution: {integrity: sha512-J5bAZz+DXMMwW/wV3xzKke59Af6CHY7G4uYLN1OvBcKEsWOs4pQExj86BBKamxl/Ik5bx9whOrvBlSDfWzgSag==}
     peerDependencies:
-      react: ^19.2.3
+      react: ^19.2.5
 
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
@@ -3753,8 +3753,8 @@ packages:
   react-is@18.3.1:
     resolution: {integrity: sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==}
 
-  react@19.2.3:
-    resolution: {integrity: sha512-Ku/hhYbVjOQnXDZFv2+RibmLFGwFdeeKHFcOTlrt7xplBnya5OGn/hIRDsqDiSUcfORsDC7MPxwork8jBwsIWA==}
+  react@19.2.5:
+    resolution: {integrity: sha512-llUJLzz1zTUBrskt2pwZgLq59AemifIftw4aB7JxOqf1HY2FDaGDxgwpAPVzHU1kdWabH7FauP4i1oEeer2WCA==}
     engines: {node: '>=0.10.0'}
 
   readable-stream@3.6.2:
@@ -6088,15 +6088,15 @@ snapshots:
       picocolors: 1.1.1
       redent: 3.0.0
 
-  '@testing-library/react@16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
+  '@testing-library/react@16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
     dependencies:
       '@babel/runtime': 7.28.4
       '@testing-library/dom': 10.4.1
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
+      react: 19.2.5
+      react-dom: 19.2.5(react@19.2.5)
     optionalDependencies:
-      '@types/react': 19.2.7
-      '@types/react-dom': 19.2.3(@types/react@19.2.7)
+      '@types/react': 19.2.14
+      '@types/react-dom': 19.2.3(@types/react@19.2.14)
 
   '@theguild/federation-composition@0.20.1(graphql@16.12.0)':
     dependencies:
@@ -6195,11 +6195,11 @@ snapshots:
     dependencies:
       undici-types: 6.21.0
 
-  '@types/react-dom@19.2.3(@types/react@19.2.7)':
+  '@types/react-dom@19.2.3(@types/react@19.2.14)':
     dependencies:
-      '@types/react': 19.2.7
+      '@types/react': 19.2.14
 
-  '@types/react@19.2.7':
+  '@types/react@19.2.14':
     dependencies:
       csstype: 3.2.3
 
@@ -8792,15 +8792,15 @@ snapshots:
 
   natural-compare@1.4.0: {}
 
-  next@15.5.15(@babel/core@7.28.4)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.97.1):
+  next@15.5.15(@babel/core@7.28.4)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(sass@1.97.1):
     dependencies:
       '@next/env': 15.5.15
       '@swc/helpers': 0.5.15
       caniuse-lite: 1.0.30001745
       postcss: 8.4.31
-      react: 19.2.3
-      react-dom: 19.2.3(react@19.2.3)
-      styled-jsx: 5.1.6(@babel/core@7.28.4)(react@19.2.3)
+      react: 19.2.5
+      react-dom: 19.2.5(react@19.2.5)
+      styled-jsx: 5.1.6(@babel/core@7.28.4)(react@19.2.5)
     optionalDependencies:
       '@next/swc-darwin-arm64': 15.5.15
       '@next/swc-darwin-x64': 15.5.15
@@ -9092,9 +9092,9 @@ snapshots:
 
   quick-format-unescaped@4.0.4: {}
 
-  react-dom@19.2.3(react@19.2.3):
+  react-dom@19.2.5(react@19.2.5):
     dependencies:
-      react: 19.2.3
+      react: 19.2.5
       scheduler: 0.27.0
 
   react-is@16.13.1: {}
@@ -9103,7 +9103,7 @@ snapshots:
 
   react-is@18.3.1: {}
 
-  react@19.2.3: {}
+  react@19.2.5: {}
 
   readable-stream@3.6.2:
     dependencies:
@@ -9554,10 +9554,10 @@ snapshots:
 
   strip-json-comments@3.1.1: {}
 
-  styled-jsx@5.1.6(@babel/core@7.28.4)(react@19.2.3):
+  styled-jsx@5.1.6(@babel/core@7.28.4)(react@19.2.5):
     dependencies:
       client-only: 0.0.1
-      react: 19.2.3
+      react: 19.2.5
     optionalDependencies:
       '@babel/core': 7.28.4
 
@@ -9814,10 +9814,10 @@ snapshots:
 
   urlpattern-polyfill@10.1.0: {}
 
-  urql@4.2.2(@urql/core@5.2.0(graphql@16.12.0))(react@19.2.3):
+  urql@4.2.2(@urql/core@5.2.0(graphql@16.12.0))(react@19.2.5):
     dependencies:
       '@urql/core': 5.2.0(graphql@16.12.0)
-      react: 19.2.3
+      react: 19.2.5
       wonka: 6.3.5
 
   util-deprecate@1.0.2: {}
