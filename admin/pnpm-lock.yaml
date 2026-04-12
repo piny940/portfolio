@@ -60,8 +60,8 @@ importers:
         specifier: 19.2.5
         version: 19.2.5(react@19.2.5)
       react-dropzone:
-        specifier: 14.3.8
-        version: 14.3.8(react@19.2.5)
+        specifier: 14.4.1
+        version: 14.4.1(react@19.2.5)
       react-hook-form:
         specifier: 7.69.0
         version: 7.69.0(react@19.2.5)
@@ -2999,8 +2999,8 @@ packages:
     peerDependencies:
       react: ^19.2.5
 
-  react-dropzone@14.3.8:
-    resolution: {integrity: sha512-sBgODnq+lcA4P296DY4wacOZz3JFpD99fp+hb//iBO2HHnyeZU3FwWyXJ6salNpqQdsZrgMrotuko/BdJMV8Ug==}
+  react-dropzone@14.4.1:
+    resolution: {integrity: sha512-QDuV76v3uKbHiH34SpwifZ+gOLi1+RdsCO1kl5vxMT4wW8R82+sthjvBw4th3NHF/XX6FBsqDYZVNN+pnhaw0g==}
     engines: {node: '>= 10.13'}
     peerDependencies:
       react: '>= 16.8 || 18.0.0'
@@ -4539,7 +4539,7 @@ snapshots:
   '@graphql-tools/optimize@2.0.0(graphql@16.13.2)':
     dependencies:
       graphql: 16.13.2
-      tslib: 2.6.3
+      tslib: 2.8.1
 
   '@graphql-tools/prisma-loader@8.0.17(@types/node@22.19.3)(graphql@16.13.2)':
     dependencies:
@@ -4585,7 +4585,7 @@ snapshots:
       '@ardatan/relay-compiler': 12.0.3(graphql@16.13.2)
       '@graphql-tools/utils': 10.9.1(graphql@16.13.2)
       graphql: 16.13.2
-      tslib: 2.6.3
+      tslib: 2.8.1
     transitivePeerDependencies:
       - encoding
 
@@ -6938,7 +6938,7 @@ snapshots:
       react: 19.2.5
       scheduler: 0.27.0
 
-  react-dropzone@14.3.8(react@19.2.5):
+  react-dropzone@14.4.1(react@19.2.5):
     dependencies:
       attr-accept: 2.2.5
       file-selector: 2.1.2
