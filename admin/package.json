@@ -28,7 +28,7 @@
     "object-to-formdata": "4.5.1",
     "react": "19.2.5",
     "react-dom": "19.2.5",
-    "react-dropzone": "14.4.1",
+    "react-dropzone": "15.0.0",
     "react-hook-form": "7.72.1",
     "urql": "4.2.2"
   },
