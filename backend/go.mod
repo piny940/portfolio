@@ -12,7 +12,7 @@ require (
 	github.com/graph-gophers/dataloader/v7 v7.1.3
 	github.com/joho/godotenv v1.5.1
 	github.com/kelseyhightower/envconfig v1.4.0
-	github.com/labstack/echo/v4 v4.14.0
+	github.com/labstack/echo/v4 v4.15.1
 	github.com/lestrrat-go/jwx v1.2.31
 	github.com/maxatome/go-testdeep v1.14.0
 	github.com/spf13/viper v1.21.0
