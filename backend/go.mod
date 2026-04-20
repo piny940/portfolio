@@ -14,7 +14,7 @@ require (
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/labstack/echo/v4 v4.15.1
 	github.com/lestrrat-go/jwx v1.2.31
-	github.com/maxatome/go-testdeep v1.14.0
+	github.com/maxatome/go-testdeep v1.15.0
 	github.com/spf13/viper v1.21.0
 	github.com/vektah/gqlparser/v2 v2.5.32
 	gorm.io/driver/postgres v1.6.0
