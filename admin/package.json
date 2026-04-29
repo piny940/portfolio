@@ -21,7 +21,7 @@
     "@mui/material": "7.3.10",
     "@mui/system": "7.3.10",
     "@mui/x-date-pickers": "8.28.3",
-    "@urql/exchange-auth": "2.2.1",
+    "@urql/exchange-auth": "3.0.0",
     "dayjs": "1.11.20",
     "graphql": "16.13.2",
     "next": "15.5.15",
