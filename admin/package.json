@@ -24,7 +24,7 @@
     "@urql/exchange-auth": "2.2.1",
     "dayjs": "1.11.20",
     "graphql": "16.13.2",
-    "next": "15.5.15",
+    "next": "16.2.4",
     "object-to-formdata": "4.5.1",
     "react": "19.2.5",
     "react-dom": "19.2.5",
@@ -45,7 +45,7 @@
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "eslint": "9.39.4",
-    "eslint-config-next": "15.5.15",
+    "eslint-config-next": "16.2.4",
     "graphql-tag": "2.12.6",
     "sass": "1.99.0",
     "typescript": "5.9.3"
