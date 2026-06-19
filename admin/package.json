@@ -23,7 +23,7 @@
     "@mui/x-date-pickers": "8.28.7",
     "@urql/exchange-auth": "2.2.1",
     "dayjs": "1.11.21",
-    "graphql": "16.14.0",
+    "graphql": "16.14.2",
     "next": "15.5.18",
     "object-to-formdata": "4.5.1",
     "react": "19.2.6",
