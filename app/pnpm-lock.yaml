@@ -57,8 +57,8 @@ importers:
         specifier: 11.0.5
         version: 11.0.5
       urql:
-        specifier: 4.2.2
-        version: 4.2.2(@urql/core@5.2.0(graphql@16.14.2))(react@19.2.7)
+        specifier: 5.0.3
+        version: 5.0.3(@urql/core@5.2.0(graphql@16.14.2))(react@19.2.7)
     devDependencies:
       '@eslint/compat':
         specifier: 1.4.1
@@ -4420,10 +4420,10 @@ packages:
   urlpattern-polyfill@10.1.0:
     resolution: {integrity: sha512-IGjKp/o0NL3Bso1PymYURCJxMPNAf/ILOpendP9f5B6e1rTJgdgiOvgfoT8VxCAdY+Wisb9uhGaJJf3yZ2V9nw==}
 
-  urql@4.2.2:
-    resolution: {integrity: sha512-3GgqNa6iF7bC4hY/ImJKN4REQILcSU9VKcKL8gfELZM8mM5BnLH1BsCc8kBdnVGD1LIFOs4W3O2idNHhON1r0w==}
+  urql@5.0.3:
+    resolution: {integrity: sha512-gWywgPjduTCUqWKofW6YLOy1auxe0uJN/vHa44eXGKn+f+QHNb308ZEZnKBLZ4F+jRrguaJy9CdtecTZJQWPCg==}
     peerDependencies:
-      '@urql/core': ^5.0.0
+      '@urql/core': ^6.0.0
       react: '>= 16.8.0'
 
   util-deprecate@1.0.2:
@@ -9997,7 +9997,7 @@ snapshots:
 
   urlpattern-polyfill@10.1.0: {}
 
-  urql@4.2.2(@urql/core@5.2.0(graphql@16.14.2))(react@19.2.7):
+  urql@5.0.3(@urql/core@5.2.0(graphql@16.14.2))(react@19.2.7):
     dependencies:
       '@urql/core': 5.2.0(graphql@16.14.2)
       react: 19.2.7
