@@ -30,7 +30,7 @@
     "react-dom": "19.2.7",
     "react-dropzone": "14.4.1",
     "react-hook-form": "7.80.0",
-    "urql": "4.2.2"
+    "urql": "5.0.3"
   },
   "devDependencies": {
     "@eslint/compat": "1.4.1",
