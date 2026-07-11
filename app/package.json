@@ -52,7 +52,7 @@
     "@stylistic/eslint-plugin": "5.10.0",
     "jest": "30.4.2",
     "jest-environment-jsdom": "30.4.1",
-    "jest-fetch-mock": "3.0.3",
+    "jest-fetch-mock": "3.2.0",
     "sass": "1.101.0",
     "ts-mockery": "2.0.0",
     "ts-node": "10.9.2",
