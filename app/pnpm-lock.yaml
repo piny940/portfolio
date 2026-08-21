@@ -57,8 +57,8 @@ importers:
         specifier: 11.0.5
         version: 11.0.5
       urql:
-        specifier: 4.2.2
-        version: 4.2.2(@urql/core@5.2.0(graphql@16.14.2))(react@19.2.8)
+        specifier: 5.0.4
+        version: 5.0.4(@urql/core@5.2.0(graphql@16.14.2))(react@19.2.8)
     devDependencies:
       '@eslint/compat':
         specifier: 1.4.1
@@ -2432,6 +2432,7 @@ packages:
   eslint@9.39.5:
     resolution: {integrity: sha512-DgZS62aPLXKlnxILS/AYCoRvHaZeXceIzlXPkkGGzJWSow1aEk0lbTlxUSlyjC8jcaKxAdOnTDz+o1JFSBsyjw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
     peerDependencies:
       jiti: '*'
@@ -4417,10 +4418,10 @@ packages:
   urlpattern-polyfill@10.1.0:
     resolution: {integrity: sha512-IGjKp/o0NL3Bso1PymYURCJxMPNAf/ILOpendP9f5B6e1rTJgdgiOvgfoT8VxCAdY+Wisb9uhGaJJf3yZ2V9nw==}
 
-  urql@4.2.2:
-    resolution: {integrity: sha512-3GgqNa6iF7bC4hY/ImJKN4REQILcSU9VKcKL8gfELZM8mM5BnLH1BsCc8kBdnVGD1LIFOs4W3O2idNHhON1r0w==}
+  urql@5.0.4:
+    resolution: {integrity: sha512-OKNx8hUtt6RPSfsMsTsvas9rvMNN7BPMTvbXCwbiuO/mYa8Y+G4pxTzMJL7Sf1jXwR9gMpQheJ21LQy+nUjMkw==}
     peerDependencies:
-      '@urql/core': ^5.0.0
+      '@urql/core': ^6.0.0
       react: '>= 16.8.0'
 
   util-deprecate@1.0.2:
@@ -9991,7 +9992,7 @@ snapshots:
 
   urlpattern-polyfill@10.1.0: {}
 
-  urql@4.2.2(@urql/core@5.2.0(graphql@16.14.2))(react@19.2.8):
+  urql@5.0.4(@urql/core@5.2.0(graphql@16.14.2))(react@19.2.8):
     dependencies:
       '@urql/core': 5.2.0(graphql@16.14.2)
       react: 19.2.8
