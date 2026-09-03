@@ -31,7 +31,7 @@
     "urql": "4.2.2"
   },
   "devDependencies": {
-    "jest-cli": "30.5.0",
+    "jest-cli": "30.5.1",
     "@graphql-codegen/cli": "5.0.7",
     "@graphql-codegen/typescript": "4.1.6",
     "@graphql-codegen/typescript-graphql-request": "6.4.0",
@@ -50,8 +50,8 @@
     "@eslint/eslintrc": "3.3.7",
     "@eslint/js": "9.39.5",
     "@stylistic/eslint-plugin": "5.10.0",
-    "jest": "30.5.0",
-    "jest-environment-jsdom": "30.5.0",
+    "jest": "30.5.1",
+    "jest-environment-jsdom": "30.5.1",
     "jest-fetch-mock": "3.2.0",
     "sass": "1.103.1",
     "ts-mockery": "2.0.0",
