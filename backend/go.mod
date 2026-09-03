@@ -16,7 +16,7 @@ require (
 	github.com/lestrrat-go/jwx v1.2.31
 	github.com/maxatome/go-testdeep v1.15.0
 	github.com/spf13/viper v1.21.0
-	github.com/vektah/gqlparser/v2 v2.5.36
+	github.com/vektah/gqlparser/v2 v2.5.37
 	gorm.io/driver/postgres v1.6.2
 	gorm.io/gorm v1.31.2
 	k8s.io/client-go v0.35.4
@@ -84,7 +84,7 @@ require (
 	go.opentelemetry.io/otel/sdk/metric v1.29.0 // indirect
 	go.opentelemetry.io/otel/trace v1.29.0 // indirect
 	go.yaml.in/yaml/v2 v2.4.3 // indirect
-	go.yaml.in/yaml/v3 v3.0.4 // indirect
+	go.yaml.in/yaml/v3 v3.0.5 // indirect
 	golang.org/x/oauth2 v0.30.0 // indirect
 	golang.org/x/term v0.44.0 // indirect
 	google.golang.org/api v0.203.0 // indirect
