@@ -53,7 +53,7 @@
     "jest": "30.5.1",
     "jest-environment-jsdom": "30.5.1",
     "jest-fetch-mock": "3.2.0",
-    "sass": "1.103.1",
+    "sass": "1.104.0",
     "ts-mockery": "2.0.0",
     "ts-node": "10.9.2",
     "typescript": "5.9.3"
