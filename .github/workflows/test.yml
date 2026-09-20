@@ -10,15 +10,15 @@ jobs:
       - uses: actions/checkout@v5
       - uses: pnpm/action-setup@v4
         with:
-          package_json_file: "app/package.json"
+          package_json_file: "package.json"
       - uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "pnpm"
-          cache-dependency-path: "app/package.json"
-      - run: cd app && pnpm install
-      - run: cd app && pnpm test
+          cache-dependency-path: "package.json"
+      - run: pnpm install
+      - run: pnpm test
       - name: ESLint
-        run: cd app && pnpm lint
+        run: pnpm lint
       - name: Build Test
-        run: cd app && pnpm build
+        run: pnpm build
