@@ -1,51 +1,52 @@
-import type { GetServerSideProps, NextPage } from 'next'
+import type { GetStaticProps, NextPage } from 'next'
 import Meta from '@/layouts/Meta'
-import { sdk } from '@/server/api'
 import { Profiles } from '@/components/Portfolio/Profile'
-import styles from '@/styles/index.module.scss'
+import styles from '@/styles/index.module.css'
 import Link from 'next/link'
 import { SkillItems } from '@/components/Portfolio/SkillItems'
 import ProjectItems from '@/components/Portfolio/ProjectItems'
 import BlogItems from '@/components/Portfolio/BlogItems'
-import { Blog, Project, TechStack } from '@/server/_types'
-import { getProjectIdsWithBlog } from '@/server/loader'
-import { PageProps } from './_app'
-import { getThemeFromCookie } from '@/server/helper'
-import { logger } from '@/utils/logger'
+import { Blog, Profile, Project, Technology } from '@/content/types'
+import {
+  getBlogs,
+  getProfile,
+  getProjectIdsWithBlog,
+  getProjects,
+  getTechStacks,
+} from '@/content'
 
-interface HomeProps extends PageProps {
+interface HomeProps {
+  profile: Profile
   projects: Project[]
   projectIdsWithBlog: string[]
   blogs: Blog[]
-  techStacks: TechStack[]
+  technologies: Technology[]
 }
 
-export const getServerSideProps: GetServerSideProps<HomeProps> = async (
-  ctx,
-) => {
-  const data = await sdk().fetchAllData()
-  logger.child({ path: '/' }).info('accessed')
+export const getStaticProps: GetStaticProps<HomeProps> = async () => {
   return {
     props: {
-      initialTheme: getThemeFromCookie(ctx),
-      projects: data.projects,
+      profile: getProfile(),
+      projects: getProjects(),
       projectIdsWithBlog: getProjectIdsWithBlog(),
-      blogs: data.blogs.items,
-      techStacks: data.techStacks,
+      blogs: getBlogs(),
+      technologies: getTechStacks(),
     },
   }
 }
+
 const Home: NextPage<HomeProps> = ({
+  profile,
   projects,
   projectIdsWithBlog,
   blogs,
-  techStacks,
+  technologies,
 }) => {
   return (
     <>
       <Meta />
       <div id="index">
-        <Profiles className="bg-body" />
+        <Profiles profile={profile} className="bg-body" />
         <section
           id="skills"
           className={
@@ -56,7 +57,7 @@ const Home: NextPage<HomeProps> = ({
           <Link href="/skills" className="unstyled">
             <h2 className="h1 text-center title-underline">技術スタック</h2>
           </Link>
-          <SkillItems row={2} techStacks={techStacks.slice(0, 6)} />
+          <SkillItems row={2} technologies={technologies.slice(0, 6)} />
           <Link href="/skills" className="h5 text-primary">
             もっと見る
           </Link>

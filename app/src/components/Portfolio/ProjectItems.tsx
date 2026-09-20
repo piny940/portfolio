@@ -1,5 +1,5 @@
 import { ProjectItem } from '@/components/Portfolio/ProjectItem'
-import { Project } from '@/server/_types'
+import { Project } from '@/content/types'
 import { memo } from 'react'
 
 export type ProjectItemsProps = {

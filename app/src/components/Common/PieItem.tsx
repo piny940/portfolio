@@ -1,5 +1,5 @@
 import { ReactNode, useMemo } from 'react'
-import styles from '@/styles/pie-item.module.scss'
+import styles from '@/styles/pie-item.module.css'
 
 export type PieItemProps = {
   percent: number

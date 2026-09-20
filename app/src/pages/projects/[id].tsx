@@ -2,37 +2,34 @@ import Breadcrumb from '@/components/Common/Breadcrumb'
 import { MarkdownDisplay } from '@/components/Common/MarkdownDisplay'
 import TechnologyTag from '@/components/Portfolio/TechnologyTag'
 import Meta from '@/layouts/Meta'
-import { Project } from '@/server/_types'
-import { sdk } from '@/server/api'
-import { getBlogContent } from '@/server/loader'
-import { GetServerSideProps } from 'next'
+import { Project } from '@/content/types'
+import { getBlogContent, getProject, getProjectIdsWithBlog } from '@/content'
+import { renderMarkdown } from '@/content/markdown'
+import { GetStaticPaths, GetStaticProps } from 'next'
 import Link from 'next/link'
-import { JSX, useMemo } from 'react'
-import { PageProps } from '../_app'
-import { getThemeFromCookie } from '@/server/helper'
-import { logger } from '@/utils/logger'
+import { JSX } from 'react'
 
-interface ProjectProps extends PageProps {
+interface ProjectProps {
   project: Project
-  blogContent: string
+  blogHtml: string
 }
 
-export const getServerSideProps: GetServerSideProps<ProjectProps> = async (
-  ctx,
-) => {
-  const id = ctx.query.id as string
+export const getStaticPaths: GetStaticPaths = async () => ({
+  paths: getProjectIdsWithBlog().map(id => ({ params: { id } })),
+  fallback: false,
+})
+
+export const getStaticProps: GetStaticProps<ProjectProps> = async (ctx) => {
+  const id = ctx.params?.id as string
+  const project = getProject(id)
   const blogContent = getBlogContent(id)
-  const project = (await sdk().fetchProject({ id })).project
   if (!project || !blogContent) return { notFound: true }
-  logger.child({ path: `/projects/${id}` }).info('accessed')
-  return {
-    props: { project, blogContent, initialTheme: getThemeFromCookie(ctx) },
-  }
+
+  return { props: { project, blogHtml: await renderMarkdown(blogContent) } }
 }
 
-const ProjectShow = ({ project, blogContent }: ProjectProps): JSX.Element => {
-  const link = useMemo(() => project.appLink, [project])
-  const github = useMemo(() => project.githubLink, [project])
+const ProjectShow = ({ project, blogHtml }: ProjectProps): JSX.Element => {
+  const { app: link, github } = project.links
 
   const paths = [
     { name: 'トップページ', path: '/' },
@@ -48,8 +45,8 @@ const ProjectShow = ({ project, blogContent }: ProjectProps): JSX.Element => {
         <h1 className="title-underline ps-2">{project.title}</h1>
         <ul className="list-unstyled d-flex mx-lg-4 flex-wrap">
           {project.tags.map(tag => (
-            <li key={tag.technology.id} className="m-1">
-              <TechnologyTag technology={tag.technology} size={15} />
+            <li key={tag.slug} className="m-1">
+              <TechnologyTag technology={tag} size={15} />
             </li>
           ))}
         </ul>
@@ -72,7 +69,7 @@ const ProjectShow = ({ project, blogContent }: ProjectProps): JSX.Element => {
           )}
         </ul>
         <div className="markdown ps-lg-4">
-          <MarkdownDisplay content={blogContent} />
+          <MarkdownDisplay html={blogHtml} />
         </div>
       </div>
     </>

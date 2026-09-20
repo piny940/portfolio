@@ -1,12 +1,13 @@
 import {
   createContext,
   ReactNode,
+  useCallback,
   useContext,
   useEffect,
   useState,
 } from 'react'
 import { Theme } from '../resources/types'
-import { toCookie } from '@/utils/storage'
+import { fromCookie, toCookie } from '@/utils/storage'
 
 interface ThemeContextInterface {
   theme: Theme
@@ -22,29 +23,38 @@ const ThemeContext = createContext(defaultThemeState)
 
 const useTheme = () => useContext(ThemeContext)
 
-interface ThemeProviderProps {
-  children: ReactNode
-  initialTheme?: Theme
+const THEME_COLORS: Record<Theme, string> = {
+  light: '#f8f9fa',
+  dark: '#212529',
 }
 
-const ThemeProvider: React.FC<ThemeProviderProps> = ({
-  children,
-  initialTheme,
-}) => {
-  const [theme, setTheme] = useState<Theme>(initialTheme ?? 'light')
+interface ThemeProviderProps {
+  children: ReactNode
+}
 
-  const value: ThemeContextInterface = {
-    theme,
-    setTheme,
-  }
+const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
+  const [theme, setThemeState] = useState<Theme>('light')
 
   useEffect(() => {
-    document.querySelector('html')?.setAttribute('data-bs-theme', theme)
-    toCookie('theme', theme)
-  }, [theme])
+    const current
+      = (document.documentElement.getAttribute('data-bs-theme') as Theme | null)
+        ?? fromCookie('theme') as Theme | null
+    if (current === 'dark' || current === 'light') setThemeState(current)
+  }, [])
+
+  const setTheme = useCallback((next: Theme) => {
+    setThemeState(next)
+    document.documentElement.setAttribute('data-bs-theme', next)
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute('content', THEME_COLORS[next])
+    toCookie('theme', next)
+  }, [])
 
   return (
-    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+    <ThemeContext.Provider value={{ theme, setTheme }}>
+      {children}
+    </ThemeContext.Provider>
   )
 }
 

@@ -1,4 +1,3 @@
-import { useTheme } from '@/context/ThemeProvider'
 import Image from 'next/image'
 import Link from 'next/link'
 import githubWhiteIcon from '../../resources/images/common/github-white.png'
@@ -8,15 +7,18 @@ import twitterIcon from '../../resources/images/common/x.png'
 import twitterWhiteIcon from '../../resources/images/common/x-white.png'
 import profileIcon from '../../resources/images/profile/icon.png'
 import background from '../../resources/images/profile/background.png'
-import styles from '@/styles/profile.module.scss'
+import styles from '@/styles/profile.module.css'
+import { Profile } from '@/content/types'
 
 export type ProfilesProps = {
+  profile: Profile
   className?: string
 }
 
-export const Profiles: React.FC<ProfilesProps> = ({ className = '' }) => {
-  const { theme } = useTheme()
-
+export const Profiles: React.FC<ProfilesProps> = ({
+  profile,
+  className = '',
+}) => {
   return (
     <div
       className={
@@ -50,28 +52,37 @@ export const Profiles: React.FC<ProfilesProps> = ({ className = '' }) => {
           priority
         />
         <h1 className="d-flex flex-column align-items-center mt-2">
-          mikan
-          <span className="text-muted fs-6">@piny940</span>
+          {profile.name}
+          <span className="text-muted fs-6">{`@${profile.handle}`}</span>
         </h1>
         <ul className="list-unstyled mt-2 mb-1 d-flex align-items-center">
           <li>
             <Link
               target="_blank"
-              href="https://github.com/piny940"
+              href={profile.links.github}
               className="unstyled mx-1"
             >
               <Image
-                src={theme === 'light' ? githubIcon : githubWhiteIcon}
+                src={githubIcon}
                 width={31}
                 height={31}
                 alt="github-icon"
+                className="on-light"
+                priority
+              />
+              <Image
+                src={githubWhiteIcon}
+                width={31}
+                height={31}
+                alt="github-icon"
+                className="on-dark"
                 priority
               />
             </Link>
           </li>
           <li>
             <Link
-              href="https://qiita.com/piny940"
+              href={profile.links.qiita}
               target="_blank"
               className="unstyled mx-1"
             >
@@ -86,23 +97,30 @@ export const Profiles: React.FC<ProfilesProps> = ({ className = '' }) => {
           </li>
           <li>
             <Link
-              href="https://x.com/piny940"
+              href={profile.links.x}
               target="_blank"
               className="unstyled mx-1"
             >
               <Image
                 priority
-                src={theme === 'light' ? twitterIcon : twitterWhiteIcon}
+                src={twitterIcon}
                 width={27}
                 height={27}
                 alt="x-icon"
+                className="on-light"
+              />
+              <Image
+                priority
+                src={twitterWhiteIcon}
+                width={27}
+                height={27}
+                alt="x-icon"
+                className="on-dark"
               />
             </Link>
           </li>
         </ul>
-        <p className="mt-3 top-profile">
-          大学進学と共にプログラミングの勉強を始め、主にRails・Reactを用いてインターン/個人の趣味開発でwebアプリの開発を行っています。
-        </p>
+        <p className="mt-3 top-profile">{profile.description}</p>
       </div>
     </div>
   )

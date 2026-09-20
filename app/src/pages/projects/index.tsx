@@ -1,29 +1,21 @@
 import Breadcrumb from '@/components/Common/Breadcrumb'
 import ProjectItems from '@/components/Portfolio/ProjectItems'
 import Meta from '@/layouts/Meta'
-import { Project } from '@/server/_types'
-import { sdk } from '@/server/api'
-import { getProjectIdsWithBlog } from '@/server/loader'
-import { GetServerSideProps } from 'next'
-import { PageProps } from '../_app'
-import { getThemeFromCookie } from '@/server/helper'
-import { logger } from '@/utils/logger'
+import { Project } from '@/content/types'
+import { getProjectIdsWithBlog, getProjects } from '@/content'
+import { GetStaticProps } from 'next'
 import { JSX } from 'react'
 
-interface ProjectsProps extends PageProps {
+interface ProjectsProps {
   projects: Project[]
   projectIdsWithBlog: string[]
 }
 
-export const getServerSideProps: GetServerSideProps<ProjectsProps> = async (
-  ctx,
-) => {
-  logger.child({ path: '/projects' }).info('accessed')
+export const getStaticProps: GetStaticProps<ProjectsProps> = async () => {
   return {
     props: {
-      projects: (await sdk().fetchProjects()).projects,
+      projects: getProjects(),
       projectIdsWithBlog: getProjectIdsWithBlog(),
-      initialTheme: getThemeFromCookie(ctx),
     },
   }
 }

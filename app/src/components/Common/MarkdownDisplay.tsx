@@ -1,46 +1,11 @@
-import { JSX, useEffect, useState } from 'react'
-import { unified } from 'unified'
-import remarkParse from 'remark-parse'
-import remarkGfm from 'remark-gfm'
-import remarkRehype from 'remark-rehype'
-import rehypeStringify from 'rehype-stringify'
-import rehypeSlug from 'rehype-slug'
+import { JSX } from 'react'
 
 export type MarkdownDisplayProps = {
-  content: string
+  html: string
 }
 
-export const MarkdownDisplay = ({ content }: MarkdownDisplayProps): JSX.Element => {
-  const [html, setHtml] = useState('')
-
-  const parseMarkdown = async (content: string): Promise<string> => {
-    const file = await unified()
-      .use(remarkParse, { allowDangerousHtml: true })
-      .use(remarkGfm)
-      .use(remarkRehype, { allowDangerousHtml: true })
-      .use(rehypeStringify, { allowDangerousHtml: true })
-      .use(rehypeSlug)
-      .process(content)
-    return String(file)
-  }
-
-  useEffect(() => {
-    const getContent = async () => {
-      const htmlString = await parseMarkdown(content)
-      setHtml(htmlString)
-    }
-    void getContent()
-  }, [content])
-
-  return (
-    <>
-      {html
-        ? (
-            <div dangerouslySetInnerHTML={{ __html: html }} />
-          )
-        : (
-            <p>Loading...</p>
-          )}
-    </>
-  )
-}
+export const MarkdownDisplay = ({
+  html,
+}: MarkdownDisplayProps): JSX.Element => (
+  <div dangerouslySetInnerHTML={{ __html: html }} />
+)

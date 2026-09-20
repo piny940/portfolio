@@ -1,6 +1,5 @@
 import { MaterialIcon } from '../Common/MaterialIcon'
 import Link from 'next/link'
-import { useTheme } from '@/context/ThemeProvider'
 import Image from 'next/image'
 import githubWhiteIcon from '../../resources/images/common/github-white.png'
 import githubIcon from '../../resources/images/common/github.png'
@@ -8,8 +7,8 @@ import qiitaIcon from '../../resources/images/common/qiita.png'
 import { useMemo } from 'react'
 import FavoriteIcon from './FavoriteIcon'
 import { TestID } from '@/resources/TestID'
-import styles from '@/styles/item.module.scss'
-import { Project } from '@/server/_types'
+import styles from '@/styles/item.module.css'
+import { Project } from '@/content/types'
 
 export type ProjectItemProps = {
   project: Project
@@ -22,14 +21,11 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
   hasBlog,
   className = '',
 }) => {
-  const { theme } = useTheme()
   const mainLink = useMemo(
-    () => (hasBlog ? `/projects/${project.id}` : project.qiitaLink),
+    () => (hasBlog ? `/projects/${project.id}` : project.links.qiita),
     [project, hasBlog],
   )
-  const githubLink = useMemo(() => project.githubLink, [project])
-  const projectLink = useMemo(() => project.appLink, [project])
-  const qiita = useMemo(() => project.qiitaLink, [project])
+  const { app: projectLink, github: githubLink, qiita } = project.links
 
   const renderTitle = () => (
     <h3 className="h5 my-1 title-underline pb-1">{project.title}</h3>
@@ -66,10 +62,18 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
           <li>
             <Link target="_blank" href={githubLink} className="unstyled mx-1">
               <Image
-                src={theme === 'light' ? githubIcon : githubWhiteIcon}
+                src={githubIcon}
                 width={31}
                 height={31}
                 alt="github-icon"
+                className="on-light"
+              />
+              <Image
+                src={githubWhiteIcon}
+                width={31}
+                height={31}
+                alt="github-icon"
+                className="on-dark"
               />
             </Link>
           </li>
@@ -96,7 +100,7 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
       <div className="d-flex flex-column align-items-center mt-1">
         <h4 className="small text-muted fw-normal p-0 m-0">使用技術</h4>
         <p className="small text-muted text-center">
-          {project.tags.map(tag => tag.technology.name).join(', ')}
+          {project.tags.map(tag => tag.name).join(', ')}
         </p>
       </div>
       <p className="">{project.description}</p>

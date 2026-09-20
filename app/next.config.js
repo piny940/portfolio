@@ -1,19 +1,12 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-  output: "standalone",
+  output: "export",
+  trailingSlash: true,
   images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "storage.googleapis.com",
-      },
-    ],
+    unoptimized: true,
   },
   reactStrictMode: true,
-  compiler: {
-    styledComponents: true,
-  },
 };
 
 module.exports = nextConfig;

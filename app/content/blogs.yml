@@ -1,0 +1,349 @@
+# 手書きで管理する。記事を追加したらここに追記する。
+- title: '[k8s] oauth2-proxyを使ってKubernetesの管理画面に認証をかける方法'
+  url: https://qiita.com/piny940/items/dbf3f6ac5649ca3bcf12
+  publishedAt: '2024-11-20T12:33:33.000Z'
+  tags:
+    - kubernetes
+- title: '[k8s] vaultに対してクラスタ内でHTTPS通信できるようにした話'
+  url: https://qiita.com/piny940/items/90df37c48b9386ead44a
+  publishedAt: '2024-11-18T13:05:18.000Z'
+  tags:
+    - kubernetes
+- title: 自作OAuth2.0・OpenID Connectプロバイダを作ってみた
+  url: https://qiita.com/piny940/items/5907bc577fafff5d160d
+  publishedAt: '2024-11-15T17:11:37.000Z'
+  tags:
+    - go
+    - react
+- title: '[k8s] Longhorn で ファイルを削除しても Volume のサイズが減らない問題'
+  url: https://qiita.com/piny940/items/c68472e08e5cf0d8ce9e
+  publishedAt: '2024-11-09T03:09:09.000Z'
+  tags:
+    - kubernetes
+- title: オンプレKubernetesからGCPのWorkload Identity連携を使えるようにした話
+  url: https://qiita.com/piny940/items/059d3f1f9a7dae5afb96
+  publishedAt: '2024-10-26T03:23:43.000Z'
+  tags:
+    - kubernetes
+- title: GCPのリソースをTerraformで管理できるようにした話
+  url: https://qiita.com/piny940/items/217c224d23c8b97e9c1e
+  publishedAt: '2024-10-25T14:08:18.000Z'
+  tags: []
+- title: サイバーエージェントのACEインターン体験記
+  url: https://qiita.com/piny940/items/eda78d11e3806175bdbc
+  publishedAt: '2024-10-25T12:40:06.000Z'
+  tags:
+    - go
+- title: ピクシブ株式会社の長期インターンに参加した話
+  url: https://qiita.com/piny940/items/18e2221de4efb464ad19
+  publishedAt: '2024-10-11T07:50:25.000Z'
+  tags:
+    - kubernetes
+- title: fluxを使ってKubernetesのHelmリリースを自動アップデートできるようにしてみた
+  url: https://qiita.com/piny940/items/e2d6745eda6c492c1385
+  publishedAt: '2024-08-30T11:12:30.000Z'
+  tags:
+    - kubernetes
+- title: AWSのlambdaを使って、KubernetesがダウンしたらSlackにアラートを流すようにしてみた
+  url: https://qiita.com/piny940/items/417aeb6460a8c285f902
+  publishedAt: '2024-08-18T04:01:05.000Z'
+  tags:
+    - kubernetes
+- title: Kubernetes・Prometheus・AlertmanagerでSlackにアラートが流れるようにしてみた
+  url: https://qiita.com/piny940/items/1e44d8caf936216ca93e
+  publishedAt: '2024-08-18T03:35:16.000Z'
+  tags:
+    - kubernetes
+- title: Kubernetesのログをfluentd・Elastic Search・Kibanaで収集・解析できるようにしてみた
+  url: https://qiita.com/piny940/items/d47653982670fc10c1c5
+  publishedAt: '2024-08-18T02:46:41.000Z'
+  tags:
+    - kubernetes
+- title: '[k8s] LonghornのVolumeをストレージいっぱいまで使用する方法'
+  url: https://qiita.com/piny940/items/53160e97cc50e1883dbb
+  publishedAt: '2024-05-30T08:10:08.000Z'
+  tags:
+    - kubernetes
+- title: '[k8s] KustomizeでCustomResourceへの参照にnamePrefixがつかない問題'
+  url: https://qiita.com/piny940/items/4746e0de8ab0d02cf7cb
+  publishedAt: '2024-05-22T08:04:51.000Z'
+  tags:
+    - kubernetes
+- title: '[k8s] flux bootstrapでGitHub接続時に"context deadline exceeded"と言われた'
+  url: https://qiita.com/piny940/items/d4d9b9a47c26f23d83ec
+  publishedAt: '2024-05-19T13:43:25.000Z'
+  tags:
+    - kubernetes
+- title: '[k8s] FluxCDがGitHubにトークンではなくSSHで接続するようにしてみた'
+  url: https://qiita.com/piny940/items/f357c405ab9a65453496
+  publishedAt: '2024-05-19T13:36:04.000Z'
+  tags:
+    - ssh
+    - kubernetes
+- title: FluxCDのImageUpdateAutomationでPullRequestが自動で作成されるようにしてみた
+  url: https://qiita.com/piny940/items/a29e2dd866435efc4c53
+  publishedAt: '2024-05-19T10:42:25.000Z'
+  tags:
+    - kubernetes
+- title: KubernetesマニフェストのバリデーションをGitHubActionsとkubeconformで行えるようにする方法
+  url: https://qiita.com/piny940/items/309ad967ee76aeefa4b5
+  publishedAt: '2024-05-17T14:31:52.000Z'
+  tags:
+    - kubernetes
+- title: VeleroでKubernetesのバックアップを定期的に取る方法
+  url: https://qiita.com/piny940/items/6e44ad469be5814acd50
+  publishedAt: '2024-05-17T13:45:00.000Z'
+  tags:
+    - kubernetes
+- title: Go言語でテストごとにデータベースを空にする方法
+  url: https://qiita.com/piny940/items/fe5c72f5f7eb49629ce7
+  publishedAt: '2024-05-13T06:48:25.000Z'
+  tags:
+    - go
+    - postgres
+- title: >-
+    flannelでsubnet "10.244.0.0/16" specified in the flannel net config doesn't contain
+    "192.168.0.0/24" PodCIDR of the "nodename" nodeと言われた
+  url: https://qiita.com/piny940/items/f23f33c8f71db11fd51c
+  publishedAt: '2024-04-24T14:04:22.000Z'
+  tags:
+    - kubernetes
+- title: Next.jsでダークテーマを選択すると描画時にちらつきが生じる問題
+  url: https://qiita.com/piny940/items/c8e518b8cd688ff6203c
+  publishedAt: '2024-04-21T02:43:24.000Z'
+  tags:
+    - react
+    - typescript
+- title: VPS / AWS EC2の初期設定でやること一覧
+  url: https://qiita.com/piny940/items/1e089d0dc5a29ce6fa6c
+  publishedAt: '2024-04-10T15:29:51.000Z'
+  tags:
+    - ubuntu
+- title: '[k8s] fluxを使ったHelmReleaseのインストールで詰まったときに見るポイント(備忘録)'
+  url: https://qiita.com/piny940/items/f17cfc8165ded1e55eb2
+  publishedAt: '2024-02-09T14:49:19.000Z'
+  tags:
+    - kubernetes
+- title: Go言語でSlackのOAuth2認証を使ってみた
+  url: https://qiita.com/piny940/items/3a923fcdc71f4080b9c1
+  publishedAt: '2024-02-06T06:35:53.000Z'
+  tags:
+    - go
+- title: Ruby + Goで魔法のスプレッドシートの更新を通知するSlackAppを作ってみた
+  url: https://qiita.com/piny940/items/2f0126ad5d71775b3628
+  publishedAt: '2024-02-06T05:16:23.000Z'
+  tags:
+    - ruby
+    - go
+- title: Golang + Reactで並び替えができる配列のDBテーブル・フォームを作ってみた
+  url: https://qiita.com/piny940/items/fc668ad122a6670cddac
+  publishedAt: '2024-01-27T15:59:52.000Z'
+  tags:
+    - go
+    - postgres
+    - react
+- title: QiitaAPIでポートフォリオのブログを自動更新できるようにしてみた
+  url: https://qiita.com/piny940/items/88a9ebd94901620855e9
+  publishedAt: '2024-01-25T15:40:04.000Z'
+  tags:
+    - typescript
+- title: ポートフォリオをGolang + Graphql + Next.jsで大改造した話
+  url: https://qiita.com/piny940/items/f1a15f7a797c4d0f7461
+  publishedAt: '2024-01-25T15:07:58.000Z'
+  tags:
+    - go
+    - react
+    - typescript
+- title: '[k8s] kubernetes上でStaging環境を作ってみた'
+  url: https://qiita.com/piny940/items/063db2490b257299caac
+  publishedAt: '2024-01-18T11:15:49.000Z'
+  tags:
+    - kubernetes
+- title: '[k8s] cloudflare tunnelにkubernetesへのDNSが自動で設定されるようにしてみた'
+  url: https://qiita.com/piny940/items/a151757676beda68e7ae
+  publishedAt: '2024-01-08T11:01:00.000Z'
+  tags:
+    - kubernetes
+- title: GithubAppでCommit・PullRequestを作る方法
+  url: https://qiita.com/piny940/items/f4ea61c5e161006d586c
+  publishedAt: '2023-12-31T10:36:21.000Z'
+  tags: []
+- title: '[k8s] 自己署名証明書でkubernetesのIngressのTLS設定をしてみた'
+  url: https://qiita.com/piny940/items/ca1b1ccced83708e968a
+  publishedAt: '2023-12-30T03:04:22.000Z'
+  tags:
+    - kubernetes
+- title: '[k8s] Flux alertsでfluxの通知がSlackに送られるようにしてみた'
+  url: https://qiita.com/piny940/items/88dedb16585671b6352b
+  publishedAt: '2023-12-27T08:03:21.000Z'
+  tags:
+    - kubernetes
+- title: '[k8s] External Secret + VaultでkubernetesのSecret管理基盤を作成した話'
+  url: https://qiita.com/piny940/items/66214e8f7c8af18ba014
+  publishedAt: '2023-12-25T13:35:31.000Z'
+  tags:
+    - kubernetes
+    - server
+- title: '[k8s] 自宅サーバーでお家kubernetesクラスタを立ててみた話'
+  url: https://qiita.com/piny940/items/699120125d3701eea662
+  publishedAt: '2023-12-17T14:13:34.000Z'
+  tags:
+    - kubernetes
+    - server
+- title: Github ActionsでDocker Imageが自動ビルドされるようにしてみた話
+  url: https://qiita.com/piny940/items/4f4158b889db19418588
+  publishedAt: '2023-12-10T06:10:30.000Z'
+  tags:
+    - docker
+- title: '[k8s] fluxでhelmとkustomizeが自動適用されるようにしてみた'
+  url: https://qiita.com/piny940/items/e99fea7fcba720047b11
+  publishedAt: '2023-12-09T14:48:43.000Z'
+  tags:
+    - kubernetes
+- title: '[k8s] fluxを使ってkubernetesの自動デプロイ基盤を整えた話'
+  url: https://qiita.com/piny940/items/536123b1c4b1884180fe
+  publishedAt: '2023-12-09T08:30:30.000Z'
+  tags:
+    - kubernetes
+- title: '[k8s] kubernetesにGrafana + Prometheusをインストールした話'
+  url: https://qiita.com/piny940/items/831d386919ec8a81dae2
+  publishedAt: '2023-12-09T02:55:00.000Z'
+  tags:
+    - ubuntu
+    - kubernetes
+- title: '[k8s] VPS上で立てたkubernetesクラスタを公開してみた話'
+  url: https://qiita.com/piny940/items/0ee6a391802c21ab48c1
+  publishedAt: '2023-12-06T14:58:32.000Z'
+  tags:
+    - kubernetes
+- title: '[k8s] minikube上でNext.js + nginxサーバーを立ててみた話'
+  url: https://qiita.com/piny940/items/0feef2500c8111a520ea
+  publishedAt: '2023-12-06T12:53:15.000Z'
+  tags:
+    - kubernetes
+    - react
+    - typescript
+- title: '[k8s] kubernetesのマルチノードクラスタでpodにアクセスできなくて困った件について'
+  url: https://qiita.com/piny940/items/3c1c10b80c7e173d527d
+  publishedAt: '2023-12-06T11:40:18.000Z'
+  tags:
+    - ubuntu
+    - kubernetes
+- title: Latexでよく使う構文(備忘録)
+  url: https://qiita.com/piny940/items/11732a3b802ec3447422
+  publishedAt: '2023-12-06T07:51:31.000Z'
+  tags: []
+- title: Rails + Nginxの本番環境をDockerで構築した話
+  url: https://qiita.com/piny940/items/e41c2709692195f823b5
+  publishedAt: '2023-11-15T02:27:52.000Z'
+  tags:
+    - rails
+    - docker
+- title: Next.js + NginxサーバーをDockerで構築した話
+  url: https://qiita.com/piny940/items/602316d913938db01c81
+  publishedAt: '2023-11-10T13:35:19.000Z'
+  tags:
+    - docker
+    - react
+    - typescript
+- title: Docker + nginx + cloudflareでNext.jsのサーバーを立ててみた
+  url: https://qiita.com/piny940/items/eddf7a8450a011eda85c
+  publishedAt: '2023-10-22T02:11:03.000Z'
+  tags:
+    - ubuntu
+    - docker
+    - react
+    - typescript
+- title: 自宅サーバーでRootless dockerを使えるようにした話
+  url: https://qiita.com/piny940/items/729e52a80724754daa99
+  publishedAt: '2023-10-21T13:41:49.000Z'
+  tags:
+    - docker
+    - server
+- title: 自宅サーバーをcloudflare経由でSSH接続できるようにした話
+  url: https://qiita.com/piny940/items/606a6b03c390c136c1f7
+  publishedAt: '2023-10-21T11:43:33.000Z'
+  tags:
+    - ubuntu
+    - ssh
+- title: 自宅サーバーにUbuntu22.04をインストールしてSSH接続できるようにした話
+  url: https://qiita.com/piny940/items/f9d10fb2be3d7148d6ee
+  publishedAt: '2023-10-20T17:11:10.000Z'
+  tags:
+    - ubuntu
+    - ssh
+    - server
+- title: Youtubeのタイムスタンプ作成を補助する拡張機能を作ってみた話
+  url: https://qiita.com/piny940/items/b51e8adaa49f38451b1f
+  publishedAt: '2023-10-19T02:49:48.000Z'
+  tags:
+    - typescript
+    - react
+- title: Discord likeなチャットアプリを作成した話
+  url: https://qiita.com/piny940/items/2d1867794081085bdb48
+  publishedAt: '2023-10-08T02:58:25.000Z'
+  tags:
+    - rails
+    - react
+    - typescript
+- title: Vtuberの歌枠データベースを作ってみた話
+  url: https://qiita.com/piny940/items/439441130b8d11480d2e
+  publishedAt: '2023-10-06T14:33:34.000Z'
+  tags:
+    - rails
+    - react
+    - typescript
+- title: Speee 25卒サマーインターン体験記
+  url: https://qiita.com/piny940/items/fadb6d629a2cb2763583
+  publishedAt: '2023-09-29T01:17:56.000Z'
+  tags: []
+- title: 【Unity】横スクロール型のシューティングゲームをサークルで制作した話
+  url: https://qiita.com/piny940/items/d5519acb423ad22c51a8
+  publishedAt: '2023-09-27T05:15:59.000Z'
+  tags:
+    - unity
+- title: Next.jsの本番環境・開発環境をdockerで構築する方法
+  url: https://qiita.com/piny940/items/e30f219f98bb3b87af18
+  publishedAt: '2023-07-08T04:27:54.000Z'
+  tags:
+    - ubuntu
+    - docker
+    - react
+    - typescript
+- title: サブディレクトリ上でGithubCLIのruby/setup-rubyを実行する方法
+  url: https://qiita.com/piny940/items/0b03b78d30b24a8b981d
+  publishedAt: '2023-06-28T11:25:13.000Z'
+  tags:
+    - rails
+    - ubuntu
+- title: Railsのunicornをsystemdで起動できるようにしてみた話
+  url: https://qiita.com/piny940/items/23a3bac7f1d867b989dd
+  publishedAt: '2023-06-18T08:44:59.000Z'
+  tags:
+    - rails
+    - ubuntu
+- title: Railsで1つのマシンで複数のアプリを動かす(バーチャルホスト)
+  url: https://qiita.com/piny940/items/0945cce872f80d922eba
+  publishedAt: '2023-06-17T15:44:13.000Z'
+  tags:
+    - rails
+    - ubuntu
+- title: Next.jsをPM2を使ってVPS上にデプロイしてみた
+  url: https://qiita.com/piny940/items/78f2df1b50f4f21d5107
+  publishedAt: '2023-06-17T12:51:14.000Z'
+  tags:
+    - ubuntu
+    - react
+    - typescript
+- title: CapistranoでRailsをVPSにデプロイするとき詰まった点
+  url: https://qiita.com/piny940/items/e938736d3ce9a56e5b5a
+  publishedAt: '2023-06-17T05:38:22.000Z'
+  tags:
+    - rails
+    - postgres
+- title: インフラ初心者がUbuntuのVPSを立ててみた話
+  url: https://qiita.com/piny940/items/9a3e51124d8f227cb075
+  publishedAt: '2023-06-13T17:09:03.000Z'
+  tags:
+    - ubuntu
+    - ssh

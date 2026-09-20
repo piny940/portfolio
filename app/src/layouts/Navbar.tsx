@@ -15,10 +15,7 @@ export const Navbar: React.FC = () => {
   return (
     <nav
       data-testid={TestID.NAVBAR}
-      className={
-        'navbar navbar-expand-lg '
-        + (theme === 'light' ? 'navbar-light bg-light ' : 'navbar-dark bg-dark')
-      }
+      className="navbar navbar-expand-lg bg-body-tertiary"
     >
       <div className="container">
         <Link
@@ -62,24 +59,19 @@ export const Navbar: React.FC = () => {
                 onClick={toggleTheme}
                 className="nav-link d-flex align-items-center"
               >
-                {theme === 'light'
-                  ? (
-                      <>
-                        <MaterialIcon className="me-1" name="light_mode" />
-                        ライトモード
-                      </>
-                    )
-                  : (
-                      <>
-                        <MaterialIcon className="me-1" name="dark_mode" />
-                        ダークモード
-                      </>
-                    )}
+                <span className="on-light">
+                  <MaterialIcon className="me-1" name="light_mode" />
+                  ライトモード
+                </span>
+                <span className="on-dark">
+                  <MaterialIcon className="me-1" name="dark_mode" />
+                  ダークモード
+                </span>
               </button>
             </li>
           </ul>
           <div className="nav-item d-none d-lg-block">
-            <ThemeToggler theme={theme} toggleTheme={toggleTheme} />
+            <ThemeToggler toggleTheme={toggleTheme} />
           </div>
         </div>
       </div>

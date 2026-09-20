@@ -2,40 +2,38 @@ import { PieItem } from '../Common/PieItem'
 import Image from 'next/image'
 import Link from 'next/link'
 import { TestID } from '@/resources/TestID'
-import { TechStack } from '@/server/_types'
+import { Technology } from '@/content/types'
 
 export type SkillItemProps = {
-  techStack: TechStack
+  technology: Technology
   className?: string
 }
 
 export const SkillItem: React.FC<SkillItemProps> = ({
-  techStack,
+  technology,
   className = '',
 }) => {
-  const tech = techStack.technology
-
   return (
     <PieItem
       testId={TestID.SKILL_ITEM}
       innerClassName="bg-body"
       className={'mx-auto ' + className}
-      percent={techStack.proficiency}
+      percent={technology.proficiency ?? 0}
     >
-      <Link className="unstyled" href={`/skills/${techStack.technology.id}`}>
+      <Link className="unstyled" href={`/skills/${technology.slug}`}>
         <div className="d-flex flex-column mb-2">
-          {tech.logoUrl && (
+          {technology.logoUrl && (
             <div className="icon text-center">
               <Image
-                alt={`${tech.name}-logo`}
-                src={tech.logoUrl}
+                alt={`${technology.name}-logo`}
+                src={technology.logoUrl}
                 width={50}
                 height={50}
                 style={{ objectFit: 'contain' }}
               />
             </div>
           )}
-          <span className="text-center">{tech.name}</span>
+          <span className="text-center">{technology.name}</span>
         </div>
       </Link>
     </PieItem>

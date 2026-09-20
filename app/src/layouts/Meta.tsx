@@ -1,4 +1,3 @@
-import { useTheme } from '@/context/ThemeProvider'
 import { TestID } from '@/resources/TestID'
 import Head from 'next/head'
 import { JSX, memo, useMemo } from 'react'
@@ -9,7 +8,6 @@ export type MetaProps = {
 }
 
 const Meta = ({ keyword, noIndex = false }: MetaProps): JSX.Element => {
-  const { theme } = useTheme()
   const prefix = useMemo(() => (keyword ? `${keyword} | ` : ''), [keyword])
 
   return (
@@ -20,10 +18,7 @@ const Meta = ({ keyword, noIndex = false }: MetaProps): JSX.Element => {
         content={(keyword || '') + ' mikan piny940 ポートフォリオ'}
         name="keywords"
       />
-      <meta
-        name="theme-color"
-        content={theme === 'dark' ? '#212529' : '#f8f9fa'}
-      />
+      <meta name="theme-color" content="#f8f9fa" />
       <link rel="icon" href="/favicon.ico" />
       <meta
         property="og:title"

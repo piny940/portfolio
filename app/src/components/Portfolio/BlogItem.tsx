@@ -2,7 +2,7 @@ import { TestID } from '@/resources/TestID'
 import { JSX, memo } from 'react'
 import Link from 'next/link'
 import TechnologyTag from './TechnologyTag'
-import { Blog } from '@/server/_types'
+import { Blog } from '@/content/types'
 
 export type BlogItemProps = {
   blog: Blog
@@ -19,8 +19,8 @@ const BlogItem = ({ blog }: BlogItemProps): JSX.Element => {
       </Link>
       <ul className="list-unstyled mt-2 mb-1 d-flex flex-wrap">
         {blog.tags.map(tag => (
-          <li className="me-2 mt-1" key={tag.technology.id}>
-            <TechnologyTag technology={tag.technology} size={17} />
+          <li className="me-2 mt-1" key={tag.slug}>
+            <TechnologyTag technology={tag} size={17} />
           </li>
         ))}
       </ul>

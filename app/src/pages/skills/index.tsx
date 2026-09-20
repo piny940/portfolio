@@ -1,30 +1,20 @@
 import Breadcrumb from '@/components/Common/Breadcrumb'
 import { SkillItems } from '@/components/Portfolio/SkillItems'
 import Meta from '@/layouts/Meta'
-import { TechStack } from '@/server/_types'
-import { sdk } from '@/server/api'
-import { GetServerSideProps } from 'next'
-import { PageProps } from '../_app'
-import { getThemeFromCookie } from '@/server/helper'
-import { logger } from '@/utils/logger'
+import { Technology } from '@/content/types'
+import { getTechStacks } from '@/content'
+import { GetStaticProps } from 'next'
 import { JSX } from 'react'
 
-interface SkillsProps extends PageProps {
-  techStacks: TechStack[]
+interface SkillsProps {
+  technologies: Technology[]
 }
 
-export const getServerSideProps: GetServerSideProps<SkillsProps> = async (
-  ctx,
-) => {
-  logger.child({ path: '/skills' }).info('accessed')
-  return {
-    props: {
-      initialTheme: getThemeFromCookie(ctx),
-      techStacks: (await sdk().fetchTechStacks()).techStacks,
-    },
-  }
+export const getStaticProps: GetStaticProps<SkillsProps> = async () => {
+  return { props: { technologies: getTechStacks() } }
 }
-const SkillsPage = ({ techStacks }: SkillsProps): JSX.Element => {
+
+const SkillsPage = ({ technologies }: SkillsProps): JSX.Element => {
   const paths = [
     { name: 'トップページ', path: '/' },
     { name: '技術スタック', path: '/skills' },
@@ -36,7 +26,7 @@ const SkillsPage = ({ techStacks }: SkillsProps): JSX.Element => {
         <Breadcrumb paths={paths} />
         <div className="d-flex align-items-center flex-column row-gap-3 row-gap-md-5">
           <h1 className="h1 text-center title-underline">技術スタック</h1>
-          <SkillItems techStacks={techStacks} />
+          <SkillItems technologies={technologies} />
         </div>
       </div>
     </>
