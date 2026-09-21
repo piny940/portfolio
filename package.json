@@ -4,7 +4,7 @@
   "private": true,
   "packageManager": "pnpm@10.33.4",
   "engines": {
-    "node": "22.20.0"
+    "node": "22.23.2"
   },
   "scripts": {
     "dev": "next dev --turbopack -p 3001",
