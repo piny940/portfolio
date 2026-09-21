@@ -2,18 +2,6 @@
   "folders": [
     {
       "path": "."
-    },
-    {
-      "path": "app"
-    },
-    {
-      "path": "updater"
-    },
-    {
-      "path": "backend"
-    },
-    {
-      "path": "admin"
     }
   ],
   "settings": {}

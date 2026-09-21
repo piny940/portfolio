@@ -1,0 +1,131 @@
+- id: home-kubernetes
+  title: 自宅Kubernetesクラスタ
+  description: 自宅でKubernetesクラスタを構築しました
+  isFavorite: true
+  links:
+    github: https://github.com/piny940/infra
+    qiita: https://qiita.com/piny940/items/699120125d3701eea662
+  tags:
+    - kubernetes
+
+- id: song-list
+  title: 歌枠データベース
+  description: Vtuberが歌った曲を記録・検索できます。自動更新機能によってメンタナンスフリーを実現しました。
+  isFavorite: true
+  links:
+    app: https://song-list.piny940.com
+    github: https://github.com/piny940/song-list
+    qiita: https://qiita.com/piny940/items/439441130b8d11480d2e
+  tags:
+    - rails
+    - react
+    - typescript
+    - postgres
+    - docker
+
+- id: auth
+  title: 自作OAuth2.0
+  description: OAuth2.0サーバーをフルスクラッチで作成しました
+  isFavorite: true
+  links:
+    github: https://github.com/piny940/auth
+    qiita: https://qiita.com/piny940/items/5907bc577fafff5d160d
+  tags:
+    - go
+    - react
+    - postgres
+    - docker
+
+- id: kokosuko-stamp
+  title: スタンプ作成補助
+  description: Youtubeのコメント欄でタイムスタンプを作成するのを補助する拡張機能です
+  isFavorite: false
+  links:
+    github: https://github.com/piny940/kokosuko-stamp
+    qiita: https://qiita.com/piny940/items/b51e8adaa49f38451b1f
+  tags:
+    - react
+    - typescript
+
+- id: portfolio
+  title: ポートフォリオ
+  description: piny940のポートフォリオです
+  isFavorite: false
+  links:
+    app: https://www.piny940.com
+    github: https://github.com/piny940/portfolio
+  tags:
+    - react
+    - docker
+
+- id: emoji-creator
+  title: 絵文字召喚bot
+  description: slack上で使える絵文字を自動で生成するslackアプリです
+  isFavorite: false
+  links:
+    github: https://github.com/piny940/emoji-creater
+  tags:
+    - rails
+
+- id: clubroom
+  title: チャットアプリ
+  description: discordのようにグループごとにメンバーやトークルームを作ることができます。
+  isFavorite: false
+  links:
+    github: https://github.com/piny940/clubroom
+    qiita: https://qiita.com/piny940/items/2d1867794081085bdb48
+  tags:
+    - rails
+    - react
+    - typescript
+    - postgres
+    - docker
+
+- id: mashiro-calender
+  title: スタンプラリー
+  description: Vtuber凪乃ましろさん休暇中のスタンプラリー
+  isFavorite: false
+  links:
+    github: https://github.com/piny940/mashiro-calender
+  tags:
+    - python
+
+- id: python-reverse
+  title: オセロアプリ
+  description: 大学の授業でオセロアプリをチーム開発しました。
+  isFavorite: false
+  links:
+    github: https://github.com/piny940/python-reverse
+  tags:
+    - python
+
+- id: mekashojo
+  title: メカ少女シューティング
+  description: 大学のサークルでシューティングゲームをチームで開発しました。
+  isFavorite: false
+  links:
+    app: https://kmc-jp.booth.pm/items/3438923
+    github: https://github.com/piny940/mekashojo-shuting
+    qiita: https://qiita.com/piny940/items/d5519acb423ad22c51a8
+  tags:
+    - unity
+
+- id: go-todo-app
+  title: Go Todo App
+  description: Go言語でクリーンアーキテクチャでtodoアプリを作成しました。
+  isFavorite: false
+  links:
+    github: https://github.com/piny940/go-todo-app
+  tags:
+    - go
+    - postgres
+
+- id: external-dns
+  title: 外部DNS連携
+  description: external-dnsをForkしてCloudflare Tunnelに対応させました
+  isFavorite: false
+  links:
+    github: https://github.com/piny940/external-dns
+    qiita: https://qiita.com/piny940/items/a151757676beda68e7ae
+  tags:
+    - go
