@@ -33,14 +33,12 @@ interface ThemeProviderProps {
 }
 
 const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const [theme, setThemeState] = useState<Theme>('light')
-
-  useEffect(() => {
+  const [theme, setThemeState] = useState<Theme>(() => {
     const current
       = (document.documentElement.getAttribute('data-bs-theme') as Theme | null)
         ?? fromCookie('theme') as Theme | null
-    if (current === 'dark' || current === 'light') setThemeState(current)
-  }, [])
+    return current ?? 'light'
+  })
 
   const setTheme = useCallback((next: Theme) => {
     setThemeState(next)
