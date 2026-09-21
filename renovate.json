@@ -4,7 +4,8 @@
   "packageRules": [
     {
       "matchManagers": [ "github-actions" ],
-      "automerge": true
+      "automerge": true,
+      "addLabels": ["automerge"]
     },
     {
       "matchPackageNames": [ "node", "@types/node" ],
@@ -12,13 +13,18 @@
     },
     {
       "matchDepTypes": ["devDependencies"],
+      "automerge": true,
+      "addLabels": ["automerge"]
+    },
+    {
+      "matchUpdateTypes": ["minor", "patch", "pin", "lockFileMaintenance"],
+      "addLabels": ["automerge"],
       "automerge": true
     }
   ],
   "platformAutomerge": true,
   "extends": [
     "config:best-practices",
-    ":disableDependencyDashboard",
-    ":automergeMinor"
+    ":disableDependencyDashboard"
   ]
 }
