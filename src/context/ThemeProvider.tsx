@@ -3,8 +3,7 @@ import {
   ReactNode,
   useCallback,
   useContext,
-  useEffect,
-  useState,
+  useSyncExternalStore,
 } from 'react'
 import { Theme } from '../resources/types'
 import { fromCookie, toCookie } from '@/utils/storage'
@@ -28,20 +27,32 @@ const THEME_COLORS: Record<Theme, string> = {
   dark: '#212529',
 }
 
+const subscribe = (onStoreChange: () => void) => {
+  const observer = new MutationObserver(onStoreChange)
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['data-bs-theme'],
+  })
+  return () => observer.disconnect()
+}
+
+const getSnapshot = (): Theme => {
+  const current
+    = document.documentElement.getAttribute('data-bs-theme')
+      ?? fromCookie('theme')
+  return current === 'dark' ? 'dark' : 'light'
+}
+
+const getServerSnapshot = (): Theme => 'light'
+
 interface ThemeProviderProps {
   children: ReactNode
 }
 
 const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const [theme, setThemeState] = useState<Theme>(() => {
-    const current
-      = (document.documentElement.getAttribute('data-bs-theme') as Theme | null)
-        ?? fromCookie('theme') as Theme | null
-    return current ?? 'light'
-  })
+  const theme = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
 
   const setTheme = useCallback((next: Theme) => {
-    setThemeState(next)
     document.documentElement.setAttribute('data-bs-theme', next)
     document
       .querySelector('meta[name="theme-color"]')
