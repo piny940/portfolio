@@ -1,8 +1,6 @@
 name: Test
 on: [push]
 
-env:
-  NODE_VERSION: 22.20.0
 jobs:
   app:
     runs-on: ubuntu-latest
@@ -13,9 +11,9 @@ jobs:
           package_json_file: "package.json"
       - uses: actions/setup-node@v6
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version-file: "package.json"
           cache: "pnpm"
-          cache-dependency-path: "package.json"
+          cache-dependency-path: "pnpm-lock.yaml"
       - run: pnpm install
       - run: pnpm test
       - name: ESLint
