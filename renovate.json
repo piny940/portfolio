@@ -9,8 +9,13 @@
     {
       "matchPackageNames": [ "node", "@types/node" ],
       "groupName": "node"
+    },
+    {
+      "matchDepTypes": ["devDependencies"],
+      "automerge": true
     }
   ],
+  "platformAutomerge": true,
   "extends": [
     "config:best-practices",
     ":disableDependencyDashboard",
