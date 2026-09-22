@@ -1,3 +1,4 @@
+import { TestID } from '@/resources/TestID'
 import { JSX, MouseEventHandler, ReactNode } from 'react'
 
 export type PageItemProps = {
@@ -5,6 +6,7 @@ export type PageItemProps = {
   onClick: MouseEventHandler
   pageLinkClassName?: string
   pageClassName?: string
+  testID?: TestID
 }
 
 export const PageItem = ({
@@ -12,9 +14,10 @@ export const PageItem = ({
   onClick,
   pageLinkClassName = '',
   pageClassName = '',
+  testID,
 }: PageItemProps): JSX.Element => {
   return (
-    <li className={'page-item ' + pageClassName}>
+    <li data-testid={testID} className={'page-item ' + pageClassName}>
       <button className={'page-link ' + pageLinkClassName} onClick={onClick}>
         {children}
       </button>

@@ -1,3 +1,4 @@
+import { TestID } from '@/resources/TestID'
 import { PageItem } from './PageItem'
 import { JSX, useMemo } from 'react'
 
@@ -32,12 +33,14 @@ export const Paging = ({
       <PageItem
         pageClassName={currentPage === 1 ? 'disabled' : ''}
         onClick={() => handlePageChange(1)}
+        testID={TestID.PAGING_FIRST_BUTTON}
       >
         &laquo;
       </PageItem>
       <PageItem
         pageClassName={currentPage === 1 ? 'disabled' : ''}
         onClick={() => handlePageChange(currentPage - 1)}
+        testID={TestID.PAGING_PREVIOUS_BUTTON}
       >
         &lt;
       </PageItem>
@@ -53,12 +56,14 @@ export const Paging = ({
       <PageItem
         pageClassName={currentPage === totalPages ? 'disabled' : ''}
         onClick={() => handlePageChange(currentPage + 1)}
+        testID={TestID.PAGING_NEXT_BUTTON}
       >
         &gt;
       </PageItem>
       <PageItem
         pageClassName={currentPage === totalPages ? 'disabled' : ''}
         onClick={() => handlePageChange(totalPages)}
+        testID={TestID.PAGING_LAST_BUTTON}
       >
         &raquo;
       </PageItem>
