@@ -5,7 +5,7 @@ import { Noto_Sans_JP } from 'next/font/google'
 import { ReactNode } from 'react'
 import { ThemeProvider } from '@/context/ThemeProvider'
 import { BootstrapClient } from '@/components/Common/BootstrapClient'
-import { Navbar } from '@/layouts/Navbar'
+import { Navbar } from '@/components/Navbar/Navbar'
 
 const THEME_SCRIPT = `(function(){try{var m=document.cookie.match(/(?:^|;\\s*)theme=(dark|light)/);var t=m?m[1]:((window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.setAttribute('data-bs-theme',t);}catch(e){document.documentElement.setAttribute('data-bs-theme','light');}})();`
 
