@@ -5,7 +5,7 @@ import { Noto_Sans_JP } from 'next/font/google'
 import { ReactNode } from 'react'
 import { ThemeProvider } from '@/context/ThemeProvider'
 import { BootstrapClient } from '@/components/Common/BootstrapClient'
-import { Navbar } from '@/components/Navbar/Navbar'
+import { Navbar } from '@/components/Common/Navbar'
 
 const applyInitialTheme = () => {
   try {
