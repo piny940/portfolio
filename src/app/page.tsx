@@ -32,7 +32,11 @@ const Home = () => {
         <Link href="/skills" className="unstyled">
           <h2 className="h1 text-center title-underline">技術スタック</h2>
         </Link>
-        <SkillItems row={2} technologies={technologies.slice(0, 6)} />
+        <SkillItems
+          row={2}
+          technologies={technologies.slice(0, 6)}
+          collapseCount={3}
+        />
         <Link href="/skills" className="h5 text-primary">
           もっと見る
         </Link>
@@ -52,6 +56,7 @@ const Home = () => {
           row={2}
           projectIdsWithBlog={projectIdsWithBlog}
           projects={projects.slice(0, 6)}
+          collapseCount={3}
         />
         <Link href="/projects" className="h5 text-primary">
           <span>もっと見る</span>
