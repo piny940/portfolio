@@ -1,5 +1,5 @@
 import { render, waitFor } from '@testing-library/react'
-import { Navbar } from '@/components/Navbar/Navbar'
+import { Navbar } from '@/components/Common/Navbar'
 import { TestID } from '@/resources/TestID'
 
 describe('<Navbar />', () => {
