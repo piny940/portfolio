@@ -7,7 +7,17 @@ import { ThemeProvider } from '@/context/ThemeProvider'
 import { BootstrapClient } from '@/components/Common/BootstrapClient'
 import { Navbar } from '@/components/Navbar/Navbar'
 
-const THEME_SCRIPT = `(function(){try{var m=document.cookie.match(/(?:^|;\\s*)theme=(dark|light)/);var t=m?m[1]:((window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.setAttribute('data-bs-theme',t);}catch(e){document.documentElement.setAttribute('data-bs-theme','light');}})();`
+const applyInitialTheme = () => {
+  try {
+    const match = document.cookie.match(/(?:^|;\s*)theme=(dark|light)/)
+    const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches
+    const theme = match ? match[1] : prefersDark ? 'dark' : 'light'
+    document.documentElement.setAttribute('data-bs-theme', theme)
+  }
+  catch {
+    document.documentElement.setAttribute('data-bs-theme', 'light')
+  }
+}
 
 const notoSansJP = Noto_Sans_JP({
   weight: ['400', '500'],
@@ -64,7 +74,9 @@ const RootLayout = ({ children }: RootLayoutProps) => {
       suppressHydrationWarning
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+        <script
+          dangerouslySetInnerHTML={{ __html: `(${applyInitialTheme.toString()})()` }}
+        />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
