@@ -43,7 +43,7 @@
   proficiency: 75
 - slug: kubernetes
   name: kubernetes
-  logo: kubernetes.png
+  logo: kubernetes.svg
   tagColor: '#8762C0'
   proficiency: 90
 - slug: postgres
