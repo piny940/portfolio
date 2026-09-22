@@ -1,9 +1,11 @@
 'use client'
 
-import { MaterialIcon } from '@/components/Common/MaterialIcon'
 import { ThemeToggler } from '@/components/Common/ThemeToggler'
 import { useTheme } from '@/context/ThemeProvider'
 import { TestID } from '@/resources/TestID'
+import lightModeIcon from '../../resources/images/common/light-mode.svg'
+import darkModeIcon from '../../resources/images/common/dark-mode.svg'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useCallback } from 'react'
 
@@ -62,11 +64,23 @@ export const Navbar: React.FC = () => {
                 className="nav-link active w-100"
               >
                 <div className="on-light d-flex align-items-center">
-                  <MaterialIcon className="me-1" name="light_mode" />
+                  <Image
+                    src={lightModeIcon}
+                    alt="light mode"
+                    width={24}
+                    height={24}
+                    className="me-1"
+                  />
                   ライトモード
                 </div>
                 <div className="on-dark d-flex align-items-center">
-                  <MaterialIcon className="me-1" name="dark_mode" />
+                  <Image
+                    src={darkModeIcon}
+                    alt="dark mode"
+                    width={24}
+                    height={24}
+                    className="me-1"
+                  />
                   ダークモード
                 </div>
               </button>

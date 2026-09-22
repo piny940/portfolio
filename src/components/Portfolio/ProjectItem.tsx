@@ -1,6 +1,7 @@
-import { MaterialIcon } from '../Common/MaterialIcon'
 import Link from 'next/link'
 import Image from 'next/image'
+import openInNewLightIcon from '../../resources/images/common/open-in-new-light.svg'
+import openInNewDarkIcon from '../../resources/images/common/open-in-new-dark.svg'
 import githubWhiteIcon from '../../resources/images/common/github-white.png'
 import githubIcon from '../../resources/images/common/github.png'
 import qiitaIcon from '../../resources/images/common/qiita.png'
@@ -92,7 +93,20 @@ export const ProjectItem: React.FC<ProjectItemProps> = ({
               target="_blank"
               className="unstyled mx-1 text-body d-flex align-items-center"
             >
-              <MaterialIcon name="open_in_new" size={31} />
+              <Image
+                src={openInNewLightIcon}
+                alt="open in new"
+                width={31}
+                height={31}
+                className="on-light"
+              />
+              <Image
+                src={openInNewDarkIcon}
+                alt="open in new"
+                width={31}
+                height={31}
+                className="on-dark"
+              />
             </Link>
           </li>
         )}
