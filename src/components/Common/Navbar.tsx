@@ -1,9 +1,11 @@
 'use client'
 
-import { MaterialIcon } from '@/components/Common/MaterialIcon'
 import { ThemeToggler } from '@/components/Common/ThemeToggler'
 import { useTheme } from '@/context/ThemeProvider'
 import { TestID } from '@/resources/TestID'
+import lightModeIcon from '../../resources/images/common/light-mode.svg'
+import darkModeIcon from '../../resources/images/common/dark-mode.svg'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useCallback } from 'react'
 
@@ -59,16 +61,28 @@ export const Navbar: React.FC = () => {
               <button
                 type="button"
                 onClick={toggleTheme}
-                className="nav-link d-flex align-items-center"
+                className="nav-link active w-100"
               >
-                <span className="on-light">
-                  <MaterialIcon className="me-1" name="light_mode" />
+                <div className="on-light d-flex align-items-center">
+                  <Image
+                    src={lightModeIcon}
+                    alt="light mode"
+                    width={24}
+                    height={24}
+                    className="me-1"
+                  />
                   ライトモード
-                </span>
-                <span className="on-dark">
-                  <MaterialIcon className="me-1" name="dark_mode" />
+                </div>
+                <div className="on-dark d-flex align-items-center">
+                  <Image
+                    src={darkModeIcon}
+                    alt="dark mode"
+                    width={24}
+                    height={24}
+                    className="me-1"
+                  />
                   ダークモード
-                </span>
+                </div>
               </button>
             </li>
           </ul>
