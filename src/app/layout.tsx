@@ -20,7 +20,6 @@ const applyInitialTheme = () => {
 }
 
 const notoSansJP = Noto_Sans_JP({
-  weight: ['400', '500'],
   display: 'swap',
   subsets: ['latin'],
   variable: '--font-noto-sans-jp',
@@ -76,6 +75,12 @@ const RootLayout = ({ children }: RootLayoutProps) => {
       <head>
         <script
           dangerouslySetInnerHTML={{ __html: `(${applyInitialTheme.toString()})()` }}
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+          href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet"
         />
       </head>
       <body>
