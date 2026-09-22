@@ -23,7 +23,7 @@ Next.js の静的出力（`output: 'export'`）だけで構成されたポート
 1. `pnpm i`
 2. `pnpm dev`
 
-コード整形は `pnpm lint --fix`、テストは `pnpm test`。
+コード整形は `pnpm lint`、テストは `pnpm test`。
 
 `pnpm build` で `out/` に静的 HTML を出力する。確認するときは `npx serve out` 。
 

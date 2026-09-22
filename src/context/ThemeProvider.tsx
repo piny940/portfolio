@@ -7,8 +7,9 @@ import {
   useContext,
   useSyncExternalStore,
 } from 'react'
-import { Theme } from '../resources/types'
 import { fromCookie, toCookie } from '@/utils/storage'
+
+type Theme = 'dark' | 'light'
 
 interface ThemeContextInterface {
   theme: Theme
