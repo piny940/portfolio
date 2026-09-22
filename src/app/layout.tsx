@@ -1,4 +1,4 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
+import '@/styles/bootstrap.scss'
 import '@/styles/globals.css'
 import type { Metadata, Viewport } from 'next'
 import { Noto_Sans_JP } from 'next/font/google'
@@ -20,7 +20,6 @@ const applyInitialTheme = () => {
 }
 
 const notoSansJP = Noto_Sans_JP({
-  weight: ['400', '500'],
   display: 'swap',
   subsets: ['latin'],
   variable: '--font-noto-sans-jp',

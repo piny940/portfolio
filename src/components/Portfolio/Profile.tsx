@@ -27,18 +27,6 @@ export const Profiles: React.FC<ProfilesProps> = ({
     >
       <div
         className={
-          'position-absolute w-100 h-100 d-none d-sm-block ' + styles.bgWrapper
-        }
-      >
-        <Image
-          priority
-          alt="背景画像"
-          src={background}
-          className="w-100 h-100"
-        />
-      </div>
-      <div
-        className={
           'top-middle d-flex flex-column align-items-center position-relative rounded p-3 bg-body '
           + styles.profile
         }
@@ -49,7 +37,6 @@ export const Profiles: React.FC<ProfilesProps> = ({
           width={150}
           height={150}
           className="rounded-circle"
-          priority
         />
         <h1 className="d-flex flex-column align-items-center mt-2">
           {profile.name}
