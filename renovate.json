@@ -23,6 +23,7 @@
     }
   ],
   "platformAutomerge": true,
+  "addLabels": ["renovate"],
   "extends": [
     "config:best-practices",
     ":disableDependencyDashboard"
