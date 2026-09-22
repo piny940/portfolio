@@ -1,3 +1,5 @@
+'use client'
+
 import { MaterialIcon } from '@/components/Common/MaterialIcon'
 import { ThemeToggler } from '@/components/Common/ThemeToggler'
 import { useTheme } from '@/context/ThemeProvider'
