@@ -40,7 +40,6 @@
   name: Docker
   logo: docker.svg
   tagColor: '#8762C0'
-  proficiency: 75
 - slug: kubernetes
   name: Kubernetes
   logo: kubernetes.svg
@@ -50,7 +49,6 @@
   name: PostgreSQL
   logo: postgres.svg
   tagColor: '#8762C0'
-  proficiency: 70
 - slug: go
   name: Go
   logo: go.svg
