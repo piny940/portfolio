@@ -1,17 +1,10 @@
 import { render, waitFor } from '@testing-library/react'
-import Custom404 from '@/pages/404'
+import NotFound from '@/app/not-found'
 import { TestID } from '@/resources/TestID'
-
-jest.mock('next/head', () => {
-  return {
-    __esModule: true,
-    default: ({ children }: { children: React.ReactNode }) => <>{children}</>,
-  }
-})
 
 describe('404 Page', () => {
   it('404ページが正常に表示される', async () => {
-    const { getByTestId } = render(<Custom404 />)
+    const { getByTestId } = render(<NotFound />)
 
     await waitFor(() => {
       expect(getByTestId(TestID.CUSTOM404)).toBeTruthy()

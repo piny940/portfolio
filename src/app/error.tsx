@@ -1,11 +1,17 @@
-import Meta from '@/layouts/Meta'
+'use client'
+
 import { TestID } from '@/resources/TestID'
 import Link from 'next/link'
 
-const Custom500: React.FC = () => {
+export type ErrorPageProps = {
+  error: Error & { digest?: string }
+  reset: () => void
+}
+
+const ErrorPage: React.FC<ErrorPageProps> = () => {
   return (
     <>
-      <Meta noIndex />
+      <meta name="robots" content="noindex" />
       <div className="container" data-testid={TestID.CUSTOM500}>
         <h1>サーバーでエラーが発生しました。</h1>
         <p>
@@ -16,4 +22,4 @@ const Custom500: React.FC = () => {
   )
 }
 
-export default Custom500
+export default ErrorPage
