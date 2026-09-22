@@ -1,7 +1,6 @@
 import '@/styles/bootstrap.scss'
 import '@/styles/globals.css'
 import type { Metadata, Viewport } from 'next'
-import { Noto_Sans_JP } from 'next/font/google'
 import { ReactNode } from 'react'
 import { ThemeProvider } from '@/context/ThemeProvider'
 import { BootstrapClient } from '@/components/Common/BootstrapClient'
@@ -18,12 +17,6 @@ const applyInitialTheme = () => {
     document.documentElement.setAttribute('data-bs-theme', 'light')
   }
 }
-
-const notoSansJP = Noto_Sans_JP({
-  display: 'swap',
-  subsets: ['latin'],
-  variable: '--font-noto-sans-jp',
-})
 
 const TITLE = 'mikan(@piny940) ポートフォリオ'
 const DESCRIPTION = 'mikan(@piny940)のポートフォリオです。'
@@ -67,11 +60,7 @@ interface RootLayoutProps {
 
 const RootLayout = ({ children }: RootLayoutProps) => {
   return (
-    <html
-      className={'bg-body text-body ' + notoSansJP.variable}
-      lang="ja"
-      suppressHydrationWarning
-    >
+    <html className="bg-body text-body" lang="ja" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{ __html: `(${applyInitialTheme.toString()})()` }}
