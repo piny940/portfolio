@@ -59,16 +59,16 @@ export const Navbar: React.FC = () => {
               <button
                 type="button"
                 onClick={toggleTheme}
-                className="nav-link d-flex align-items-center"
+                className="nav-link active w-100"
               >
-                <span className="on-light">
+                <div className="on-light d-flex align-items-center">
                   <MaterialIcon className="me-1" name="light_mode" />
                   ライトモード
-                </span>
-                <span className="on-dark">
+                </div>
+                <div className="on-dark d-flex align-items-center">
                   <MaterialIcon className="me-1" name="dark_mode" />
                   ダークモード
-                </span>
+                </div>
               </button>
             </li>
           </ul>
