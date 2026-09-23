@@ -6,6 +6,7 @@ on:
 
 jobs:
   app:
+    timeout-minutes: 120
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -18,8 +19,10 @@ jobs:
           cache: "pnpm"
           cache-dependency-path: "pnpm-lock.yaml"
       - run: pnpm install
-      - run: pnpm test
+      - name: Install Playwright Browsers
+        run: pnpm exec playwright install --with-deps
       - name: ESLint
         run: pnpm check
       - name: Build Test
         run: pnpm build
+      - run: pnpm test
