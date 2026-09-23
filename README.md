@@ -1,22 +1,15 @@
-# Portfolio
+# mikanのポートフォリオ
 
 [![Test](https://github.com/piny940/portfolio/actions/workflows/test.yml/badge.svg)](https://github.com/piny940/portfolio/actions/workflows/test.yml)
-[![Deploy](https://github.com/piny940/portfolio/actions/workflows/deploy.yaml/badge.svg)](https://github.com/piny940/portfolio/actions/workflows/deploy.yaml)
+[![Deploy](https://github.com/piny940/portfolio/actions/workflows/deploy.yaml/badge.svg)](https://github.com/piny940/portfolio/actions/workflows/deploy.yml)
 ![Website](https://img.shields.io/website?url=https%3A%2F%2Fwww.piny940.com&up_message=healthy&up_color=blue)
 
 site: https://www.piny940.com
 
-Next.js の静的出力（`output: 'export'`）だけで構成されたポートフォリオ。
-サーバもデータベースも持たず、コンテンツは `content/` の YAML と
-`documents/` の Markdown に置く。
-
 ## 構成
 
-| パス | 役割 |
-| --- | --- |
-| `src/` | Next.js (Pages Router)。`pnpm build` で `out/` に静的 HTML を出力する |
-| `content/*.yml` | 技術スタック・プロジェクト・ブログ・プロフィールのデータ |
-| `documents/*.md` | プロジェクトの解説記事。ファイル名が `projects.yml` の `id` と対応する |
+Next.js の静的出力（`output: 'export'`）を配信している。
+データは `content/`、ブログは `documents/`に記述して、ビルド時に埋め込む。
 
 ## 開発
 
@@ -24,6 +17,7 @@ Next.js の静的出力（`output: 'export'`）だけで構成されたポート
 2. `pnpm dev`
 
 コード整形は `pnpm lint`、テストは `pnpm test`。
+内容を更新した場合は `pnpm update-snaps` しないとCIがこける。
 
 `pnpm build` で `out/` に静的 HTML を出力する。確認するときは `npx serve out` 。
 
@@ -38,8 +32,3 @@ Next.js の静的出力（`output: 'export'`）だけで構成されたポート
 ## デプロイ
 
 `main` への push で GitHub Actions が Cloudflare Pages に公開する。
-
-必要な設定:
-
-- Secrets: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`
-- Variables: `CLOUDFLARE_PAGES_PROJECT`
