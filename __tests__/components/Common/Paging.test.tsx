@@ -21,10 +21,10 @@ describe('<Paging />', () => {
     const props = Mock.from<PagingProps>({ totalPages: total, currentPage: current })
     const component = render(<Paging {...props} />)
 
-    const first = component.getByTestId(TestID.PAGING_FIRST_BUTTON)
-    const previous = component.getByTestId(TestID.PAGING_PREVIOUS_BUTTON)
-    const next = component.getByTestId(TestID.PAGING_NEXT_BUTTON)
-    const last = component.getByTestId(TestID.PAGING_LAST_BUTTON)
+    const first = component.getByTestId(TestID.PAGING_FIRST)
+    const previous = component.getByTestId(TestID.PAGING_PREVIOUS)
+    const next = component.getByTestId(TestID.PAGING_NEXT)
+    const last = component.getByTestId(TestID.PAGING_LAST)
     // 左端なら左ボタンはDisabled
     for (const el of [first, previous]) {
       expect(el.classList.contains('disabled')).toBe(current === 1)
@@ -55,7 +55,7 @@ describe('<Paging />', () => {
     })
     const component = render(<Paging {...props} />)
 
-    const previous = component.getByTestId(TestID.PAGING_PREVIOUS_BUTTON)
+    const previous = component.getByTestId(TestID.PAGING_PREVIOUS)
     expect(fireEvent.click(previous.firstChild!)).toBeTruthy()
     expect(setPage).toHaveBeenCalledWith(current - 1)
     expect(scroll).toHaveBeenCalledWith(0, 0)

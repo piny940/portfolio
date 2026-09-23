@@ -33,14 +33,14 @@ export const Paging = ({
       <PageItem
         pageClassName={currentPage === 1 ? 'disabled' : ''}
         onClick={() => handlePageChange(1)}
-        testID={TestID.PAGING_FIRST_BUTTON}
+        testID={TestID.PAGING_FIRST}
       >
         &laquo;
       </PageItem>
       <PageItem
         pageClassName={currentPage === 1 ? 'disabled' : ''}
         onClick={() => handlePageChange(currentPage - 1)}
-        testID={TestID.PAGING_PREVIOUS_BUTTON}
+        testID={TestID.PAGING_PREVIOUS}
       >
         &lt;
       </PageItem>
@@ -56,14 +56,14 @@ export const Paging = ({
       <PageItem
         pageClassName={currentPage === totalPages ? 'disabled' : ''}
         onClick={() => handlePageChange(currentPage + 1)}
-        testID={TestID.PAGING_NEXT_BUTTON}
+        testID={TestID.PAGING_NEXT}
       >
         &gt;
       </PageItem>
       <PageItem
         pageClassName={currentPage === totalPages ? 'disabled' : ''}
         onClick={() => handlePageChange(totalPages)}
-        testID={TestID.PAGING_LAST_BUTTON}
+        testID={TestID.PAGING_LAST}
       >
         &raquo;
       </PageItem>

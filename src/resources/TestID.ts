@@ -9,8 +9,8 @@ export enum TestID {
   SKILL_ITEM = 'skill-item',
   PROJECT_ITEM = 'project-item',
   TECHNOLOGY_BADGE = 'technology-badge',
-  PAGING_FIRST_BUTTON = 'paging-first-button',
-  PAGING_PREVIOUS_BUTTON = 'paging-previous-button',
-  PAGING_NEXT_BUTTON = 'paging-next-button',
-  PAGING_LAST_BUTTON = 'paging-last-button',
+  PAGING_FIRST = 'paging-first',
+  PAGING_PREVIOUS = 'paging-previous',
+  PAGING_NEXT = 'paging-next',
+  PAGING_LAST = 'paging-last',
 }
