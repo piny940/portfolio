@@ -4,6 +4,10 @@ import { Mock } from 'ts-mockery'
 import { TestID } from '@/resources/TestID'
 
 describe('<Paging />', () => {
+  afterEach(() => {
+    jest.restoreAllMocks()
+  })
+
   it.each`
   name | total | current | items
   ${'中央'} | ${10} | ${5} | ${[3, 4, 5, 6, 7]}
@@ -43,6 +47,7 @@ describe('<Paging />', () => {
   it('左にページを進められる', () => {
     const current = 5
     const setPage = jest.fn()
+    const scroll = jest.spyOn(window, 'scroll').mockImplementation(() => {})
     const props = Mock.from<PagingProps>({
       totalPages: 10,
       currentPage: current,
@@ -53,5 +58,6 @@ describe('<Paging />', () => {
     const previous = component.getByTestId(TestID.PAGING_PREVIOUS_BUTTON)
     expect(fireEvent.click(previous.firstChild!)).toBeTruthy()
     expect(setPage).toHaveBeenCalledWith(current - 1)
+    expect(scroll).toHaveBeenCalledWith(0, 0)
   })
 })
