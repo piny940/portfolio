@@ -20,6 +20,13 @@
       "matchUpdateTypes": ["minor", "patch", "pin", "lockFileMaintenance"],
       "addLabels": ["automerge"],
       "automerge": true
+    },
+    {
+      "matchPackageNames": [
+        "@playwright/test",
+        "mcr.microsoft.com/playwright"
+      ],
+      "groupName": "playwright"
     }
   ],
   "platformAutomerge": true,
