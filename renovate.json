@@ -3,33 +3,16 @@
   "minimumReleaseAge": "14 days",
   "packageRules": [
     {
-      "matchManagers": [ "github-actions" ],
-      "automerge": true,
-      "addLabels": ["automerge"]
-    },
-    {
       "matchPackageNames": [ "node", "@types/node" ],
       "groupName": "node"
     },
     {
-      "matchDepTypes": ["devDependencies"],
-      "automerge": true,
-      "addLabels": ["automerge"]
-    },
-    {
-      "matchUpdateTypes": ["minor", "patch", "pin", "lockFileMaintenance"],
-      "addLabels": ["automerge"],
-      "automerge": true
-    },
-    {
-      "matchPackageNames": [
-        "@playwright/test",
-        "mcr.microsoft.com/playwright"
-      ],
+      "matchPackageNames": [ "@playwright/test", "mcr.microsoft.com/playwright" ],
       "groupName": "playwright"
     }
   ],
   "platformAutomerge": true,
+  "automerge": true,
   "addLabels": ["renovate"],
   "extends": [
     "config:best-practices",
