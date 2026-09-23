@@ -2,6 +2,7 @@ export enum TestID {
   CUSTOM404 = 'custom404',
   CUSTOM500 = 'custom500',
   NAVBAR = 'navbar',
+  BREADCRUMB_ITEM = 'breadcrumb-item',
   BLOG_ITEM = 'blog-item',
   SKILL_ITEM = 'skill-item',
   PROJECT_ITEM = 'project-item',

@@ -1,11 +1,13 @@
+import { TestID } from '@/resources/TestID'
 import Link from 'next/link'
 import { JSX, memo } from 'react'
 
+export type Path = {
+  name: string
+  path: string
+}
 export type BreadcrumbProps = {
-  paths: Array<{
-    name: string
-    path: string
-  }>
+  paths: Path[]
 }
 
 const Breadcrumb = ({ paths }: BreadcrumbProps): JSX.Element => {
@@ -13,11 +15,12 @@ const Breadcrumb = ({ paths }: BreadcrumbProps): JSX.Element => {
     <nav aria-label="breadcrumb">
       <ol className="breadcrumb">
         {paths.slice(0, paths.length - 1).map(path => (
-          <li className="breadcrumb-item" key={path.path}>
+          <li data-testid={TestID.BREADCRUMB_ITEM} className="breadcrumb-item" key={path.path}>
             <Link href={path.path}>{path.name}</Link>
           </li>
         ))}
         <li
+          data-testid={TestID.BREADCRUMB_ITEM}
           className="breadcrumb-item active"
           key={paths[paths.length - 1].path}
           aria-current="page"
