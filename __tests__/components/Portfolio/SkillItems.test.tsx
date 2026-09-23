@@ -1,4 +1,4 @@
-import { render, waitFor } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import { Mock } from 'ts-mockery'
 import { TestID } from '@/resources/TestID'
 import {
@@ -8,15 +8,12 @@ import {
 import { technologies } from '../../testHelpers/mock'
 
 describe('<SkillItems />', () => {
-  it('正常に描画される', async () => {
+  it('正常に描画される', () => {
     const props = Mock.from<SkillsItemsProps>({ technologies })
     const component = render(<SkillItems {...props} />)
 
-    await waitFor(() => {
-      expect(component).toBeTruthy()
-      expect(component.getAllByTestId(TestID.SKILL_ITEM).length).toBe(
-        technologies.length,
-      )
-    })
+    expect(component.getAllByTestId(TestID.SKILL_ITEM).length).toBe(
+      technologies.length,
+    )
   })
 })

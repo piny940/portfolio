@@ -72,14 +72,3 @@ export const blogs: Blog[] = [
     tags: [technologies[0], technologies[1], technologies[2]],
   }),
 ]
-
-export const profile: Profile = Mock.from<Profile>({
-  name: 'mikan',
-  handle: 'piny940',
-  description: 'テスト用のプロフィールです。',
-  links: {
-    github: 'https://github.com/piny940',
-    qiita: 'https://qiita.com/piny940',
-    x: 'https://x.com/piny940',
-  },
-})

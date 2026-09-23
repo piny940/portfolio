@@ -6,7 +6,6 @@ import qiitaIcon from '../../resources/images/common/qiita.png'
 import twitterIcon from '../../resources/images/common/x.png'
 import twitterWhiteIcon from '../../resources/images/common/x-white.png'
 import profileIcon from '../../resources/images/profile/icon.png'
-import background from '../../resources/images/profile/background.png'
 import styles from '@/styles/profile.module.css'
 import { Profile } from '@/content/types'
 

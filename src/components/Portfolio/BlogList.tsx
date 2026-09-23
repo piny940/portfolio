@@ -7,15 +7,19 @@ import { JSX, useMemo, useState } from 'react'
 
 export type BlogListProps = {
   blogs: Blog[]
+  limit?: number
 }
 
-const LIMIT = 20
+const DEFAULT_LIMIT = 20
 
-export const BlogList = ({ blogs }: BlogListProps): JSX.Element => {
+export const BlogList = ({
+  blogs,
+  limit = DEFAULT_LIMIT,
+}: BlogListProps): JSX.Element => {
   const [page, setPage] = useState(1)
   const shownBlogs = useMemo(
-    () => blogs.slice(LIMIT * (page - 1), LIMIT * page),
-    [blogs, page],
+    () => blogs.slice(limit * (page - 1), limit * page),
+    [blogs, page, limit],
   )
 
   return (
@@ -24,7 +28,7 @@ export const BlogList = ({ blogs }: BlogListProps): JSX.Element => {
       <Paging
         setPageNumber={setPage}
         currentPage={page}
-        totalPages={Math.ceil(blogs.length / LIMIT)}
+        totalPages={Math.ceil(blogs.length / limit)}
       />
     </>
   )
