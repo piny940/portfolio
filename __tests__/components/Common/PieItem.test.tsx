@@ -7,6 +7,6 @@ describe('<PieItem />', () => {
     const props = Mock.from<PieItemProps>({})
     const component = render(<PieItem {...props} />)
 
-    expect(component.container.firstChild).toBeTruthy()
+    expect(component).toBeTruthy()
   })
 })

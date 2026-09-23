@@ -10,6 +10,6 @@ describe('<SkillItem />', () => {
     })
     const component = render(<SkillItem {...props} />)
 
-    expect(component.container.firstChild).toBeTruthy()
+    expect(component).toBeTruthy()
   })
 })

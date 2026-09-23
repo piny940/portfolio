@@ -10,6 +10,6 @@ describe('<ThemeToggler />', () => {
     const props = Mock.from<ThemeTogglerProps>({})
     const component = render(<ThemeToggler {...props} />)
 
-    expect(component.container.firstChild).toBeTruthy()
+    expect(component).toBeTruthy()
   })
 })

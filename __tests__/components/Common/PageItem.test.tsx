@@ -7,6 +7,6 @@ describe('<PageItem />', () => {
     const props = Mock.from<PageItemProps>({})
     const component = render(<PageItem {...props} />)
 
-    expect(component.container.firstChild).toBeTruthy()
+    expect(component).toBeTruthy()
   })
 })

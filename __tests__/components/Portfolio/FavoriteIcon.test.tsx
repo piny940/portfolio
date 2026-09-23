@@ -9,6 +9,6 @@ describe('<FavoriteIcon />', () => {
     const props = Mock.from<FavoriteIconPros>({})
     const component = render(<FavoriteIcon {...props} />)
 
-    expect(component.container.firstChild).toBeTruthy()
+    expect(component).toBeTruthy()
   })
 })

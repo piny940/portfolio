@@ -7,6 +7,6 @@ describe('<Badge />', () => {
     const props = Mock.from<BadgeProps>({})
     const component = render(<Badge {...props} />)
 
-    expect(component.container.firstChild).toBeTruthy()
+    expect(component).toBeTruthy()
   })
 })

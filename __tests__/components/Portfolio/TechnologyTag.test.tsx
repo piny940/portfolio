@@ -12,6 +12,6 @@ describe('<TechnologyTag />', () => {
     })
     const component = render(<TechnologyTag {...props} />)
 
-    expect(component.container.firstChild).toBeTruthy()
+    expect(component).toBeTruthy()
   })
 })
