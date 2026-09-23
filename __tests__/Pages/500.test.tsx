@@ -1,18 +1,16 @@
-import { render, waitFor } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import { Mock } from 'ts-mockery'
 import ErrorPage, { ErrorPageProps } from '@/app/error'
 import { TestID } from '@/resources/TestID'
 
 describe('500 Page', () => {
-  it('500ページが正常に表示される', async () => {
+  it('500ページが正常に表示される', () => {
     const props = Mock.from<ErrorPageProps>({
       error: { message: 'test' },
       reset: jest.fn(),
     })
     const { getByTestId } = render(<ErrorPage {...props} />)
 
-    await waitFor(() => {
-      expect(getByTestId(TestID.CUSTOM500)).toBeTruthy()
-    })
+    expect(getByTestId(TestID.CUSTOM500)).toBeTruthy()
   })
 })

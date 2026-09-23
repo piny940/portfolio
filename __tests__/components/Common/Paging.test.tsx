@@ -1,4 +1,4 @@
-import { act, fireEvent, render, waitFor } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import { Paging, PagingProps } from '@/components/Common/Paging'
 import { Mock } from 'ts-mockery'
 import { TestID } from '@/resources/TestID'
@@ -12,14 +12,10 @@ describe('<Paging />', () => {
   ${'唯一'} | ${1} | ${1} | ${[1]}
   ${'左寄り'} | ${10} | ${2} | ${[1, 2, 3, 4, 5]}
   ${'右寄り'} | ${10} | ${9} | ${[6, 7, 8, 9, 10]}
-`('現在のページが$nameの場合', async (
+`('現在のページが$nameの場合', (
     { total, current, items }: { total: number, current: number, items: number[] }) => {
     const props = Mock.from<PagingProps>({ totalPages: total, currentPage: current })
     const component = render(<Paging {...props} />)
-
-    await waitFor(() => {
-      expect(component).toBeTruthy()
-    })
 
     const first = component.getByTestId(TestID.PAGING_FIRST_BUTTON)
     const previous = component.getByTestId(TestID.PAGING_PREVIOUS_BUTTON)
@@ -44,7 +40,7 @@ describe('<Paging />', () => {
     }
   })
 
-  it('左にページを進められる', async () => {
+  it('左にページを進められる', () => {
     const current = 5
     const setPage = jest.fn()
     const props = Mock.from<PagingProps>({
@@ -53,10 +49,6 @@ describe('<Paging />', () => {
       setPageNumber: setPage,
     })
     const component = render(<Paging {...props} />)
-
-    await waitFor(() => {
-      expect(component).toBeTruthy()
-    })
 
     const previous = component.getByTestId(TestID.PAGING_PREVIOUS_BUTTON)
     expect(fireEvent.click(previous.firstChild!)).toBeTruthy()

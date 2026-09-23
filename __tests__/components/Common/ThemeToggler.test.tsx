@@ -1,4 +1,4 @@
-import { render, waitFor } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import {
   ThemeToggler,
   ThemeTogglerProps,
@@ -6,11 +6,10 @@ import {
 import { Mock } from 'ts-mockery'
 
 describe('<ThemeToggler />', () => {
-  it('正常に描画される', async () => {
+  it('正常に描画される', () => {
     const props = Mock.from<ThemeTogglerProps>({})
     const component = render(<ThemeToggler {...props} />)
-    await waitFor(() => {
-      expect(component).toBeTruthy()
-    })
+
+    expect(component.container.firstChild).toBeTruthy()
   })
 })

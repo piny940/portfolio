@@ -1,4 +1,4 @@
-import { render, waitFor } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import { Mock } from 'ts-mockery'
 import ProjectItems, {
   ProjectItemsProps,
@@ -7,18 +7,15 @@ import { TestID } from '@/resources/TestID'
 import { projects } from '../../testHelpers/mock'
 
 describe('<ProjectItems />', () => {
-  it('正常に描画される', async () => {
+  it('正常に描画される', () => {
     const props = Mock.from<ProjectItemsProps>({
       projects,
       projectIdsWithBlog: [],
     })
     const component = render(<ProjectItems {...props} />)
 
-    await waitFor(() => {
-      expect(component).toBeTruthy()
-      expect(component.getAllByTestId(TestID.PROJECT_ITEM).length).toBe(
-        projects.length,
-      )
-    })
+    expect(component.getAllByTestId(TestID.PROJECT_ITEM).length).toBe(
+      projects.length,
+    )
   })
 })
