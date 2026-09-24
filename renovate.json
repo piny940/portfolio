@@ -15,11 +15,17 @@
         "mcr.microsoft.com/playwright"
       ],
       "minimumReleaseAgeBehaviour": "timestamp-optional"
+    },
+    {
+      "matchPackageNames": [ "@playwright/test", "mcr.microsoft.com/playwright" ],
+      "matchUpdateTypes": [ "major" ],
+      "automerge": false
     }
   ],
   "platformAutomerge": true,
   "automerge": true,
   "addLabels": ["renovate"],
+  "gitIgnoredAuthors": ["203525814+deployer-piny940[bot]@users.noreply.github.com"],
   "extends": [
     "config:best-practices",
     ":disableDependencyDashboard"
