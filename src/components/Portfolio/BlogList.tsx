@@ -10,7 +10,7 @@ export type BlogListProps = {
   limit?: number
 }
 
-const DEFAULT_LIMIT = 20
+export const DEFAULT_LIMIT = 20
 
 export const BlogList = ({
   blogs,
