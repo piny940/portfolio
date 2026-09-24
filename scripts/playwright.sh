@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
-docker build -t portfolio-playwright -f __tests__/e2e/Dockerfile .
+docker build -t portfolio-playwright -f docker/Dockerfile.playwright .
 docker run --ipc=host \
   -v "$(pwd)":/workdir -v portfolio-playwright-node-modules:/workdir/node_modules \
   portfolio-playwright \
