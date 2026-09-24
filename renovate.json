@@ -9,6 +9,12 @@
     {
       "matchPackageNames": [ "@playwright/test", "mcr.microsoft.com/playwright" ],
       "groupName": "playwright"
+    },
+    {
+      "matchPackageNames": [
+        "mcr.microsoft.com/playwright"
+      ],
+      "minimumReleaseAgeBehaviour": "timestamp-optional"
     }
   ],
   "platformAutomerge": true,
