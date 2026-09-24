@@ -15,6 +15,11 @@
         "mcr.microsoft.com/playwright"
       ],
       "minimumReleaseAgeBehaviour": "timestamp-optional"
+    },
+    {
+      "matchPackageNames": [ "@playwright/test", "mcr.microsoft.com/playwright" ],
+      "matchUpdateTypes": [ "major" ],
+      "automerge": false
     }
   ],
   "platformAutomerge": true,
