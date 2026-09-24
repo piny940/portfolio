@@ -11,4 +11,6 @@ export enum TestID {
   PAGING_PREVIOUS = 'paging-previous',
   PAGING_NEXT = 'paging-next',
   PAGING_LAST = 'paging-last',
+  NAVBAR_TOGGLER_BUTTON = 'navbar-toggler-button',
+  NAVBAR_NAV_BUTTONS = 'navbar-nav-buttons',
 }

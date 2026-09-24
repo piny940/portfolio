@@ -34,6 +34,7 @@ export const Navbar: React.FC = () => {
           data-bs-toggle="collapse"
           data-bs-target="#navbar-collapse-target"
           aria-label="Toggle navigation"
+          data-testid={TestID.NAVBAR_TOGGLER_BUTTON}
         >
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -41,7 +42,7 @@ export const Navbar: React.FC = () => {
           className="collapse navbar-collapse ms-4"
           id="navbar-collapse-target"
         >
-          <ul className="navbar-nav w-100">
+          <ul data-testid={TestID.NAVBAR_NAV_BUTTONS} className="navbar-nav w-100">
             <li className="nav-item">
               <Link className="nav-link active" href="/skills">
                 技術スタック
