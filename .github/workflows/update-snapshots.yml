@@ -4,7 +4,7 @@ on:
 
 jobs:
   update-snapshots:
-    if: github.head_ref == 'renovate/playwright' && github.event.pull_request.user.login == 'renovate[bot]'
+    if: github.head_ref == 'renovate/playwright' && github.actor == 'renovate[bot]'
     timeout-minutes: 60
     runs-on: ubuntu-latest
     container:
