@@ -20,6 +20,7 @@
   "platformAutomerge": true,
   "automerge": true,
   "addLabels": ["renovate"],
+  "gitIgnoredAuthors": ["203525814+deployer-piny940[bot]@users.noreply.github.com"],
   "extends": [
     "config:best-practices",
     ":disableDependencyDashboard"
