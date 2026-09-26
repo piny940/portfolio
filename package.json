@@ -53,6 +53,6 @@
     "sass": "1.105.0",
     "serve": "14.2.6",
     "ts-mockery": "2.0.0",
-    "typescript": "6.0.3"
+    "typescript": "7.0.2"
   }
 }
