@@ -51,7 +51,7 @@
     "jest-environment-jsdom": "30.5.2",
     "jest-fetch-mock": "4.2.0",
     "sass": "1.107.0",
-    "serve": "14.2.6",
+    "serve": "14.2.8",
     "ts-mockery": "2.0.0",
     "typescript": "6.0.3"
   }
